@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="zentallio-version" content="cookie-banner-ref-1.0">
+<title>Cookie banner — drop-in — Zentallio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070C18'/><circle cx='16' cy='16' r='7' fill='%23ff2d95'/><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff2d95' stroke-opacity='.45' stroke-width='1.5'/></svg>">
+<meta name="description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="theme-color" content="#070C18">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zentallio">
+<meta property="og:title" content="Cookie banner — drop-in — Zentallio">
+<meta property="og:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cookie banner — drop-in — Zentallio">
+<meta name="twitter:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="twitter:image" content="og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#070C18;--ai:#ff2d95;--teal:#15F2F2;--violet:#9B7BFF;--amber:#E5A24B;
+ --fg:#F2F6FC;--fg2:#AEB9CB;--fg3:#6E798F;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);
+ --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+ --gut:clamp(20px,4vw,52px);--maxw:1220px;--readw:760px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--fg2);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ai);box-shadow:0 0 12px var(--ai)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.028em;line-height:1.05}
+
+.top{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px var(--gut);transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease}
+.top.scrolled{background:linear-gradient(180deg,rgba(7,12,24,.97) 0%,rgba(7,12,24,.9) 52%,rgba(7,12,24,0) 100%);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+.brand{font-family:var(--serif);font-size:1.3rem;font-weight:500;letter-spacing:-.01em;background:linear-gradient(100deg,#fff,#fff 45%,var(--teal) 50%,var(--violet) 54%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+@keyframes wmShine{0%{background-position:130% center}100%{background-position:-30% center}}
+.menu-btn{width:46px;height:46px;border:1px solid var(--line2);border-radius:4px;background:rgba(10,16,32,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;display:grid;place-items:center;gap:5px;transition:.25s;z-index:80}
+.menu-btn span{display:block;width:18px;height:1.5px;background:var(--fg);transition:.3s}
+.menu-btn:hover{border-color:var(--ai)}
+body.menu .menu-btn span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+body.menu .menu-btn span:nth-child(2){opacity:0}
+body.menu .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+.menu-ov{position:fixed;inset:0;z-index:70;background:rgba(6,10,20,.97);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);display:flex;flex-direction:column;justify-content:center;padding:0 var(--gut);opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
+body.menu .menu-ov{opacity:1;visibility:visible}
+.menu-nav{max-width:var(--maxw);margin:0 auto;width:100%}
+.menu-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vh,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
+body.menu .menu-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}
+body.menu .menu-nav a:nth-child(1){transition-delay:.06s}body.menu .menu-nav a:nth-child(2){transition-delay:.12s}body.menu .menu-nav a:nth-child(3){transition-delay:.18s}body.menu .menu-nav a:nth-child(4){transition-delay:.24s}
+.menu-nav a i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
+.menu-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}
+.menu-nav a .d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.menu-nav a .d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.menu-nav a .d-ai{background:var(--ai);box-shadow:0 0 12px var(--ai)}
+.menu-nav a:hover{color:#fff;padding-left:14px}
+.menu-sub{max-width:var(--maxw);margin:clamp(24px,4vh,46px) auto 0;width:100%;display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.menu-sub a:hover{color:#fff}
+
+.lg-hero{position:relative;padding:clamp(128px,17vh,188px) 0 clamp(30px,5vh,54px);overflow:hidden}
+.lg-hero::before{content:"";position:absolute;width:60vw;height:60vw;max-width:760px;max-height:760px;top:-30%;right:-14%;border-radius:50%;background:radial-gradient(circle,rgba(255,45,149,.10),transparent 62%);filter:blur(8px);z-index:0;pointer-events:none}
+.lg-hero .wrap{position:relative;z-index:1}
+.lg-hero h1{font-size:clamp(2.6rem,6.6vw,4.6rem);margin:22px 0 20px;letter-spacing:-.035em;max-width:16ch}
+.lg-meta{display:flex;flex-wrap:wrap;gap:10px 20px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.lg-meta span{display:inline-flex;align-items:center;gap:9px}
+.lg-meta .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+.lg-intro{font-size:clamp(1.04rem,1.5vw,1.24rem);color:var(--fg2);max-width:var(--readw);line-height:1.55;margin-top:26px}
+.lg-intro b{color:var(--fg);font-weight:500}
+
+.lg-body{padding:clamp(30px,5vw,60px) 0 clamp(60px,9vw,120px);border-top:1px solid var(--line)}
+.lg-grid{display:grid;grid-template-columns:220px minmax(0,var(--readw));gap:clamp(30px,5vw,70px);align-items:start}
+@media(max-width:900px){.lg-grid{grid-template-columns:1fr;gap:8px}}
+
+.lg-toc{position:sticky;top:96px;font-family:var(--mono);font-size:.7rem;letter-spacing:.04em}
+@media(max-width:900px){.lg-toc{position:static;top:auto;margin-bottom:12px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0))}}
+.lg-toc h5{color:var(--fg3);text-transform:uppercase;letter-spacing:.16em;font-size:.6rem;margin-bottom:14px}
+.lg-toc a{display:block;color:var(--fg2);padding:6px 0;border-left:1px solid var(--line);padding-left:14px;transition:.2s;line-height:1.35}
+.lg-toc a:hover{color:#fff;border-color:var(--ai)}
+
+.prose h2{font-size:clamp(1.5rem,2.6vw,2rem);margin:0 0 14px;scroll-margin-top:100px}
+.prose h3{font-size:1.05rem;font-family:var(--sans);font-weight:600;color:var(--fg);margin:18px 0 8px;letter-spacing:0}
+.prose section{padding:0 0 clamp(34px,4vw,48px)}
+.prose section + section{border-top:1px solid var(--line);padding-top:clamp(34px,4vw,48px)}
+.prose .num{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--ai);display:block;margin-bottom:12px}
+.prose p{color:var(--fg2);font-size:1rem;line-height:1.68;margin:0 0 14px}
+.prose p:last-child{margin-bottom:0}
+.prose b{color:var(--fg);font-weight:500}
+.prose .fill{color:var(--amber);font-style:normal}
+.prose a.inl{color:var(--teal);border-bottom:1px solid rgba(21,242,242,.3)}
+.prose a.inl:hover{border-color:var(--teal)}
+.prose ul{list-style:none;margin:2px 0 16px;padding:0}
+.prose li{position:relative;color:var(--fg2);font-size:1rem;line-height:1.6;padding:5px 0 5px 22px}
+.prose li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:.7}
+.prose li b{color:var(--fg);font-weight:500}
+.lg-contact{margin-top:clamp(36px,5vw,60px);padding-top:26px;border-top:1px solid var(--line);font-size:.98rem;color:var(--fg2)}
+.lg-contact a{color:var(--teal)}
+
+.site-footer{position:relative;border-top:1px solid var(--line);background:linear-gradient(180deg,#070C18,#04060D);padding:clamp(50px,6vw,82px) 0 32px}
+.ft-top{display:grid;grid-template-columns:1.35fr 2fr;gap:clamp(32px,5vw,72px)}
+@media(max-width:820px){.ft-top{grid-template-columns:1fr;gap:36px}}
+.ft-logo{font-family:var(--serif);font-size:1.5rem;display:inline-block;background:linear-gradient(100deg,#fff,#fff 45%,var(--teal) 50%,var(--violet) 54%,#fff 60%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+.ft-tag{color:var(--fg2);margin-top:14px;max-width:42ch;font-size:.96rem}
+.ft-social{display:flex;gap:11px;margin-top:18px}
+.ft-social a{width:36px;height:36px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--fg2);transition:.25s}
+.ft-social a:hover{color:#fff;border-color:var(--teal);box-shadow:0 0 18px -7px var(--teal)}
+.ft-social svg{width:15px;height:15px}
+.ft-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:680px){.ft-cols{grid-template-columns:repeat(2,1fr);gap:30px 20px}}
+.ft-cols h5{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:16px}
+.ft-cols a{display:block;color:var(--fg2);padding:6px 0;font-size:.94rem;transition:.2s}
+.ft-cols a:hover{color:#fff}
+.ft-cols a.here{color:#fff}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:clamp(38px,6vw,66px);padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--fg3)}
+
+/* cookie policy table */
+.ck-table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:.94rem}
+.ck-table th,.ck-table td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1px solid var(--line)}
+.ck-table thead th{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);font-weight:400}
+.ck-table td{color:var(--fg2);line-height:1.55}
+.ck-table td b{color:var(--fg);font-weight:500}
+.ck-table tr:last-child td{border-bottom:none}
+@media(max-width:560px){.ck-table,.ck-table thead,.ck-table tbody,.ck-table tr,.ck-table th,.ck-table td{display:block}.ck-table thead{display:none}.ck-table td{border:none;padding:3px 0}.ck-table tr{padding:14px 0;border-bottom:1px solid var(--line)}.ck-table td::before{content:attr(data-l);display:block;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:3px}}
+.ck-open{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--teal);border:1px solid rgba(21,242,242,.35);border-radius:999px;padding:9px 16px;cursor:pointer;background:transparent;transition:.2s}
+.ck-open:hover{border-color:var(--teal);box-shadow:0 0 18px -7px var(--teal)}
+.ft-pref{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--fg3);background:transparent;border:none;cursor:pointer;padding:0;transition:.2s}
+.ft-pref:hover{color:#fff}
+
+@media(prefers-reduced-motion:reduce){.brand,.ft-logo{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <a class="brand" href="index.html" aria-label="Zentallio home">Zentallio</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<div class="menu-ov" id="menuOv">
+  <nav class="menu-nav">
+    <a href="food-beverage.html"><i>01</i><span>Food &amp; Beverage</span><b class="d-fb"></b></a>
+    <a href="fashion.html"><i>02</i><span>Fashion Retail</span><b class="d-fa"></b></a>
+    <a href="meet-iris.html"><i>03</i><span>Meet Iris</span><b class="d-ai"></b></a>
+    <a href="mailto:Hello@zentallio.com"><i>04</i><span>Contact</span></a>
+  </nav>
+  <div class="menu-sub"><a href="index.html">Home</a><a href="about.html">About</a><a href="food-beverage.html#demo">Book a walkthrough</a></div>
+</div>
+<main>
+  <section class="lg-hero">
+    <div class="wrap">
+      <span class="eyebrow">Reference · Cookie banner</span>
+      <h1>Cookie banner <em style='font-style:italic;color:var(--ai)'>snippet</em></h1>
+      <div class="lg-meta"><span><i class="dot"></i>Last updated 1 July 2026</span><span>Zentallio · The AI Decision Platform</span></div>
+      <p class="lg-intro">Paste the block below just before <b>&lt;/body&gt;</b> on every page of the site. It's self-contained (its own styles and script), blocks analytics/marketing until consent, and exposes <b>window.zentallioCookiePrefs()</b> to reopen the settings. The live banner on this page is the same code.</p>
+    </div>
+  </section>
+
+  <section class="lg-body">
+    <div class="wrap lg-grid">
+<section class="lg-body"><div class="wrap"><div class="prose">
+<p style="color:var(--fg2)">How it works: on first visit the card appears and nothing non-essential loads. “Accept all”, “Essentials only”, or “Customize” (per-category chips, then “Save choices”) all store the choice and fire a <b>zentallio:consent</b> event. Gate your analytics/marketing tags on that event — see the commented hooks inside the script. A “Cookie preferences” link is already wired into the footer of every legal page.</p>
+<pre style="white-space:pre-wrap;word-break:break-word;background:#05080F;border:1px solid var(--line2);border-radius:12px;padding:20px;font-family:var(--mono);font-size:.72rem;line-height:1.5;color:#AEB9CB;overflow:auto;max-height:520px">&lt;div id=&quot;zckBanner&quot; class=&quot;zck&quot; role=&quot;dialog&quot; aria-modal=&quot;false&quot; aria-label=&quot;Cookie notice&quot; hidden&gt;
+&lt;style&gt;
+.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:&#x27;Inter&#x27;,system-ui,sans-serif}
+.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
+.zck-card::before{content:&quot;&quot;;position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
+@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
+.zck-x svg{width:8px;height:8px}
+.zck-x:hover{color:#EAF0F8}
+.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
+.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
+.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
+.zck-txt a:hover{border-color:#15F2F2}
+.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
+.zck-panel[hidden]{display:none}
+.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
+.zck-chip:hover{border-color:rgba(255,255,255,.22)}
+.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
+.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
+.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
+.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-actions{display:flex;align-items:center;gap:8px}
+.zck-link{font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
+.zck-link:hover{color:#fff}
+.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
+.zck-btn{font-family:&#x27;Inter&#x27;,system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
+.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
+.zck-btn.ghost:hover{color:#fff}
+.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
+.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
+@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
+@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
+&lt;/style&gt;
+&lt;div class=&quot;zck-card&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;zck-x&quot; data-zck=&quot;reject&quot; aria-label=&quot;Dismiss — essentials only&quot;&gt;&lt;svg viewBox=&quot;0 0 12 12&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M1 1l10 10M11 1L1 11&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+  &lt;p class=&quot;zck-txt&quot;&gt;&lt;span class=&quot;zck-ico&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot; stroke=&quot;#15F2F2&quot; stroke-opacity=&quot;.9&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;2.4&quot; fill=&quot;#15F2F2&quot;/&gt;&lt;/svg&gt;&lt;/span&gt;A few cookies keep Zentallio running; analytics only with your consent. &lt;a href=&quot;cookies.html&quot;&gt;The details&lt;/a&gt;.&lt;/p&gt;
+  &lt;div class=&quot;zck-panel&quot; hidden&gt;
+    &lt;span class=&quot;zck-chip locked&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Essential&lt;/span&gt;
+    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;analytics&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Analytics&lt;/label&gt;
+    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;marketing&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Marketing&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;zck-actions&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;zck-link&quot; data-zck=&quot;manage&quot;&gt;Customize&lt;/button&gt;
+    &lt;div class=&quot;zck-cta&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;zck-btn ghost&quot; data-zck=&quot;reject&quot;&gt;Essentials only&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;zck-btn solid&quot; data-zck=&quot;accept&quot; data-default&gt;Accept all&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function(){
+  var KEY=&#x27;zentallio_cookie_consent&#x27;;
+  var el=document.getElementById(&#x27;zckBanner&#x27;);
+  if(!el)return;
+  var panel=el.querySelector(&#x27;.zck-panel&#x27;);
+  var acceptBtn=el.querySelector(&#x27;[data-zck=accept]&#x27;);
+  var mem=null;
+  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
+  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+  function apply(p){
+    // Consent gate — initialise non-essential tags only when allowed:
+    // if(p.analytics){ /* load analytics */ }
+    // if(p.marketing){ /* load marketing/ad tags */ }
+    try{document.dispatchEvent(new CustomEvent(&#x27;zentallio:consent&#x27;,{detail:p}));}catch(e){}
+  }
+  function syncChips(){el.querySelectorAll(&#x27;.zck-chip input[data-cat]&#x27;).forEach(function(i){i.closest(&#x27;.zck-chip&#x27;).classList.toggle(&#x27;on&#x27;,i.checked);});}
+  function show(openPanel){
+    var cur=read()||{analytics:false,marketing:false};
+    el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){i.checked=!!cur[i.getAttribute(&#x27;data-cat&#x27;)];});
+    syncChips();
+    panel.hidden=!openPanel;
+    el.hidden=false;
+  }
+  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
+  el.addEventListener(&#x27;change&#x27;,function(e){if(e.target.matches(&#x27;input[data-cat]&#x27;))syncChips();});
+  el.addEventListener(&#x27;click&#x27;,function(e){
+    var b=e.target.closest(&#x27;[data-zck]&#x27;);if(!b)return;
+    var a=b.getAttribute(&#x27;data-zck&#x27;);
+    if(a===&#x27;accept&#x27;)decide({analytics:true,marketing:true});
+    else if(a===&#x27;reject&#x27;)decide({analytics:false,marketing:false});
+    else if(a===&#x27;manage&#x27;){
+      var opening=panel.hidden;panel.hidden=!opening;
+      // when customizing, the primary action becomes &quot;Save my choices&quot;
+      acceptBtn.textContent=opening?&#x27;Save choices&#x27;:&#x27;Accept all&#x27;;
+      acceptBtn.setAttribute(&#x27;data-zck&#x27;,opening?&#x27;save&#x27;:&#x27;accept&#x27;);
+    }
+  });
+  el.addEventListener(&#x27;click&#x27;,function(e){
+    var b=e.target.closest(&#x27;[data-zck=save]&#x27;);if(!b)return;
+    var p={};el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){p[i.getAttribute(&#x27;data-cat&#x27;)]=i.checked;});
+    decide(p);
+  });
+  window.zentallioCookiePrefs=function(){
+    acceptBtn.textContent=&#x27;Save choices&#x27;;acceptBtn.setAttribute(&#x27;data-zck&#x27;,&#x27;save&#x27;);
+    show(true);
+  };
+  var stored=read();
+  if(stored){apply(stored);}else{show(false);}
+})();
+&lt;/script&gt;
+</pre>
+</div></div></section>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <a class="ft-logo" href="index.html">Zentallio</a>
+        <div class="ft-tag">The AI decision platform for multi-outlet operators — one agent, Iris, across every outlet.</div>
+        <div class="ft-contact" style="margin-top:15px;display:flex;flex-direction:column;gap:6px;font-size:.9rem;line-height:1.5">
+          <a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener" style="color:#AEB9CB;text-decoration:none">142-C, D.H.A. Commercial Broadway, DHA Phase&nbsp;8, Lahore 54940</a>
+          <a href="tel:+923107602811" style="color:#AEB9CB;text-decoration:none">0310 7602811</a>
+          <a href="mailto:Hello@zentallio.com" style="color:#15F2F2;text-decoration:none">Hello@zentallio.com</a>
+        </div>
+        <div class="ft-social">
+          <a href="https://www.linkedin.com/company/zentallio" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.76-2.05C19.4 8 22 10.05 22 14.5V23h-4v-7.5c0-1.8-.03-4.1-2.5-4.1-2.5 0-2.9 1.95-2.9 3.97V23H8z"/></svg></a>
+          <a href="https://x.com/zentallio" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://www.instagram.com/zentallio" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <nav class="ft-cols">
+        <div><h5>Platform</h5><a href="food-beverage.html">Food &amp; Beverage</a><a href="fashion.html">Fashion Retail</a><a href="meet-iris.html">Meet Iris</a></div>
+        <div><h5>Company</h5><a href="about.html">About</a><a href="mailto:Hello@zentallio.com">Contact</a></div>
+        <div><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="cookies.html" class="here">Cookies</a><a href="terms.html">Terms</a><a href="data-processing.html">Data processing</a></div>
+      </nav>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 Zentallio. All rights reserved.</span>
+      <button type="button" class="ft-pref" onclick="if(window.zentallioCookiePrefs)window.zentallioCookiePrefs()">Cookie settings</button>
+    </div>
+  </div>
+</footer>
+<div id="zckBanner" class="zck" role="dialog" aria-modal="false" aria-label="Cookie notice" hidden>
+<style>
+.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:'Inter',system-ui,sans-serif}
+.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
+.zck-card::before{content:"";position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
+@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
+.zck-x svg{width:8px;height:8px}
+.zck-x:hover{color:#EAF0F8}
+.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
+.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
+.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
+.zck-txt a:hover{border-color:#15F2F2}
+.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
+.zck-panel[hidden]{display:none}
+.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
+.zck-chip:hover{border-color:rgba(255,255,255,.22)}
+.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
+.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
+.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
+.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-actions{display:flex;align-items:center;gap:8px}
+.zck-link{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
+.zck-link:hover{color:#fff}
+.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
+.zck-btn{font-family:'Inter',system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
+.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
+.zck-btn.ghost:hover{color:#fff}
+.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
+.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
+@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
+@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
+</style>
+<div class="zck-card">
+  <button type="button" class="zck-x" data-zck="reject" aria-label="Dismiss — essentials only"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+  <p class="zck-txt"><span class="zck-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#15F2F2" stroke-opacity=".9" stroke-width="1.5"/><circle cx="12" cy="12" r="2.4" fill="#15F2F2"/></svg></span>A few cookies keep Zentallio running; analytics only with your consent. <a href="cookies.html">The details</a>.</p>
+  <div class="zck-panel" hidden>
+    <span class="zck-chip locked"><i class="dot"></i>Essential</span>
+    <label class="zck-chip"><input type="checkbox" data-cat="analytics"><i class="dot"></i>Analytics</label>
+    <label class="zck-chip"><input type="checkbox" data-cat="marketing"><i class="dot"></i>Marketing</label>
+  </div>
+  <div class="zck-actions">
+    <button type="button" class="zck-link" data-zck="manage">Customize</button>
+    <div class="zck-cta">
+      <button type="button" class="zck-btn ghost" data-zck="reject">Essentials only</button>
+      <button type="button" class="zck-btn solid" data-zck="accept" data-default>Accept all</button>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  var KEY='zentallio_cookie_consent';
+  var el=document.getElementById('zckBanner');
+  if(!el)return;
+  var panel=el.querySelector('.zck-panel');
+  var acceptBtn=el.querySelector('[data-zck=accept]');
+  var mem=null;
+  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
+  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+  function apply(p){
+    // Consent gate — initialise non-essential tags only when allowed:
+    // if(p.analytics){ /* load analytics */ }
+    // if(p.marketing){ /* load marketing/ad tags */ }
+    try{document.dispatchEvent(new CustomEvent('zentallio:consent',{detail:p}));}catch(e){}
+  }
+  function syncChips(){el.querySelectorAll('.zck-chip input[data-cat]').forEach(function(i){i.closest('.zck-chip').classList.toggle('on',i.checked);});}
+  function show(openPanel){
+    var cur=read()||{analytics:false,marketing:false};
+    el.querySelectorAll('input[data-cat]').forEach(function(i){i.checked=!!cur[i.getAttribute('data-cat')];});
+    syncChips();
+    panel.hidden=!openPanel;
+    el.hidden=false;
+  }
+  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
+  el.addEventListener('change',function(e){if(e.target.matches('input[data-cat]'))syncChips();});
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('[data-zck]');if(!b)return;
+    var a=b.getAttribute('data-zck');
+    if(a==='accept')decide({analytics:true,marketing:true});
+    else if(a==='reject')decide({analytics:false,marketing:false});
+    else if(a==='manage'){
+      var opening=panel.hidden;panel.hidden=!opening;
+      // when customizing, the primary action becomes "Save my choices"
+      acceptBtn.textContent=opening?'Save choices':'Accept all';
+      acceptBtn.setAttribute('data-zck',opening?'save':'accept');
+    }
+  });
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('[data-zck=save]');if(!b)return;
+    var p={};el.querySelectorAll('input[data-cat]').forEach(function(i){p[i.getAttribute('data-cat')]=i.checked;});
+    decide(p);
+  });
+  window.zentallioCookiePrefs=function(){
+    acceptBtn.textContent='Save choices';acceptBtn.setAttribute('data-zck','save');
+    show(true);
+  };
+  var stored=read();
+  if(stored){apply(stored);}else{show(false);}
+})();
+</script>
+<script>
+(function(){
+  var body=document.body,btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOv');
+  function set(open){body.classList.toggle('menu',open);btn.setAttribute('aria-expanded',open?'true':'false');}
+  btn.addEventListener('click',function(){set(!body.classList.contains('menu'));});
+  ov.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+  var hd=document.querySelector('.top');
+  function onScroll(){var y=window.scrollY||window.pageYOffset||0;hd.classList.toggle('scrolled',y>24);}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
