@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /cookie-banner.html
+
+Sitemap: https://zentallio.com/sitemap.xml
