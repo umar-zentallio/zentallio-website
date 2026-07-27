@@ -3,24 +3,10 @@
 <head>
   <!-- Zentallio Website v2.27 -->
 <!-- Zentallio Website · v2.1 -->
-<meta name="zentallio-version" content="2.28">
+<meta name="zentallio-version" content="3.1">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Food &amp; Beverage — Zentallio</title>
-<meta name="description" content="Run every outlet live with Zentallio. AI forecasting, food-cost control, labour and service decisions for Food &amp; Beverage — with Iris naming the cause and the next move.">
-<meta name="theme-color" content="#05080F">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Zentallio">
-<meta property="og:title" content="Food &amp; Beverage — Zentallio">
-<meta property="og:description" content="Run every outlet live with Zentallio. AI forecasting, food-cost control, labour and service decisions for Food &amp; Beverage — with Iris naming the cause and the next move.">
-<meta property="og:image" content="https://zentallio.com/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Food &amp; Beverage — Zentallio">
-<meta name="twitter:description" content="Run every outlet live with Zentallio. AI forecasting, food-cost control, labour and service decisions for Food &amp; Beverage — with Iris naming the cause and the next move.">
-<meta name="twitter:image" content="https://zentallio.com/og-image.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070C18'/><circle cx='16' cy='16' r='7' fill='%23ff2d95'/><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff2d95' stroke-opacity='.45' stroke-width='1.5'/></svg>">
+<title>Zentallio — The operation, live</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -118,7 +104,19 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 .menu-ov a.mlink.wfa .wdot{background:#9B7BFF;box-shadow:0 0 12px #9B7BFF}
 .menu-ov a.mlink.active{color:var(--fg1)}
 .menu-ov a.mlink .wnow{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(21,242,242,.3);border-radius:20px;padding:4px 10px;vertical-align:middle;margin-left:.7em}
-.menu-ov .msub{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:clamp(16px,2.6vh,26px)}
+.menu-ov 
+.msec{margin-top:clamp(16px,2.6vh,26px);padding-top:clamp(14px,2.2vh,22px);border-top:1px solid var(--line-2,rgba(255,255,255,.11))}
+.mseclabel{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--fgm);margin-bottom:12px}
+.msecgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,4vw,60px);max-width:820px}
+.mseclink{display:flex;align-items:baseline;gap:11px;font-family:var(--serif);font-weight:300;
+ font-size:clamp(.95rem,1.5vw,1.2rem);letter-spacing:-.01em;color:var(--fg2);text-decoration:none;
+ padding:6px 0;transition:color .2s,transform .2s}
+.mseclink i{font-style:normal;font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:var(--fgm);width:19px;flex-shrink:0}
+.mseclink:hover{color:var(--fg1);transform:translateX(3px)}
+.mseclink:hover i{color:var(--teal)}
+@media(max-width:560px){.msecgrid{grid-template-columns:1fr}.mseclink{font-size:.98rem;padding:5px 0}}
+@media(max-height:680px){.mseclink{padding:4px 0}.msec{margin-top:12px;padding-top:12px}}
+.msub{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:clamp(16px,2.6vh,26px)}
 .menu-ov .msub a{font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;color:var(--fg3);text-decoration:none;transition:color .3s}
 .menu-ov .msub a:hover{color:var(--fg1)}
 .menu-ov .msub i{color:var(--fgm);font-style:normal}
@@ -812,8 +810,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 .zhero .zh-vig{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(120% 100% at 50% 40%, transparent 62%, rgba(4,6,12,.42) 100%)}
 .zhero .zh-bar{position:relative;z-index:4;display:flex;align-items:center;padding:28px var(--gut);opacity:0;animation:zhfade 1s ease .2s forwards}
 .zhero .zh-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
-.zhero @keyframes wmShine{0%{background-position:130% center}100%{background-position:-30% center}}
-.zh-bn{font-family:var(--serif);font-weight:400;font-size:1.4rem;letter-spacing:-.01em;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+.zhero .zh-bn{font-family:var(--serif);font-weight:400;font-size:1.4rem;letter-spacing:-.01em;color:var(--fg1)}
 .zhero .zh-pill{font-family:var(--mono);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(21,242,242,.3);border-radius:6px;padding:3px 8px;line-height:1}
 .zhero .zh-center{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--gut) 4vh}
 .zhero .zh-kick{font-family:var(--mono);font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;color:var(--fg3);display:inline-flex;align-items:center;gap:16px;margin-bottom:36px;opacity:0;animation:zhup 1s ease .4s forwards}
@@ -841,55 +838,38 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 .scstage{position:relative;margin-top:6px}
 @media(max-width:760px){.scstage{margin-top:0}}
 </style>
-<style>.menu-ov .mlink.wai .wdot{background:#ff2d95;box-shadow:0 0 12px #ff2d95}</style>
-<style>.menu-ov .zmenu-nav{max-width:1180px;margin:0 auto;width:100%}.menu-ov .zmenu-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vh,20px) 0;border-bottom:1px solid rgba(255,255,255,.07);font-family:"Fraunces",serif;font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:#AEB9CB;letter-spacing:-.02em;text-decoration:none;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}body.menu .menu-ov .zmenu-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}body.menu .menu-ov .zmenu-nav a:nth-child(1){transition-delay:.06s}body.menu .menu-ov .zmenu-nav a:nth-child(2){transition-delay:.12s}body.menu .menu-ov .zmenu-nav a:nth-child(3){transition-delay:.18s}body.menu .menu-ov .zmenu-nav a:nth-child(4){transition-delay:.24s}.menu-ov .zmenu-nav a i{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:#6E798F;font-style:normal;letter-spacing:.1em}.menu-ov .zmenu-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}.menu-ov .zmenu-nav a .d-fb{background:#15F2F2;box-shadow:0 0 12px #15F2F2}.menu-ov .zmenu-nav a .d-fa{background:#9B7BFF;box-shadow:0 0 12px #9B7BFF}.menu-ov .zmenu-nav a .d-ai{background:#ff2d95;box-shadow:0 0 12px #ff2d95}.menu-ov .zmenu-nav a:hover{color:#fff;padding-left:14px}.menu-ov .zmenu-nav a.cur{color:#fff}.menu-ov .zmenu-nav a.cur i{color:#15F2F2}.menu-ov .zmenu-sub{max-width:1180px;margin:clamp(24px,4vh,46px) auto 0;width:100%;display:flex;flex-wrap:wrap;gap:22px;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#6E798F}.menu-ov .zmenu-sub a{color:#6E798F;text-decoration:none}.menu-ov .zmenu-sub a:hover{color:#fff}</style>
-<style>
-.demo-step{animation:demoIn .45s ease both}
-@keyframes demoIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.demo-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ai,#ff2d95);margin-bottom:12px}
-.demofields{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 4px}
-.demofields .demoinput{flex:1;min-width:190px}
-.demochips{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
-.demochip{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.03em;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);color:#AEB9CB;cursor:pointer;transition:.2s}
-.demochip:hover{border-color:#15F2F2;color:#fff}
-.demochip[aria-pressed="true"]{border-color:#15F2F2;background:rgba(21,242,242,.12);color:#fff;box-shadow:0 0 18px -7px #15F2F2}
-.demorow2{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:8px}
-.demolink{background:none;border:0;color:#6E798F;cursor:pointer;font-size:.86rem;padding:6px 2px;transition:.2s}
-.demolink:hover{color:#fff}
-.demoecho{color:#15F2F2}
-.demo-check{width:56px;height:56px;margin-bottom:14px}
-.demo-check svg{width:56px;height:56px}
-.demo-check circle{stroke:#15F2F2;stroke-width:2;fill:none;opacity:.45}
-.demo-check path{stroke:#15F2F2;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:46;stroke-dashoffset:46;animation:demoChk .5s .12s ease forwards}
-@keyframes demoChk{to{stroke-dashoffset:0}}
-.demo-next{list-style:none;padding:0;margin:18px 0 10px;display:flex;flex-direction:column;gap:10px}
-.demo-next li{display:flex;gap:14px;align-items:baseline;color:#AEB9CB;font-size:.94rem}
-.demo-next li b{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#15F2F2;letter-spacing:.1em;flex:0 0 auto}
-</style>
-<link rel="canonical" href="https://zentallio.com/food-beverage.html">
-<meta property="og:url" content="https://zentallio.com/food-beverage.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Zentallio","url":"https://zentallio.com","logo":"https://zentallio.com/og-image.png","description":"The AI decision platform for multi-outlet operators in Food & Beverage and Fashion Retail.","email":"info@zentallio.com","telephone":"+92-310-7602811","address":{"@type":"PostalAddress","streetAddress":"142-C, D.H.A. Commercial Broadway, DHA Phase 8","addressLocality":"Lahore","postalCode":"54940","addressCountry":"PK"},"sameAs":["https://www.linkedin.com/company/zentallio","https://x.com/zentallio","https://www.instagram.com/zentallio"]}</script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-29VN9NGJDK"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-29VN9NGJDK');
-  </script>
+<meta name="description" content="One platform for every outlet: live balanced scorecard, point of sale, and four AI workbenches for finance, supply chain, operations and workforce. 149 solutions across 10 F&amp;B sectors — all running live, no sign-up.">
+<link rel="canonical" href="https://zentallio.com/">
+<meta name="theme-color" content="#070C18">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zentallio">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Zentallio — The AI Decision Platform for Food &amp; Beverage">
+<meta property="og:description" content="One platform for every outlet: live balanced scorecard, point of sale, and four AI workbenches for finance, supply chain, operations and workforce. 149 solutions across 10 F&amp;B sectors — all running live, no sign-up.">
+<meta property="og:url" content="https://zentallio.com/">
+<meta property="og:image" content="https://zentallio.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zentallio — the AI Decision Platform for Food &amp; Beverage">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zentallio — The AI Decision Platform for Food &amp; Beverage">
+<meta name="twitter:description" content="One platform for every outlet: live balanced scorecard, point of sale, and four AI workbenches for finance, supply chain, operations and workforce. 149 solutions across 10 F&amp;B sectors — all running live, no sign-up.">
+<meta name="twitter:image" content="https://zentallio.com/og-image.png">
 </head>
 <body>
 
 <!-- full-screen menu overlay -->
 <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span></button>
 <div class="menu-ov" id="menuOv">
-  <nav class="zmenu-nav">
-    <a href="food-beverage.html" class="cur"><i>01</i><span>Food &amp; Beverage</span><b class="d-fb"></b></a>
-    <a href="fashion.html"><i>02</i><span>Fashion Retail</span><b class="d-fa"></b></a>
-    <a href="meet-iris.html"><i>03</i><span>Meet Iris</span><b class="d-ai"></b></a>
-    <a href="contact.html"><i>04</i><span>Contact</span></a>
+  <nav class="ml">
+    <span class="mlabel">Choose your world</span>
+    <a class="mlink wfb active" href="#top"><span class="wdot"></span>Food &amp; Beverage<span class="wnow">You're here</span></a>
+    <a class="mlink wfa" href="fashion.html"><span class="wdot"></span>Fashion Retail</a>
+    <div class="msec"><span class="mseclabel">Sectors &middot; Food &amp; Beverage</span><div class="msecgrid"><a class="mseclink" href="food-beverage-solutions.html#sector=qsr"><i>01</i>Quick Service</a><a class="mseclink" href="food-beverage-solutions.html#sector=casual"><i>02</i>Casual Dining</a><a class="mseclink" href="food-beverage-solutions.html#sector=fine"><i>03</i>Fine Dining</a><a class="mseclink" href="food-beverage-solutions.html#sector=cafe"><i>04</i>Café &amp; Bakery</a><a class="mseclink" href="food-beverage-solutions.html#sector=dessert"><i>05</i>Ice Cream &amp; Desserts</a><a class="mseclink" href="food-beverage-solutions.html#sector=beverage"><i>06</i>Beverages &amp; Drinks</a><a class="mseclink" href="food-beverage-solutions.html#sector=health"><i>07</i>Health &amp; Wellness</a><a class="mseclink" href="food-beverage-solutions.html#sector=cloud"><i>08</i>Cloud Kitchen</a><a class="mseclink" href="food-beverage-solutions.html#sector=b2b"><i>09</i>Institutional &amp; B2B</a><a class="mseclink" href="food-beverage-solutions.html#sector=niche"><i>10</i>Niche &amp; Experience</a></div></div><div class="msub"><i>·</i><a href="food-beverage-solutions.html#showcase">Live demos</a><i>·</i><a href="food-beverage-solutions.html#solutions">Solutions</a><i>·</i><a href="#sectors">Sectors</a><i>·</i><a href="#integrations">Integrations</a><i>·</i><a href="#demo">Book a call with our consultant</a></div>
   </nav>
-  <div class="zmenu-sub"><a href="#sectors">Sectors</a><a href="#integrations">Integrations</a><a href="#demo">Book a walkthrough</a></div>
+  <div class="mfoot">
+    <span>hello@zentallio.com</span>
+  </div>
 </div>
 
 <header class="zhero" id="top">
@@ -897,7 +877,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
   <div class="zh-glowA"></div>
   <div class="zh-vig"></div>
   <div class="zh-bar">
-    <a href="index.html" class="zh-brand"><span class="zh-bn">Zentallio</span><span class="zh-pill">Food &amp; Beverage</span></a>
+    <a href="#top" class="zh-brand"><span class="zh-bn">Zentallio</span><span class="zh-pill">Food &amp; Beverage</span></a>
   </div>
   <div class="zh-center">
     <span class="zh-kick">The AI Decision Platform</span>
@@ -1336,12 +1316,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
   padding:5px 11px;border:1px solid var(--line-2);border-radius:999px;background:rgba(63,217,164,.05)}
 .az-mcp .gd{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint)}
 
-.az-body{padding:26px 26px 22px;height:560px;overflow-y:auto;overflow-x:hidden;
-  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
-.az-body::-webkit-scrollbar{width:5px}
-.az-body::-webkit-scrollbar-track{background:transparent}
-.az-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
-.az-body::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.22)}
+.az-body{padding:26px 26px 22px;min-height:430px}
 
 /* ---- question bubble ---- */
 .az-q{display:flex;gap:12px;align-items:flex-start}
@@ -1370,7 +1345,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 /* ---- answer ---- */
 .az-ans{margin-top:18px;padding-left:42px;position:relative;opacity:0;transform:translateY(6px);transition:.5s}
 .az-ans.on{opacity:1;transform:none}
-.az-aav{position:absolute;left:0;top:2px;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+.az-aav{background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95)!important;box-shadow:0 0 12px rgba(255,45,149,.45);position:absolute;left:0;top:2px;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
   background:rgba(255,45,149,.12);border:1px solid rgba(255,45,149,.3);color:var(--ai);font:700 .8rem var(--sans)}
 .az-atext{font:400 1.08rem/1.55 var(--sans);color:var(--fg1)}
 .az-atext b{font-weight:700;color:#fff}
@@ -1572,7 +1547,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
         </div>
 
         <div class="az-ans" id="azAns">
-          <div class="az-aav">Z</div>
+          <div class="az-aav" aria-hidden="true"></div>
           <div class="az-atext" id="azText"></div>
           <div id="azViz"></div>
           <div id="azAp"></div>
@@ -2063,7 +2038,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
   <div class="pwrap">
     <div class="phead center rv">
       <span class="peyebrow" id="surfEyebrow">Executive &middot; Zentallio</span>
-      <h2 class="ph2" id="surfTitle">Command the entire network from one screen.</h2>
+      <h2 class="ph2" id="surfTitle">The CEO&rsquo;s command surface.</h2>
       <p class="pp" id="surfCopy">One live view of a 142-restaurant QSR group across France &mdash; like-for-like growth, the openings pipeline, channel mix and people &mdash; with the agent surfacing what needs the CEO&rsquo;s call.</p>
     </div>
     <div class="surf-tabwrap rv">
@@ -2076,8 +2051,8 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
     <div class="num-frame rv">
       <div class="num-bar">
         <span class="num-dots"><i></i><i></i><i></i></span>
-        <span class="num-url"><span id="surfUrl">app.zentallio.com</span></span>
-        <a class="num-open" id="surfOpen" href="#" role="button" aria-label="View fullscreen">Fullscreen &#8690;</a>
+        <span class="num-url"><span id="surfUrl">Live workbench</span></span>
+        <a class="num-open" id="surfOpen" href="Zentallio-CEO-Workbench.html" target="_blank" rel="noopener">Open &#8599;</a>
         <span class="num-live"><i></i>Live</span>
       </div>
       <div class="num-stage">
@@ -2098,9 +2073,9 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
   var sec=document.getElementById('surfaces'); if(!sec) return;
   var loaded={ceo:false,coo:false,cfo:false};
   var conf={
-    ceo:{frame:'ceoFrame',load:'ceoLoad',b64:'ceoB64',tab:'tabCeo',url:'app.zentallio.com',open:'Zentallio-CEO-Workbench.html',eyebrow:'Executive &middot; Zentallio',title:'Command the entire network from one screen.',copy:'One live view of a 142-restaurant QSR group across France &mdash; like-for-like growth, the openings pipeline, channel mix and people &mdash; with the agent surfacing what needs the CEO&rsquo;s call.'},
-    coo:{frame:'cooFrame',load:'cooLoad',b64:'cooB64',tab:'tabCoo',url:'app.zentallio.com',open:'Zentallio-COO-Workbench.html',eyebrow:'Operations &middot; Zentallio',title:'Command every shift from one screen.',copy:'The same network as an operations control room &mdash; speed of service, drive-thru, delivery, labour and food safety across France &mdash; with the agent watching every shift.'},
-    cfo:{frame:'numFrame',load:'numLoad',b64:'numB64',tab:'tabCfo',url:'app.zentallio.com',open:'Numerus-Food-CFO-Platform.html',eyebrow:'Finance &middot; Zentallio',title:'Command the books from one screen.',copy:'The same operation as a finance cockpit &mdash; P&amp;L, cash, COGS, approvals and tax, each with the agent&rsquo;s analysis on top. Here it is, live, running a QSR group&rsquo;s books.'}
+    ceo:{frame:'ceoFrame',load:'ceoLoad',b64:'ceoB64',tab:'tabCeo',url:'Live workbench',open:'Zentallio-CEO-Workbench.html',eyebrow:'Executive &middot; Zentallio',title:'The CEO&rsquo;s command surface.',copy:'One live view of a 142-restaurant QSR group across France &mdash; like-for-like growth, the openings pipeline, channel mix and people &mdash; with the agent surfacing what needs the CEO&rsquo;s call.'},
+    coo:{frame:'cooFrame',load:'cooLoad',b64:'cooB64',tab:'tabCoo',url:'Live workbench',open:'Zentallio-COO-Workbench.html',eyebrow:'Operations &middot; Zentallio',title:'The COO&rsquo;s command surface.',copy:'The same network as an operations control room &mdash; speed of service, drive-thru, delivery, labour and food safety across France &mdash; with the agent watching every shift.'},
+    cfo:{frame:'numFrame',load:'numLoad',b64:'numB64',tab:'tabCfo',url:'Live workbench',open:'Numerus-Food-CFO-Platform.html',eyebrow:'Finance &middot; Zentallio',title:'The CFO&rsquo;s command surface.',copy:'The same operation as a finance cockpit &mdash; P&amp;L, cash, COGS, approvals and tax, each with the agent&rsquo;s analysis on top. Here it is, live, running a QSR group&rsquo;s books.'}
   };
   var order=['ceo','coo','cfo'];
   function load(which){ if(loaded[which]) return; loaded[which]=true; var c=conf[which];
@@ -2110,7 +2085,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
   function show(which){ var c=conf[which];
     order.forEach(function(w){ var cc=conf[w]; var fr=document.getElementById(cc.frame); if(fr)fr.classList.toggle('show',w===which); var ld=document.getElementById(cc.load); if(ld)ld.style.display=(w===which && !loaded[w])?'flex':'none'; var tb=document.getElementById(cc.tab); if(tb)tb.classList.toggle('active',w===which); });
     var u=document.getElementById('surfUrl'); if(u)u.textContent=c.url;
-    var op=document.getElementById('surfOpen'); if(op)op.setAttribute('href','#');
+    var op=document.getElementById('surfOpen'); if(op)op.setAttribute('href',c.open);
     var ey=document.getElementById('surfEyebrow'); if(ey)ey.innerHTML=c.eyebrow;
     var ti=document.getElementById('surfTitle'); if(ti)ti.innerHTML=c.title;
     var cp=document.getElementById('surfCopy'); if(cp)cp.innerHTML=c.copy;
@@ -2137,6 +2112,44 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 #sectors .sx-rail{display:flex;flex-direction:column;gap:6px}
 .sx-item{position:relative;overflow:hidden;text-align:left;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:11px;padding:14px 16px;color:inherit;font:inherit;transition:border-color .3s,background .3s}
 .sx-item:hover{border-color:var(--line-3)}
+
+.sxlive{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}
+.sxlive-btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;border-radius:12px;
+ padding:15px 26px;font-weight:700;font-size:14.5px;letter-spacing:-.005em;
+ background:linear-gradient(135deg,var(--teal),#0BA9A9);color:#04212B;
+ box-shadow:0 14px 34px -16px rgba(21,242,242,.55);transition:transform .2s,box-shadow .2s}
+.sxlive-btn:hover{transform:translateY(-2px);box-shadow:0 20px 46px -16px rgba(21,242,242,.7)}
+.sxlive-btn i{font-style:normal;font-size:16px}
+.sxlive-n{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--fgm);text-transform:uppercase}
+.sx-cta{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;text-decoration:none;
+ border-radius:12px;padding:15px 20px;font-weight:700;font-size:14px;letter-spacing:-.005em;
+ background:linear-gradient(135deg,#15F2F2,#0BA9A9);color:#04212B;
+ box-shadow:0 14px 34px -16px rgba(21,242,242,.55);transition:transform .2s,box-shadow .2s}
+.sx-cta:hover{transform:translateY(-2px);box-shadow:0 20px 46px -16px rgba(21,242,242,.7)}
+.sx-cta i{font-style:normal;font-size:17px}
+.xband{position:relative;overflow:hidden;border:1px solid var(--line,rgba(255,255,255,.08));border-radius:24px;
+ padding:clamp(34px,4vw,54px) clamp(24px,3.4vw,48px);
+ background:radial-gradient(900px 420px at 12% 0%,rgba(21,242,242,.11),transparent 62%),
+ radial-gradient(760px 400px at 92% 100%,rgba(255,45,149,.10),transparent 60%),rgba(7,12,24,.9)}
+.xband::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 1px,transparent 1px 62px);pointer-events:none}
+.xin{position:relative;display:flex;align-items:center;gap:clamp(24px,3.4vw,46px);flex-wrap:wrap}
+.xtxt{flex:1;min-width:300px}
+.xk{font-family:var(--mono,monospace);font-size:9.5px;letter-spacing:.2em;color:#15F2F2;margin-bottom:12px}
+.xh{font-family:var(--serif,Georgia,serif);font-weight:500;font-size:clamp(26px,3.4vw,40px);letter-spacing:-.022em;line-height:1.14;margin:0}
+.xh em{font-style:italic;color:#FF2D95}
+.xp{color:var(--muted,#93A1B5);font-size:14.5px;line-height:1.75;margin-top:14px;max-width:520px}
+.xcol{display:flex;flex-direction:column;gap:10px;min-width:248px}
+.xbtnA{display:flex;align-items:center;justify-content:space-between;gap:16px;text-decoration:none;border-radius:13px;padding:17px 22px;
+ background:linear-gradient(135deg,#15F2F2,#0BA9A9);color:#04212B;font-weight:700;font-size:14.5px;transition:.2s;box-shadow:0 16px 40px -16px rgba(21,242,242,.55)}
+.xbtnA:hover{transform:translateY(-2px);box-shadow:0 22px 52px -16px rgba(21,242,242,.7)}
+.xbtnB{display:flex;align-items:center;justify-content:space-between;gap:16px;text-decoration:none;border-radius:13px;padding:16px 22px;
+ border:1px solid var(--line-3,rgba(255,255,255,.16));color:var(--fg,#E8EEF7);font-weight:600;font-size:14px;transition:.2s}
+.xbtnB:hover{border-color:#15F2F2;color:#fff;background:rgba(21,242,242,.05)}
+.xbtnA i,.xbtnB i{font-style:normal;font-size:17px}
+.xmeta{font-family:var(--mono,monospace);font-size:9px;letter-spacing:.14em;color:var(--muted-2,#5E6C82);margin-top:4px;line-height:1.9}
+.xmeta b{color:#3FD9A4;font-weight:500}
+@media(max-width:760px){.xcol{width:100%}}
+
 .sx-item.on{border-color:rgba(21,242,242,.42);background:linear-gradient(90deg,rgba(21,242,242,.09),rgba(21,242,242,0) 70%)}
 .sx-ix{font-family:var(--mono);font-size:.7rem;color:var(--fg3);transition:color .3s}
 .sx-item.on .sx-ix{color:var(--teal)}
@@ -2202,7 +2215,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
     </div>
     <div class="sx rv" id="sx">
       <div class="sx-rail" id="sxRail"></div>
-      <div class="sx-panel" id="sxPanel"></div>
+      <div class="sx-panel" id="sxPanel"></div><div class="sxlive"><a class="sxlive-btn" href="food-beverage-solutions.html#sector=qsr">See It Live <i>&#9656;</i></a><span class="sxlive-n">149 solutions &middot; 10 sectors &middot; all running</span></div>
     </div>
   </div>
 </section>
@@ -2273,47 +2286,35 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 </script>
 
 <!-- ===== demo cta ===== -->
+
+<!-- ===== Explore more: into the Solutions platform ===== -->
+<section class="psec" id="explore"><div class="pwrap">
+  <div class="xband">
+    <div class="xin">
+      <div class="xtxt">
+        <div class="xk">SEE THE WHOLE PLATFORM</div>
+        <h2 class="xh">Stop reading about it. <em>Watch it run.</em></h2>
+        <p class="xp">Six live products and 149 solutions, open to anyone &mdash; no form, no sales call, no sandbox. Choose your format and the platform loads configured for it, with Iris narrating every screen.</p>
+      </div>
+      <div class="xcol">
+        <a class="xbtnA" href="food-beverage-solutions.html#sector=cafe">Explore every solution <i>&#9656;</i></a>
+        <a class="xbtnB" href="food-beverage-solutions.html#demo=scm">Open a workbench <i>&#9656;</i></a>
+        <div class="xmeta">LIVE DATA &middot; <b>NO SIGN-UP</b><br>SCORECARD &middot; POS &middot; NUMERUS &middot; NEXUS &middot; MOTUS &middot; MANUS</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
 <section class="psec demo" id="demo">
   <div class="pwrap">
-    <div class="democard rv" id="demoCard">
-      <div class="demo-step demo-s1">
-        <h2>See it on <span class="ai">your numbers.</span></h2>
-        <p>Bring one branch. We'll configure the scorecard to your menu and your aggregators, and show you the first leak it catches.</p>
-        <div class="demorow">
-          <input class="demoinput" id="demoEmail" type="email" placeholder="you@yourbrand.com" aria-label="Work email" autocomplete="email" />
-          <button class="demobtn" id="demoBtn" type="button">Book a walkthrough</button>
-        </div>
-        <div class="demofine" id="demoFine">No hardware · No long-term contract · Cancel anytime after pilot</div>
+    <div class="democard rv">
+      <h2>See it on <span class="ai">your numbers.</span></h2>
+      <p>Bring one branch. We'll configure the scorecard to your menu and your aggregators, and show you the first leak it catches.</p>
+      <div class="demorow">
+        <input class="demoinput" id="demoEmail" type="email" placeholder="you@yourbrand.com" aria-label="Work email" />
+        <button class="demobtn" id="demoBtn">Request a demo</button>
       </div>
-      <div class="demo-step demo-s2" hidden>
-        <div class="demo-eyebrow">Step 2 of 2 · almost there</div>
-        <h2>When suits <span class="ai">your team?</span></h2>
-        <div class="demofields">
-          <input class="demoinput" id="demoName" type="text" placeholder="Your name" aria-label="Your name" autocomplete="name" />
-          <input class="demoinput" id="demoBrand" type="text" placeholder="Brand / group (optional)" aria-label="Brand or group" />
-        </div>
-        <div class="demochips" id="demoWhen" role="group" aria-label="Preferred window">
-          <button class="demochip" type="button" data-when="This week" aria-pressed="false">This week</button>
-          <button class="demochip" type="button" data-when="Next 2 weeks" aria-pressed="false">Next 2 weeks</button>
-          <button class="demochip" type="button" data-when="Just exploring" aria-pressed="false">Just exploring</button>
-        </div>
-        <div class="demorow2">
-          <button class="demolink" type="button" id="demoBack">&larr; Back</button>
-          <button class="demobtn" type="button" id="demoConfirm">Confirm walkthrough</button>
-        </div>
-        <div class="demofine">We'll send the invite to <span id="demoEmailEcho" class="demoecho">your email</span>.</div>
-      </div>
-      <div class="demo-step demo-s3" hidden>
-        <div class="demo-check" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-16"/></svg></div>
-        <h2>You're booked<span class="ai">.</span></h2>
-        <p id="demoConfirmMsg">We'll email you within one business day to lock a time.</p>
-        <ul class="demo-next">
-          <li><b>01</b><span>We map your menu &amp; aggregators</span></li>
-          <li><b>02</b><span>We load your live scorecard</span></li>
-          <li><b>03</b><span>We walk the first leak it catches</span></li>
-        </ul>
-        <div class="demofine" id="demoStamp"></div>
-      </div>
+      <div class="demofine" id="demoFine">No hardware · No long-term contract · Cancel anytime after pilot</div>
     </div>
   </div>
 </section>
@@ -2321,7 +2322,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 <style>
 .site-footer{position:relative;border-top:1px solid var(--line);background:linear-gradient(180deg,#070C18,#04060D);padding:clamp(50px,6vw,82px) 0 32px;margin-top:clamp(44px,7vw,90px)}
 .ft-top{display:grid;grid-template-columns:1.35fr 2fr;gap:clamp(32px,5vw,72px)}
-.ft-logo{font-family:var(--serif);font-size:1.5rem;display:inline-block;background:linear-gradient(100deg,#fff,#fff 45%,#15F2F2 50%,#9B7BFF 54%,#fff 60%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+.ft-logo{font-family:var(--serif);font-size:1.5rem;color:var(--fg1);display:flex;align-items:center;gap:.45em}
 .ft-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,var(--teal),var(--teal-d));display:inline-flex;align-items:center;justify-content:center;color:#04060D;font-family:var(--serif);font-size:1.05rem;font-weight:600;box-shadow:0 0 22px rgba(21,242,242,.25)}
 .ft-tag{margin-top:17px;color:var(--fg2);font-size:.95rem;line-height:1.62;max-width:42ch}
 .ft-social{display:flex;gap:10px;margin-top:24px}
@@ -2332,6 +2333,15 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 .ft-col h5{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin:0 0 15px;font-weight:600}
 .ft-col a{display:block;color:var(--fg2);text-decoration:none;font-size:.9rem;padding:6px 0;transition:color .2s,padding-left .2s}
 .ft-col a:hover{color:var(--fg1);padding-left:3px}
+
+.ft-cols{grid-template-columns:1.5fr repeat(4,1fr)}
+.ft-2col{display:grid;grid-template-columns:1fr 1fr;column-gap:18px}
+.ft-col-sectors a{font-size:.82rem;padding:4px 0}
+
+
+
+@media(max-width:900px){.ft-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.ft-cols{grid-template-columns:1fr}.ft-2col{grid-template-columns:1fr 1fr}}
 .ft-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:clamp(38px,5vw,58px);padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;color:var(--fgm);flex-wrap:wrap}
 .ft-bottom a{color:var(--fgm);text-decoration:none}
 .ft-bottom a:hover{color:var(--fg2)}
@@ -2344,19 +2354,24 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
       <div class="ft-brand">
         <div class="ft-logo">Zentallio</div>
         <p class="ft-tag">The AI Decision Platform for food &amp; beverage and retail. Run every outlet, in every market — with the agent on top, naming the cause and the next move.</p>
-        <div class="ft-contact" style="margin-top:15px;display:flex;flex-direction:column;gap:6px;font-size:.9rem;line-height:1.5"><a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener" style="color:#AEB9CB;text-decoration:none">142-C, D.H.A. Commercial Broadway, DHA Phase&nbsp;8, Lahore 54940</a><a href="tel:+923270000901" style="color:#AEB9CB;text-decoration:none;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+923270000901</a><a href="tel:+19294192694" style="color:#AEB9CB;text-decoration:none;display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+19294192694</a><a href="mailto:info@zentallio.com" style="color:#15F2F2;text-decoration:none">info@zentallio.com</a></div><div class="ft-social"><a href="https://www.linkedin.com/company/zentallioai/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.76-2.05C19.4 8 22 10.05 22 14.5V23h-4v-7.5c0-1.8-.03-4.1-2.5-4.1-2.5 0-2.9 1.95-2.9 3.97V23H8z"/></svg></a><a href="https://x.com/Zentallio" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.instagram.com/zentallio/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/profile.php?id=61589720611365" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a><a href="https://www.threads.com/@zentallio" target="_blank" rel="noopener" aria-label="Threads"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.781 3.631 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32l-1.734-1.161c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.322.144 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.03-11.44c-.144 0-.29.004-.436.012-1.833.103-2.974.949-2.909 2.155.069 1.269 1.469 1.858 2.816 1.785 1.24-.067 2.79-.55 3.051-3.664a10.95 10.95 0 0 0-2.522-.288z"/></svg></a></div>
+        <div class="ft-social">
+          <a href="https://www.linkedin.com/company/zentallio" target="_blank" rel="noopener" aria-label="Zentallio on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4V8zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.76-2.05C19.4 8 22 10.05 22 14.5V23h-4v-7.5c0-1.8-.03-4.1-2.5-4.1-2.5 0-2.9 1.95-2.9 3.97V23H8V8z"/></svg></a>
+          <a href="https://x.com/zentallio" target="_blank" rel="noopener" aria-label="Zentallio on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://www.instagram.com/zentallio" target="_blank" rel="noopener" aria-label="Zentallio on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.youtube.com/@zentallio" target="_blank" rel="noopener" aria-label="Zentallio on YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.23-1.62-.94-2.33c-.9-.94-1.9-.95-2.36-1C16.4 3.9 12 3.9 12 3.9h-.01s-4.4 0-7.7.27c-.46.05-1.46.06-2.36 1C1.23 5.88 1 7.5 1 7.5S.76 9.4.76 11.3v1.78c0 1.9.24 3.8.24 3.8s.23 1.62.94 2.33c.9.94 2.08.91 2.6 1.01 1.89.18 7.46.24 7.46.24s4.4-.01 7.7-.28c.46-.05 1.46-.06 2.36-1 .71-.71.94-2.33.94-2.33s.24-1.9.24-3.8V11.3c0-1.9-.24-3.8-.24-3.8zM9.75 15.02V8.96l5.75 3.04-5.75 3.02z"/></svg></a>
+          <a href="https://github.com/zentallio" target="_blank" rel="noopener" aria-label="Zentallio on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></a>
+        </div>
       </div>
-      <div class="ft-cols">
-        <div class="ft-col"><h5>Platform</h5><a href="food/food-beverage-solutions.html">Food &amp; Beverage</a><a href="fashion.html">Fashion Retail</a><a href="meet-iris.html">Meet Iris</a></div>
-        
-        <div class="ft-col"><h5>Company</h5><a href="about.html">About</a><a href="contact.html">Contact</a></div>
-        
-        <div class="ft-col"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="data-processing.html">Data processing</a><a href="#" onclick="event.preventDefault();if(window.zentallioCookiePrefs)window.zentallioCookiePrefs()">Cookie settings</a></div>
+      <div class="ft-cols"><div class="ft-col ft-col-sectors"><h5>Sectors</h5><div class="ft-2col"><a href="food-beverage-solutions.html#sector=qsr">Quick Service</a><a href="food-beverage-solutions.html#sector=casual">Casual Dining</a><a href="food-beverage-solutions.html#sector=fine">Fine Dining</a><a href="food-beverage-solutions.html#sector=cafe">Café &amp; Bakery</a><a href="food-beverage-solutions.html#sector=dessert">Ice Cream &amp; Desserts</a><a href="food-beverage-solutions.html#sector=beverage">Beverages &amp; Drinks</a><a href="food-beverage-solutions.html#sector=health">Health &amp; Wellness</a><a href="food-beverage-solutions.html#sector=cloud">Cloud Kitchen</a><a href="food-beverage-solutions.html#sector=b2b">Institutional &amp; B2B</a><a href="food-beverage-solutions.html#sector=niche">Niche &amp; Experience</a></div></div>
+        <div class="ft-col"><h5>Product</h5><a href="#askzen">Ask Zen</a><a href="#surfaces">Command surfaces</a><a href="#sectors">Sectors</a><a href="#integrations">Integrations</a></div>
+        <div class="ft-col"><h5>Company</h5><a href="#">About</a><a href="careers.html">Careers</a><a href="#demo">Contact sales</a></div>
+        <div class="ft-col"><h5>Resources</h5><a href="#">Documentation</a><a href="security.html">Security</a><a href="#">System status</a></div>
+        <div class="ft-col"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#">Data processing</a></div>
       </div>
     </div>
     <div class="ft-bottom">
       <span>© 2026 Zentallio. All rights reserved.</span>
-    </div>
+      </div>
   </div>
 </footer>
 
@@ -2522,13 +2537,20 @@ function vBars(items,acc,unit){var mx=Math.max.apply(0,items.map(b=>b.v))*1.14;v
 function vRing(pct,acc,sub){var r=40,c=2*Math.PI*r,off=(c*(1-pct/100)).toFixed(1);return '<div class="vring"><svg viewBox="0 0 100 100" style="width:108px;height:108px"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--line-2)" stroke-width="9"/><circle class="ring-arc" cx="50" cy="50" r="40" fill="none" stroke="'+acc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+c.toFixed(1)+'" data-off="'+off+'" transform="rotate(-90 50 50)"/><text x="50" y="50" text-anchor="middle" dy="0.35em" fill="var(--fg1)" font-family="var(--mono)" font-size="22" font-weight="600">+'+pct+'%</text></svg><div class="vring-sub">'+sub+'</div></div>';}
 function vDonut(parts){var tot=parts.reduce((a,p)=>a+p.v,0),acc=0,r=40,c=2*Math.PI*r;var segs=parts.map(p=>{var dash=p.v/tot*c;var s='<circle cx="50" cy="50" r="40" fill="none" stroke="'+p.c+'" stroke-width="13" stroke-dasharray="'+dash.toFixed(1)+' '+(c-dash).toFixed(1)+'" stroke-dashoffset="'+(-acc*c).toFixed(1)+'" transform="rotate(-90 50 50)"/>';acc+=p.v/tot;return s;}).join('');var leg=parts.map(p=>'<span class="dleg"><i style="background:'+p.c+'"></i>'+p.l+' · '+p.v+'%</span>').join('');return '<div class="vdonut"><svg viewBox="0 0 100 100" style="width:108px;height:108px">'+segs+'</svg><div class="dlegs">'+leg+'</div></div>';}
 function vizHTML(v){if(v.type==='bars')return vBars(v.data,v.acc,v.unit);if(v.type==='ring')return vRing(v.pct,v.acc,v.sub);if(v.type==='donut')return vDonut(v.data);return vSpark(v.data,v.acc);}
+
+/* ---- deep links into the Solutions page (change SOL_URL if that file is renamed) ---- */
+var SOL_URL='food-beverage-solutions.html';
+var SEC_ID=['qsr','casual','fine','cafe','dessert','beverage','health','cloud','b2b','niche'];
+var SEC_N =[13,17,8,17,12,17,17,16,16,16];
+function solHref(i){return SOL_URL+'#sector='+SEC_ID[i];}
 function railHTML(){return SX.map((s,i)=>`<button class="sx-item" data-i="${i}"><span class="sx-ix">${pad(i)}</span><span class="sx-n">${s.n}</span><span class="sx-c">${s.o.length} formats</span><span class="sx-prog"></span></button>`).join('');}
-function panelHTML(i){var s=SX[i],a=s.ai;var chips=s.o.map(o=>'<span class="sx-chip">'+o+'</span>').join('');return '<div class="sx-fade"><div class="sx-eye">Sector '+pad(i)+' / 10</div><div class="sx-name">'+s.n+'</div><div class="sx-cap">'+s.cap+'</div><div class="sx-label">Outlet formats covered</div><div class="sx-chips">'+chips+'</div><div class="sx-ai"><div class="sx-ai-top">'+ORB+'<span class="sx-ai-badge">Ask Zen</span><span class="sx-layer">'+a.layer+'</span><span class="sx-ai-live">live</span></div><div class="sx-ai-insight">'+a.insight+'</div><div class="sx-ai-viz">'+vizHTML(a.viz)+'</div><div class="sx-ai-foot"><b>'+a.proof.v+'</b><span>'+a.proof.l+'</span></div></div></div>';}
+function panelHTML(i){var s=SX[i],a=s.ai;var chips=s.o.map(o=>'<span class="sx-chip">'+o+'</span>').join('');return '<div class="sx-fade"><div class="sx-eye">Sector '+pad(i)+' / 10</div><div class="sx-name">'+s.n+'</div><div class="sx-cap">'+s.cap+'</div><div class="sx-label">Outlet formats covered</div><div class="sx-chips">'+chips+'</div><div class="sx-ai"><div class="sx-ai-top">'+ORB+'<span class="sx-ai-badge">Ask Zen</span><span class="sx-layer">'+a.layer+'</span><span class="sx-ai-live">live</span></div><div class="sx-ai-insight">'+a.insight+'</div><div class="sx-ai-viz">'+vizHTML(a.viz)+'</div><div class="sx-ai-foot"><b>'+a.proof.v+'</b><span>'+a.proof.l+'</span></div></div>'+'<a class="sx-cta" href="'+solHref(i)+'">See all '+SEC_N[i]+' '+s.n+' solutions running <i>&#9656;</i></a>'+'</div>';}
 function animateViz(root){root.querySelectorAll('.vbar-f[data-h]').forEach(function(el){requestAnimationFrame(function(){el.style.transition='height .7s cubic-bezier(.2,.7,.2,1)';el.style.height=el.getAttribute('data-h')+'%';});});root.querySelectorAll('.ring-arc[data-off]').forEach(function(el){requestAnimationFrame(function(){el.style.transition='stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1)';el.style.strokeDashoffset=el.getAttribute('data-off');});});root.querySelectorAll('path.vline').forEach(function(el){try{var len=el.getTotalLength();el.style.strokeDasharray=len;el.style.strokeDashoffset=len;requestAnimationFrame(function(){el.style.transition='stroke-dashoffset 1s ease';el.style.strokeDashoffset='0';});}catch(e){}});}
 let cur=-1, auto=!reduce, timer=null; const DWELL=4200;
 function setActive(i){[].forEach.call(rail.children,(el,k)=>{el.classList.toggle('on',k===i);var pr=el.querySelector('.sx-prog');if(pr){pr.style.transition='none';pr.style.width='0';}});var el=rail.children[i];if(el&&auto){var pr=el.querySelector('.sx-prog');if(pr){void pr.offsetWidth;pr.style.transition='width '+DWELL+'ms linear';pr.style.width='100%';}}}
 function stopAuto(){if(!auto)return;auto=false;if(timer){clearTimeout(timer);timer=null;}[].forEach.call(rail.querySelectorAll('.sx-prog'),pr=>{pr.style.transition='none';pr.style.width='0';});}
-function select(i,user){if(user)stopAuto();cur=i;setActive(i);panel.innerHTML=panelHTML(i);animateViz(panel);}
+var userPicked=-1;
+function select(i,user){if(user){location.href=solHref(i);return;}cur=i;setActive(i);panel.innerHTML=panelHTML(i);animateViz(panel);}
 function next(){select((cur+1)%SX.length,false);timer=setTimeout(next,DWELL);}
 rail.innerHTML=railHTML();
 rail.addEventListener('click',e=>{var b=e.target.closest('.sx-item');if(b)select(+b.dataset.i,true);});
@@ -2536,36 +2558,12 @@ rail.addEventListener('mouseover',e=>{var b=e.target.closest('.sx-item');if(b&&a
 select(0,false);
   (function(){function lock(){panel.style.minHeight='';var mx=0,k;for(k=0;k<SX.length;k++){panel.innerHTML=panelHTML(k);if(panel.offsetHeight>mx)mx=panel.offsetHeight;}panel.innerHTML=panelHTML(cur);animateViz(panel);panel.style.minHeight=mx+'px';}var s=false;function start(){if(s)return;s=true;lock();if(auto)timer=setTimeout(next,DWELL);}if(document.fonts&&document.fonts.ready){document.fonts.ready.then(start);setTimeout(start,2500);}else{start();}var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(lock,200);});})();
 
-  var dcard=document.getElementById('demoCard');
-  var ds1=dcard.querySelector('.demo-s1'),ds2=dcard.querySelector('.demo-s2'),ds3=dcard.querySelector('.demo-s3');
-  var dEmail=document.getElementById('demoEmail'),dBtn=document.getElementById('demoBtn'),dFine=document.getElementById('demoFine'),dOk=dFine.textContent;
-  var dEmailVal='',dWhen='';
-  var dRE=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-  function dShow(el){ds1.hidden=true;ds2.hidden=true;ds3.hidden=true;el.hidden=false;}
-  function dClean(x){return (x||'').replace(/[<>&]/g,'').trim();}
-  dBtn.addEventListener('click',function(){var v=(dEmail.value||'').trim();
-    if(!dRE.test(v)){dEmail.focus();dFine.textContent='Enter a valid work email to continue.';dFine.style.color='var(--ai,#ff2d95)';return;}
-    dEmailVal=v;dFine.textContent=dOk;dFine.style.color='';
-    var ec=document.getElementById('demoEmailEcho');if(ec)ec.textContent=v;
-    dShow(ds2);var nm=document.getElementById('demoName');if(nm)nm.focus();});
-  dEmail.addEventListener('input',function(){dFine.textContent=dOk;dFine.style.color='';});
-  var dWrap=document.getElementById('demoWhen');
-  if(dWrap)dWrap.addEventListener('click',function(e){var c=e.target.closest?e.target.closest('.demochip'):null;if(!c)return;
-    var all=dWrap.querySelectorAll('.demochip');for(var i=0;i<all.length;i++)all[i].setAttribute('aria-pressed','false');
-    c.setAttribute('aria-pressed','true');dWhen=c.getAttribute('data-when');});
-  var dBack=document.getElementById('demoBack');if(dBack)dBack.addEventListener('click',function(){dShow(ds1);dEmail.focus();});
-  var dConf=document.getElementById('demoConfirm');
-  if(dConf)dConf.addEventListener('click',function(){
-    var nm=dClean(document.getElementById('demoName').value);
-    var h=ds3.querySelector('h2');
-    if(h)h.innerHTML=nm?("You're booked, "+nm+"<span class='ai'>.</span>"):"You're booked<span class='ai'>.</span>";
-    var line="We'll email "+dEmailVal+" within one business day to lock a time.";
-    if(dWhen==='This week')line="We'll reach out today to grab a slot this week \u2014 confirmation to "+dEmailVal+".";
-    else if(dWhen==='Next 2 weeks')line="We'll email "+dEmailVal+" within one business day to find a time in the next two weeks.";
-    else if(dWhen==='Just exploring')line="No rush \u2014 we'll send a short overview to "+dEmailVal+" and you can book when ready.";
-    var mm=document.getElementById('demoConfirmMsg');if(mm)mm.textContent=line;
-    var st=document.getElementById('demoStamp');if(st)st.textContent='Requested just now \u00b7 '+dEmailVal;
-    dShow(ds3);})
+  const btn=$('#demoBtn'),email=$('#demoEmail'),fine=$('#demoFine');
+  const ok=fine.textContent;
+  btn.addEventListener('click',()=>{const v=(email.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){email.focus();fine.textContent='Enter a valid work email to continue.';return;}
+    email.value='';email.disabled=true;btn.disabled=true;btn.textContent='Requested ✓';fine.textContent='Thanks — we’ll reach out shortly to set up your pilot.';});
+  email.addEventListener('input',()=>{if(!btn.disabled)fine.textContent=ok;});
 })();
 </script>
 <script>
@@ -3115,110 +3113,6 @@ select(0,false);
   var iv=setInterval(function(){ bump(); if(Date.now()-t0>18000){ clearInterval(iv); } }, 300);
   var rt;
   addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ mx=0; bd.style.minHeight=''; t0=Date.now(); if(!iv){ iv=setInterval(function(){ bump(); if(Date.now()-t0>18000){clearInterval(iv);} },300);} bump(); }, 200); });
-})();
-</script>
-<script>(function(){document.addEventListener("click",function(e){var o=e.target.closest&&e.target.closest("#surfOpen");if(o){e.preventDefault();var fr=document.querySelector("#ceoFrame.show,#cooFrame.show,#numFrame.show")||document.getElementById("ceoFrame");if(fr&&fr.requestFullscreen){fr.requestFullscreen().catch(function(){});}}},true);var mo=document.getElementById("menuOv");if(mo){mo.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){document.body.classList.remove("menu");});});}})();</script>
-<div id="zckBanner" class="zck" role="dialog" aria-modal="false" aria-label="Cookie notice" hidden>
-<style>
-.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:'Inter',system-ui,sans-serif}
-.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
-.zck-card::before{content:"";position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
-@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
-.zck-x svg{width:8px;height:8px}
-.zck-x:hover{color:#EAF0F8}
-.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
-.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
-.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
-.zck-txt a:hover{border-color:#15F2F2}
-.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
-.zck-panel[hidden]{display:none}
-.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
-.zck-chip:hover{border-color:rgba(255,255,255,.22)}
-.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
-.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
-.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
-.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-actions{display:flex;align-items:center;gap:8px}
-.zck-link{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
-.zck-link:hover{color:#fff}
-.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
-.zck-btn{font-family:'Inter',system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
-.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
-.zck-btn.ghost:hover{color:#fff}
-.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
-.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
-@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
-@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
-</style>
-<div class="zck-card">
-  <button type="button" class="zck-x" data-zck="reject" aria-label="Dismiss — essentials only"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
-  <p class="zck-txt"><span class="zck-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#15F2F2" stroke-opacity=".9" stroke-width="1.5"/><circle cx="12" cy="12" r="2.4" fill="#15F2F2"/></svg></span>A few cookies keep Zentallio running; analytics only with your consent. <a href="cookies.html">The details</a>.</p>
-  <div class="zck-panel" hidden>
-    <span class="zck-chip locked"><i class="dot"></i>Essential</span>
-    <label class="zck-chip"><input type="checkbox" data-cat="analytics"><i class="dot"></i>Analytics</label>
-    <label class="zck-chip"><input type="checkbox" data-cat="marketing"><i class="dot"></i>Marketing</label>
-  </div>
-  <div class="zck-actions">
-    <button type="button" class="zck-link" data-zck="manage">Customize</button>
-    <div class="zck-cta">
-      <button type="button" class="zck-btn ghost" data-zck="reject">Essentials only</button>
-      <button type="button" class="zck-btn solid" data-zck="accept" data-default>Accept all</button>
-    </div>
-  </div>
-</div>
-</div>
-<script>
-(function(){
-  var KEY='zentallio_cookie_consent';
-  var el=document.getElementById('zckBanner');
-  if(!el)return;
-  var panel=el.querySelector('.zck-panel');
-  var acceptBtn=el.querySelector('[data-zck=accept]');
-  var mem=null;
-  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
-  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
-  function apply(p){
-    // Consent gate — initialise non-essential tags only when allowed:
-    // if(p.analytics){ /* load analytics */ }
-    // if(p.marketing){ /* load marketing/ad tags */ }
-    try{document.dispatchEvent(new CustomEvent('zentallio:consent',{detail:p}));}catch(e){}
-  }
-  function syncChips(){el.querySelectorAll('.zck-chip input[data-cat]').forEach(function(i){i.closest('.zck-chip').classList.toggle('on',i.checked);});}
-  function show(openPanel){
-    var cur=read()||{analytics:false,marketing:false};
-    el.querySelectorAll('input[data-cat]').forEach(function(i){i.checked=!!cur[i.getAttribute('data-cat')];});
-    syncChips();
-    panel.hidden=!openPanel;
-    el.hidden=false;
-  }
-  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
-  el.addEventListener('change',function(e){if(e.target.matches('input[data-cat]'))syncChips();});
-  el.addEventListener('click',function(e){
-    var b=e.target.closest('[data-zck]');if(!b)return;
-    var a=b.getAttribute('data-zck');
-    if(a==='accept')decide({analytics:true,marketing:true});
-    else if(a==='reject')decide({analytics:false,marketing:false});
-    else if(a==='manage'){
-      var opening=panel.hidden;panel.hidden=!opening;
-      // when customizing, the primary action becomes "Save my choices"
-      acceptBtn.textContent=opening?'Save choices':'Accept all';
-      acceptBtn.setAttribute('data-zck',opening?'save':'accept');
-    }
-  });
-  el.addEventListener('click',function(e){
-    var b=e.target.closest('[data-zck=save]');if(!b)return;
-    var p={};el.querySelectorAll('input[data-cat]').forEach(function(i){p[i.getAttribute('data-cat')]=i.checked;});
-    decide(p);
-  });
-  window.zentallioCookiePrefs=function(){
-    acceptBtn.textContent='Save choices';acceptBtn.setAttribute('data-zck','save');
-    show(true);
-  };
-  var stored=read();
-  if(stored){apply(stored);}else{show(false);}
 })();
 </script>
 </body>

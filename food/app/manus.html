@@ -1,0 +1,610 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zentallio · Manus — Workforce Workbench</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05080F;--bg2:#070C18;--panel:#0A1120;--line:rgba(255,255,255,.07);--lineS:rgba(255,255,255,.14);
+--ink:#E8EEF7;--muted:#93A1B5;--subtle:#5E6C82;--teal:#15F2F2;--ai:#FF2D95;--mint:#3FD9A4;--amber:#E5A24B;--violet:#9B7BFF;--red:#FF5C6C}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+#app{display:flex;height:100vh}
+/* nav */
+.nav{width:232px;flex-shrink:0;border-right:.5px solid var(--line);background:var(--bg2);display:flex;flex-direction:column;padding:20px 0}
+.brand{padding:0 20px 20px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid var(--line);margin-bottom:14px}
+.zm{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--mint),#1E8F68);display:flex;align-items:center;justify-content:center;font-family:Fraunces,serif;font-weight:600;color:#04212B;font-size:16px}
+.brand b{font-family:Fraunces,serif;font-weight:600;font-size:16px;letter-spacing:-.01em}
+.brand span{display:block;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.16em;color:var(--subtle);margin-top:2px}
+.ngrp{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--subtle);padding:14px 20px 7px}
+.nit{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;border-left:2px solid transparent;transition:.15s}
+.nit:hover{color:var(--ink);background:rgba(255,255,255,.03)}
+.nit.on{color:#fff;background:linear-gradient(90deg,rgba(63,217,164,.14),transparent);border-left-color:var(--mint)}
+.nit i{width:16px;height:16px;flex-shrink:0;opacity:.85}
+.nfoot{margin-top:auto;padding:14px 20px 0;border-top:.5px solid var(--line)}
+.nfoot .mono{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);line-height:1.8}
+/* main */
+.main{flex:1;overflow-y:auto;position:relative}
+.top{position:sticky;top:0;z-index:20;background:rgba(5,8,15,.9);backdrop-filter:blur(14px);border-bottom:.5px solid var(--line);padding:16px 28px;display:flex;align-items:center;gap:14px}
+.top h1{font-family:Fraunces,serif;font-weight:500;font-size:20px;letter-spacing:-.01em}
+.top .sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:3px}
+.live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--mint);border:.5px solid rgba(63,217,164,.35);border-radius:999px;padding:6px 12px}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 8px var(--mint);animation:pu 1.8s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.35}}
+.body{padding:24px 28px 90px}
+.rt{display:none}.rt.on{display:block;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin-bottom:22px}
+.kpi{border:.5px solid var(--line);border-radius:14px;padding:16px 17px;background:var(--panel)}
+.kpi .l{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--subtle);margin-bottom:9px}
+.kpi .v{font-family:Fraunces,serif;font-weight:500;font-size:26px;letter-spacing:-.02em}
+.kpi .d{font-size:11px;color:var(--muted);margin-top:5px}
+.up{color:var(--mint)}.dn{color:var(--red)}.wa{color:var(--amber)}
+/* panels */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:1.4fr 1fr;gap:15px}
+.pan{border:.5px solid var(--line);border-radius:15px;background:var(--panel);padding:19px;margin-bottom:15px}
+.pan h3{font-family:Fraunces,serif;font-weight:500;font-size:16px;margin-bottom:3px}
+.pan .ph{font-size:11.5px;color:var(--subtle);margin-bottom:15px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);padding:0 10px 9px 0;font-weight:500;border-bottom:.5px solid var(--line)}
+td{padding:10px 10px 10px 0;border-bottom:.5px solid rgba(255,255,255,.045);color:var(--muted)}
+td b{color:var(--ink);font-weight:600}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;padding:3px 7px;border-radius:5px;border:.5px solid}
+.t-ok{color:var(--mint);border-color:rgba(63,217,164,.35)}
+.t-wa{color:var(--amber);border-color:rgba(229,162,75,.35)}
+.t-cr{color:var(--red);border-color:rgba(255,92,108,.35)}
+.t-ai{color:var(--ai);border-color:rgba(255,45,149,.35)}
+.t-nu{color:var(--teal);border-color:rgba(21,242,242,.3)}
+/* bars */
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--mint);transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:44px}
+.spark i{flex:1;background:linear-gradient(180deg,var(--mint),rgba(63,217,164,.15));border-radius:2px 2px 0 0;transition:height .7s}
+/* iris */
+.iris{position:fixed;right:22px;bottom:22px;z-index:60}
+.ibtn{height:46px;border-radius:999px;background:linear-gradient(135deg,#ff5cae,var(--ai));border:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0 18px 0 14px;box-shadow:0 12px 30px -8px rgba(255,45,149,.6)}
+.iorb{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,255,255,.45)}
+.ibtn b{color:#fff;font-size:13px;font-weight:600}
+.ipan{position:fixed;right:22px;bottom:80px;width:340px;max-height:60vh;border:.5px solid var(--lineS);border-radius:16px;background:var(--bg2);box-shadow:0 40px 90px -24px rgba(0,0,0,.85);display:none;flex-direction:column;overflow:hidden;z-index:61}
+.ipan.on{display:flex}
+.ihd{padding:13px 16px;border-bottom:.5px solid var(--line);display:flex;align-items:center;gap:9px}
+.ihd b{font-family:Fraunces,serif;font-size:14px}
+.ihd span{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle);display:block}
+.ibody{padding:14px 16px;overflow-y:auto;font-size:12.5px;color:var(--muted);line-height:1.7}
+.ibody .msg{border-left:2px solid var(--ai);padding-left:11px;margin-bottom:13px}
+.ibody .msg b{color:var(--ink)}
+@media(max-width:900px){.nav{display:none}.grid2,.grid3{grid-template-columns:1fr}}
+</style><style>
+.pipe{display:flex;gap:0;margin:6px 0 18px;overflow-x:auto}
+.pstep{flex:1;min-width:104px;position:relative;padding:11px 12px;border:.5px solid var(--line);border-right:none;background:var(--panel)}
+.pstep:first-child{border-radius:11px 0 0 11px}
+.pstep:last-child{border-right:.5px solid var(--line);border-radius:0 11px 11px 0}
+.pstep .n{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle)}
+.pstep .t{font-size:11.5px;font-weight:600;color:var(--ink);margin:4px 0 5px;line-height:1.25}
+.pstep .c{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--mint)}
+.pstep.doing{background:linear-gradient(180deg,rgba(63,217,164,.12),transparent)}
+.pstep.doing .n{color:var(--mint)}
+.pstep.block{background:linear-gradient(180deg,rgba(255,92,108,.12),transparent)}
+.pstep.block .c{color:var(--red)}
+.mtx{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.mq{border:.5px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+.mq h5{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;margin-bottom:4px}
+.mq .sub{font-size:10.5px;color:var(--subtle);margin-bottom:10px}
+.mq p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:3px}
+.mq p b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.08em;padding:4px 9px;border-radius:6px;border:.5px solid var(--line);color:var(--muted)}
+.chip.on{color:var(--teal);border-color:rgba(21,242,242,.35);background:rgba(21,242,242,.07)}
+.tempbar{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tempbar .nm{font-size:12px;width:118px;flex-shrink:0}
+.tempbar .tr{flex:1;height:22px;border-radius:6px;background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.tempbar .tr i{position:absolute;top:0;bottom:0;border-radius:6px}
+.tempbar .vv{font-family:'JetBrains Mono',monospace;font-size:11px;width:64px;text-align:right}
+</style>
+<style>:root{--acc:var(--mint)}
+/* ---- three-layer tabs ---- */
+.lyr{display:flex;gap:7px;margin-bottom:18px;border-bottom:.5px solid var(--line);padding-bottom:14px}
+.lb{background:rgba(255,255,255,.02);border:.5px solid var(--line);border-radius:10px;padding:8px 15px;cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600;font-family:Inter,sans-serif;transition:.16s;display:flex;align-items:center;gap:7px}
+.lb .lx{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;opacity:.7}
+.lb:hover:not(.on){color:var(--ink);border-color:var(--lineS)}
+.lb.on{color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,transparent),color-mix(in srgb,var(--acc) 8%,transparent));border-color:color-mix(in srgb,var(--acc) 65%,transparent)}
+.lb.on .lx{color:var(--acc);opacity:1}
+/* ---- Iris annotation: circled numbers ---- */
+.circ{position:relative;display:inline-block;padding:1px 7px;z-index:1}
+.circ>svg{position:absolute;left:-9px;right:-9px;top:-7px;bottom:-7px;width:calc(100% + 18px);height:calc(100% + 14px);overflow:visible;pointer-events:none}
+.circ ellipse{fill:none;stroke:var(--ai);stroke-width:1.7;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:drawc 1.2s cubic-bezier(.3,.7,.4,1) forwards;filter:drop-shadow(0 0 5px rgba(255,45,149,.5))}
+@keyframes drawc{to{stroke-dashoffset:0}}
+.circ.d2 ellipse{animation-delay:.5s}
+.circ.d3 ellipse{animation-delay:1s}
+.iflag{display:flex;gap:11px;align-items:flex-start;border:.5px solid rgba(255,45,149,.28);background:linear-gradient(135deg,rgba(255,45,149,.09),rgba(255,45,149,.02));border-radius:13px;padding:14px 16px;margin-bottom:16px}
+.iflag .fo{width:24px;height:24px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,45,149,.5);margin-top:1px}
+.iflag .ft{font-size:12.5px;color:var(--muted);line-height:1.7}
+.iflag .ft b{color:var(--ink)}
+.iflag .fl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--ai);display:block;margin-bottom:5px}
+/* ---- BI layer ---- */
+.bigrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.bcard{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.bcard h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.bcard .bh{font-size:11px;color:var(--subtle);margin-bottom:13px}
+.hbar{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:12px}
+.hbar .hl{width:112px;flex-shrink:0;color:var(--muted)}
+.hbar .ht{flex:1;height:16px;border-radius:5px;background:rgba(255,255,255,.05);overflow:hidden}
+.hbar .ht i{display:block;height:100%;border-radius:5px;background:var(--acc);transition:width .8s}
+.hbar .hv{width:62px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.scat{position:relative;height:190px;border-left:.5px solid var(--line);border-bottom:.5px solid var(--line);margin:6px 0 4px}
+.scat i{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,50%);opacity:.85}
+.axl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--subtle);display:flex;justify-content:space-between;margin-top:5px}
+/* ---- Config layer ---- */
+.cfgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.cgrp{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.cgrp h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.cgrp .ch{font-size:11px;color:var(--subtle);margin-bottom:14px}
+.crow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.045);font-size:12.5px}
+.crow:last-child{border-bottom:none}
+.crow .cn{flex:1;color:var(--muted)}
+.crow .cv{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:6px;padding:4px 9px}
+.tog{width:34px;height:19px;border-radius:99px;background:rgba(255,255,255,.1);position:relative;flex-shrink:0}
+.tog.on{background:color-mix(in srgb,var(--acc) 70%,transparent)}
+.tog::after{content:"";position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}
+.tog.on::after{left:17.5px}
+.own{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--subtle)}
+
+.cfgbar{display:flex;align-items:center;gap:12px;padding:11px 15px;border:.5px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:15px}
+.cfgbar .cb-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.15em;color:var(--subtle)}
+.cfgbar .cb-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ai)}
+.cfgbar button{margin-left:auto;background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:8px;color:var(--muted);font-size:11.5px;font-family:Inter,sans-serif;padding:6px 13px;cursor:pointer;transition:.15s}
+.cfgbar button:hover{color:#fff;border-color:var(--lineS)}
+.cfgbar .save{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 30%,transparent),transparent);border-color:color-mix(in srgb,var(--acc) 55%,transparent);color:#fff;margin-left:0}
+.cvi{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:7px;padding:5px 10px;width:132px;text-align:right;outline:none;transition:.15s}
+.cvi:hover{border-color:var(--lineS)}
+.cvi:focus{border-color:color-mix(in srgb,var(--acc) 70%,transparent);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 12%,transparent)}
+select.cvi{text-align:left;width:150px;cursor:pointer;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--subtle) 50%),linear-gradient(135deg,var(--subtle) 50%,transparent 50%);background-position:calc(100% - 14px) 11px,calc(100% - 9px) 11px;background-size:5px 5px;background-repeat:no-repeat}
+.tog{cursor:pointer;transition:.18s}
+.crow.mod{background:linear-gradient(90deg,rgba(255,45,149,.09),transparent);margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:6px}
+.crow .edt{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:var(--ai);opacity:0;transition:.2s}
+.crow.mod .edt{opacity:1}
+.crow.locked .cvi{opacity:.55;pointer-events:none}
+
+.tscroll{max-height:420px;overflow-y:auto;margin:0 -4px;padding:0 4px}
+.tscroll::-webkit-scrollbar{width:6px}.tscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:9px}
+.tscroll table thead th{position:sticky;top:0;background:var(--panel);z-index:2}
+.tcount{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:10px}
+</style></head><body>
+<div id="app"><nav class="nav">
+ <div class="brand"><div><b>Manus</b><span>WORKFORCE WORKBENCH</span></div></div>
+ <div class="ngrp">PLAN</div><div class="nit on" data-r="cmd">Command Centre</div><div class="nit" data-r="ros">Rostering</div><div class="nit" data-r="prod">Labour Productivity</div>
+ <div class="ngrp">RUN</div><div class="nit" data-r="att">Time &amp; Attendance</div><div class="nit" data-r="pay">Pay &amp; Cost</div><div class="nit" data-r="payroll">Payroll Run</div><div class="nit" data-r="comp">Working-Time Compliance</div>
+ <div class="ngrp">PEOPLE</div><div class="nit" data-r="skill">Skills &amp; Training</div><div class="nit" data-r="hire">Recruitment &amp; Onboarding</div><div class="nit" data-r="eng">Retention &amp; Engagement</div>
+ <div class="nfoot"><div class="mono">MAISON CROQ<br>3,010 EMPLOYEES · 200 BRANCHES<br>ILLUSTRATIVE DATA</div></div></nav>
+ <div class="main"><div class="top"><div><h1 id="rtT">Command Centre</h1><div class="sub" id="rtS">WORKFORCE · LIVE</div></div><span class="live"><i></i>LIVE</span></div>
+ <div class="body" id="rts"></div></div></div>
+<div class="iris"><button class="ibtn" onclick="tg()"><span class="iorb"></span><b>Ask Iris</b></button></div>
+<div class="ipan" id="ip"><div class="ihd"><span class="iorb" style="width:20px;height:20px"></span><div><b>Iris</b><span>ASK ZEN · MANUS</span></div></div><div class="ibody" id="ib"></div></div>
+<script>
+
+/* ---------- 200-branch estate (seeded, deterministic) ---------- */
+var BR=(function(){
+ function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+ var R=rng(20260722);
+ var CL=[
+  {id:'urban',n:'Urban High-Traffic',fmt:'Café',rev:[34,52],basket:[7.4,9.6],txn:[3600,5200],lab:[25,28],waste:[2.6,3.6],am:[.62,.74],sqm:[95,150],nps:[52,64]},
+  {id:'transit',n:'Transit & Station',fmt:'Kiosk',rev:[28,44],basket:[5.2,6.9],txn:[4400,6800],lab:[22,26],waste:[3.2,4.6],am:[.74,.86],sqm:[28,55],nps:[38,52]},
+  {id:'suburb',n:'Suburban Family',fmt:'Café + Bakery',rev:[26,42],basket:[12.4,16.8],txn:[1700,2700],lab:[28,32],waste:[2.2,3.2],am:[.34,.46],sqm:[130,210],nps:[58,71]},
+  {id:'office',n:'Office & Campus',fmt:'Counter',rev:[22,36],basket:[8.6,11.2],txn:[2200,3400],lab:[27,31],waste:[3.4,4.8],am:[.48,.60],sqm:[70,120],nps:[48,60]},
+  {id:'dest',n:'Destination / Weekend',fmt:'Flagship',rev:[30,58],basket:[16.2,22.4],txn:[1400,2400],lab:[30,34],waste:[1.8,2.8],am:[.22,.34],sqm:[180,320],nps:[62,78]}];
+ var CITY=[['Lyon','FR'],['Paris','FR'],['Bordeaux','FR'],['Lille','FR'],['Nantes','FR'],['Vienna','AT'],['Graz','AT'],['Salzburg','AT'],['Brussels','BE'],['Antwerp','BE'],['Ghent','BE'],['Berlin','DE'],['Munich','DE'],['Hamburg','DE'],['Cologne','DE']];
+ var mix=[42,38,44,40,36]; /* branches per cluster -> 200 */
+ var out=[],id=1;
+ CL.forEach(function(c,ci){
+  for(var i=0;i<mix[ci];i++){
+   function u(a){return a[0]+R()*(a[1]-a[0]);}
+   var city=CITY[Math.floor(R()*CITY.length)];
+   var rev=u(c.rev)*1000, txn=Math.round(u(c.txn)), basket=rev/txn;
+   out.push({id:'B'+String(id).padStart(3,'0'),city:city[0],cc:city[1],cl:c.id,cln:c.n,fmt:c.fmt,
+    rev:Math.round(rev), txn:txn, basket:+basket.toFixed(2), lab:+u(c.lab).toFixed(1), waste:+u(c.waste).toFixed(1),
+    am:+u(c.am).toFixed(2), sqm:Math.round(u(c.sqm)), nps:Math.round(u(c.nps)),
+    rps:+(rev/u(c.sqm)).toFixed(1), avail:+(93+R()*6.5).toFixed(1)});
+   id++;
+  }
+ });
+ return out;
+})();
+
+var CLC={urban:'#15F2F2',transit:'#3FD9A4',suburb:'#E5A24B',office:'#9B7BFF',dest:'#FF2D95'};
+function agg(key,fn){var g={};BR.forEach(function(b){(g[b[key]]=g[b[key]]||[]).push(b);});return Object.keys(g).map(function(k){return [k,g[k],fn?fn(g[k]):0];});}
+function avg(a,f){return a.reduce(function(s,x){return s+f(x);},0)/a.length;}
+function sum(a,f){return a.reduce(function(s,x){return s+f(x);},0);}
+function eur(n){return '€'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
+
+/* ---------- extended master data ---------- */
+var RX=(function(){var s=77003;return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
+function pick(a){return a[Math.floor(RX()*a.length)];}
+function rnd(a,b,d){var v=a+RX()*(b-a);return d===0?Math.round(v):+v.toFixed(d===undefined?2:d);}
+/* --- SKU catalogue: 124 items --- */
+var SKU=(function(){
+ var C=[['Hot drinks',['Flat white','Cappuccino','Latte','Espresso','Americano','Filter · single origin','Mocha','Cortado','Macchiato','Hot chocolate','Chai latte','Matcha latte'],[2.6,4.2],[.28,.52],[.86,.90]],
+  ['Cold drinks',['Iced latte','Cold brew','Iced americano','Iced matcha','Frappe','Iced tea','Lemonade','Fruit smoothie','Sparkling water','Orange juice'],[2.8,5.4],[.62,1.42],[.54,.72]],
+  ['Laminated',['Butter croissant','Pain au chocolat','Almond croissant','Pain aux raisins','Chocolate twist','Cinnamon swirl','Kouign-amann','Ham & cheese croissant','Pistachio croissant'],[1.5,3.2],[.38,1.06],[.60,.76]],
+  ['Bread',['Sourdough loaf','Baguette','Country loaf','Rye loaf','Seeded batard','Focaccia','Ciabatta','Brioche loaf','Wholemeal tin'],[2.2,4.8],[.52,1.24],[.68,.80]],
+  ['Patisserie',['Chocolate tart','Lemon tart','Fruit tartlet','Éclair','Mille-feuille','Opera slice','Cheesecake slice','Seasonal tart','Paris-Brest','Canelé','Madeleine box'],[2.4,6.2],[.68,2.04],[.62,.78]],
+  ['Savoury',['Baguette sandwich','Croque monsieur','Quiche lorraine','Veg quiche','Sausage roll','Focaccia sandwich','Soup of the day','Salad box'],[3.8,8.4],[1.42,3.66],[.48,.64]],
+  ['Cakes & occasion',['Celebration cake 8in','Celebration cake 10in','Birthday cupcakes x6','Sharing brownie tray','Gift box assorted'],[14,48],[4.2,17.5],[.58,.72]],
+  ['Retail & bean',['Whole bean 250g','Whole bean 1kg','Ground coffee 250g','Jam jar','Honey jar','Branded mug','Reusable cup'],[4.5,26],[2.1,14.2],[.38,.56]]];
+ var out=[],id=1;
+ C.forEach(function(c){c[1].forEach(function(n){
+  var price=rnd(c[2][0],c[2][1]),cost=rnd(c[3][0],c[3][1]),gm=(price-cost)/price;
+  out.push({id:'S'+String(id).padStart(3,'0'),n:n,cat:c[0],price:price,cost:cost,gm:+(gm*100).toFixed(1),
+   vel:Math.round(rnd(80,7400,0)),shelf:c[0]==='Hot drinks'||c[0]==='Cold drinks'?0:pick([4,8,12,24,48,72]),
+   waste:rnd(0.4,6.4,1),status:RX()<.08?'NPI':RX()<.06?'Delist':'Core'});
+  id++;});});
+ return out;})();
+/* --- suppliers: 38 --- */
+var SUPS=(function(){var nm=['Moulin Berger','Delcourt Dairy','Cacao Nord','Verger Lyon','EmballagePro','Beurre Vallée','Grains du Sud','Laiterie Alpine','Chocolaterie Vasse','Fruits Provence','Papier & Co','Levain Naturel','Sucre Atlantique','Œufs Bressans','Noix du Périgord','Épices Marseille','Café Verde','Torréfaction Nord','Lait Bio Ouest','Farine Royale','Confiture Maison','Crème Normandie','Vanille Import','Miel Cévennes','Sel Guérande','Beurre Charentes','Amandes Ibéria','Pistache Levant','Emballage Vert','Étiquettes Pro','Froid Logistique','Transport Rapide','Nettoyage Pro','Uniformes Sud','Maintenance Est','Énergie Verte','Eau Minérale','Jus Pressé'];
+ var cat=['Flour & grain','Dairy','Chocolate','Fresh produce','Packaging','Services','Coffee','Sundries'];
+ return nm.map(function(n,i){var otif=rnd(78,99.6,1);
+  return {n:n,cat:cat[i%cat.length],otif:otif,fill:rnd(Math.max(80,otif-6),99.8,1),pv:rnd(-1.2,6.4,1),
+   spend:Math.round(rnd(18000,204000,0)),terms:pick([30,42,45,60]),
+   q:otif>96?'A':otif>90?'B':'C',risk:otif<85?'HIGH':otif<92?'MED':'LOW'};});})();
+/* --- routes: 26 --- */
+var ROUTES=(function(){var city=['Lyon','Paris','Bordeaux','Vienna','Graz','Brussels','Antwerp','Berlin','Munich','Hamburg','Lille','Nantes','Ghent'];
+ var out=[];for(var i=1;i<=26;i++){var ot=rnd(79,99,1);
+  out.push({id:'R-'+String(i).padStart(2,'0'),city:pick(city),chain:pick(['COLD 2–4°C','DRY AMBIENT','FROZEN −18°C']),
+   drops:Math.round(rnd(4,12,0)),otd:ot,cpd:rnd(11.8,29.4,2),exc:ot<86?Math.round(rnd(1,4,0)):0});}
+ return out;})();
+/* --- assets: 148 sample --- */
+var ASSETS=(function(){var t=[['Chiller','Refrigeration',6],['Freezer','Refrigeration',6],['Espresso machine','Bar',2600],['Grinder','Bar',2000],['Deck oven','Bakery',5500],['Proofer','Bakery',4000],['Display case','Front',12],['POS terminal','IT',36],['Dishwasher','Back',12]];
+ var out=[];for(var i=0;i<148;i++){var a=t[i%t.length];var b=BR[Math.floor(RX()*BR.length)];
+  var life=rnd(18,96,0),due=Math.round(rnd(-45,120,0));
+  out.push({asset:a[0]+' '+(1+i%3),cls:a[1],br:b.id,city:b.city,hrs:a[2]>100?Math.round(rnd(400,a[2]*1.3,0)):null,
+   due:due,life:Math.round(rnd(24,92,0)),st:due<0?'OVERDUE':due<10?'DUE SOON':'OK'});}
+ return out;})();
+/* --- purchase orders: 64 --- */
+var POS=(function(){var st=['IRIS DRAFT','AWAITING APPROVAL','APPROVED','GRN BOOKED','3-WAY MATCHED','PRICE MISMATCH','SCHEDULED'];
+ var it=['Butter 82%','Flour T55','Dark chocolate','Fresh berries','Fresh yeast','Cups 12oz','Milk','Cream','Almonds','Sugar','Eggs','Packaging film'];
+ var out=[];for(var i=0;i<64;i++){var s=SUPS[Math.floor(RX()*SUPS.length)];
+  out.push({ref:'PO-'+(4400+i),sup:s.n,item:pick(it),qty:Math.round(rnd(80,6400,0)),val:Math.round(rnd(1800,42000,0)),
+   age:Math.round(rnd(0,18,0)),st:pick(st)});}
+ return out;})();
+/* --- incidents: 72 --- */
+var INCS=(function(){var ty=[['Refrigeration fault','Equipment'],['Espresso machine fault','Equipment'],['Oven fault','Equipment'],['Closing not completed','Process'],['Opening late','Process'],['Guest complaint · wait','Guest'],['Guest complaint · quality','Guest'],['Slip · wet floor','Safety'],['Burn · steam wand','Safety'],['Cut · slicer','Safety'],['Cold-chain excursion','Food safety'],['Pest sighting','Food safety']];
+ var out=[];for(var i=0;i<72;i++){var b=BR[Math.floor(RX()*BR.length)];var t=ty[i%ty.length];var age=Math.round(rnd(0,26,0));
+  out.push({ref:'INC-'+(3320+i),br:b.id,city:b.city,type:t[0],cls:t[1],age:age,
+   st:age<3?'OPEN':age<7?(RX()<.4?'OVERDUE':'ACTION'):'RESOLVED',sev:t[1]==='Safety'||t[1]==='Food safety'?'HIGH':RX()<.3?'MED':'LOW'});}
+ return out;})();
+/* --- workforce: 3,010 aggregated to 148 shift records --- */
+var SHIFTS=(function(){var role=['Team member','Barista G1','Barista G2','Baker','Shift lead','Branch manager'];
+ var out=[];for(var i=0;i<148;i++){var b=BR[Math.floor(RX()*BR.length)];var ros=Math.round(rnd(4,14,0));
+  var clk=Math.max(0,ros-(RX()<.18?Math.round(rnd(1,3,0)):0));
+  out.push({br:b.id,city:b.city,cl:b.cl,role:pick(role),ros:ros,clk:clk,late:Math.round(rnd(0,3,0)),
+   ot:rnd(0,9.5,1),lab:b.lab,cert:RX()<.06?'EXPIRING':'VALID'});}
+ return out;})();
+function take(a,n,f){return a.filter(f||function(){return true;}).slice(0,n);}
+function srt(a,k,dir){return a.slice().sort(function(x,y){return dir==='asc'?x[k]-y[k]:y[k]-x[k];});}
+
+
+/* ---------- shared framework ---------- */
+function tbl(h,rows){return '<table><thead><tr>'+h.map(function(x,i){return '<th'+(i>0?' class="num"':'')+'>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(i>0?' class="num"':'')+'>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
+function kpi(l,v,d){return '<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="d">'+(d||'')+'</div></div>';}
+function bars(a){return '<div class="spark">'+a.map(function(v){return '<i style="height:'+v+'%"></i>';}).join('')+'</div>';}
+function cover(rows,max){max=max||12;return rows.map(function(r){var pct=Math.min(100,r[1]/max*100);var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>'+r[0]+'</span><b style="font-family:JetBrains Mono,monospace;font-size:11.5px;color:'+c+'">'+(r[3]||r[1])+'</b></div><div class="bar"><i style="width:'+pct+'%;background:'+c+'"></i></div></div>';}).join('');}
+function iris(t){return '<div style="border-left:2px solid var(--ai);padding-left:12px;font-size:12.5px;color:var(--muted);line-height:1.75">'+t+'</div>';}
+function pipe(steps){return '<div class="pipe">'+steps.map(function(s,i){return '<div class="pstep '+(s[3]||'')+'"><div class="n">'+(i+1)+' · '+s[0]+'</div><div class="t">'+s[1]+'</div><div class="c">'+s[2]+'</div></div>';}).join('')+'</div>';}
+/* Iris circles a number */
+function circ(v,d){return '<span class="circ '+(d||'')+'">'+v+'<svg viewBox="0 0 100 40" preserveAspectRatio="none"><ellipse cx="50" cy="20" rx="46" ry="17" transform="rotate(-2 50 20)"/></svg></span>';}
+function iflag(t){return '<div class="iflag"><div class="fo"></div><div class="ft"><span class="fl">IRIS · FLAGGED ON THIS VIEW</span>'+t+'</div></div>';}
+/* BI renderers */
+function hbars(rows,max){max=max||Math.max.apply(null,rows.map(function(r){return r[1];}));
+ return rows.map(function(r){var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div class="hbar"><span class="hl">'+r[0]+'</span><span class="ht"><i style="width:'+Math.min(100,r[1]/max*100)+'%;background:'+c+'"></i></span><span class="hv">'+(r[3]||r[1])+'</span></div>';}).join('');}
+function scatter(pts,xl,yl){var xs=pts.map(function(p){return p[0];}),ys=pts.map(function(p){return p[1];});
+ var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs),y0=Math.min.apply(null,ys),y1=Math.max.apply(null,ys);
+ return '<div class="scat">'+pts.map(function(p){var l=(p[0]-x0)/((x1-x0)||1)*100,b=(p[1]-y0)/((y1-y0)||1)*100;
+  return '<i style="left:'+l+'%;bottom:'+b+'%;background:'+(p[2]||'var(--acc)')+'"></i>';}).join('')+'</div><div class="axl"><span>'+xl+'</span><span>'+yl+'</span></div>';}
+function bi(cards){return '<div class="bigrid">'+cards.map(function(c){return '<div class="bcard"><h4>'+c[0]+'</h4><div class="bh">'+c[1]+'</div>'+c[2]+'</div>';}).join('')+'</div>';}
+
+
+function big(h,rows,note){return '<div class="tscroll">'+tbl(h,rows)+'</div><div class="tcount">'+rows.length+' ROWS'+(note?' · '+note:'')+'</div>';}
+function tg2(v,g,w){return '<span class="'+(v>=g?'t-ok':v>=w?'t-wa':'t-cr')+' tag">'+v+'</span>';}
+/* ---------- editable configuration ---------- */
+var CFGV={},CFGD={};
+function ckey(g,n){return (g+'~'+n).replace(/<[^>]*>/g,'').replace(/[^A-Za-z0-9~]/g,'_');}
+function cnum(){var n=Object.keys(CFGV).length;var e=document.getElementById('cfgN');if(e)e.textContent=n?(n+' UNSAVED CHANGE'+(n>1?'S':'')):'NO CHANGES';var b=document.getElementById('cfgSave');if(b)b.style.opacity=n?1:.45;}
+function cset(k,v,el){ if(String(CFGD[k])===String(v)){delete CFGV[k];} else {CFGV[k]=v;} 
+ var row=el.closest('.crow'); if(row)row.classList.toggle('mod',k in CFGV); cnum();}
+function ctog(k,el){var on=!el.classList.contains('on');el.classList.toggle('on',on);cset(k,on,el);}
+function creset(){CFGV={};document.querySelectorAll('.crow.mod').forEach(function(r){r.classList.remove('mod');});go(CURR,'cfg');}
+function csave(){var n=Object.keys(CFGV).length;if(!n)return;
+ var b=document.getElementById('cfgSave');b.textContent='Applied · '+n;setTimeout(function(){CFGV={};go(CURR,'cfg');},700);}
+function cfg(groups){
+ var html='<div class="cfgbar"><span class="cb-t">CONFIGURATION</span><span class="cb-n" id="cfgN">NO CHANGES</span>'
+  +'<button id="cfgSave" class="save" onclick="csave()" style="opacity:.45">Apply changes</button>'
+  +'<button onclick="creset()" style="margin-left:8px">Reset</button></div>';
+ html+='<div class="cfgrid">'+groups.map(function(g){
+  return '<div class="cgrp"><h4>'+g[0]+'</h4><div class="ch">'+g[1]+'</div>'+g[2].map(function(r){
+   var k=ckey(g[0],r[0]); CFGD[k]=r[1];
+   var locked=/NEVER|MANDATORY|LAW|STATUTORY|FIXED|BLOCKED/.test(r[2]||'');
+   var ctl;
+   if(r[1]===true||r[1]===false){
+    ctl='<span class="tog'+(r[1]?' on':'')+'" onclick="'+(locked?'':'ctog(\''+k+'\',this)')+'"></span>';
+   } else if(Array.isArray(r[3])){
+    ctl='<select class="cvi" onchange="cset(\''+k+'\',this.value,this)">'+r[3].map(function(o){
+      return '<option'+(o===r[1]?' selected':'')+'>'+o+'</option>';}).join('')+'</select>';
+   } else {
+    ctl='<input class="cvi" value="'+String(r[1]).replace(/<[^>]*>/g,'').replace(/"/g,'&quot;')+'" onchange="cset(\''+k+'\',this.value,this)">';
+   }
+   return '<div class="crow'+(locked?' locked':'')+'"><span class="cn">'+r[0]+'</span><span class="edt">EDITED</span>'+ctl+'<span class="own">'+(r[2]||'')+'</span></div>';
+  }).join('')+'</div>';}).join('')+'</div>';
+ setTimeout(cnum,0);
+ return html;}
+
+/* layer switching */
+var CURL='wb';
+function layerbar(){return '<div class="lyr">'
+ +'<button class="lb'+(CURL==='wb'?' on':'')+'" data-l="wb"><span class="lx">L0</span>Workbench</button>'
+ +'<button class="lb'+(CURL==='bi'?' on':'')+'" data-l="bi"><span class="lx">L1</span>BI &amp; Analytics</button>'
+ +'<button class="lb'+(CURL==='cfg'?' on':'')+'" data-l="cfg"><span class="lx">L2</span>Configuration</button></div>';}
+function go(r,l){
+ if(l)CURL=l; CURR=r;
+ document.querySelectorAll('.nit').forEach(function(n){n.classList.toggle('on',n.dataset.r===r);});
+ document.getElementById('rtT').innerHTML=TT[r][0];document.getElementById('rtS').innerHTML=TT[r][1];
+ var m=M[r], body = CURL==='wb'?m.wb():CURL==='bi'?m.bi():m.cfg();
+ document.getElementById('rts').innerHTML='<div class="rt on">'+layerbar()+body+'</div>';
+ document.querySelectorAll('.lb').forEach(function(b){b.onclick=function(){go(CURR,b.dataset.l);};});
+ document.querySelector('.main').scrollTop=0;}
+var CURR='cmd';
+function tg(){var p=document.getElementById('ip');p.classList.toggle('on');
+ if(p.classList.contains('on')){document.getElementById('ib').innerHTML='<div class="msg">'+IR[CURR]+'</div><div style="font-size:11.5px;color:var(--subtle)">Layer: '+(CURL==='wb'?'Workbench':CURL==='bi'?'BI &amp; Analytics':'Configuration')+'. Ask about anything on this view.</div>';}}
+
+var M={};
+M.cmd={wb:function(){return iflag('<b>Austria understaffing and the overtime bill are the same problem.</b> Rostering 11% below forecast demand does not save labour cost — it converts base hours into premium hours, which is why overtime is up 18% while the labour ratio still looks fine.')
+ +'<div class="kpis">'+kpi('EMPLOYEES','3,010','200 branches · 4 markets')+kpi('ON SHIFT NOW','684','vs 706 rostered')
+ +kpi('LABOUR % OF SALES','27.8%','plan 28.5%')+kpi('OVERTIME (WTD)',circ('214 h'),'<span class="wa">+18% WoW</span>')
+ +kpi('ABSENCE RATE','4.1%','<span class="dn">+0.6pts</span>')+kpi('ANNUAL TURNOVER','48%','sector 62%')+'</div>'
+ +'<div class="pan"><h3>Workforce cycle</h3><div class="ph">Forecast → roster → attend → pay → retain</div>'
+ +pipe([['FORECAST','Demand hours','11,600',''],['ROSTER','Shifts published','2,790','doing'],['FILL','Shifts covered','96.4%',''],['ATTEND','Clocked in','684',''],['EXCEPTION','Unapproved OT','38','block'],['RETAIN','Leavers MTD','34','']])+'</div>'
+ +'<div class="pan"><h3>What needs a decision today</h3><div class="ph">Ranked by cost and risk</div>'
+ +tbl(['SIGNAL','IMPACT','WINDOW'],[['<b>Austria rostered 11% under forecast</b>','<span class="t-cr tag">SERVICE</span>','4 days'],
+ ['<b>38 hours unapproved overtime</b> — Lyon region','<span class="t-cr tag">€1,420</span>','this week'],
+ ['<b>Sablon late shift understaffed at close</b>','<span class="t-cr tag">COMPLIANCE</span>','tonight'],
+ ['<b>14 certifications expire within 30 days</b>','<span class="t-wa tag">6 food safety</span>','30 days'],
+ ['<b>Turnover in Transit cluster at 71%</b>','<span class="t-wa tag">€118k/yr</span>','this quarter']])+'</div>';},
+ bi:function(){var lab=agg('cln',function(g){return avg(g,function(b){return b.lab;});});
+  return bi([['Labour % by cluster','200-branch estate',hbars(lab.map(function(r){return [r[0].split(' ')[0],r[2],r[2]>30?'wa':'mi',r[2].toFixed(1)+'%'];}),36)],
+  ['Labour vs revenue','Each dot is one branch',scatter(BR.map(function(b){return [b.rev/1000,b.lab,CLC[b.cl]];}),'WEEKLY REVENUE €k →','↑ LABOUR % OF SALES')],
+  ['Headcount by market','Employees',hbars([['France',1204,'','1,204'],['Germany',812,'','812'],['Belgium',534,'','534'],['Austria',460,'','460']],1400)],
+  ['Labour ratio trend','% of sales, 14 days',bars([72,70,71,69,73,75,71,70,72,74,76,73,77,79])]]);},
+ cfg:function(){return cfg([['Labour targets','What good looks like',[['Group labour % target','28.5%','FINANCE'],['Overtime ceiling','1.5% of labour','FINANCE'],['Agency ceiling','1.0% of labour','FINANCE'],['Absence target','&lt; 3.5%','HR']]],
+ ['Roster governance','Rules of the plan',[['Publish notice period','1 week','<span style="color:var(--amber)">3 WEEKS ADVISED</span>'],['Roster to forecast',true,'ENABLED'],['Manager may roster below forecast',true,'<span style="color:var(--amber)">REVIEW</span>'],['Lock roster after publish',true,'ENABLED']]],
+ ['Iris autonomy','What Iris may do unaided',[['Propose roster',true,'ENABLED'],['Publish roster',false,'NEVER'],['Flag compliance breaches',true,'ENABLED'],['Block non-compliant publish',false,'<span style="color:var(--amber)">SHOULD BE ON</span>']]],
+ ['Data sources','What feeds this workbench',[['Time & attendance','live · 200 branches','INTEGRATION'],['Payroll','weekly','INTEGRATION'],['Demand forecast','from Supply Chain','INTERNAL'],['Learning platform','daily','INTEGRATION']]]]);}};
+M.ros={wb:function(){return iflag('<b>The morning rush is 12% short while the afternoon is 12% over.</b> Total hours are almost exactly right — they are simply in the wrong places. Shifting six shift-starts 90 minutes earlier fixes both ends without adding a single hour of cost.')
+ +'<div class="kpis">'+kpi('SHIFTS PUBLISHED','2,790','next 7 days')+kpi('DEMAND HOURS','11,600','from forecast')
+ +kpi('ROSTERED HOURS','11,345',circ('−2.2%','d2'))+kpi('SHIFT FILL RATE','96.4%','100 open shifts')+'</div>'
+ +'<div class="pan"><h3>Roster against forecast demand</h3><div class="ph">Staffing built from predicted trade, not last week\'s pattern</div>'
+ +tbl(['REGION','DEMAND HRS','ROSTERED','GAP','OPEN SHIFTS','STATUS'],[
+ ['<b>France</b>','4,480','4,462','<span class="t-ok tag">−0.4%</span>','26','<span class="t-ok tag">MATCHED</span>'],
+ ['<b>Germany</b>','3,150','3,024','<span class="t-wa tag">−4.0%</span>','37','<span class="t-wa tag">TIGHT</span>'],
+ ['<b>Belgium</b>','2,000','1,978','<span class="t-ok tag">−1.1%</span>','13','<span class="t-ok tag">MATCHED</span>'],
+ ['<b>Austria</b>','1,970','1,753','<span class="t-cr tag">−11.0%</span>','24','<span class="t-cr tag">UNDER</span>']])+'</div>'
+ +'<div class="pan"><h3>Cover by day-part · tomorrow</h3><div class="ph">Rostered heads against forecast need</div>'
+ +cover([['06:00–08:00 open',94,'wa','94%'],['08:00–10:00 rush',88,'cr','88%'],['10:00–12:00',103,'mi','103%'],['12:00–14:00 lunch',97,'mi','97%'],['14:00–17:00',112,'wa','112% over'],['17:00–close',91,'wa','91%']],120)+'</div>';},
+ bi:function(){return bi([['Schedule efficiency','Hours in the right place',hbars([['France',96,'mi','96%'],['Belgium',94,'mi','94%'],['Germany',88,'wa','88%'],['Austria',81,'cr','81%']],100)],
+ ['Roster stability','Changes after publication',hbars([['&gt; 7 days out',6,'mi','6%'],['3–7 days',14,'','14%'],['1–2 days',26,'wa','26%'],['Same day',34,'cr','34%']],40)],
+ ['Open shift fill time','Hours to fill',tbl(['CLUSTER','MEDIAN','FILL RATE'],[['Urban High','4.2 h','98%'],['Office','6.1 h','97%'],['Suburban','8.4 h','96%'],['Transit','<span class="t-cr tag">22.6 h</span>','<span class="t-wa tag">91%</span>']])],
+ ['Shift pattern mix','Share of published shifts',hbars([['Early (open)',31,'','31%'],['Mid',38,'','38%'],['Late (close)',24,'','24%'],['Split',7,'wa','7%']],45)]]);},
+ cfg:function(){return cfg([['Rostering engine','How shifts are built',[['Demand source','Item forecast → labour hours','L2 ZEN'],['Optimisation objective','Cover at min cost','POLICY'],['Min shift length','4 hours','CONTRACT'],['Max shift length','9 hours','COMPLIANCE']]],
+ ['Publication','Notice and change',[['Publish horizon','14 days','HR'],['Notice period','7 days','<span style="color:var(--amber)">BELOW BEST PRACTICE</span>'],['Change notice compensation',false,'NOT PAID'],['Employee shift preferences',true,'CONSIDERED']]],
+ ['Skills matching','Who may work where',[['Match certification to station',true,'MANDATORY'],['Require 2 qualified per shift',true,'MANDATORY'],['Allow cross-branch cover',true,'ENABLED'],['Max travel for cover','40 min','HR']]],
+ ['Open shifts','Filling gaps',[['Offer to own branch first',true,'ENABLED'],['Then cluster',true,'ENABLED'],['Then agency','after 24 h','ENABLED'],['Overtime before agency',true,'ENABLED']]]]);}};
+M.prod={wb:function(){return iflag('<b>Destination branches look least productive and mostly are not.</b> A dine-in patisserie with an €18.60 basket cannot be judged on transactions per hour against a station kiosk. The genuine signal is the 7% drinks-per-hour fall at three branches — traced to espresso machines 40 days past service.')
+ +'<div class="kpis">'+kpi('SALES PER LABOUR HOUR','€48.20','<span class="up">+3.1% MoM</span>')+kpi('TRANSACTIONS / HOUR','18.4','per staff member')
+ +kpi('DRINKS / HOUR (BAR)',circ('62'),'<span class="dn">−7% at 3 branches</span>')+kpi('IDLE CAPACITY','8.2%','rostered but unproductive')+'</div>'
+ +'<div class="pan"><h3>Productivity by cluster</h3><div class="ph">Output per labour hour, normalised for format</div>'
+ +tbl(['CLUSTER','SALES / HR','TXN / HR','LABOUR %','READ'],[
+ ['<b>Transit &amp; Station</b>','€62.40','26.1','24.1%','<span class="t-ok tag">TOP</span>'],
+ ['<b>Urban High-Traffic</b>','€54.10','21.8','26.4%','<span class="t-ok tag">STRONG</span>'],
+ ['<b>Office &amp; Campus</b>','€46.80','17.2','28.6%','<span class="t-wa tag">MID</span>'],
+ ['<b>Suburban Family</b>','€41.20','13.6','30.1%','<span class="t-wa tag">MID</span>'],
+ ['<b>Destination / Weekend</b>','€38.90','9.8','31.4%','<span class="t-wa tag">FORMAT-DRIVEN</span>']])+'</div>';},
+ bi:function(){return bi([['Sales per labour hour','Branch distribution',scatter(BR.map(function(b){return [b.txn,b.rev/1000,CLC[b.cl]];}),'TRANSACTIONS / WEEK →','↑ WEEKLY REVENUE €k')],
+ ['Productivity spread','Best vs worst within cluster',tbl(['CLUSTER','TOP DECILE','BOTTOM DECILE','SPREAD'],[['Transit','€74.10','€51.20','1.45×'],['Urban High','€64.80','€44.10','1.47×'],['Office','€56.20','€38.40','1.46×'],['Suburban','€49.10','€33.80','1.45×']])],
+ ['Idle capacity by day-part','Rostered but unproductive',hbars([['14:00–17:00',14.2,'cr','14.2%'],['10:00–12:00',9.1,'wa','9.1%'],['17:00–close',7.4,'wa','7.4%'],['08:00–10:00',2.1,'mi','2.1%']],16)],
+ ['Output per hour trend','Group, 12 weeks',bars([41,42,43,42,44,45,44,46,45,47,46,48])]]);},
+ cfg:function(){return cfg([['Productivity measures','What is tracked',[['Sales per labour hour',true,'PRIMARY'],['Transactions per hour',true,'SECONDARY'],['Drinks per bar hour',true,'STATION'],['Units per bakery hour',true,'STATION']]],
+ ['Format normalisation','Fair comparison',[['Normalise by cluster',true,'MANDATORY'],['Adjust for service model',true,'ENABLED'],['Adjust for basket size',true,'ENABLED'],['Compare across formats',false,'BLOCKED']]],
+ ['Benchmarks','Targets by cluster',[['Transit · sales/hr','€60','OPS'],['Urban High · sales/hr','€52','OPS'],['Office · sales/hr','€46','OPS'],['Destination · sales/hr','€38','OPS']]],
+ ['Root-cause linking','Beyond blaming people',[['Link to asset condition',true,'ENABLED'],['Link to stock availability',true,'ENABLED'],['Link to training level',true,'ENABLED']]]]);}};
+M.att={wb:function(){return iflag('<b>Absence is highest in Transit, where turnover and vacancies are also highest.</b> The three move together — treating them as separate problems is why none of them improves.')
+ +'<div class="kpis">'+kpi('CLOCKED IN NOW','684','of 706 rostered')+kpi('LATE STARTS (WTD)','110','3.9% of shifts')
+ +kpi('NO-SHOWS (WTD)',circ('16'),'<span class="dn">+5 WoW</span>')+kpi('ABSENCE RATE','4.1%','<span class="dn">+0.6pts</span>')+'</div>'
+ +'<div class="pan"><h3>Today\'s attendance exceptions</h3><div class="ph">Rostered against actually clocked</div>'
+ +tbl(['BRANCH','ROSTERED','CLOCKED','EXCEPTION','COVER','STATUS'],[
+ ['<b>B112 · Graben</b>','8','6','2 no-show','<span class="t-cr tag">NONE</span>','<span class="t-cr tag">UNDER</span>'],
+ ['<b>B087 · Sablon</b>','6','5','1 sick','Agency booked','<span class="t-wa tag">COVERED</span>'],
+ ['<b>B041 · Bellecour</b>','11','11','—','—','<span class="t-ok tag">FULL</span>'],
+ ['<b>B044 · Confluence</b>','7','6','1 no-show','Shift swap','<span class="t-ok tag">COVERED</span>']])+'</div>'
+ +'<div class="pan"><h3>Estate attendance · today</h3><div class="ph">Rostered against clocked, every recorded shift</div>'
+ +big(['BRANCH','CITY','CLUSTER','ROLE','ROSTERED','CLOCKED','GAP','LATE','OT HRS','STATUS'],
+  SHIFTS.slice().sort(function(a,b){return (a.clk-a.ros)-(b.clk-b.ros);}).map(function(x){var gap=x.ros-x.clk;
+   return ['<b>'+x.br+'</b>',x.city,x.cl,x.role,x.ros,x.clk,
+    gap?'<span class="t-cr tag">−'+gap+'</span>':'—',x.late?x.late:'—',x.ot,
+    gap>1?'<span class="t-cr tag">UNDER</span>':gap===1?'<span class="t-wa tag">SHORT</span>':'<span class="t-ok tag">FULL</span>'];}),'148 SHIFT RECORDS')+'</div>'
+ +'<div class="pan"><h3>Absence by cluster</h3><div class="ph">Rolling 4 weeks</div>'
+ +cover([['Transit &amp; Station',6.2,'cr','6.2%'],['Urban High-Traffic',4.4,'wa','4.4%'],['Office &amp; Campus',3.6,'mi','3.6%'],['Suburban Family',3.1,'mi','3.1%'],['Destination',2.8,'mi','2.8%']],8)+'</div>';},
+ bi:function(){return bi([['Absence trend','% of rostered hours, 12 weeks',bars([28,30,29,32,31,34,33,36,35,38,40,41])],
+ ['Absence by day','Which days are lost',hbars([['Monday',5.8,'cr','5.8%'],['Saturday',4.9,'wa','4.9%'],['Sunday',4.6,'wa','4.6%'],['Friday',3.6,'mi','3.6%'],['Wednesday',2.9,'mi','2.9%']],7)],
+ ['Cover source','How gaps were filled',tbl(['SOURCE','SHIFTS','COST INDEX'],[['Shift swap','142','1.00×'],['Overtime','98','<span class="t-wa tag">1.50×</span>'],['Agency','41','<span class="t-cr tag">1.85×</span>'],['Uncovered','19','<span class="t-cr tag">service loss</span>']])],
+ ['Late-start pattern','By shift type',hbars([['Early (open)',6.1,'cr','6.1%'],['Late (close)',3.8,'wa','3.8%'],['Mid',2.4,'mi','2.4%']],7)]]);},
+ cfg:function(){return cfg([['Clocking','How attendance is captured',[['Method','App + geo-fence','ENABLED'],['Geo-fence radius','80 m','SECURITY'],['Photo verification',false,'DISABLED'],['Manual entry by manager',true,'AUDITED']]],
+ ['Tolerances','What counts as late',[['Grace period','5 minutes','HR'],['Late after','5 minutes','HR'],['No-show after','45 minutes','HR'],['Auto-notify manager',true,'ENABLED']]],
+ ['Absence management','Process and triggers',[['Self-certify up to','3 days','HR'],['Return-to-work required',true,'MANDATORY'],['Trigger review at','3 episodes / 12 wks','HR'],['Link to engagement data',true,'ENABLED']]],
+ ['Cover escalation','Order of filling',[['1 · Shift swap',true,'ENABLED'],['2 · Overtime own branch',true,'ENABLED'],['3 · Cluster cover',true,'ENABLED'],['4 · Agency',true,'LAST RESORT']]]]);}};
+M.pay={wb:function(){return iflag('<b>Overtime and agency together are €60,000 this month against a €2.74M base.</b> Both are consequences of rostering below forecast, not of trading harder — Austria alone accounts for 41% of the overtime premium.')
+ +'<div class="kpis">'+kpi('LABOUR COST (MTD)','€2.74M','27.8% of sales')+kpi('OVERTIME COST',circ('€38,400'),'2.0% of labour')
+ +kpi('AGENCY / TEMP','€21,600','<span class="dn">+31% MoM</span>')+kpi('PAYROLL EXCEPTIONS','23','pre-run')+'</div>'
+ +'<div class="pan"><h3>Labour cost bridge · month to date</h3><div class="ph">Where the money actually went</div>'
+ +tbl(['COMPONENT','COST','% OF LABOUR','VS PLAN'],[
+ ['<b>Base hours</b>','€2,378,000','86.8%','<span class="t-ok tag">−1.2%</span>'],
+ ['<b>Overtime premium</b>','€38,400','2.0%','<span class="t-cr tag">+18.4%</span>'],
+ ['<b>Agency &amp; temp</b>','€21,600','1.1%','<span class="t-cr tag">+31.0%</span>'],
+ ['<b>Holiday &amp; statutory</b>','€200,000','7.3%','<span class="t-ok tag">on plan</span>'],
+ ['<b>Training hours</b>','€76,000','2.8%','<span class="t-ok tag">on plan</span>']])+'</div>'
+ +'<div class="pan"><h3>Payroll exceptions before run</h3><div class="ph">Caught before payment, not after</div>'
+ +tbl(['TYPE','COUNT','VALUE','ACTION'],[['<b>Unapproved overtime</b>','38 h','€1,420','<span class="t-cr tag">MANAGER SIGN-OFF</span>'],
+ ['<b>Missing clock-out</b>','14','€680','<span class="t-wa tag">CONFIRM HOURS</span>'],
+ ['<b>Shift swap unrecorded</b>','6','€310','<span class="t-wa tag">RECONCILE</span>'],
+ ['<b>Rate mismatch to contract</b>','3','€148','<span class="t-cr tag">CORRECT</span>']])+'</div>';},
+ bi:function(){return bi([['Overtime by market','Share of premium',hbars([['Austria',41,'cr','41%'],['Germany',28,'wa','28%'],['France',19,'','19%'],['Belgium',12,'mi','12%']],45)],
+ ['Cost per labour hour','Fully loaded',hbars([['Base',18.4,'mi','€18.40'],['Overtime',27.6,'wa','€27.60'],['Agency',34.1,'cr','€34.10']],36)],
+ ['Premium hours trend','Overtime + agency, 12 weeks',bars([32,35,34,38,41,39,44,48,52,58,64,72])],
+ ['Exception value','Caught before payment',tbl(['MONTH','EXCEPTIONS','VALUE'],[['May','31','€3,140'],['June','27','€2,810'],['July MTD','23','€2,558']])]]);},
+ cfg:function(){return cfg([['Pay rules','How hours become cost',[['Overtime threshold','&gt; 38 h / week','CONTRACT'],['Overtime rate','1.5×','CONTRACT'],['Sunday premium','1.25×','CONTRACT'],['Night premium','1.3× after 22:00','CONTRACT']]],
+ ['Approval','Who authorises premium',[['Overtime pre-approval required',true,'MANDATORY'],['Retro-approval window','48 hours','HR'],['Agency booking approval','Area manager','DELEGATED'],['Block unapproved from payroll',true,'ENABLED']]],
+ ['Payroll interface','How data leaves',[['Export cadence','Weekly · Monday','FINANCE'],['Exception block before export',true,'ENABLED'],['Reconcile to GL',true,'FINANCE'],['Retain source records','7 years','LEGAL']]],
+ ['Cost allocation','Where labour lands',[['Allocate to branch P&L',true,'ENABLED'],['Split central vs branch',true,'ENABLED'],['Training hours capitalised',false,'EXPENSED']]]]);}};
+M.comp={wb:function(){return iflag('<b>Four of the five rest-period breaches are close-then-open pairs</b> — the same person closing at 20:30 and opening at 06:30. Ten hours, not eleven. This is generated by understaffing, and the roster should refuse to publish these pairings rather than flag them afterwards.')
+ +'<div class="kpis">'+kpi('WORKING-TIME BREACHES',circ('9'),'<span class="dn">4 unresolved</span>')+kpi('REST-PERIOD VIOLATIONS','5','11-hour rule')
+ +kpi('MINORS ON ROSTER','48','all within limits')+kpi('CONTRACT COMPLIANCE','99.1%','hours vs contract')+'</div>'
+ +'<div class="pan"><h3>Working-time compliance</h3><div class="ph">Flagged while the roster is still a draft, not after the fact</div>'
+ +tbl(['RULE','SCOPE','BREACHES','SEVERITY','STATUS'],[
+ ['<b>11-hour rest between shifts</b>','All markets','5','<span class="t-cr tag">MAJOR</span>','<span class="t-cr tag">4 OPEN</span>'],
+ ['<b>48-hour average week</b>','All markets','2','<span class="t-cr tag">MAJOR</span>','<span class="t-wa tag">MONITOR</span>'],
+ ['<b>Break entitlement &gt; 6 hrs</b>','All markets','1','<span class="t-wa tag">MINOR</span>','<span class="t-ok tag">CLOSED</span>'],
+ ['<b>Under-18 evening limit</b>','France, Germany','0','—','<span class="t-ok tag">CLEAR</span>'],
+ ['<b>Consecutive days &gt; 6</b>','Austria','1','<span class="t-wa tag">MINOR</span>','<span class="t-wa tag">OPEN</span>']])+'</div>';},
+ bi:function(){return bi([['Breaches by market','Last quarter',hbars([['Austria',11,'cr','11'],['Germany',6,'wa','6'],['France',3,'mi','3'],['Belgium',2,'mi','2']],14)],
+ ['Breach root cause','Why the rule was broken',tbl(['CAUSE','SHARE','FIXABLE BY'],[['Close-then-open pairing','56%','Rostering'],['Cover for absence','24%','Staffing level'],['Voluntary overtime','13%','Policy'],['Manual roster edit','7%','Training']])],
+ ['Minors compliance','Under-18 scheduling',hbars([['Within limits',100,'mi','100%'],['Evening cap respected',100,'mi','100%'],['School-term hours',100,'mi','100%']],100)],
+ ['Contracted vs actual hours','Variance by contract type',hbars([['Full time',1.2,'mi','+1.2%'],['Part time',3.8,'wa','+3.8%'],['Zero hours',11.4,'cr','+11.4%']],14)]]);},
+ cfg:function(){return cfg([['Statutory rules','Enforced per market',[['Minimum rest between shifts','11 hours','EU'],['Max average week','48 hours','EU'],['Break after','6 hours','EU'],['Max consecutive days','6','NATIONAL']]],
+ ['Minors','Under-18 protection',[['Max hours in school term','12 / week','LAW'],['No shifts after','20:00','LAW'],['Prohibited stations','Ovens, slicers','LAW'],['Block roster violation',true,'MANDATORY']]],
+ ['Enforcement','When the roster resists',[['Warn on draft breach',true,'ENABLED'],['Block publish on major breach',false,'<span style="color:var(--red)">SHOULD BE ON</span>'],['Require manager justification',true,'ENABLED'],['Audit trail of overrides',true,'ENABLED']]],
+ ['Contract types','What each permits',[['Full time','35–39 h','CONTRACT'],['Part time','8–34 h','CONTRACT'],['Zero hours','No guarantee','<span style="color:var(--amber)">REVIEW</span>'],['Student','Term-time capped','CONTRACT']]]]);}};
+M.skill={wb:function(){return iflag('<b>Six food-safety certificates expire within 14 days, four at branches with only one qualified holder.</b> If any lapses, that branch cannot legally trade its bakery counter. The refresher costs €1,140 and two hours per person.')
+ +'<div class="kpis">'+kpi('CERTIFICATIONS VALID','96.4%','<span class="wa">14 expiring</span>')+kpi('BARISTA GRADE 2+','580','of 1,390 bar staff')
+ +kpi('TRAINING HOURS (MTD)','4,010','€76,000')+kpi('SKILL COVER RISK',circ('6 branches'),'single-qualified')+'</div>'
+ +'<div class="pan"><h3>Certification register</h3><div class="ph">The roster will not place an unqualified person on a critical station</div>'
+ +tbl(['CERTIFICATION','HELD','VALID','EXPIRING ≤30d','GAP RISK'],[
+ ['<b>Food safety L2</b>','2,790','98.2%','6','<span class="t-cr tag">CRITICAL</span>'],
+ ['<b>Allergen handling</b>','3,010','99.4%','3','<span class="t-cr tag">CRITICAL</span>'],
+ ['<b>Barista grade 1</b>','1,390','97.1%','5','<span class="t-wa tag">SERVICE</span>'],
+ ['<b>Barista grade 2</b>','580','96.4%','0','<span class="t-wa tag">SERVICE</span>'],
+ ['<b>Oven &amp; bake safety</b>','448','100%','0','<span class="t-ok tag">CLEAR</span>'],
+ ['<b>First aid</b>','400','94.0%','0','<span class="t-wa tag">STATUTORY</span>']])+'</div>'
+ +'<div class="pan"><h3>Skill cover risk</h3><div class="ph">Branches with only one qualified person on a critical station</div>'
+ +tbl(['BRANCH','STATION','QUALIFIED','RISK'],[['<b>B112 · Graben</b>','Food safety','1','<span class="t-cr tag">HIGH</span>'],
+ ['<b>B087 · Sablon</b>','Allergen','1','<span class="t-cr tag">HIGH</span>'],
+ ['<b>B119 · Stephansplatz</b>','Bake safety','1','<span class="t-wa tag">MED</span>'],
+ ['<b>B044 · Confluence</b>','First aid','1','<span class="t-wa tag">MED</span>']])+'</div>'
+ +'<div class="pan"><h3>Certification status by shift record</h3><div class="ph">Where capability is thin against the roster</div>'
+ +big(['BRANCH','CITY','ROLE','ROSTERED','CERTIFICATION','LABOUR %','RISK'],
+  SHIFTS.filter(function(x){return true;}).sort(function(a,b){return (a.cert==='EXPIRING'?-1:1)-(b.cert==='EXPIRING'?-1:1);}).map(function(x){
+   return ['<b>'+x.br+'</b>',x.city,x.role,x.ros,
+    x.cert==='EXPIRING'?'<span class="t-cr tag">EXPIRING</span>':'<span class="t-ok tag">VALID</span>',x.lab+'%',
+    x.cert==='EXPIRING'&&x.ros<6?'<span class="t-cr tag">HIGH</span>':x.cert==='EXPIRING'?'<span class="t-wa tag">MED</span>':'<span class="t-ok tag">LOW</span>'];}),'148 SHIFT RECORDS')+'</div>';},
+ bi:function(){return bi([['Capability depth','Qualified per branch, average',hbars([['Allergen',4.8,'mi','4.8'],['Food safety',3.9,'mi','3.9'],['Barista G1',3.1,'','3.1'],['First aid',2.0,'wa','2.0'],['Bake safety',1.6,'cr','1.6']],6)],
+ ['Training completion','Assigned vs completed',hbars([['Induction',96,'mi','96%'],['Food safety',94,'mi','94%'],['Barista G1',88,'wa','88%'],['Allergen refresh',82,'wa','82%'],['Leadership',61,'cr','61%']],100)],
+ ['Skill vs productivity','Barista grade against drinks per hour',tbl(['GRADE','DRINKS/HR','QUALITY SCORE'],[['Grade 1','54','88%'],['Grade 2','68','94%'],['Grade 3','76','97%']])],
+ ['Certification expiry runway','Next 90 days',hbars([['&lt; 14 days',9,'cr','9'],['14–30 days',5,'wa','5'],['30–60 days',18,'','18'],['60–90 days',24,'mi','24']],30)]]);},
+ cfg:function(){return cfg([['Required certifications','Per station',[['Bakery counter','Food safety L2','MANDATORY'],['Bar / espresso','Barista G1','MANDATORY'],['Oven / plant','Bake safety','MANDATORY'],['Any shift','Allergen handling','MANDATORY']]],
+ ['Validity & renewal','Keeping capability current',[['Food safety L2 validity','36 months','LAW'],['Allergen validity','12 months','POLICY'],['Renewal reminder at','60 days','AUTO'],['Auto-book refresher',false,'MANUAL']]],
+ ['Cover requirements','Depth per branch',[['Min qualified per station','2','<span style="color:var(--amber)">6 BRANCHES BELOW</span>'],['Block roster if unqualified',true,'MANDATORY'],['Alert on single-qualified',true,'ENABLED']]],
+ ['Development pathway','Progression',[['Barista G1 → G2','6 months + assessment','L&D'],['Shift lead pathway',true,'ENABLED'],['Pay uplift on grade',true,'CONTRACT'],['Training hours paid',true,'CONTRACT']]]]);}};
+M.hire={wb:function(){return iflag('<b>90-day retention has fallen 6 points, and the induction backlog is the likely cause.</b> Forty-three people are in induction against a normal 26, and sign-off is averaging 21 days rather than 10. People supervised too thinly leave.')
+ +'<div class="kpis">'+kpi('OPEN VACANCIES','88','2.9% of headcount')+kpi('TIME TO HIRE','18 days','<span class="up">−4 days</span>')
+ +kpi('OFFER ACCEPTANCE','78%','sector 83%')+kpi('90-DAY RETENTION',circ('71%'),'<span class="dn">−6pts</span>')+'</div>'
+ +'<div class="pan"><h3>Hire-to-productive pipeline</h3><div class="ph">Vacancy through to a person who can work unsupervised</div>'
+ +pipe([['VACANCY','Open roles','88',''],['APPLY','Applications','1,806',''],['SCREEN','Shortlisted','301','doing'],['INTERVIEW','Scheduled','135',''],['OFFER','Extended','67',''],['ONBOARD','In induction','43','block'],['PRODUCTIVE','Signed off','34','']])+'</div>'
+ +'<div class="pan"><h3>Vacancies by cluster</h3><div class="ph">Where the gap actually is</div>'
+ +tbl(['CLUSTER','VACANCIES','% OF ESTABLISHMENT','TIME TO HIRE','DIFFICULTY'],[
+ ['<b>Transit &amp; Station</b>','34','6.8%','24 days','<span class="t-cr tag">HARD</span>'],
+ ['<b>Urban High-Traffic</b>','26','3.1%','16 days','<span class="t-wa tag">MODERATE</span>'],
+ ['<b>Office &amp; Campus</b>','16','2.4%','15 days','<span class="t-ok tag">EASY</span>'],
+ ['<b>Suburban Family</b>','8','1.4%','14 days','<span class="t-ok tag">EASY</span>'],
+ ['<b>Destination / Weekend</b>','4','0.9%','19 days','<span class="t-wa tag">MODERATE</span>']])+'</div>';},
+ bi:function(){return bi([['Funnel conversion','Stage to stage',hbars([['Apply → screen',16.7,'','16.7%'],['Screen → interview',44.9,'mi','44.9%'],['Interview → offer',49.6,'mi','49.6%'],['Offer → accept',78,'wa','78%'],['Accept → productive',79,'wa','79%']],100)],
+ ['Source of hire','Where people come from',hbars([['Referral',34,'mi','34%'],['Job board',28,'','28%'],['Walk-in',18,'','18%'],['Social',13,'','13%'],['Agency',7,'wa','7%']],40)],
+ ['Induction backlog','Days to sign-off',bars([10,11,10,12,13,12,15,16,18,19,20,21])],
+ ['Early attrition','Leavers within 90 days',tbl(['REASON','SHARE'],[['Insufficient support','38%'],['Hours not as expected','27%'],['Found other role','21%'],['Other','14%']])]]);},
+ cfg:function(){return cfg([['Vacancy approval','Before a role is posted',[['Approval required','Area manager','DELEGATED'],['Auto-post on resignation',true,'ENABLED'],['Establishment check',true,'MANDATORY'],['Backfill vs redesign review',true,'ENABLED']]],
+ ['Selection','How candidates are assessed',[['Structured interview',true,'MANDATORY'],['Trial shift',true,'PAID'],['Reference checks','2 required','MANDATORY'],['Right-to-work verification',true,'MANDATORY']]],
+ ['Onboarding','First 90 days',[['Induction length','5 shifts','L&D'],['Buddy assigned',true,'MANDATORY'],['Sign-off target','10 days','<span style="color:var(--amber)">RUNNING 21</span>'],['30/60/90 check-ins',true,'ENABLED']]],
+ ['Capacity guard','Preventing backlog',[['Max inductees per branch','3','GUARD'],['Alert when exceeded',true,'ENABLED'],['Pause hiring at branch',false,'MANUAL']]]]);}};
+M.eng={wb:function(){return iflag('<b>Rota unpredictability outranks pay as the reason people leave</b> — and it is the cheapest of the five to fix. Transit branches carry 71% turnover with the highest absence and vacancy rates; the three move together.')
+ +'<div class="kpis">'+kpi('ANNUAL TURNOVER',circ('48%'),'sector 62%')+kpi('LEAVERS (MTD)','34','of 3,010')
+ +kpi('ENGAGEMENT SCORE','7.1 / 10','<span class="dn">−0.4</span>')+kpi('COST OF TURNOVER','€1.44M','annualised')+'</div>'
+ +'<div class="pan"><h3>Turnover by cluster</h3><div class="ph">Annualised, with modelled replacement cost</div>'
+ +tbl(['CLUSTER','TURNOVER','LEAVERS MTD','AVG TENURE','COST / YR'],[
+ ['<b>Transit &amp; Station</b>','71%','13','7 months','<span class="t-cr tag">€118,000</span>'],
+ ['<b>Urban High-Traffic</b>','52%','9','11 months','€86,000'],
+ ['<b>Office &amp; Campus</b>','44%','6','14 months','€54,000'],
+ ['<b>Suburban Family</b>','36%','4','19 months','€37,000'],
+ ['<b>Destination / Weekend</b>','29%','2','26 months','€20,000']])+'</div>'
+ +'<div class="pan"><h3>Branch-level people risk</h3><div class="ph">Labour intensity, absence proxy and turnover exposure by branch</div>'
+ +big(['BRANCH','CITY','CLUSTER','LABOUR %','REV / WK','NPS','TURNOVER RISK'],
+  srt(BR,'lab','desc').map(function(b){var risk=b.lab>31?'HIGH':b.lab>28?'MED':'LOW';
+   return ['<b>'+b.id+'</b>',b.city,b.cln.split(' ')[0],
+    '<span class="'+(b.lab>31?'t-cr':b.lab>28?'t-wa':'t-ok')+' tag">'+b.lab+'%</span>',eur(b.rev),b.nps,
+    '<span class="'+(risk==='HIGH'?'t-cr':risk==='MED'?'t-wa':'t-ok')+' tag">'+risk+'</span>'];}),'200 BRANCHES')+'</div>'
+ +'<div class="pan"><h3>Stated reasons for leaving</h3><div class="ph">Exit conversations, last 90 days</div>'
+ +cover([['Hours / rota unpredictability',34,'cr','34%'],['Pay',26,'wa','26%'],['Progression',18,'wa','18%'],['Management',12,'mi','12%'],['Relocation / study',10,'mi','10%']],40)+'</div>';},
+ bi:function(){return bi([['Tenure distribution','Current employees',hbars([['&lt; 3 months',18,'wa','18%'],['3–12 months',31,'','31%'],['1–2 years',24,'','24%'],['2–5 years',19,'mi','19%'],['5+ years',8,'mi','8%']],35)],
+ ['Turnover vs absence','Each dot is one branch',scatter(BR.map(function(b){return [b.lab,b.nps,CLC[b.cl]];}),'LABOUR % →','↑ NPS')],
+ ['Engagement drivers','Correlation with staying',hbars([['Rota predictability',0.62,'mi','0.62'],['Manager quality',0.54,'mi','0.54'],['Pay fairness',0.41,'','0.41'],['Progression clarity',0.38,'','0.38'],['Facilities',0.12,'wa','0.12']],0.7)],
+ ['Cost of turnover','€ per leaver by role',tbl(['ROLE','RECRUIT','TRAIN','LOST OUTPUT','TOTAL'],[['Team member','€620','€780','€1,240','€2,640'],['Barista G2','€840','€1,410','€2,180','€4,430'],['Shift lead','€1,260','€2,040','€3,610','€6,910']])]]);},
+ cfg:function(){return cfg([['Engagement measurement','How the score is taken',[['Pulse survey cadence','Monthly','HR'],['Anonymity guaranteed',true,'MANDATORY'],['Minimum responses to report','8','PRIVACY'],['Share results with branch',true,'ENABLED']]],
+ ['Exit process','Learning from leavers',[['Exit conversation offered',true,'MANDATORY'],['Conducted by','Not line manager','POLICY'],['Reason taxonomy fixed',true,'ENABLED'],['Feed into rostering policy',true,'ENABLED']]],
+ ['Retention levers','What is enabled',[['3-week rota notice',false,'<span style="color:var(--amber)">MODELLED BEST RETURN</span>'],['Shift preference honouring',true,'ENABLED'],['Internal progression pathway',true,'ENABLED'],['Long-service recognition',true,'ENABLED']]],
+ ['Turnover cost model','How cost is derived',[['Include recruitment cost',true,'ENABLED'],['Include training cost',true,'ENABLED'],['Include lost output',true,'ENABLED'],['Lost output period','6 weeks','MODELLED']]]]);}};
+
+M.payroll={wb:function(){return iflag('<b>The July run is blocked on 23 exceptions worth €2,558.</b> None is large, but an unapproved-overtime line that reaches payroll becomes a cost you cannot recover and a control finding you cannot explain. Clear them before Monday\'s export.')
+ +'<div class="kpis">'+kpi('NEXT RUN','Mon 27 Jul','weekly cycle')+kpi('EMPLOYEES IN RUN','3,010','4 payroll jurisdictions')
+ +kpi('GROSS TO PAY','€684,200','week 30')+kpi('BLOCKING EXCEPTIONS',circ('23'),'<span class="dn">€2,558</span>')
+ +kpi('LAST RUN ACCURACY','99.82%','5 corrections')+'</div>'
+ +'<div class="pan"><h3>Payroll run cycle</h3><div class="ph">Hours → validate → approve → calculate → pay → post</div>'
+ +pipe([['COLLECT','Timesheets in','3,010',''],['VALIDATE','Exceptions open','23','block'],['APPROVE','Manager sign-off','2,987','doing'],['CALCULATE','Gross to net','—',''],['FUND','Payment file','—',''],['POST','Journal to GL','—','']])+'</div>'
+ +'<div class="pan"><h3>Gross-to-net summary · week 30</h3><div class="ph">Provisional until exceptions clear</div>'
+ +tbl(['COMPONENT','AMOUNT','EMPLOYEES','NOTE'],[
+ ['<b>Basic pay</b>','€584,100','3,010','contracted hours'],
+ ['<b>Overtime premium</b>','€9,600','412','<span class="t-wa tag">38 h unapproved</span>'],
+ ['<b>Shift &amp; night premium</b>','€14,800','688','statutory'],
+ ['<b>Holiday pay</b>','€48,200','214','accrual drawdown'],
+ ['<b>Tips distributed</b>','€27,500','2,840','pooled, service-charge rules'],
+ ['<b>Employer social cost</b>','€146,300','3,010','on-cost, not gross'],
+ ['<b>Statutory deductions</b>','−€171,050','3,010','tax &amp; social']])+'</div>'
+ +'<div class="pan"><h3>Blocking exceptions</h3><div class="ph">The run will not export until each is cleared or waived with a reason</div>'
+ +tbl(['TYPE','COUNT','VALUE','OWNER','ACTION'],[
+ ['<b>Unapproved overtime</b>','38 h','€1,420','Area manager','<span class="t-cr tag">SIGN OFF</span>'],
+ ['<b>Missing clock-out</b>','14','€680','Branch manager','<span class="t-wa tag">CONFIRM HOURS</span>'],
+ ['<b>Shift swap unrecorded</b>','6','€310','Branch manager','<span class="t-wa tag">RECONCILE</span>'],
+ ['<b>Rate mismatch to contract</b>','3','€148','HR','<span class="t-cr tag">CORRECT</span>'],
+ ['<b>Bank detail unverified</b>','2','—','Payroll','<span class="t-cr tag">HOLD PAYMENT</span>']])+'</div>';},
+ bi:function(){return bi([['Run accuracy','Corrections per 1,000 payslips',hbars([['Week 26',2.4,'wa','2.4'],['Week 27',1.9,'','1.9'],['Week 28',2.1,'','2.1'],['Week 29',1.7,'mi','1.7'],['Week 30',1.8,'mi','1.8']],3)],
+ ['Cost of employment','Beyond gross pay',hbars([['Basic pay',584,'','€584k'],['Employer social',146,'wa','€146k'],['Holiday accrual',48,'','€48k'],['Premiums',24,'','€24k'],['Pension',18,'mi','€18k']],620)],
+ ['Payroll by jurisdiction','Employees and complexity',tbl(['COUNTRY','EMPLOYEES','FREQUENCY','COMPLEXITY'],[['France','1,204','Monthly','<span class="t-cr tag">HIGH</span>'],['Germany','812','Monthly','<span class="t-wa tag">MEDIUM</span>'],['Belgium','534','Monthly','<span class="t-cr tag">HIGH</span>'],['Austria','460','Monthly','<span class="t-wa tag">MEDIUM</span>']])],
+ ['Exception trend','Blocking items per run',bars([41,38,36,34,31,29,27,28,26,24,23,23])]]);},
+ cfg:function(){return cfg([['Run schedule','When payroll happens',[['Frequency','Weekly · hours','FINANCE'],['Cut-off','Sunday 23:59','FINANCE'],['Approval deadline','Monday 12:00','FINANCE'],['Payment date','Friday','FINANCE']]],
+ ['Controls','What must be true before export',[['Block export on exception',true,'MANDATORY'],['Manager approval of hours',true,'MANDATORY'],['Segregation of duties',true,'MANDATORY'],['Bank detail change cooling-off','48 hours','FRAUD CONTROL'],['Dual authorisation of payment file',true,'MANDATORY']]],
+ ['Statutory setup','Per jurisdiction',[['Tax tables','Auto-updated','INTEGRATION'],['Social contribution rates','Auto-updated','INTEGRATION'],['Minimum wage floor','Enforced','LAW'],['Payslip delivery','Digital + on request','LAW'],['Records retention','7 years','LAW']]],
+ ['Tips &amp; service charge','How pooled money is handled',[['Pooling method','Hours worked','POLICY'],['Employer retains share',false,'NONE RETAINED'],['Distribution transparency',true,'PUBLISHED'],['Taxed at source',true,'LAW']]],
+ ['GL posting','Where cost lands',[['Post to branch P&L',true,'ENABLED'],['Split base vs premium',true,'ENABLED'],['Accrue unused holiday',true,'ENABLED'],['Reconcile to Numerus',true,'FINANCE']]]]);}};
+
+var TT={cmd:['Command Centre','WORKFORCE · LIVE'],ros:['Rostering','DEMAND-BASED · L2 ZEN MODELS'],prod:['Labour Productivity','OUTPUT PER HOUR · L2 MODELS'],
+att:['Time &amp; Attendance','CLOCKING · L1 ZEN RULES'],pay:['Pay &amp; Cost','LABOUR COST · FINANCE LINK'],payroll:['Payroll Run','GROSS TO NET · CONTROLS'],comp:['Working-Time Compliance','STATUTORY · L1 ZEN RULES'],
+skill:['Skills &amp; Training','CAPABILITY · L1 RULES'],hire:['Recruitment &amp; Onboarding','HIRE TO PRODUCTIVE'],eng:['Retention &amp; Engagement','TURNOVER · L2 ZEN MODELS']};
+var IR={cmd:'<b>Understaffing and the overtime bill are the same problem.</b> Rostering below forecast converts base hours into premium hours.',
+ros:'<b>The morning rush is 12% short while the afternoon is 12% over.</b> The hours are right; the placement is wrong.',
+prod:'<b>Destination branches are a different format, not unproductive.</b> The real signal is unserviced espresso machines.',
+att:'<b>Absence, turnover and vacancies are highest in the same cluster.</b> They move together.',
+payroll:'<b>The run is blocked on 23 exceptions worth €2,558.</b> An unapproved-overtime line that reaches payroll is a cost you cannot recover.',
+pay:'<b>Austria accounts for 41% of the overtime premium</b> on 15% of headcount.',
+comp:'<b>Four of five rest breaches are close-then-open pairs.</b> The roster should refuse to publish them.',
+skill:'<b>Six food-safety certificates expire within 14 days</b>, four at single-qualified branches.',
+hire:'<b>Induction backlog is 43 against a normal 26</b>, and 90-day retention fell 6 points.',
+eng:'<b>Rota unpredictability outranks pay as the reason people leave</b> — and it is the cheapest to fix.'};
+document.querySelectorAll('.nit').forEach(function(n){n.onclick=function(){go(n.dataset.r,'wb');};});
+go('cmd','wb');
+</script></body></html>

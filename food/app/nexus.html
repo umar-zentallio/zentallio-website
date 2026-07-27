@@ -1,0 +1,1031 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zentallio · Nexus — Supply Chain Workbench</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05080F;--bg2:#070C18;--panel:#0A1120;--line:rgba(255,255,255,.07);--lineS:rgba(255,255,255,.14);
+--ink:#E8EEF7;--muted:#93A1B5;--subtle:#5E6C82;--teal:#15F2F2;--ai:#FF2D95;--mint:#3FD9A4;--amber:#E5A24B;--violet:#9B7BFF;--red:#FF5C6C}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+#app{display:flex;height:100vh}
+/* nav */
+.nav{width:232px;flex-shrink:0;border-right:.5px solid var(--line);background:var(--bg2);display:flex;flex-direction:column;padding:20px 0}
+.brand{padding:0 20px 20px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid var(--line);margin-bottom:14px}
+.zm{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--teal),#0BA9A9);display:flex;align-items:center;justify-content:center;font-family:Fraunces,serif;font-weight:600;color:#04212B;font-size:16px}
+.brand b{font-family:Fraunces,serif;font-weight:600;font-size:16px;letter-spacing:-.01em}
+.brand span{display:block;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.16em;color:var(--subtle);margin-top:2px}
+.ngrp{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--subtle);padding:14px 20px 7px}
+.nit{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;border-left:2px solid transparent;transition:.15s}
+.nit:hover{color:var(--ink);background:rgba(255,255,255,.03)}
+.nit.on{color:#fff;background:linear-gradient(90deg,rgba(21,242,242,.13),transparent);border-left-color:var(--teal)}
+.nit i{width:16px;height:16px;flex-shrink:0;opacity:.85}
+.nfoot{margin-top:auto;padding:14px 20px 0;border-top:.5px solid var(--line)}
+.nfoot .mono{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);line-height:1.8}
+/* main */
+.main{flex:1;overflow-y:auto;position:relative}
+.top{position:sticky;top:0;z-index:20;background:rgba(5,8,15,.9);backdrop-filter:blur(14px);border-bottom:.5px solid var(--line);padding:16px 28px;display:flex;align-items:center;gap:14px}
+.top h1{font-family:Fraunces,serif;font-weight:500;font-size:20px;letter-spacing:-.01em}
+.top .sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:3px}
+.live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--teal);border:.5px solid rgba(21,242,242,.3);border-radius:999px;padding:6px 12px}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pu 1.8s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.35}}
+.body{padding:24px 28px 90px}
+.rt{display:none}.rt.on{display:block;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin-bottom:22px}
+.kpi{border:.5px solid var(--line);border-radius:14px;padding:16px 17px;background:var(--panel)}
+.kpi .l{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--subtle);margin-bottom:9px}
+.kpi .v{font-family:Fraunces,serif;font-weight:500;font-size:26px;letter-spacing:-.02em}
+.kpi .d{font-size:11px;color:var(--muted);margin-top:5px}
+.up{color:var(--mint)}.dn{color:var(--red)}.wa{color:var(--amber)}
+/* panels */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:1.4fr 1fr;gap:15px}
+.pan{border:.5px solid var(--line);border-radius:15px;background:var(--panel);padding:19px;margin-bottom:15px}
+.pan h3{font-family:Fraunces,serif;font-weight:500;font-size:16px;margin-bottom:3px}
+.pan .ph{font-size:11.5px;color:var(--subtle);margin-bottom:15px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);padding:0 10px 9px 0;font-weight:500;border-bottom:.5px solid var(--line)}
+td{padding:10px 10px 10px 0;border-bottom:.5px solid rgba(255,255,255,.045);color:var(--muted)}
+td b{color:var(--ink);font-weight:600}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;padding:3px 7px;border-radius:5px;border:.5px solid}
+.t-ok{color:var(--mint);border-color:rgba(63,217,164,.35)}
+.t-wa{color:var(--amber);border-color:rgba(229,162,75,.35)}
+.t-cr{color:var(--red);border-color:rgba(255,92,108,.35)}
+.t-ai{color:var(--ai);border-color:rgba(255,45,149,.35)}
+.t-nu{color:var(--teal);border-color:rgba(21,242,242,.3)}
+/* bars */
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:44px}
+.spark i{flex:1;background:linear-gradient(180deg,var(--teal),rgba(21,242,242,.15));border-radius:2px 2px 0 0;transition:height .7s}
+/* iris */
+.iris{position:fixed;right:22px;bottom:22px;z-index:60}
+.ibtn{height:46px;border-radius:999px;background:linear-gradient(135deg,#ff5cae,var(--ai));border:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0 18px 0 14px;box-shadow:0 12px 30px -8px rgba(255,45,149,.6)}
+.iorb{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,255,255,.45)}
+.ibtn b{color:#fff;font-size:13px;font-weight:600}
+.ipan{position:fixed;right:22px;bottom:80px;width:340px;max-height:60vh;border:.5px solid var(--lineS);border-radius:16px;background:var(--bg2);box-shadow:0 40px 90px -24px rgba(0,0,0,.85);display:none;flex-direction:column;overflow:hidden;z-index:61}
+.ipan.on{display:flex}
+.ihd{padding:13px 16px;border-bottom:.5px solid var(--line);display:flex;align-items:center;gap:9px}
+.ihd b{font-family:Fraunces,serif;font-size:14px}
+.ihd span{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle);display:block}
+.ibody{padding:14px 16px;overflow-y:auto;font-size:12.5px;color:var(--muted);line-height:1.7}
+.ibody .msg{border-left:2px solid var(--ai);padding-left:11px;margin-bottom:13px}
+.ibody .msg b{color:var(--ink)}
+@media(max-width:900px){.nav{display:none}.grid2,.grid3{grid-template-columns:1fr}}
+</style><style>
+.pipe{display:flex;gap:0;margin:6px 0 18px;overflow-x:auto}
+.pstep{flex:1;min-width:104px;position:relative;padding:11px 12px;border:.5px solid var(--line);border-right:none;background:var(--panel)}
+.pstep:first-child{border-radius:11px 0 0 11px}
+.pstep:last-child{border-right:.5px solid var(--line);border-radius:0 11px 11px 0}
+.pstep .n{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle)}
+.pstep .t{font-size:11.5px;font-weight:600;color:var(--ink);margin:4px 0 5px;line-height:1.25}
+.pstep .c{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--teal)}
+.pstep.doing{background:linear-gradient(180deg,rgba(21,242,242,.11),transparent)}
+.pstep.doing .n{color:var(--teal)}
+.pstep.block{background:linear-gradient(180deg,rgba(255,92,108,.12),transparent)}
+.pstep.block .c{color:var(--red)}
+.mtx{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.mq{border:.5px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+.mq h5{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;margin-bottom:4px}
+.mq .sub{font-size:10.5px;color:var(--subtle);margin-bottom:10px}
+.mq p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:3px}
+.mq p b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.08em;padding:4px 9px;border-radius:6px;border:.5px solid var(--line);color:var(--muted)}
+.chip.on{color:var(--teal);border-color:rgba(21,242,242,.35);background:rgba(21,242,242,.07)}
+.tempbar{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tempbar .nm{font-size:12px;width:118px;flex-shrink:0}
+.tempbar .tr{flex:1;height:22px;border-radius:6px;background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.tempbar .tr i{position:absolute;top:0;bottom:0;border-radius:6px}
+.tempbar .vv{font-family:'JetBrains Mono',monospace;font-size:11px;width:64px;text-align:right}
+</style>
+<style>:root{--acc:var(--teal)}
+/* ---- three-layer tabs ---- */
+.lyr{display:flex;gap:7px;margin-bottom:18px;border-bottom:.5px solid var(--line);padding-bottom:14px}
+.lb{background:rgba(255,255,255,.02);border:.5px solid var(--line);border-radius:10px;padding:8px 15px;cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600;font-family:Inter,sans-serif;transition:.16s;display:flex;align-items:center;gap:7px}
+.lb .lx{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;opacity:.7}
+.lb:hover:not(.on){color:var(--ink);border-color:var(--lineS)}
+.lb.on{color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,transparent),color-mix(in srgb,var(--acc) 8%,transparent));border-color:color-mix(in srgb,var(--acc) 65%,transparent)}
+.lb.on .lx{color:var(--acc);opacity:1}
+/* ---- Iris annotation: circled numbers ---- */
+.circ{position:relative;display:inline-block;padding:1px 7px;z-index:1}
+.circ>svg{position:absolute;left:-9px;right:-9px;top:-7px;bottom:-7px;width:calc(100% + 18px);height:calc(100% + 14px);overflow:visible;pointer-events:none}
+.circ ellipse{fill:none;stroke:var(--ai);stroke-width:1.7;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:drawc 1.2s cubic-bezier(.3,.7,.4,1) forwards;filter:drop-shadow(0 0 5px rgba(255,45,149,.5))}
+@keyframes drawc{to{stroke-dashoffset:0}}
+.circ.d2 ellipse{animation-delay:.5s}
+.circ.d3 ellipse{animation-delay:1s}
+.iflag{display:flex;gap:11px;align-items:flex-start;border:.5px solid rgba(255,45,149,.28);background:linear-gradient(135deg,rgba(255,45,149,.09),rgba(255,45,149,.02));border-radius:13px;padding:14px 16px;margin-bottom:16px}
+.iflag .fo{width:24px;height:24px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,45,149,.5);margin-top:1px}
+.iflag .ft{font-size:12.5px;color:var(--muted);line-height:1.7}
+.iflag .ft b{color:var(--ink)}
+.iflag .fl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--ai);display:block;margin-bottom:5px}
+/* ---- BI layer ---- */
+.bigrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.bcard{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.bcard h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.bcard .bh{font-size:11px;color:var(--subtle);margin-bottom:13px}
+.hbar{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:12px}
+.hbar .hl{width:112px;flex-shrink:0;color:var(--muted)}
+.hbar .ht{flex:1;height:16px;border-radius:5px;background:rgba(255,255,255,.05);overflow:hidden}
+.hbar .ht i{display:block;height:100%;border-radius:5px;background:var(--acc);transition:width .8s}
+.hbar .hv{width:62px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.scat{position:relative;height:190px;border-left:.5px solid var(--line);border-bottom:.5px solid var(--line);margin:6px 0 4px}
+.scat i{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,50%);opacity:.85}
+.axl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--subtle);display:flex;justify-content:space-between;margin-top:5px}
+/* ---- Config layer ---- */
+.cfgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.cgrp{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.cgrp h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.cgrp .ch{font-size:11px;color:var(--subtle);margin-bottom:14px}
+.crow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.045);font-size:12.5px}
+.crow:last-child{border-bottom:none}
+.crow .cn{flex:1;color:var(--muted)}
+.crow .cv{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:6px;padding:4px 9px}
+.tog{width:34px;height:19px;border-radius:99px;background:rgba(255,255,255,.1);position:relative;flex-shrink:0}
+.tog.on{background:color-mix(in srgb,var(--acc) 70%,transparent)}
+.tog::after{content:"";position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}
+.tog.on::after{left:17.5px}
+.own{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--subtle)}
+
+.drv{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:18px;margin-bottom:15px}
+.drvbar{display:flex;height:34px;border-radius:9px;overflow:hidden;margin:14px 0 10px}
+.drvbar i{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#04121A;font-weight:600;transition:flex .7s}
+.drvleg{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--muted)}
+.drvleg span{display:flex;align-items:center;gap:6px}
+.drvleg i{width:9px;height:9px;border-radius:3px}
+.wif{border:.5px solid rgba(255,45,149,.24);background:linear-gradient(135deg,rgba(255,45,149,.06),transparent);border-radius:14px;padding:18px}
+.wif h4{font-family:Fraunces,serif;font-weight:500;font-size:15px;margin-bottom:2px}
+.wif .wh{font-size:11px;color:var(--subtle);margin-bottom:14px}
+
+.cfgbar{display:flex;align-items:center;gap:12px;padding:11px 15px;border:.5px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:15px}
+.cfgbar .cb-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.15em;color:var(--subtle)}
+.cfgbar .cb-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ai)}
+.cfgbar button{margin-left:auto;background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:8px;color:var(--muted);font-size:11.5px;font-family:Inter,sans-serif;padding:6px 13px;cursor:pointer;transition:.15s}
+.cfgbar button:hover{color:#fff;border-color:var(--lineS)}
+.cfgbar .save{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 30%,transparent),transparent);border-color:color-mix(in srgb,var(--acc) 55%,transparent);color:#fff;margin-left:0}
+.cvi{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:7px;padding:5px 10px;width:132px;text-align:right;outline:none;transition:.15s}
+.cvi:hover{border-color:var(--lineS)}
+.cvi:focus{border-color:color-mix(in srgb,var(--acc) 70%,transparent);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 12%,transparent)}
+select.cvi{text-align:left;width:150px;cursor:pointer;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--subtle) 50%),linear-gradient(135deg,var(--subtle) 50%,transparent 50%);background-position:calc(100% - 14px) 11px,calc(100% - 9px) 11px;background-size:5px 5px;background-repeat:no-repeat}
+.tog{cursor:pointer;transition:.18s}
+.crow.mod{background:linear-gradient(90deg,rgba(255,45,149,.09),transparent);margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:6px}
+.crow .edt{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:var(--ai);opacity:0;transition:.2s}
+.crow.mod .edt{opacity:1}
+.crow.locked .cvi{opacity:.55;pointer-events:none}
+
+.tscroll{max-height:420px;overflow-y:auto;margin:0 -4px;padding:0 4px}
+.tscroll::-webkit-scrollbar{width:6px}.tscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:9px}
+.tscroll table thead th{position:sticky;top:0;background:var(--panel);z-index:2}
+.tcount{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:10px}
+</style></head><body>
+<div id="app">
+ <nav class="nav">
+  <div class="brand"><div><b>Nexus</b><span>SUPPLY CHAIN WORKBENCH</span></div></div>
+  <div class="ngrp">PLAN</div>
+  <div class="nit on" data-r="cmd">Command Centre</div><div class="nit" data-r="fc">Demand Forecast</div>
+  <div class="nit" data-r="dp">Demand Planning</div><div class="nit" data-r="menu">Menu Performance</div><div class="nit" data-r="cat">Catalogue &amp; Calendar</div>
+  <div class="nit" data-r="plan">Production Plan</div>
+  <div class="ngrp">NETWORK</div>
+  <div class="nit" data-r="clus">Store Clustering</div><div class="nit" data-r="alloc">Allocation Engine</div>
+  <div class="nit" data-r="log">Logistics &amp; Cold Chain</div>
+  <div class="ngrp">SOURCE</div>
+  <div class="nit" data-r="inv">Ingredient Ledger</div><div class="nit" data-r="proc">Plan to Procure</div>
+  <div class="nit" data-r="rfq">Sourcing &amp; Contracts</div><div class="nit" data-r="sup">Suppliers</div>
+  <div class="ngrp">PRICE</div><div class="nit" data-r="mark">Markdown Engine</div><div class="nit" data-r="promo">Promotions Engine</div>
+  <div class="ngrp">COST</div>
+  <div class="nit" data-r="bom">Recipe &amp; BOM</div><div class="nit" data-r="waste">Waste &amp; Variance</div>
+  <div class="nit" data-r="xfer">Central Kitchen</div>
+  <div class="nfoot"><div class="mono">MAISON CROQ<br>200 BRANCHES · 4 MARKETS<br>3 DCs · ILLUSTRATIVE DATA</div></div>
+ </nav>
+ <div class="main">
+  <div class="top"><div><h1 id="rtT">Command Centre</h1><div class="sub" id="rtS">SUPPLY CHAIN · LIVE</div></div><span class="live"><i></i>LIVE</span></div>
+  <div class="body" id="rts"></div>
+ </div>
+</div>
+<div class="iris"><button class="ibtn" onclick="tg()"><span class="iorb"></span><b>Ask Iris</b></button></div>
+<div class="ipan" id="ip"><div class="ihd"><span class="iorb" style="width:20px;height:20px"></span><div><b>Iris</b><span>ASK ZEN · NEXUS</span></div></div><div class="ibody" id="ib"></div></div>
+<script>
+
+/* ---------- 200-branch estate (seeded, deterministic) ---------- */
+var BR=(function(){
+ function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+ var R=rng(20260722);
+ var CL=[
+  {id:'urban',n:'Urban High-Traffic',fmt:'Café',rev:[34,52],basket:[7.4,9.6],txn:[3600,5200],lab:[25,28],waste:[2.6,3.6],am:[.62,.74],sqm:[95,150],nps:[52,64]},
+  {id:'transit',n:'Transit & Station',fmt:'Kiosk',rev:[28,44],basket:[5.2,6.9],txn:[4400,6800],lab:[22,26],waste:[3.2,4.6],am:[.74,.86],sqm:[28,55],nps:[38,52]},
+  {id:'suburb',n:'Suburban Family',fmt:'Café + Bakery',rev:[26,42],basket:[12.4,16.8],txn:[1700,2700],lab:[28,32],waste:[2.2,3.2],am:[.34,.46],sqm:[130,210],nps:[58,71]},
+  {id:'office',n:'Office & Campus',fmt:'Counter',rev:[22,36],basket:[8.6,11.2],txn:[2200,3400],lab:[27,31],waste:[3.4,4.8],am:[.48,.60],sqm:[70,120],nps:[48,60]},
+  {id:'dest',n:'Destination / Weekend',fmt:'Flagship',rev:[30,58],basket:[16.2,22.4],txn:[1400,2400],lab:[30,34],waste:[1.8,2.8],am:[.22,.34],sqm:[180,320],nps:[62,78]}];
+ var CITY=[['Lyon','FR'],['Paris','FR'],['Bordeaux','FR'],['Lille','FR'],['Nantes','FR'],['Vienna','AT'],['Graz','AT'],['Salzburg','AT'],['Brussels','BE'],['Antwerp','BE'],['Ghent','BE'],['Berlin','DE'],['Munich','DE'],['Hamburg','DE'],['Cologne','DE']];
+ var mix=[42,38,44,40,36]; /* branches per cluster -> 200 */
+ var out=[],id=1;
+ CL.forEach(function(c,ci){
+  for(var i=0;i<mix[ci];i++){
+   function u(a){return a[0]+R()*(a[1]-a[0]);}
+   var city=CITY[Math.floor(R()*CITY.length)];
+   var rev=u(c.rev)*1000, txn=Math.round(u(c.txn)), basket=rev/txn;
+   out.push({id:'B'+String(id).padStart(3,'0'),city:city[0],cc:city[1],cl:c.id,cln:c.n,fmt:c.fmt,
+    rev:Math.round(rev), txn:txn, basket:+basket.toFixed(2), lab:+u(c.lab).toFixed(1), waste:+u(c.waste).toFixed(1),
+    am:+u(c.am).toFixed(2), sqm:Math.round(u(c.sqm)), nps:Math.round(u(c.nps)),
+    rps:+(rev/u(c.sqm)).toFixed(1), avail:+(93+R()*6.5).toFixed(1)});
+   id++;
+  }
+ });
+ return out;
+})();
+function agg(key,fn){var g={};BR.forEach(function(b){(g[b[key]]=g[b[key]]||[]).push(b);});return Object.keys(g).map(function(k){return [k,g[k],fn?fn(g[k]):0];});}
+function avg(a,f){return a.reduce(function(s,x){return s+f(x);},0)/a.length;}
+function sum(a,f){return a.reduce(function(s,x){return s+f(x);},0);}
+function eur(n){return '€'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
+
+/* ---------- extended master data ---------- */
+var RX=(function(){var s=77003;return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
+function pick(a){return a[Math.floor(RX()*a.length)];}
+function rnd(a,b,d){var v=a+RX()*(b-a);return d===0?Math.round(v):+v.toFixed(d===undefined?2:d);}
+/* --- SKU catalogue: 124 items --- */
+var SKU=(function(){
+ var C=[['Hot drinks',['Flat white','Cappuccino','Latte','Espresso','Americano','Filter · single origin','Mocha','Cortado','Macchiato','Hot chocolate','Chai latte','Matcha latte'],[2.6,4.2],[.28,.52],[.86,.90]],
+  ['Cold drinks',['Iced latte','Cold brew','Iced americano','Iced matcha','Frappe','Iced tea','Lemonade','Fruit smoothie','Sparkling water','Orange juice'],[2.8,5.4],[.62,1.42],[.54,.72]],
+  ['Laminated',['Butter croissant','Pain au chocolat','Almond croissant','Pain aux raisins','Chocolate twist','Cinnamon swirl','Kouign-amann','Ham & cheese croissant','Pistachio croissant'],[1.5,3.2],[.38,1.06],[.60,.76]],
+  ['Bread',['Sourdough loaf','Baguette','Country loaf','Rye loaf','Seeded batard','Focaccia','Ciabatta','Brioche loaf','Wholemeal tin'],[2.2,4.8],[.52,1.24],[.68,.80]],
+  ['Patisserie',['Chocolate tart','Lemon tart','Fruit tartlet','Éclair','Mille-feuille','Opera slice','Cheesecake slice','Seasonal tart','Paris-Brest','Canelé','Madeleine box'],[2.4,6.2],[.68,2.04],[.62,.78]],
+  ['Savoury',['Baguette sandwich','Croque monsieur','Quiche lorraine','Veg quiche','Sausage roll','Focaccia sandwich','Soup of the day','Salad box'],[3.8,8.4],[1.42,3.66],[.48,.64]],
+  ['Cakes & occasion',['Celebration cake 8in','Celebration cake 10in','Birthday cupcakes x6','Sharing brownie tray','Gift box assorted'],[14,48],[4.2,17.5],[.58,.72]],
+  ['Retail & bean',['Whole bean 250g','Whole bean 1kg','Ground coffee 250g','Jam jar','Honey jar','Branded mug','Reusable cup'],[4.5,26],[2.1,14.2],[.38,.56]]];
+ var out=[],id=1;
+ C.forEach(function(c){c[1].forEach(function(n){
+  var price=rnd(c[2][0],c[2][1]),cost=rnd(c[3][0],c[3][1]),gm=(price-cost)/price;
+  out.push({id:'S'+String(id).padStart(3,'0'),n:n,cat:c[0],price:price,cost:cost,gm:+(gm*100).toFixed(1),
+   vel:Math.round(rnd(80,7400,0)),shelf:c[0]==='Hot drinks'||c[0]==='Cold drinks'?0:pick([4,8,12,24,48,72]),
+   waste:rnd(0.4,6.4,1),status:RX()<.08?'NPI':RX()<.06?'Delist':'Core'});
+  id++;});});
+ return out;})();
+/* --- suppliers: 38 --- */
+var SUPS=(function(){var nm=['Moulin Berger','Delcourt Dairy','Cacao Nord','Verger Lyon','EmballagePro','Beurre Vallée','Grains du Sud','Laiterie Alpine','Chocolaterie Vasse','Fruits Provence','Papier & Co','Levain Naturel','Sucre Atlantique','Œufs Bressans','Noix du Périgord','Épices Marseille','Café Verde','Torréfaction Nord','Lait Bio Ouest','Farine Royale','Confiture Maison','Crème Normandie','Vanille Import','Miel Cévennes','Sel Guérande','Beurre Charentes','Amandes Ibéria','Pistache Levant','Emballage Vert','Étiquettes Pro','Froid Logistique','Transport Rapide','Nettoyage Pro','Uniformes Sud','Maintenance Est','Énergie Verte','Eau Minérale','Jus Pressé'];
+ var cat=['Flour & grain','Dairy','Chocolate','Fresh produce','Packaging','Services','Coffee','Sundries'];
+ return nm.map(function(n,i){var otif=rnd(78,99.6,1);
+  return {n:n,cat:cat[i%cat.length],otif:otif,fill:rnd(Math.max(80,otif-6),99.8,1),pv:rnd(-1.2,6.4,1),
+   spend:Math.round(rnd(18000,204000,0)),terms:pick([30,42,45,60]),
+   q:otif>96?'A':otif>90?'B':'C',risk:otif<85?'HIGH':otif<92?'MED':'LOW'};});})();
+/* --- routes: 26 --- */
+var ROUTES=(function(){var city=['Lyon','Paris','Bordeaux','Vienna','Graz','Brussels','Antwerp','Berlin','Munich','Hamburg','Lille','Nantes','Ghent'];
+ var out=[];for(var i=1;i<=26;i++){var ot=rnd(79,99,1);
+  out.push({id:'R-'+String(i).padStart(2,'0'),city:pick(city),chain:pick(['COLD 2–4°C','DRY AMBIENT','FROZEN −18°C']),
+   drops:Math.round(rnd(4,12,0)),otd:ot,cpd:rnd(11.8,29.4,2),exc:ot<86?Math.round(rnd(1,4,0)):0});}
+ return out;})();
+/* --- assets: 148 sample --- */
+var ASSETS=(function(){var t=[['Chiller','Refrigeration',6],['Freezer','Refrigeration',6],['Espresso machine','Bar',2600],['Grinder','Bar',2000],['Deck oven','Bakery',5500],['Proofer','Bakery',4000],['Display case','Front',12],['POS terminal','IT',36],['Dishwasher','Back',12]];
+ var out=[];for(var i=0;i<148;i++){var a=t[i%t.length];var b=BR[Math.floor(RX()*BR.length)];
+  var life=rnd(18,96,0),due=Math.round(rnd(-45,120,0));
+  out.push({asset:a[0]+' '+(1+i%3),cls:a[1],br:b.id,city:b.city,hrs:a[2]>100?Math.round(rnd(400,a[2]*1.3,0)):null,
+   due:due,life:Math.round(rnd(24,92,0)),st:due<0?'OVERDUE':due<10?'DUE SOON':'OK'});}
+ return out;})();
+/* --- purchase orders: 64 --- */
+var POS=(function(){var st=['IRIS DRAFT','AWAITING APPROVAL','APPROVED','GRN BOOKED','3-WAY MATCHED','PRICE MISMATCH','SCHEDULED'];
+ var it=['Butter 82%','Flour T55','Dark chocolate','Fresh berries','Fresh yeast','Cups 12oz','Milk','Cream','Almonds','Sugar','Eggs','Packaging film'];
+ var out=[];for(var i=0;i<64;i++){var s=SUPS[Math.floor(RX()*SUPS.length)];
+  out.push({ref:'PO-'+(4400+i),sup:s.n,item:pick(it),qty:Math.round(rnd(80,6400,0)),val:Math.round(rnd(1800,42000,0)),
+   age:Math.round(rnd(0,18,0)),st:pick(st)});}
+ return out;})();
+/* --- incidents: 72 --- */
+var INCS=(function(){var ty=[['Refrigeration fault','Equipment'],['Espresso machine fault','Equipment'],['Oven fault','Equipment'],['Closing not completed','Process'],['Opening late','Process'],['Guest complaint · wait','Guest'],['Guest complaint · quality','Guest'],['Slip · wet floor','Safety'],['Burn · steam wand','Safety'],['Cut · slicer','Safety'],['Cold-chain excursion','Food safety'],['Pest sighting','Food safety']];
+ var out=[];for(var i=0;i<72;i++){var b=BR[Math.floor(RX()*BR.length)];var t=ty[i%ty.length];var age=Math.round(rnd(0,26,0));
+  out.push({ref:'INC-'+(3320+i),br:b.id,city:b.city,type:t[0],cls:t[1],age:age,
+   st:age<3?'OPEN':age<7?(RX()<.4?'OVERDUE':'ACTION'):'RESOLVED',sev:t[1]==='Safety'||t[1]==='Food safety'?'HIGH':RX()<.3?'MED':'LOW'});}
+ return out;})();
+/* --- workforce: 3,010 aggregated to 148 shift records --- */
+var SHIFTS=(function(){var role=['Team member','Barista G1','Barista G2','Baker','Shift lead','Branch manager'];
+ var out=[];for(var i=0;i<148;i++){var b=BR[Math.floor(RX()*BR.length)];var ros=Math.round(rnd(4,14,0));
+  var clk=Math.max(0,ros-(RX()<.18?Math.round(rnd(1,3,0)):0));
+  out.push({br:b.id,city:b.city,cl:b.cl,role:pick(role),ros:ros,clk:clk,late:Math.round(rnd(0,3,0)),
+   ot:rnd(0,9.5,1),lab:b.lab,cert:RX()<.06?'EXPIRING':'VALID'});}
+ return out;})();
+function take(a,n,f){return a.filter(f||function(){return true;}).slice(0,n);}
+function srt(a,k,dir){return a.slice().sort(function(x,y){return dir==='asc'?x[k]-y[k]:y[k]-x[k];});}
+
+
+/* ---------- shared framework ---------- */
+function tbl(h,rows){return '<table><thead><tr>'+h.map(function(x,i){return '<th'+(i>0?' class="num"':'')+'>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(i>0?' class="num"':'')+'>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
+function kpi(l,v,d){return '<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="d">'+(d||'')+'</div></div>';}
+function bars(a){return '<div class="spark">'+a.map(function(v){return '<i style="height:'+v+'%"></i>';}).join('')+'</div>';}
+function cover(rows,max){max=max||12;return rows.map(function(r){var pct=Math.min(100,r[1]/max*100);var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>'+r[0]+'</span><b style="font-family:JetBrains Mono,monospace;font-size:11.5px;color:'+c+'">'+(r[3]||r[1])+'</b></div><div class="bar"><i style="width:'+pct+'%;background:'+c+'"></i></div></div>';}).join('');}
+function iris(t){return '<div style="border-left:2px solid var(--ai);padding-left:12px;font-size:12.5px;color:var(--muted);line-height:1.75">'+t+'</div>';}
+function pipe(steps){return '<div class="pipe">'+steps.map(function(s,i){return '<div class="pstep '+(s[3]||'')+'"><div class="n">'+(i+1)+' · '+s[0]+'</div><div class="t">'+s[1]+'</div><div class="c">'+s[2]+'</div></div>';}).join('')+'</div>';}
+/* Iris circles a number */
+function circ(v,d){return '<span class="circ '+(d||'')+'">'+v+'<svg viewBox="0 0 100 40" preserveAspectRatio="none"><ellipse cx="50" cy="20" rx="46" ry="17" transform="rotate(-2 50 20)"/></svg></span>';}
+function iflag(t){return '<div class="iflag"><div class="fo"></div><div class="ft"><span class="fl">IRIS · FLAGGED ON THIS VIEW</span>'+t+'</div></div>';}
+/* BI renderers */
+function hbars(rows,max){max=max||Math.max.apply(null,rows.map(function(r){return r[1];}));
+ return rows.map(function(r){var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div class="hbar"><span class="hl">'+r[0]+'</span><span class="ht"><i style="width:'+Math.min(100,r[1]/max*100)+'%;background:'+c+'"></i></span><span class="hv">'+(r[3]||r[1])+'</span></div>';}).join('');}
+function scatter(pts,xl,yl){var xs=pts.map(function(p){return p[0];}),ys=pts.map(function(p){return p[1];});
+ var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs),y0=Math.min.apply(null,ys),y1=Math.max.apply(null,ys);
+ return '<div class="scat">'+pts.map(function(p){var l=(p[0]-x0)/((x1-x0)||1)*100,b=(p[1]-y0)/((y1-y0)||1)*100;
+  return '<i style="left:'+l+'%;bottom:'+b+'%;background:'+(p[2]||'var(--acc)')+'"></i>';}).join('')+'</div><div class="axl"><span>'+xl+'</span><span>'+yl+'</span></div>';}
+function bi(cards){return '<div class="bigrid">'+cards.map(function(c){return '<div class="bcard"><h4>'+c[0]+'</h4><div class="bh">'+c[1]+'</div>'+c[2]+'</div>';}).join('')+'</div>';}
+
+function drv(t,sub,segs){var tot=segs.reduce(function(s,x){return s+x[1];},0);
+ return '<div class="drv"><h3>'+t+'</h3><div class="ph">'+sub+'</div><div class="drvbar">'
+ +segs.map(function(x){return '<i style="flex:'+x[1]+';background:'+x[2]+'">'+Math.round(x[1]/tot*100)+'%</i>';}).join('')
+ +'</div><div class="drvleg">'+segs.map(function(x){return '<span><i style="background:'+x[2]+'"></i>'+x[0]+'</span>';}).join('')+'</div></div>';}
+function wif(t,sub,head,rows,note){return '<div class="wif"><h4>'+t+'</h4><div class="wh">'+sub+'</div>'+tbl(head,rows)
+ +(note?'<div style="margin-top:13px;font-size:12px;color:var(--muted);line-height:1.7;border-left:2px solid var(--ai);padding-left:11px">'+note+'</div>':'')+'</div>';}
+var DC={a:'#15F2F2',b:'#3FD9A4',c:'#E5A24B',d:'#FF5C6C',e:'#9B7BFF'};
+
+
+function big(h,rows,note){return '<div class="tscroll">'+tbl(h,rows)+'</div><div class="tcount">'+rows.length+' ROWS'+(note?' · '+note:'')+'</div>';}
+function tg2(v,g,w){return '<span class="'+(v>=g?'t-ok':v>=w?'t-wa':'t-cr')+' tag">'+v+'</span>';}
+/* ---------- editable configuration ---------- */
+var CFGV={},CFGD={};
+function ckey(g,n){return (g+'~'+n).replace(/<[^>]*>/g,'').replace(/[^A-Za-z0-9~]/g,'_');}
+function cnum(){var n=Object.keys(CFGV).length;var e=document.getElementById('cfgN');if(e)e.textContent=n?(n+' UNSAVED CHANGE'+(n>1?'S':'')):'NO CHANGES';var b=document.getElementById('cfgSave');if(b)b.style.opacity=n?1:.45;}
+function cset(k,v,el){ if(String(CFGD[k])===String(v)){delete CFGV[k];} else {CFGV[k]=v;} 
+ var row=el.closest('.crow'); if(row)row.classList.toggle('mod',k in CFGV); cnum();}
+function ctog(k,el){var on=!el.classList.contains('on');el.classList.toggle('on',on);cset(k,on,el);}
+function creset(){CFGV={};document.querySelectorAll('.crow.mod').forEach(function(r){r.classList.remove('mod');});go(CURR,'cfg');}
+function csave(){var n=Object.keys(CFGV).length;if(!n)return;
+ var b=document.getElementById('cfgSave');b.textContent='Applied · '+n;setTimeout(function(){CFGV={};go(CURR,'cfg');},700);}
+function cfg(groups){
+ var html='<div class="cfgbar"><span class="cb-t">CONFIGURATION</span><span class="cb-n" id="cfgN">NO CHANGES</span>'
+  +'<button id="cfgSave" class="save" onclick="csave()" style="opacity:.45">Apply changes</button>'
+  +'<button onclick="creset()" style="margin-left:8px">Reset</button></div>';
+ html+='<div class="cfgrid">'+groups.map(function(g){
+  return '<div class="cgrp"><h4>'+g[0]+'</h4><div class="ch">'+g[1]+'</div>'+g[2].map(function(r){
+   var k=ckey(g[0],r[0]); CFGD[k]=r[1];
+   var locked=/NEVER|MANDATORY|LAW|STATUTORY|FIXED|BLOCKED/.test(r[2]||'');
+   var ctl;
+   if(r[1]===true||r[1]===false){
+    ctl='<span class="tog'+(r[1]?' on':'')+'" onclick="'+(locked?'':'ctog(\''+k+'\',this)')+'"></span>';
+   } else if(Array.isArray(r[3])){
+    ctl='<select class="cvi" onchange="cset(\''+k+'\',this.value,this)">'+r[3].map(function(o){
+      return '<option'+(o===r[1]?' selected':'')+'>'+o+'</option>';}).join('')+'</select>';
+   } else {
+    ctl='<input class="cvi" value="'+String(r[1]).replace(/<[^>]*>/g,'').replace(/"/g,'&quot;')+'" onchange="cset(\''+k+'\',this.value,this)">';
+   }
+   return '<div class="crow'+(locked?' locked':'')+'"><span class="cn">'+r[0]+'</span><span class="edt">EDITED</span>'+ctl+'<span class="own">'+(r[2]||'')+'</span></div>';
+  }).join('')+'</div>';}).join('')+'</div>';
+ setTimeout(cnum,0);
+ return html;}
+
+/* layer switching */
+var CURL='wb';
+function layerbar(){return '<div class="lyr">'
+ +'<button class="lb'+(CURL==='wb'?' on':'')+'" data-l="wb"><span class="lx">L0</span>Workbench</button>'
+ +'<button class="lb'+(CURL==='bi'?' on':'')+'" data-l="bi"><span class="lx">L1</span>BI</button>'
+ +'<button class="lb'+(CURL==='ana'?' on':'')+'" data-l="ana"><span class="lx">L2</span>Analysis</button>'
+ +'<button class="lb'+(CURL==='cfg'?' on':'')+'" data-l="cfg"><span class="lx">L3</span>Configuration</button></div>';}
+function go(r,l){
+ if(l)CURL=l; CURR=r;
+ document.querySelectorAll('.nit').forEach(function(n){n.classList.toggle('on',n.dataset.r===r);});
+ document.getElementById('rtT').innerHTML=TT[r][0];document.getElementById('rtS').innerHTML=TT[r][1];
+ var m=M[r], body = CURL==='wb'?m.wb():CURL==='bi'?m.bi():CURL==='ana'?(m.ana?m.ana():'<div class="pan"><h3>Analysis</h3><div class="ph">No decomposition defined for this module.</div></div>'):m.cfg();
+ document.getElementById('rts').innerHTML='<div class="rt on">'+layerbar()+body+'</div>';
+ document.querySelectorAll('.lb').forEach(function(b){b.onclick=function(){go(CURR,b.dataset.l);};});
+ document.querySelector('.main').scrollTop=0;}
+var CURR='cmd';
+function tg(){var p=document.getElementById('ip');p.classList.toggle('on');
+ if(p.classList.contains('on')){document.getElementById('ib').innerHTML='<div class="msg">'+IR[CURR]+'</div><div style="font-size:11.5px;color:var(--subtle)">Layer: '+(CURL==='wb'?'Workbench':CURL==='bi'?'BI &amp; Analytics':'Configuration')+'. Ask about anything on this view.</div>';}}
+
+var CLC={urban:'#15F2F2',transit:'#3FD9A4',suburb:'#E5A24B',office:'#9B7BFF',dest:'#FF2D95'};
+var M={};
+
+M.cmd={
+ wb:function(){return iflag('<b>Butter is the binding constraint this week.</b> Laminated demand is forecast 18% above plan from Friday, but cover runs out Thursday. Raising the standing order by 340&nbsp;kg costs €2,180 and protects €12,400 of croissant revenue.')
+ +'<div class="kpis">'+kpi('FORECAST ACCURACY','92.8%','7-day rolling')+kpi('SERVICE LEVEL','97.4%','lines in full')
+ +kpi('STOCK COVER',circ('2.4 d'),'dairy — <span class="dn">below par</span>')+kpi('OPEN POs','23','€184,200')
+ +kpi('ON-SHELF AVAILABILITY','96.1%','<span class="dn">-1.2pts</span>')+kpi('WASTE COST (MTD)','€41,380','3.1% of food cost')+'</div>'
+ +'<div class="pan"><h3>End-to-end chain status</h3><div class="ph">Plan → source → make → move → sell</div>'
+ +pipe([['PLAN','Demand agreed','98%','doing'],['SOURCE','POs raised','23',''],['MAKE','Batches today','47',''],['MOVE','Loads in transit','14',''],['STORE','Branches replenished','194/200','block'],['SELL','On-shelf availability','96.1%','']])+'</div>'
+ +'<div class="pan"><h3>What needs a decision today</h3><div class="ph">Ranked by cost of inaction</div>'
+ +tbl(['SIGNAL','IMPACT','WINDOW'],[['<b>Butter cover falls below par Thursday</b>','<span class="t-cr tag">€12,400</span>','2 days'],
+ ['<b>6 branches missed replenishment window</b> — route R-03','<span class="t-cr tag">€6,800</span>','today'],
+ ['<b>Cold-chain excursion on load L-2214</b>','<span class="t-cr tag">€1,840</span>','now'],
+ ['<b>Almond croissant below margin floor</b>','<span class="t-wa tag">€3,200</span>','this week']])+'</div>';},
+ bi:function(){var byC=agg('cln',function(g){return sum(g,function(b){return b.rev;});});
+  return bi([['Revenue by cluster','Weekly, 200 branches',hbars(byC.map(function(r){return [r[0],r[2],'',eur(r[2])];}))],
+  ['Chain reliability','Rolling 12 weeks',bars([88,90,89,92,91,93,92,94,93,95,94,96])+'<div class="axl"><span>12 WK AGO</span><span>NOW</span></div>'],
+  ['Cost to serve','€ per €100 revenue',hbars([['Procurement',3.1,'','€3.10'],['Production',11.4,'','€11.40'],['Logistics',4.2,'wa','€4.20'],['Waste',3.1,'wa','€3.10'],['Holding',1.2,'','€1.20']])],
+  ['Exception ageing','Open items by age',tbl(['AGE','COUNT','VALUE'],[['&lt; 24 h','14','€8,200'],['1–3 days','9','€21,400'],['4–7 days','5','€14,900'],['&gt; 7 days','<span class="t-cr tag">3</span>','€28,100']])]]);},
+ cfg:function(){return cfg([['Planning horizon','How far ahead each engine plans',[['Demand forecast horizon','28 days','PLANNING'],['Production plan lock','18:00 D-1','OPS'],['Procurement horizon','45 days','BUYING'],['Re-plan on variance &gt;','8%','AUTO']]],
+ ['Alert thresholds','When the chain raises its hand',[['Stock cover critical','&lt; 3 days','AUTO'],['Forecast accuracy floor','88%','PLANNING'],['On-shelf availability floor','95%','RETAIL'],['Waste ceiling (% food cost)','3.5%','FINANCE']]],
+ ['Iris autonomy','What Iris may do unaided',[['Draft purchase orders',true,'ENABLED'],['Auto-approve POs under €5k',false,'DISABLED'],['Re-plan production intra-day',true,'ENABLED'],['Re-allocate constrained stock',true,'ENABLED'],['Change contracted prices',false,'NEVER']]],
+ ['Data sources','What feeds this workbench',[['POS transactions','live · 200 branches','INTEGRATION'],['Weather API','hourly','INTEGRATION'],['Supplier EDI','12 of 38 suppliers','INTEGRATION'],['Telemetry · vehicles','live','IOT']]]]);}};
+
+M.fc={
+ wb:function(){return iflag('Accuracy is strong overall, but <b>iced drinks sit at 78% confidence</b> — the weather sensitivity is high and tomorrow forecasts rain. That single item carries most of the remaining forecast error.')
+ +'<div class="kpis">'+kpi('MAPE (7-DAY)','7.2%','lower is better')+kpi('ITEMS FORECAST','318','4 markets')
+ +kpi('NEXT-DAY UNITS','34,240','<span class="up">+6.2%</span>')+kpi('LOWEST CONFIDENCE',circ('78%'),'iced latte')+'</div>'
+ +'<div class="pan"><h3>Item-level forecast · tomorrow</h3><div class="ph">By day-part, with model confidence</div>'
+ +tbl(['ITEM','MORNING','MIDDAY','AFTERNOON','TOTAL','CONF.'],[
+ ['<b>Butter croissant</b>','2,610','598','369','<b>3,577</b>','<span class="t-ok tag">94%</span>'],
+ ['<b>Pain au chocolat</b>','1,860','540','298','<b>2,698</b>','<span class="t-ok tag">93%</span>'],
+ ['<b>Sourdough loaf</b>','908','724','681','<b>2,313</b>','<span class="t-ok tag">91%</span>'],
+ ['<b>Almond croissant</b>','1,022','341','256','<b>1,619</b>','<span class="t-wa tag">86%</span>'],
+ ['<b>Flat white</b>','4,202','1,675','1,334','<b>7,211</b>','<span class="t-ok tag">95%</span>'],
+ ['<b>Iced latte</b>','681','866','738','<b>2,285</b>','<span class="t-wa tag">78%</span>']])+'</div>';},
+ bi:function(){return bi([['Accuracy by category','MAPE, lower is better',hbars([['Hot drinks',4.2,'mi','4.2%'],['Laminated',5.8,'mi','5.8%'],['Bread',6.4,'mi','6.4%'],['Savoury',9.1,'wa','9.1%'],['Cold drinks',14.8,'cr','14.8%'],['Seasonal',18.2,'cr','18.2%']])],
+ ['Bias check','Over- vs under-forecast',tbl(['CATEGORY','BIAS','READ'],[['Hot drinks','+0.4%','<span class="t-ok tag">NEUTRAL</span>'],['Laminated','+2.1%','<span class="t-wa tag">OVER</span>'],['Bread','−0.8%','<span class="t-ok tag">NEUTRAL</span>'],['Cold drinks','+6.2%','<span class="t-cr tag">OVER</span>']])],
+ ['Model contribution','Feature importance',hbars([['Day of week',31,'','31%'],['Trailing 4-wk',24,'','24%'],['Weather',18,'','18%'],['Calendar',14,'','14%'],['Promotion',8,'','8%'],['Local events',5,'','5%']])],
+ ['Accuracy trend','Rolling MAPE, 12 weeks',bars([44,41,38,36,33,31,30,28,27,26,24,23])]]);},
+ cfg:function(){return cfg([['Model settings','How the forecast is produced',[['Algorithm','Gradient boosting','L2 ZEN'],['Training window','104 weeks','AUTO'],['Retrain cadence','Weekly · Sunday','AUTO'],['Granularity','Item × branch × day-part','FIXED']]],
+ ['Signal weights','What the model is allowed to use',[['Weather feed',true,'ENABLED'],['School calendar',true,'ENABLED'],['Local events feed',true,'ENABLED'],['Competitor pricing',false,'NOT LICENSED'],['Social sentiment',false,'DISABLED']]],
+ ['New product handling','Items with no history',[['NPI method','Analogue item','PLANNING'],['Analogue confidence cap','70%','AUTO'],['Weeks until self-forecasting','6','AUTO']]],
+ ['Confidence policy','What low confidence triggers',[['Flag below','85%','AUTO'],['Require planner review below','75%','PLANNING'],['Suppress auto-order below',true,'SAFEGUARD']]]]);}};
+
+M.dp={
+ wb:function(){return iflag('<b>Twelve of the 34 overrides carry no stated reason.</b> Historically unjustified uplifts run 6.8% above actual and are the single largest contributor to unsold waste. The holiday build is different — three prior school-holiday weeks averaged a 17.4% lift.')
+ +'<div class="kpis">'+kpi('CONSENSUS ACHIEVED','98%','of SKU-cluster cells')+kpi('PLANNER OVERRIDES','34',circ('12 unjustified','d2'))
+ +kpi('PROMO UPLIFT MODELLED','+14.2%','next campaign')+kpi('PLAN VS FORECAST','+1.8%','deliberate build')+'</div>'
+ +'<div class="pan"><h3>Consensus demand plan</h3><div class="ph">Statistical baseline, then commercial adjustment — every override carries a reason</div>'
+ +tbl(['SKU / CLUSTER','STAT BASE','OVERRIDE','FINAL','REASON','OWNER'],[
+ ['<b>Butter croissant</b> · Urban High','3,577','<span class="t-wa tag">+482</span>','4,059','School holiday','Commercial'],
+ ['<b>Pain au chocolat</b> · Urban High','2,698','<span class="t-wa tag">+298</span>','2,996','School holiday','Commercial'],
+ ['<b>Iced latte</b> · Transit','2,285','<span class="t-cr tag">−369</span>','1,916','Rain forecast','Planning'],
+ ['<b>Celebration cake</b> · Suburban','256','<span class="t-wa tag">+134</span>','390','Pre-orders taken','Store'],
+ ['<b>Seasonal tart</b> · Urban High','0','<span class="t-ai tag">NEW 596</span>','596','NPI launch W31','Commercial'],
+ ['<b>Baguette</b> · Office','1,140','<span class="t-cr tag">+180</span>','1,320','<span class="t-cr tag">NO REASON</span>','—']])+'</div>'
+ +'<div class="pan"><h3>Scenario planning</h3><div class="ph">Before the plan is committed</div>'
+ +tbl(['SCENARIO','DEMAND','SERVICE','WASTE','MARGIN'],[['<b>Base plan</b>','34,240','97.4%','3.1%','68.2%'],
+ ['<b>+18% holiday build</b>','40,403','<span class="t-ok tag">98.6%</span>','<span class="t-wa tag">4.4%</span>','67.1%'],
+ ['<b>Conservative</b>','31,300','<span class="t-cr tag">93.8%</span>','<span class="t-ok tag">2.2%</span>','68.9%'],
+ ['<b>Rain-adjusted</b>','33,150','97.1%','3.0%','68.4%']])+'</div>';},
+ bi:function(){return bi([['Override accuracy','Actual vs planner adjustment',hbars([['With reason',2.1,'mi','+2.1%'],['No reason',6.8,'cr','+6.8%'],['Promo-driven',3.4,'wa','+3.4%'],['NPI',11.2,'cr','+11.2%']])],
+ ['Consensus participation','Who adjusts the plan',tbl(['FUNCTION','OVERRIDES','ACCURACY'],[['Commercial','18','<span class="t-ok tag">+2.4%</span>'],['Planning','9','<span class="t-ok tag">+1.1%</span>'],['Store','7','<span class="t-wa tag">+5.2%</span>']])],
+ ['Plan stability','Changes after publication',hbars([['&gt;7 days out',4,'mi','4%'],['3–7 days',11,'','11%'],['1–2 days',22,'wa','22%'],['Same day',31,'cr','31%']],40)],
+ ['Waste attributable to plan','€ per week',bars([31,34,38,36,42,45,41,47,52,48,56,61])]]);},
+ cfg:function(){return cfg([['Consensus process','How the plan is agreed',[['Cycle','Weekly · Wednesday','PLANNING'],['Publication lock','Thursday 16:00','PLANNING'],['Override reason mandatory',false,'<span style="color:var(--red)">SHOULD BE ON</span>'],['Escalation if no consensus','Head of Supply','GOVERNANCE']]],
+ ['Override limits','Guard-rails on adjustment',[['Max uplift without approval','+10%','AUTO'],['Max reduction without approval','−15%','AUTO'],['Store-level override cap','+20%','AUTO'],['Lock overrides after publication',true,'ENABLED']]],
+ ['Scenario library','Standing what-ifs',[['Holiday build',true,'ACTIVE'],['Weather-adjusted',true,'ACTIVE'],['Conservative',true,'ACTIVE'],['Competitor opening',false,'DRAFT']]],
+ ['Promotion planning',' Uplift modelling',[['Uplift source','Historic like-for-like','L2 ZEN'],['Cannibalisation modelled',true,'ENABLED'],['Halo effect modelled',true,'ENABLED'],['Min weeks of history','3','AUTO']]]]);}};
+
+M.menu={
+ wb:function(){return iflag('<b>Almond croissant is a plough-horse because of butter, not demand.</b> It sells 1,619 units; its margin fell 3.8 points purely on ingredient cost. That is a sourcing fix — delisting a strong seller would be the wrong move.')
+ +'<div class="kpis">'+kpi('ITEMS ON MENU',String(SKU.length),'4 markets')+kpi('STARS','21','protect')
+ +kpi('DOGS','14','delist candidates')+kpi('MENU GROSS MARGIN',circ('68.2%'),'<span class="dn">-1.1pts MoM</span>')+'</div>'
+ +'<div class="pan"><h3>Menu engineering matrix</h3><div class="ph">Contribution margin against unit velocity</div>'
+ +'<div class="mtx"><div class="mq"><h5 style="color:var(--mint)">★ STARS</h5><div class="sub">High margin · high volume — protect</div><p><b>Flat white</b> — 88.1% · 7,211 u</p><p><b>Butter croissant</b> — 74.4% · 3,577 u</p><p><b>Sourdough loaf</b> — 76.8% · 2,313 u</p></div>'
+ +'<div class="mq"><h5 style="color:var(--teal)">◆ PUZZLES</h5><div class="sub">High margin · low volume — promote</div><p><b>Filter · single origin</b> — 89.2% · 580 u</p><p><b>Chocolate tart</b> — 71.4% · 540 u</p><p><b>Seasonal tart</b> — 70.1% · 410 u</p></div>'
+ +'<div class="mq"><h5 style="color:var(--amber)">▲ PLOUGH-HORSES</h5><div class="sub">Low margin · high volume — reprice or re-cost</div><p><b>Almond croissant</b> — 63.8% · 1,619 u</p><p><b>Iced latte</b> — 64.2% · 2,285 u</p><p><b>Baguette sandwich</b> — 58.1% · 1,390 u</p></div>'
+ +'<div class="mq"><h5 style="color:var(--red)">● DOGS</h5><div class="sub">Low margin · low volume — delist</div><p><b>Fruit smoothie</b> — 54.2% · 170 u</p><p><b>Quiche lorraine</b> — 51.8% · 136 u</p><p><b>Iced tea</b> — 58.4% · 124 u</p></div></div></div>'
+ +'<div class="pan"><h3>Full menu performance</h3><div class="ph">Every item by gross margin and velocity</div>'
+ +big(['ITEM','CATEGORY','PRICE','COST','GM%','UNITS / WK','GP / WK','LIFECYCLE'],
+  srt(SKU,'gm','desc').map(function(k){var gp=Math.round((k.price-k.cost)*k.vel);
+   return ['<b>'+k.n+'</b>',k.cat,'€'+k.price.toFixed(2),'€'+k.cost.toFixed(2),
+    '<span class="'+(k.gm>70?'t-ok':k.gm>60?'t-wa':'t-cr')+' tag">'+k.gm+'%</span>',k.vel,eur(gp),
+    k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST</span>'];}),SKU.length+' ITEMS')+'</div>';},
+ bi:function(){return bi([['Category contribution','Share of gross profit',hbars([['Hot drinks',44,'','44%'],['Laminated',23,'','23%'],['Bread',12,'','12%'],['Patisserie',11,'','11%'],['Savoury',7,'wa','7%'],['Cold drinks',3,'cr','3%']])],
+ ['Attachment rates','What sells with what',tbl(['ANCHOR','ATTACHES','RATE','UPLIFT'],[['<b>Flat white</b>','Butter croissant','41%','€0.64'],['<b>Cappuccino</b>','Pain au chocolat','34%','€0.61'],['<b>Sourdough</b>','Butter portion','28%','€0.22'],['<b>Filter</b>','—','9%','<span class="t-wa tag">low</span>']])],
+ ['Price elasticity','Modelled volume response to +10% price',hbars([['Flat white',-3.1,'mi','−3.1%'],['Butter croissant',-4.8,'mi','−4.8%'],['Almond croissant',-6.2,'wa','−6.2%'],['Iced latte',-11.4,'cr','−11.4%']],12)],
+ ['Menu churn','Items added / removed per quarter',tbl(['QUARTER','ADDED','REMOVED','NET'],[['Q1','8','5','+3'],['Q2','6','9','−3'],['Q3 (plan)','7','14','<span class="t-wa tag">−7</span>']])]]);},
+ cfg:function(){return cfg([['Classification rules','How items are graded',[['Margin floor (Star)','70%','FINANCE'],['Velocity floor (Star)','Top 40%','COMMERCIAL'],['Dog review threshold','Bottom 15% both axes','COMMERCIAL'],['Review cadence','Monthly','GOVERNANCE']]],
+ ['Pricing guard-rails','What may move automatically',[['Iris may propose price changes',true,'ENABLED'],['Iris may apply price changes',false,'NEVER'],['Max auto-proposed move','±8%','AUTO'],['Psychological rounding',true,'ENABLED']]],
+ ['Assortment by cluster','Depth per format',[['Urban High-Traffic','118 SKU','FULL'],['Transit & Station','74 SKU','CORE'],['Suburban Family','126 SKU','FULL + CAKE'],['Office & Campus','88 SKU','CORE + LUNCH'],['Destination / Weekend','134 SKU','PREMIUM']]],
+ ['Delist protection','Items that cannot be auto-delisted',[['Allergen-alternative items',true,'PROTECTED'],['Contractual / franchise items',true,'PROTECTED'],['New items under 6 weeks',true,'PROTECTED']]]]);}};
+
+M.plan={
+ wb:function(){return iflag('Second bakes at 09:30 and 12:20 exist because afternoon sell-through collapsed 22% on single-bake days. The split costs 40 extra labour minutes and recovers about <b>€1,840 a week</b>.')
+ +'<div class="kpis">'+kpi('BATCHES TOMORROW','63','3 bake windows')+kpi('OVEN UTILISATION',circ('86%'),'<span class="up">+4pts vs plan</span>')
+ +kpi('PLANNED YIELD','34,560 u','vs 34,240 plan')+kpi('LABOUR HOURS','418','matched to plan')+'</div>'
+ +'<div class="pan"><h3>Tomorrow\'s bake plan</h3><div class="ph">From the agreed demand plan · respects oven, proofer and shelf life</div>'
+ +tbl(['BATCH','PRODUCT','QTY','OVEN','START','READY'],[['B-01','<b>Butter croissant</b>','1,700','Deck 1','04:15','06:00'],
+ ['B-02','<b>Pain au chocolat</b>','1,560','Deck 1','04:15','06:00'],['B-03','<b>Sourdough loaf</b>','965','Deck 2','04:40','06:30'],
+ ['B-04','<b>Almond croissant</b>','910','Deck 3','05:10','06:45'],['B-07','<b>Butter croissant</b> (2nd)','1,164','Deck 1','09:30','11:00'],
+ ['B-11','<b>Sourdough loaf</b> (2nd)','794','Deck 2','12:20','14:00']])+'</div>';},
+ bi:function(){return bi([['Plan adherence','Produced vs planned, 12 weeks',bars([92,94,91,95,93,96,94,97,95,96,94,97])],
+ ['Constraint utilisation','Where capacity binds',hbars([['Deck oven 1',94,'cr','94%'],['Deck oven 2',81,'wa','81%'],['Deck oven 3',68,'','68%'],['Proofer',77,'wa','77%'],['Mixer',52,'','52%']],100)],
+ ['Sell-through by bake window','% sold before end of day',hbars([['04:00 bake',88,'wa','88%'],['09:30 bake',96,'mi','96%'],['12:20 bake',94,'mi','94%']],100)],
+ ['Yield variance','Planned vs actual output',tbl(['PRODUCT','PLANNED','ACTUAL','YIELD'],[['Butter croissant','1,700','1,632','96.0%'],['Sourdough','965','888','92.0%'],['Almond croissant','910','855','94.0%']])]]);},
+ cfg:function(){return cfg([['Production constraints','Physical limits the planner respects',[['Deck oven slots','3 × 18 trays','FIXED'],['Proofer capacity','12 racks','FIXED'],['Min batch size','120 units','OPS'],['Max batches per window','24','OPS']]],
+ ['Bake windows','When production may run',[['Window 1 · early','03:45 – 07:00','ENABLED'],['Window 2 · mid-morning',true,'ENABLED'],['Window 3 · midday',true,'ENABLED'],['Window 4 · evening',false,'DISABLED']]],
+ ['Shelf-life rules','Freshness policy',[['Laminated · sell within','8 hours','QUALITY'],['Bread · sell within','12 hours','QUALITY'],['Patisserie · sell within','24 hours','QUALITY'],['Auto-markdown at','−2 hours','PRICING']]],
+ ['Re-plan triggers','When the plan is rebuilt intra-day',[['Sales variance from plan','±12%','AUTO'],['Equipment failure',true,'AUTO'],['Ingredient shortfall',true,'AUTO'],['Manual re-plan allowed',true,'OPS']]]]);}};
+
+M.clus={
+ wb:function(){
+  var cls=agg('cln',function(g){return g.length;});
+  var rows=cls.map(function(r){var g=r[1];
+   return ['<b>'+r[0]+'</b>',g.length,eur(sum(g,function(b){return b.rev;})),'€'+avg(g,function(b){return b.basket;}).toFixed(2),
+    Math.round(avg(g,function(b){return b.txn;})),avg(g,function(b){return b.am;}).toFixed(2),Math.round(avg(g,function(b){return b.nps;}))];});
+  return iflag('<b>Eleven branches changed cluster this quarter.</b> Nine drifted from Office &amp; Campus toward Urban High-Traffic as hybrid working settled — their midday peak flattened and morning sharpened. Their assortment and replenishment calendar still follow the old cluster.')
+  +'<div class="kpis">'+kpi('BRANCHES',circ(String(BR.length)),'coffee &amp; bakery estate')+kpi('CLUSTERS','5','behaviour-based')
+  +kpi('RE-CLUSTERED (QTR)','11','<span class="wa">demand shifted</span>')+kpi('CLUSTER FIT','0.84','silhouette score')
+  +kpi('ESTATE REVENUE',eur(sum(BR,function(b){return b.rev;})),'per week')+'</div>'
+  +'<div class="pan"><h3>Cluster centroids</h3><div class="ph">Grouped on demand behaviour — not geography. '+BR.length+' branches, weekly figures</div>'
+  +tbl(['CLUSTER','BRANCHES','WEEKLY REV','AVG BASKET','TXN / WK','AM SHARE','NPS'],rows)+'</div>'
+  +'<div class="pan"><h3>Branch register · sample</h3><div class="ph">Every branch carries its own KPI set</div>'
+  +big(['ID','CITY','CLUSTER','FORMAT','REV/WK','BASKET','TXN/WK','LABOUR %','WASTE %','€/SQM','NPS'],
+   srt(BR,'rev','desc').map(function(b){
+    return ['<b>'+b.id+'</b>',b.city+' · '+b.cc,b.cln.split(' ')[0],b.fmt,eur(b.rev),'€'+b.basket.toFixed(2),b.txn,b.lab+'%',b.waste+'%','€'+b.rps,b.nps];}),'FULL ESTATE')+'</div>';},
+ bi:function(){
+  var pts=BR.map(function(b){return [b.txn,b.basket,CLC[b.cl]];});
+  var byCity=agg('city',function(g){return sum(g,function(b){return b.rev;});}).sort(function(a,b){return b[2]-a[2];}).slice(0,8);
+  var cls=agg('cln',function(g){return avg(g,function(b){return b.rps;});});
+  var lab=agg('cln',function(g){return avg(g,function(b){return b.lab;});});
+  return bi([['Basket vs transactions','Each dot is one branch, coloured by cluster',scatter(pts,'TRANSACTIONS / WEEK →','↑ AVG BASKET')],
+  ['Revenue per m²','Cluster average — space productivity',hbars(cls.map(function(r){return [r[0].split(' ')[0],r[2],'','€'+r[2].toFixed(0)];}))],
+  ['Top cities by revenue','Weekly, all branches',hbars(byCity.map(function(r){return [r[0],r[2],'',eur(r[2])];}))],
+  ['Labour intensity by cluster','% of sales',hbars(lab.map(function(r){return [r[0].split(' ')[0],r[2],r[2]>30?'wa':'mi',r[2].toFixed(1)+'%'];}),36)]]);},
+ cfg:function(){return cfg([['Clustering model','How branches are grouped',[['Algorithm','k-means + silhouette','L2 ZEN'],['Cluster count k','5','TUNED'],['Re-cluster cadence','Quarterly','AUTO'],['Min branches per cluster','20','GUARD']]],
+ ['Feature set','What defines a cluster',[['Day-part demand shape',true,'ENABLED'],['Average basket',true,'ENABLED'],['Category mix',true,'ENABLED'],['Footfall & conversion',true,'ENABLED'],['Trading area demographics',true,'ENABLED'],['Geography',false,'<span style="color:var(--amber)">EXCLUDED BY DESIGN</span>']]],
+ ['Drift detection','When a branch is re-assigned',[['Drift score threshold','0.35','AUTO'],['Consecutive periods required','2','GUARD'],['Auto-apply new assortment',false,'REVIEW FIRST'],['Notify area manager',true,'ENABLED']]],
+ ['Cluster overrides','Manual assignment',[['Flagship exemptions','3 branches','COMMERCIAL'],['Franchise fixed-cluster','8 branches','LEGAL'],['New branch default','Nearest centroid','AUTO'],['Weeks before first clustering','12','AUTO']]]]);}};
+
+M.alloc={
+ wb:function(){return iflag('<b>Almond croissant is constrained by butter, so allocation moved to fair-share.</b> Rather than filling the first routes and starving the last, every branch takes a proportional cut against its own forecast.')
+ +'<div class="kpis">'+kpi('ON-SHELF AVAILABILITY',circ('96.1%'),'<span class="dn">-1.2pts</span>')+kpi('BRANCHES REPLENISHED','194 / 200','<span class="wa">6 missed</span>')
+ +kpi('ALLOCATION MODE','Pull 74 / Push 26','')+kpi('FAIR-SHARE EVENTS','3','constrained SKUs')+'</div>'
+ +'<div class="pan"><h3>Replenishment execution · today</h3><div class="ph">Planned against actually delivered, by cluster</div>'
+ +tbl(['CLUSTER','PLANNED','DELIVERED','FILL','SHORT SKUs','STATUS'],[
+ ['<b>Urban High-Traffic</b>','42','42','99.4%','—','<span class="t-ok tag">COMPLETE</span>'],
+ ['<b>Transit &amp; Station</b>','38','38','98.1%','1','<span class="t-ok tag">COMPLETE</span>'],
+ ['<b>Suburban Family</b>','44','42','94.2%','4','<span class="t-wa tag">PART</span>'],
+ ['<b>Office &amp; Campus</b>','40','36','92.6%','6','<span class="t-cr tag">SHORT</span>'],
+ ['<b>Destination / Weekend</b>','36','36','97.8%','2','<span class="t-ok tag">COMPLETE</span>']])+'</div>'
+ +'<div class="pan"><h3>Min–max and allocation logic</h3><div class="ph">Pull where demand is stable, push where it is new or promoted</div>'
+ +tbl(['SKU','CLUSTER','MIN','MAX','ON HAND','ALLOCATED','MODE'],[
+ ['<b>Butter croissant</b>','Urban High','60','180','42','<b>138</b>','<span class="t-nu tag">PULL</span>'],
+ ['<b>Butter croissant</b>','Transit','40','110','31','<b>79</b>','<span class="t-nu tag">PULL</span>'],
+ ['<b>Seasonal tart</b>','Urban High','0','40','0','<b>40</b>','<span class="t-ai tag">PUSH · NPI</span>'],
+ ['<b>Almond croissant</b>','All','30','90','—','<span class="t-wa tag">FAIR SHARE</span>','<span class="t-wa tag">CONSTRAINED</span>']])+'</div>';},
+ bi:function(){return bi([['Availability by cluster','On-shelf %, rolling 4 weeks',hbars([['Urban High',97.8,'mi','97.8%'],['Transit',97.1,'mi','97.1%'],['Destination',96.4,'mi','96.4%'],['Suburban',95.2,'wa','95.2%'],['Office',93.1,'cr','93.1%']],100)],
+ ['Lost sales estimate','€ per week from stock-outs',hbars([['Office & Campus',8400,'cr','€8.4k'],['Suburban',5100,'wa','€5.1k'],['Urban High',2200,'','€2.2k'],['Transit',1900,'','€1.9k'],['Destination',1100,'','€1.1k']])],
+ ['Push vs pull outcome','Waste and availability by mode',tbl(['MODE','SHARE','AVAIL.','WASTE'],[['Pull (min–max)','74%','96.8%','2.8%'],['Push (NPI/promo)','26%','94.1%','<span class="t-wa tag">4.6%</span>']])],
+ ['Fair-share fairness','Cut applied vs forecast share',hbars([['Urban High',-8.2,'wa','−8.2%'],['Transit',-8.4,'wa','−8.4%'],['Suburban',-8.1,'wa','−8.1%'],['Office',-8.3,'wa','−8.3%'],['Destination',-8.0,'wa','−8.0%']],10)]]);},
+ cfg:function(){return cfg([['Replenishment policy','How stock reaches a branch',[['Default mode','Pull (min–max)','PLANNING'],['Review period','Daily','AUTO'],['Safety stock method','Service-level 97%','AUTO'],['Lead-time buffer','1 delivery cycle','AUTO']]],
+ ['Min–max derivation','How limits are set',[['Min = forecast ×','1.2 days','AUTO'],['Max = forecast ×','3.0 days','AUTO'],['Recalculate weekly',true,'ENABLED'],['Cluster-specific limits',true,'ENABLED']]],
+ ['Constrained-supply rules','When there is not enough',[['Allocation method','Fair share','POLICY'],['Protect flagship branches',false,'EQUAL TREATMENT'],['Honour pre-orders first',true,'ENABLED'],['Notify branches of cut',true,'ENABLED']]],
+ ['Push allocation','New and promoted items',[['NPI push duration','2 weeks','COMMERCIAL'],['Promo push override',true,'ENABLED'],['Max push as % of max','60%','GUARD']]]]);}};
+
+M.log={
+ wb:function(){return iflag('<b>Load L-2214 ran 2.1°C above cold specification for 40 minutes.</b> Dairy on that load must be quarantined, not sold — €1,840 at risk. Cause is the same door-seal fault reported twice this month; that vehicle should come off cold rotation.')
+ +'<div class="kpis">'+kpi('LOADS IN TRANSIT','14','3 DCs · 9 routes')+kpi('ON-TIME DELIVERY','91.4%','<span class="dn">-3.1pts</span>')
+ +kpi('COLD-CHAIN COMPLIANCE',circ('99.2%'),'<span class="wa">1 excursion</span>')+kpi('COST PER DROP','€18.40','<span class="up">-€1.10</span>')+'</div>'
+ +'<div class="pan"><h3>Warehouse to store · live loads</h3><div class="ph">Cold, frozen and dry chains tracked separately</div>'
+ +tbl(['LOAD','ROUTE','CHAIN','DROPS','DEPART','ETA','STATUS'],[
+ ['<b>L-2214</b>','R-03 Lyon Centre','<span class="t-nu tag">COLD 2–4°C</span>','9','04:10','07:40','<span class="t-cr tag">EXCURSION</span>'],
+ ['<b>L-2215</b>','R-03 Lyon Centre','<span class="t-wa tag">DRY AMBIENT</span>','9','04:10','07:40','<span class="t-ok tag">ON TIME</span>'],
+ ['<b>L-2218</b>','R-07 Lyon East','<span class="t-nu tag">COLD 2–4°C</span>','8','04:40','08:05','<span class="t-ok tag">ON TIME</span>'],
+ ['<b>L-2221</b>','R-11 Vienna Ring','<span class="t-nu tag">COLD 2–4°C</span>','11','04:00','08:20','<span class="t-wa tag">DELAYED 18m</span>'],
+ ['<b>L-2226</b>','R-19 Berlin Mitte','<span class="t-nu tag">FROZEN −18°C</span>','7','03:50','07:30','<span class="t-ok tag">ON TIME</span>']])+'</div>'
+ +'<div class="pan"><h3>Route network</h3><div class="ph">All 26 routes across 3 distribution centres</div>'
+ +big(['ROUTE','CITY','CHAIN','DROPS','ON-TIME','COST / DROP','EXCURSIONS'],
+  srt(ROUTES,'otd','asc').map(function(r){
+   return ['<b>'+r.id+'</b>',r.city,'<span class="'+(r.chain.charAt(0)==='C'?'t-nu':r.chain.charAt(0)==='F'?'t-ai':'t-wa')+' tag">'+r.chain+'</span>',r.drops,
+    '<span class="'+(r.otd>95?'t-ok':r.otd>88?'t-wa':'t-cr')+' tag">'+r.otd+'%</span>','€'+r.cpd.toFixed(2),
+    r.exc?'<span class="t-cr tag">'+r.exc+'</span>':'—'];}),'26 ROUTES')+'</div>'
+ +'<div class="pan"><h3>Temperature integrity in transit</h3><div class="ph">Against chain specification</div>'
+ +'<div class="tempbar"><span class="nm">L-2214 · cold</span><div class="tr"><i style="left:0;width:64%;background:linear-gradient(90deg,var(--teal),var(--red))"></i></div><span class="vv" style="color:var(--red)">6.1°C</span></div>'
+ +'<div class="tempbar"><span class="nm">L-2218 · cold</span><div class="tr"><i style="left:0;width:41%;background:var(--teal)"></i></div><span class="vv" style="color:var(--mint)">3.2°C</span></div>'
+ +'<div class="tempbar"><span class="nm">L-2226 · frozen</span><div class="tr"><i style="left:0;width:22%;background:var(--violet)"></i></div><span class="vv" style="color:var(--mint)">−19.1°C</span></div>'
+ +'<div class="tempbar"><span class="nm">L-2224 · dry</span><div class="tr"><i style="left:0;width:52%;background:var(--amber)"></i></div><span class="vv" style="color:var(--mint)">18.4°C</span></div></div>';},
+ bi:function(){return bi([['On-time by route','Rolling 4 weeks',hbars([['R-07 Lyon East',97.2,'mi','97.2%'],['R-19 Berlin',96.1,'mi','96.1%'],['R-14 Brussels',94.8,'mi','94.8%'],['R-11 Vienna',92.4,'wa','92.4%'],['R-03 Lyon Centre',81.6,'cr','81.6%']],100)],
+ ['Cost to serve by chain','€ per drop',hbars([['Frozen',26.8,'wa','€26.80'],['Cold',21.4,'','€21.40'],['Dry ambient',12.9,'mi','€12.90']],30)],
+ ['Excursions by cause','Last 90 days',tbl(['CAUSE','COUNT','STOCK AT RISK'],[['Door seal fault','4','€6,200'],['Compressor','2','€3,100'],['Door open too long','7','€1,400'],['Loading delay','3','€900']])],
+ ['Drop density','Drops per route hour',hbars([['Transit routes',4.8,'mi','4.8'],['Urban routes',3.9,'','3.9'],['Suburban routes',2.4,'wa','2.4'],['Destination routes',1.8,'cr','1.8']],6)]]);},
+ cfg:function(){return cfg([['Chain specifications','Temperature bands',[['Cold chain','2 – 4°C','FOOD SAFETY'],['Frozen chain','≤ −18°C','FOOD SAFETY'],['Dry ambient','10 – 25°C','QUALITY'],['Excursion tolerance','15 min','FOOD SAFETY']]],
+ ['Routing rules','How loads are built',[['Optimise for','Cost per drop','LOGISTICS'],['Max drops per load','12','OPS'],['Max route duration','4.5 h','COMPLIANCE'],['Split cold and dry loads',true,'MANDATORY']]],
+ ['Telemetry','What is monitored live',[['In-transit temperature',true,'IOT'],['Door-open events',true,'IOT'],['GPS / ETA',true,'IOT'],['Fuel & driver hours',true,'IOT']]],
+ ['Excursion response','What happens automatically',[['Alert threshold','+0.5°C for 10 min','AUTO'],['Auto-quarantine affected stock',true,'ENABLED'],['Remove vehicle from cold rotation',false,'MANUAL'],['Notify food safety lead',true,'ENABLED']]]]);}};
+
+M.inv={
+ wb:function(){return iflag('<b>Butter variance is 6.4% above theoretical.</b> That is not shrinkage — it is lamination portioning at three branches, worth about €4,900 a month.')
+ +'<div class="kpis">'+kpi('SKUS TRACKED','214','raw + packaging')+kpi('STOCK VALUE','€312,400','at latest cost')
+ +kpi('BELOW PAR',circ('7'),'action needed')+kpi('EXPIRING ≤7 DAYS','€2,140','rotate first')+'</div>'
+ +'<div class="pan"><h3>Live ingredient ledger</h3><div class="ph">Depleting against every sale through the bill of material</div>'
+ +tbl(['INGREDIENT','ON HAND','PAR','COVER','BATCH / EXPIRY','STATUS'],[
+ ['<b>Butter, unsalted 82%</b>','412 kg','900 kg','2.4 d','B-2291 · 14 Aug','<span class="t-cr tag">BELOW PAR</span>'],
+ ['<b>Flour, T55</b>','3,180 kg','2,400 kg','9.1 d','F-1180 · 31 Jul','<span class="t-ok tag">OK</span>'],
+ ['<b>Dark chocolate 64%</b>','286 kg','240 kg','7.8 d','C-0442 · 02 Nov','<span class="t-ok tag">OK</span>'],
+ ['<b>Fresh berries</b>','38 kg','60 kg','1.9 d','R-8821 · 24 Jul','<span class="t-wa tag">EXPIRES SOON</span>'],
+ ['<b>Yeast, fresh</b>','64 kg','70 kg','4.2 d','Y-0310 · 05 Aug','<span class="t-wa tag">WATCH</span>']])+'</div>'
+ +'<div class="pan"><h3>Item-level waste rate</h3><div class="ph">Every catalogue item, ranked by waste as a share of units produced</div>'
+ +big(['ITEM','CATEGORY','SHELF LIFE','UNITS / WK','WASTE %','COST/UNIT','LIFECYCLE'],
+  srt(SKU,'waste','desc').map(function(k){
+   return ['<b>'+k.n+'</b>',k.cat,k.shelf?k.shelf+' h':'—',k.vel,
+    '<span class="'+(k.waste<2?'t-ok':k.waste<4?'t-wa':'t-cr')+' tag">'+k.waste+'%</span>','€'+k.cost.toFixed(2),
+    k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST</span>'];}),SKU.length+' CATALOGUE ITEMS')+'</div>';},
+ bi:function(){return bi([['Inventory turns','By category, annualised',hbars([['Dairy',104,'mi','104×'],['Fresh produce',182,'mi','182×'],['Flour & grain',41,'','41×'],['Chocolate',26,'wa','26×'],['Packaging',18,'wa','18×']],200)],
+ ['Theoretical vs actual','7-day usage variance',hbars([['Butter',6.4,'cr','+6.4%'],['Chocolate',6.3,'cr','+6.3%'],['Flour T55',1.1,'mi','+1.1%'],['Milk',1.0,'mi','+1.0%'],['Yeast',2.2,'','+2.2%']],8)],
+ ['Stock value trend','€ held, 12 weeks',bars([64,68,66,71,69,74,72,76,74,78,76,81])],
+ ['Write-off by reason','Last 90 days',tbl(['REASON','VALUE','SHARE'],[['Expiry','€8,400','44%'],['Damage','€5,100','27%'],['Quality reject','€3,600','19%'],['Cold-chain loss','€1,900','10%']])]]);},
+ cfg:function(){return cfg([['Stock policy','How inventory is governed',[['Rotation method','FEFO','FOOD SAFETY'],['Count cadence · high value','Weekly','FINANCE'],['Count cadence · standard','Monthly','FINANCE'],['Negative stock allowed',false,'BLOCKED']]],
+ ['Par levels','Reorder points',[['Derived from','Forecast × lead time','L2 ZEN'],['Seasonal adjustment',true,'ENABLED'],['Manual par override',true,'BUYER'],['Recalculate weekly',true,'ENABLED']]],
+ ['Batch & traceability','What is recorded',[['Batch code capture',true,'MANDATORY'],['Supplier lot linkage',true,'ENABLED'],['Expiry date capture',true,'MANDATORY'],['Forward trace to product',true,'ENABLED']]],
+ ['Variance alerts','When usage looks wrong',[['Flag variance above','4%','AUTO'],['Escalate variance above','8%','AUTO'],['Compare against','Theoretical BOM','FIXED']]]]);}};
+
+M.proc={
+ wb:function(){return iflag('<b>PO-4455 is invoiced 6.1% above contracted price.</b> That single exception explains the entire group price variance — and it is the same supplier whose on-time performance has fallen 15 points.')
+ +'<div class="kpis">'+kpi('REQUISITIONS OPEN','31','€214,600')+kpi('AWAITING APPROVAL','4','€38,400')
+ +kpi('3-WAY MATCH RATE','96.2%','6 exceptions')+kpi('PRICE VARIANCE (MTD)',circ('+2.4%'),'vs contracted')+kpi('PO CYCLE TIME','1.8 days','plan to dispatch')+'</div>'
+ +'<div class="pan"><h3>Plan-to-procure cycle</h3><div class="ph">Every stage from demand signal to supplier payment</div>'
+ +pipe([['DEMAND','Requirement raised','31',''],['REQUISITION','Drafted by Iris','23','doing'],['SOURCING','RFQ issued','6',''],['AWARD','Quote accepted','4',''],['PO','Order placed','23',''],['APPROVE','Awaiting sign-off','4','block'],['RECEIPT','GRN booked','18',''],['MATCH','3-way matched','17',''],['PAY','Scheduled','14','']])+'</div>'
+ +'<div class="pan"><h3>Live procurement pipeline</h3><div class="ph">Requisition → PO → receipt → match → payment</div>'
+ +tbl(['REF','SUPPLIER','ITEM','VALUE','STAGE','STATUS'],[
+ ['<b>REQ-8841</b>','Delcourt Dairy','Butter 1,240 kg','€28,400','Requisition','<span class="t-ai tag">IRIS DRAFT</span>'],
+ ['<b>PO-4479</b>','Moulin Berger','Flour T55 6 t','€19,800','Purchase order','<span class="t-ok tag">APPROVED</span>'],
+ ['<b>PO-4471</b>','Cacao Nord','Chocolate 600 kg','€12,600','Purchase order','<span class="t-wa tag">AWAITING APPROVAL</span>'],
+ ['<b>PO-4466</b>','Verger Lyon','Fresh produce','€6,240','Goods receipt','<span class="t-nu tag">GRN BOOKED</span>'],
+ ['<b>PO-4455</b>','Delcourt Dairy','Butter 900 kg','€26,900','Exception','<span class="t-cr tag">PRICE MISMATCH</span>']])+'</div>'
+ +'<div class="pan"><h3>Full purchase ledger</h3><div class="ph">All open and recent orders across 38 suppliers</div>'
+ +big(['REF','SUPPLIER','ITEM','QTY','VALUE','AGE','STATUS'],
+  srt(POS,'age','asc').map(function(o){var c=o.st==='PRICE MISMATCH'?'t-cr':o.st==='AWAITING APPROVAL'?'t-wa':o.st==='IRIS DRAFT'?'t-ai':'t-ok';
+   return ['<b>'+o.ref+'</b>',o.sup,o.item,o.qty,eur(o.val),o.age+' d','<span class="'+c+' tag">'+o.st+'</span>'];}),'64 ORDERS')+'</div>';},
+ bi:function(){return bi([['Cycle time by stage','Average days',hbars([['Requisition → PO',0.4,'mi','0.4 d'],['PO → approval',0.8,'wa','0.8 d'],['Approval → dispatch',0.6,'mi','0.6 d'],['Receipt → match',1.9,'cr','1.9 d'],['Match → payment',28,'','28 d']],30)],
+ ['Spend by category','MTD',hbars([['Dairy',184000,'','€184k'],['Flour & grain',142000,'','€142k'],['Chocolate',68000,'','€68k'],['Produce',54000,'','€54k'],['Packaging',41000,'','€41k']])],
+ ['Match exceptions','PO vs GRN vs invoice',tbl(['TYPE','COUNT','VALUE'],[['Price variance','3','€2,072'],['Quantity short','2','€494'],['Tax code','1','€96']])],
+ ['Maverick spend','Purchases outside contract',hbars([['Fresh produce',18.2,'cr','18.2%'],['Packaging',6.1,'wa','6.1%'],['Dairy',2.4,'mi','2.4%'],['Flour',0.8,'mi','0.8%']],20)]]);},
+ cfg:function(){return cfg([['Approval matrix','Who signs what',[['Under €5,000','Area manager','DELEGATED'],['€5,000 – €25,000','Head of Supply','DELEGATED'],['€25,000 – €100,000','CFO','ESCALATED'],['Over €100,000','Board','ESCALATED']]],
+ ['Three-way match','Tolerances before exception',[['Price tolerance','±2%','FINANCE'],['Quantity tolerance','±3%','FINANCE'],['Auto-post within tolerance',true,'ENABLED'],['Block payment on exception',true,'ENABLED']]],
+ ['Requisition automation','What Iris may draft',[['Auto-draft on par breach',true,'ENABLED'],['Auto-draft on forecast lift',true,'ENABLED'],['Auto-submit without human',false,'NEVER'],['Suggest alternative supplier',true,'ENABLED']]],
+ ['Payment terms','Standing commercial terms',[['Default terms','45 days','FINANCE'],['Early-settlement discount','2% / 10 days','FINANCE'],['Hold payment on quality reject',true,'ENABLED']]]]);}};
+
+M.rfq={
+ wb:function(){return iflag('<b>Beurre Vallée is €0.16/kg more expensive landed, and still the better award.</b> Delcourt\'s indexed contract is what allowed the 6.1% rise, and its OTIF has fallen to 81%. Switching costs ~€14,900/yr and saves an estimated €38,000 in lost production.')
+ +'<div class="kpis">'+kpi('ACTIVE RFQs','6','€142,800 addressable')+kpi('CONTRACTS LIVE','24','€2.1M annualised')
+ +kpi('EXPIRING ≤90 DAYS',circ('5'),'renegotiate')+kpi('SAVINGS IDENTIFIED','€64,200','annualised')+'</div>'
+ +'<div class="pan"><h3>Open RFQs · quote comparison</h3><div class="ph">Award on landed cost and reliability, not headline price</div>'
+ +tbl(['RFQ','CATEGORY','BIDDERS','BEST PRICE','LANDED','OTIF','RECOMMENDED'],[
+ ['<b>RFQ-114</b>','Butter · 12 mo','4','€6.02 / kg','€6.18','98.1%','<span class="t-ok tag">Beurre Vallée</span>'],
+ ['<b>RFQ-115</b>','Flour T55 · 12 mo','3','€0.58 / kg','€0.61','98.2%','<span class="t-ok tag">Moulin Berger</span>'],
+ ['<b>RFQ-118</b>','Packaging · 24 mo','5','€0.041 / u','€0.044','99.4%','<span class="t-ok tag">EmballagePro</span>'],
+ ['<b>RFQ-121</b>','Chocolate · 12 mo','3','€19.40 / kg','€20.10','96.8%','<span class="t-wa tag">Cacao Nord</span>']])+'</div>'
+ +'<div class="pan"><h3>Contract register</h3><div class="ph">Price protection and volume commitment</div>'
+ +tbl(['SUPPLIER','CATEGORY','EXPIRES','PRICE BASIS','VOLUME COMMIT'],[
+ ['<b>Delcourt Dairy</b>','Dairy','<span class="t-cr tag">18 Sep</span>','Indexed','80% of category'],
+ ['<b>Moulin Berger</b>','Flour','12 Mar','Fixed','70%'],
+ ['<b>Cacao Nord</b>','Chocolate','<span class="t-wa tag">30 Oct</span>','Fixed','60%'],
+ ['<b>Verger Lyon</b>','Produce','<span class="t-wa tag">22 Aug</span>','Spot','None']])+'</div>';},
+ bi:function(){return bi([['Savings pipeline','Identified vs realised',hbars([['Identified',64200,'','€64.2k'],['Negotiated',41800,'wa','€41.8k'],['Contracted',28400,'wa','€28.4k'],['Realised in P&L',19100,'cr','€19.1k']])],
+ ['Bid participation','Suppliers per RFQ',hbars([['Packaging',5,'mi','5'],['Butter',4,'mi','4'],['Produce',4,'mi','4'],['Flour',3,'wa','3'],['Chocolate',3,'wa','3']],6)],
+ ['Price basis exposure','Share of spend',tbl(['BASIS','SPEND','RISK'],[['Fixed','€1.24M','<span class="t-ok tag">LOW</span>'],['Indexed','€0.61M','<span class="t-cr tag">HIGH</span>'],['Spot','€0.25M','<span class="t-wa tag">MEDIUM</span>']])],
+ ['Contract expiry runway','Months to expiry',hbars([['Delcourt · dairy',2,'cr','2 mo'],['Verger · produce',1,'cr','1 mo'],['Cacao Nord',3,'wa','3 mo'],['EmballagePro',11,'mi','11 mo'],['Moulin Berger',8,'mi','8 mo']],12)]]);},
+ cfg:function(){return cfg([['Sourcing policy','How awards are decided',[['Minimum bidders','3','GOVERNANCE'],['Award basis','Landed cost + OTIF','POLICY'],['OTIF weighting','30%','POLICY'],['Single-source approval','CFO','ESCALATED']]],
+ ['Contract standards','Default clauses',[['Price review frequency','Quarterly','LEGAL'],['Max indexed exposure','25% of spend','FINANCE'],['Quality reject clause',true,'MANDATORY'],['Volume flexibility','±15%','COMMERCIAL']]],
+ ['Renewal automation','What happens near expiry',[['Alert at','90 days','AUTO'],['Auto-issue RFQ at','60 days','AUTO'],['Auto-renew allowed',false,'NEVER'],['Benchmark against market',true,'ENABLED']]],
+ ['Supplier onboarding','Before first order',[['Food safety certification',true,'MANDATORY'],['Insurance verification',true,'MANDATORY'],['Sample approval',true,'MANDATORY'],['Trial period','8 weeks','QUALITY']]]]);}};
+
+M.sup={
+ wb:function(){return iflag('<b>Delcourt holds 96% of your dairy spend while its OTIF has fallen 15 points in 12 weeks.</b> That is a concentration risk on your single most critical ingredient, not a routine performance dip.')
+ +'<div class="kpis">'+kpi('ACTIVE SUPPLIERS','38','4 markets')+kpi('ON-TIME IN FULL','94.1%','<span class="dn">-1.8pts</span>')
+ +kpi('SINGLE-SOURCED SKUs',circ('12'),'concentration risk')+kpi('AVG PAYMENT TERMS','42 days','')+'</div>'
+ +'<div class="pan"><h3>Supplier scorecards</h3><div class="ph">Evidence for the next negotiation</div>'
+ +tbl(['SUPPLIER','CATEGORY','OTIF','FILL RATE','PRICE VAR','QUALITY'],[
+ ['<b>Moulin Berger</b>','Flour &amp; grain','98.2%','99.1%','<span class="t-ok tag">+0.4%</span>','<span class="t-ok tag">A</span>'],
+ ['<b>Delcourt Dairy</b>','Dairy','81.4%','92.0%','<span class="t-cr tag">+6.1%</span>','<span class="t-wa tag">B</span>'],
+ ['<b>Cacao Nord</b>','Chocolate','96.8%','97.4%','<span class="t-ok tag">+1.2%</span>','<span class="t-ok tag">A</span>'],
+ ['<b>Verger Lyon</b>','Fresh produce','89.1%','88.6%','<span class="t-wa tag">+3.8%</span>','<span class="t-wa tag">B</span>'],
+ ['<b>EmballagePro</b>','Packaging','99.4%','100%','<span class="t-ok tag">0.0%</span>','<span class="t-ok tag">A</span>']])+'</div>'
+ +'<div class="pan"><h3>Full supplier base</h3><div class="ph">All 38 active suppliers, ranked by on-time-in-full</div>'
+ +big(['SUPPLIER','CATEGORY','SPEND','OTIF','FILL','PRICE VAR','TERMS','GRADE','RISK'],
+  srt(SUPS,'otif','desc').map(function(x){
+   return ['<b>'+x.n+'</b>',x.cat,eur(x.spend),
+    '<span class="'+(x.otif>96?'t-ok':x.otif>90?'t-wa':'t-cr')+' tag">'+x.otif+'%</span>',x.fill+'%',
+    '<span class="'+(x.pv<1?'t-ok':x.pv<3?'t-wa':'t-cr')+' tag">'+(x.pv>0?'+':'')+x.pv+'%</span>',x.terms+' d',
+    '<span class="'+(x.q==='A'?'t-ok':x.q==='B'?'t-wa':'t-cr')+' tag">'+x.q+'</span>',
+    '<span class="'+(x.risk==='LOW'?'t-ok':x.risk==='MED'?'t-wa':'t-cr')+' tag">'+x.risk+'</span>'];}),'38 SUPPLIERS')+'</div>';},
+ bi:function(){return bi([['OTIF trend · Delcourt','12 weeks — the slide is not noise',bars([96,95,97,94,93,95,92,90,88,85,83,81])],
+ ['Category concentration','Share held by largest supplier',hbars([['Dairy',96,'cr','96%'],['Flour',74,'wa','74%'],['Chocolate',58,'','58%'],['Packaging',49,'mi','49%'],['Produce',38,'mi','38%']],100)],
+ ['Quality rejects','Units rejected per 10k received',hbars([['Verger Lyon',41,'cr','41'],['Delcourt',28,'wa','28'],['Cacao Nord',9,'mi','9'],['Moulin Berger',6,'mi','6'],['EmballagePro',2,'mi','2']],50)],
+ ['Supplier risk register','Composite score',tbl(['SUPPLIER','FINANCIAL','DELIVERY','QUALITY','OVERALL'],[['Delcourt','B','<span class="t-cr tag">D</span>','C','<span class="t-cr tag">HIGH</span>'],['Verger','C','C','<span class="t-wa tag">C</span>','<span class="t-wa tag">MED</span>'],['Moulin Berger','A','A','A','<span class="t-ok tag">LOW</span>']])]]);},
+ cfg:function(){return cfg([['Scorecard weights','How suppliers are graded',[['On-time in full','35%','POLICY'],['Fill rate','20%','POLICY'],['Price variance','25%','POLICY'],['Quality rejects','20%','POLICY']]],
+ ['Performance thresholds','When action is triggered',[['OTIF warning below','92%','AUTO'],['OTIF escalation below','85%','AUTO'],['Price variance alert','±3%','AUTO'],['Quality reject ceiling','30 / 10k','QUALITY']]],
+ ['Concentration limits','Risk guard-rails',[['Max single-supplier share','75%','POLICY'],['Dairy currently at','96%','<span style="color:var(--red)">BREACH</span>'],['Dual-source critical SKUs',true,'REQUIRED'],['Review cadence','Quarterly','GOVERNANCE']]],
+ ['Supplier portal','What suppliers can see',[['Order status',true,'SHARED'],['Their scorecard',true,'SHARED'],['Forecast visibility · 4 weeks',true,'SHARED'],['Other suppliers\' pricing',false,'NEVER']]]]);}};
+
+M.bom={
+ wb:function(){return iflag('<b>Butter is 52% of laminated dough cost.</b> One supplier price move dragged six products below margin floor simultaneously — which is why almond croissant now reads as a plough-horse on the menu matrix.')
+ +'<div class="kpis">'+kpi('ACTIVE RECIPES','186','incl. 24 sub-recipes')+kpi('AVG GROSS MARGIN','68.2%','<span class="dn">-1.1pts</span>')
+ +kpi('BELOW MARGIN FLOOR',circ('5'),'reprice candidates')+kpi('ALLERGEN-TAGGED','100%','label ready')+'</div>'
+ +'<div class="pan"><h3>Recipe cost &amp; margin</h3><div class="ph">Recosted live as ingredient prices move</div>'
+ +tbl(['PRODUCT','YIELD','COST/UNIT','PRICE','GM%','TREND'],[
+ ['<b>Butter croissant</b>','96%','€0.41','€1.60','<b>74.4%</b>','<span class="t-wa tag">-2.1pts</span>'],
+ ['<b>Pain au chocolat</b>','95%','€0.52','€1.90','<b>72.6%</b>','<span class="t-wa tag">-2.4pts</span>'],
+ ['<b>Sourdough loaf</b>','92%','€0.88','€3.80','<b>76.8%</b>','<span class="t-ok tag">+0.3pts</span>'],
+ ['<b>Almond croissant</b>','94%','€0.94','€2.60','<b>63.8%</b>','<span class="t-cr tag">-3.8pts</span>']])+'</div>'
+ +'<div class="pan"><h3>Sub-recipe: Laminated dough</h3><div class="ph">Used by 6 products — change once, recost everywhere</div>'
+ +tbl(['INGREDIENT','QTY / KG','COST','SHARE'],[['<b>Flour T55</b>','0.540 kg','€0.32','38%'],
+ ['<b>Butter, unsalted 82%</b>','0.310 kg','€1.86','<b>52%</b>'],['<b>Water</b>','0.120 L','€0.00','0%'],
+ ['<b>Yeast, fresh</b>','0.018 kg','€0.09','4%'],['<b>Salt &amp; sugar</b>','0.024 kg','€0.06','6%']])+'</div>';},
+ bi:function(){return bi([['Margin bridge','Points of GM change, MTD',hbars([['Butter price',-2.4,'cr','−2.4'],['Flour price',-0.2,'wa','−0.2'],['Mix shift',0.9,'mi','+0.9'],['Yield improvement',0.6,'mi','+0.6']],3)],
+ ['Cost sensitivity','GM impact of +10% ingredient',hbars([['Butter',-3.9,'cr','−3.9pts'],['Flour',-1.1,'wa','−1.1pts'],['Chocolate',-0.8,'wa','−0.8pts'],['Milk',-0.6,'mi','−0.6pts']],5)],
+ ['Sub-recipe reuse','Products per sub-recipe',hbars([['Laminated dough',6,'','6'],['Pastry cream',5,'','5'],['Sourdough starter',4,'','4'],['Chocolate ganache',3,'','3']],8)],
+ ['Allergen coverage','Recipes with complete tagging',tbl(['ALLERGEN','RECIPES','LABELLED'],[['Gluten','186','100%'],['Milk','162','100%'],['Egg','118','100%'],['Nuts','54','100%'],['Soy','41','100%']])]]);},
+ cfg:function(){return cfg([['Costing method','How cost per unit is derived',[['Valuation','Weighted average','FINANCE'],['Include labour in recipe cost',false,'EXCLUDED'],['Include energy',false,'EXCLUDED'],['Recost trigger','Any price change','AUTO']]],
+ ['Yield management','Loss accounted in cost',[['Baking loss captured',true,'ENABLED'],['Proofing loss captured',true,'ENABLED'],['Trim & offcut captured',true,'ENABLED'],['Yield review cadence','Monthly','QUALITY']]],
+ ['Margin policy','Floors and alerts',[['Group margin floor','65%','FINANCE'],['Alert when GM falls','&gt; 2 pts','AUTO'],['Auto-flag reprice candidates',true,'ENABLED'],['Block sale below cost',true,'ENABLED']]],
+ ['Allergen management','Label accuracy',[['Propagate through sub-recipes',true,'MANDATORY'],['Block publish without tags',true,'MANDATORY'],['May-contain declarations',true,'ENABLED'],['Review on any BOM change',true,'MANDATORY']]]]);}};
+
+M.waste={
+ wb:function(){return iflag('<b>58% of waste is unsold product</b> — a planning problem, not a kitchen discipline problem. It rises with the unjustified demand-plan overrides flagged in Demand Planning.')
+ +'<div class="kpis">'+kpi('WASTE COST (MTD)',circ('€41,380'),'3.1% of food cost')+kpi('UNSOLD','€24,100','58%')
+ +kpi('PRODUCTION VARIANCE','€11,900','29%')+kpi('SPOILAGE','€5,380','13%')+'</div>'
+ +'<div class="pan"><h3>Waste by cause</h3><div class="ph">Because the fix for over-production is not the fix for spoilage</div>'
+ +tbl(['CAUSE','COST','SHARE','TREND','OWNER'],[
+ ['<b>Unsold at close</b>','€24,100','58%','<span class="t-wa tag">+4.2%</span>','Demand plan'],
+ ['<b>Portion / recipe variance</b>','€11,900','29%','<span class="t-cr tag">+8.1%</span>','Kitchen'],
+ ['<b>Spoilage &amp; expiry</b>','€5,380','13%','<span class="t-ok tag">-2.4%</span>','Stock rotation'],
+ ['<b>Damaged in transit</b>','€1,240','3%','<span class="t-ok tag">-1.1%</span>','Logistics']])+'</div>';},
+ bi:function(){return bi([['Waste % by cluster','Of food cost',hbars([['Transit',4.1,'cr','4.1%'],['Office & Campus',3.8,'wa','3.8%'],['Urban High',3.0,'','3.0%'],['Suburban',2.6,'mi','2.6%'],['Destination',2.2,'mi','2.2%']],5)],
+ ['Waste by day-part','Where product is left',hbars([['Late afternoon',52,'cr','52%'],['Evening close',31,'wa','31%'],['Midday',11,'','11%'],['Morning',6,'mi','6%']],60)],
+ ['Markdown recovery','Value recovered vs written off',tbl(['ACTION','UNITS','VALUE'],[['Sold at markdown','18,400','€21,600'],['Redistributed','4,180','€0'],['Written off','9,100','€41,380']])],
+ ['Waste trend','% of food cost, 12 weeks',bars([38,41,44,42,46,49,44,47,52,48,55,58])]]);},
+ cfg:function(){return cfg([['Waste capture','How loss is recorded',[['Capture method','Weighed at bin','OPS'],['Reason code mandatory',true,'ENABLED'],['Photo evidence for &gt; €50',true,'ENABLED'],['Daily close reconciliation',true,'MANDATORY']]],
+ ['Markdown policy','Before product is wasted',[['First markdown at','−2 h to expiry','PRICING'],['First markdown %','25%','PRICING'],['Second markdown at','−1 h','PRICING'],['Second markdown %','50%','PRICING']]],
+ ['Redistribution','Surplus to partners',[['Partner collection enabled',true,'ENABLED'],['Cut-off time','19:30','OPS'],['Categories excluded','Chilled dairy','FOOD SAFETY']]],
+ ['Variance investigation','When to dig in',[['Investigate above','5%','AUTO'],['Escalate above','8%','AUTO'],['Link to branch and shift',true,'ENABLED']]]]);}};
+
+M.xfer={
+ wb:function(){return iflag('<b>Lyon central kitchen is at 87% of reliable throughput.</b> Two more branches on this indent cycle would push it past the point where late dispatches begin to compound.')
+ +'<div class="kpis">'+kpi('CENTRAL KITCHENS','3','Lyon · Vienna · Brussels')+kpi('OPEN INDENTS','18','from 58 branches')
+ +kpi('IN TRANSIT','€22,400','9 dispatches')+kpi('TRANSFER ACCURACY',circ('98.6%'),'received = dispatched')+'</div>'
+ +'<div class="pan"><h3>Indents &amp; transfers</h3><div class="ph">Inter-branch movement tracked like external purchase</div>'
+ +tbl(['REF','FROM','TO','LINES','VALUE','STATUS'],[
+ ['<b>TR-2214</b>','Lyon CK','B041 · Bellecour','12','€3,180','<span class="t-nu tag">IN TRANSIT</span>'],
+ ['<b>TR-2213</b>','Lyon CK','B038 · Part-Dieu','9','€2,420','<span class="t-nu tag">IN TRANSIT</span>'],
+ ['<b>TR-2209</b>','Vienna CK','B112 · Graben','14','€4,060','<span class="t-ok tag">RECEIVED</span>'],
+ ['<b>TR-2201</b>','Lyon CK','B044 · Confluence','11','€2,940','<span class="t-wa tag">SHORT RECEIVED</span>']])+'</div>';},
+ bi:function(){return bi([['Central kitchen utilisation','% of reliable throughput',hbars([['Lyon CK',87,'wa','87%'],['Vienna CK',68,'mi','68%'],['Brussels CK',52,'mi','52%']],100)],
+ ['Make vs buy','Cost per unit, central vs supplier',tbl(['PRODUCT','CENTRAL','SUPPLIER','DECISION'],[['Laminated dough','€1.42','€1.88','<span class="t-ok tag">MAKE</span>'],['Pastry cream','€2.10','€2.24','<span class="t-ok tag">MAKE</span>'],['Sourdough starter','€0.88','€1.60','<span class="t-ok tag">MAKE</span>'],['Sandwich bread','€1.94','€1.61','<span class="t-wa tag">BUY</span>']])],
+ ['Transfer discrepancies','Dispatched vs received',hbars([['Lyon CK',1.4,'wa','1.4%'],['Vienna CK',0.9,'mi','0.9%'],['Brussels CK',1.1,'mi','1.1%']],2)],
+ ['Branches served per CK','Current allocation',hbars([['Lyon CK',88,'wa','88'],['Vienna CK',64,'','64'],['Brussels CK',48,'mi','48']],100)]]);},
+ cfg:function(){return cfg([['Central kitchen network','Which CK serves which branches',[['Allocation basis','Drive time','LOGISTICS'],['Max drive time','75 min','QUALITY'],['Reallocate on capacity breach',true,'ENABLED'],['Reliable throughput ceiling','90%','OPS']]],
+ ['Indent process','How branches request',[['Indent cut-off','16:00 D-1','OPS'],['Auto-indent from forecast',true,'ENABLED'],['Branch may edit auto-indent',true,'ENABLED'],['Late indent surcharge',false,'DISABLED']]],
+ ['Make-or-buy rules','When to produce centrally',[['Central cost advantage required','&gt; 12%','FINANCE'],['Review cadence','Quarterly','COMMERCIAL'],['Quality parity required',true,'MANDATORY']]],
+ ['Transfer accounting','How value moves',[['Transfer price basis','Standard cost','FINANCE'],['Discrepancy tolerance','±1%','FINANCE'],['Auto-post to branch P&L',true,'ENABLED']]]]);}};
+
+
+/* ---------- Analysis layer: driver decomposition + what-if ---------- */
+M.cmd.ana=function(){return drv('What is driving the service gap','Contribution to the 1.2pt on-shelf availability decline',
+ [['Ingredient shortfall',38,DC.d],['Route timing',27,DC.c],['Cluster drift',19,DC.a],['Forecast error',11,DC.b],['Other',5,DC.e]])
+ +wif('What-if · relieve the butter constraint','Move the standing order and see what the chain does',
+ ['SCENARIO','AVAILABILITY','WASTE','MARGIN','NET €/WK'],
+ [['<b>Do nothing</b>','96.1%','3.1%','68.2%','<span class="t-cr tag">−€12,400</span>'],
+  ['<b>+340 kg butter</b>','<span class="t-ok tag">98.4%</span>','3.2%','68.0%','<span class="t-ok tag">+€10,220</span>'],
+  ['<b>+680 kg butter</b>','98.6%','<span class="t-wa tag">4.1%</span>','67.6%','+€6,800'],
+  ['<b>Cut Friday bake 12%</b>','94.8%','<span class="t-ok tag">2.6%</span>','68.4%','−€4,100']],
+ 'The second row is the recommendation. Doubling the order buys 0.2 points of availability and costs a point of margin in waste — the constraint is worth relieving, not over-relieving.');};
+M.fc.ana=function(){return drv('Where forecast error comes from','Contribution to group MAPE of 7.2%',
+ [['Cold drinks · weather',34,DC.d],['Seasonal / NPI',22,DC.c],['Savoury',18,DC.e],['Laminated bias',15,DC.a],['Bread',11,DC.b]])
+ +wif('What-if · add a signal','Modelled effect of enabling additional features',
+ ['CHANGE','MAPE','COLD-DRINK MAPE','COST'],
+ [['<b>Current model</b>','7.2%','14.8%','—'],
+  ['<b>+ hourly weather</b>','<span class="t-ok tag">6.6%</span>','<span class="t-ok tag">10.1%</span>','€0 · already licensed'],
+  ['<b>+ local events feed</b>','6.9%','14.4%','€4,800 / yr'],
+  ['<b>+ competitor pricing</b>','7.0%','14.6%','<span class="t-cr tag">€26,000 / yr</span>']],
+ 'Hourly weather is free and fixes the biggest error pocket. Competitor pricing costs €26k and moves MAPE by 0.2 points — not worth buying yet.');};
+M.dp.ana=function(){return drv('What the plan is made of','Sources of variance between plan and eventual actual',
+ [['Unjustified overrides',41,DC.d],['NPI estimates',24,DC.c],['Promo uplift error',18,DC.e],['Statistical error',17,DC.a]])
+ +wif('What-if · override discipline','Effect of making a reason mandatory',
+ ['POLICY','PLAN ERROR','UNSOLD WASTE','SERVICE'],
+ [['<b>Today · reason optional</b>','+3.8%','€24,100','97.4%'],
+  ['<b>Reason mandatory</b>','<span class="t-ok tag">+2.4%</span>','<span class="t-ok tag">€19,600</span>','97.3%'],
+  ['<b>Reason + approval &gt;10%</b>','+2.1%','€18,400','<span class="t-wa tag">96.9%</span>']],
+ 'Making a reason mandatory is a one-line configuration change worth about €4,500 a month. Adding approval on top buys little more and costs half a point of service.');};
+M.menu.ana=function(){return drv('Why menu margin fell 1.1 points','Decomposition of the month-on-month move',
+ [['Butter cost',58,DC.d],['Mix shift to cold',19,DC.e],['Flour cost',9,DC.c],['Markdown depth',8,DC.a],['Other',6,DC.b]])
+ +wif('What-if · restore margin on laminated','Four routes to the same 2-point recovery',
+ ['LEVER','GM RECOVERED','VOLUME EFFECT','GUEST-VISIBLE'],
+ [['<b>Re-source butter</b>','<span class="t-ok tag">+2.4pts</span>','none','<span class="t-ok tag">No</span>'],
+  ['<b>+10c croissant price</b>','+2.1pts','<span class="t-wa tag">−4.8%</span>','<span class="t-cr tag">Yes</span>'],
+  ['<b>Reduce butter 4% in recipe</b>','+1.6pts','quality risk','<span class="t-cr tag">Yes</span>'],
+  ['<b>Delist almond croissant</b>','+0.4pts','<span class="t-cr tag">−1,619 u</span>','<span class="t-cr tag">Yes</span>']],
+ 'Only the first is invisible to the guest and costs nothing in volume. The menu matrix flags almond croissant as a plough-horse, but delisting it is the worst of the four options.');};
+M.plan.ana=function(){return drv('What limits throughput','Binding constraints on the bake plan',
+ [['Deck oven 1 capacity',44,DC.d],['Proofer time',23,DC.c],['Labour at 04:00',18,DC.e],['Ingredient availability',15,DC.a]])
+ +wif('What-if · add a second-bake window','Cost against recovered afternoon trade',
+ ['PLAN SHAPE','AFTERNOON SELL-THRU','LABOUR COST','NET €/WK'],
+ [['<b>Single 04:00 bake</b>','78%','€0','—'],
+  ['<b>+ 09:30 bake</b>','<span class="t-ok tag">94%</span>','+€420','<span class="t-ok tag">+€1,840</span>'],
+  ['<b>+ 09:30 and 12:20</b>','96%','+€710','+€1,910'],
+  ['<b>+ three extra bakes</b>','96%','<span class="t-cr tag">+€1,180</span>','<span class="t-wa tag">+€1,240</span>']],
+ 'Returns flatten after the second window. Two extra bakes is the efficient point; a third adds cost without adding sell-through.');};
+M.clus.ana=function(){return drv('What separates the clusters','Feature weight in the current segmentation',
+ [['Day-part shape',34,DC.a],['Average basket',26,DC.b],['Category mix',21,DC.c],['Footfall conversion',12,DC.e],['Trading area',7,DC.d]])
+ +wif('What-if · re-cluster the drifted branches','Nine branches that moved from Office toward Urban High',
+ ['ACTION','AVAILABILITY','WASTE','REVENUE / WK'],
+ [['<b>Leave on old cluster</b>','93.1%','3.8%','—'],
+  ['<b>Re-assign assortment only</b>','<span class="t-ok tag">95.8%</span>','3.4%','<span class="t-ok tag">+€6,200</span>'],
+  ['<b>Re-assign assortment + calendar</b>','<span class="t-ok tag">96.9%</span>','<span class="t-ok tag">3.0%</span>','<span class="t-ok tag">+€9,400</span>'],
+  ['<b>Full re-cluster incl. labour</b>','97.1%','2.9%','+€9,700']],
+ 'Assortment alone captures two thirds of the benefit; adding the replenishment calendar captures nearly all of it. Re-rostering on top adds very little and touches people\'s hours, so it can wait.');};
+M.alloc.ana=function(){return drv('Why on-shelf availability slipped','Contribution by cause, last 4 weeks',
+ [['Cluster calendar mismatch',36,DC.c],['Constrained supply',28,DC.d],['Route lateness',21,DC.e],['Min–max staleness',15,DC.a]])
+ +wif('What-if · move to fair-share earlier','When a constraint is detected, how soon to switch',
+ ['TRIGGER POINT','LOST SALES','WASTE','FAIRNESS SPREAD'],
+ [['<b>On stock-out (today)</b>','€8,400','2.9%','<span class="t-cr tag">31%</span>'],
+  ['<b>At 1 day cover</b>','<span class="t-ok tag">€5,100</span>','3.1%','<span class="t-wa tag">12%</span>'],
+  ['<b>At 2 days cover</b>','<span class="t-ok tag">€3,900</span>','<span class="t-wa tag">3.6%</span>','<span class="t-ok tag">4%</span>'],
+  ['<b>At 3 days cover</b>','€3,700','<span class="t-cr tag">4.4%</span>','3%']],
+ 'Switching at two days of cover cuts lost sales by more than half and almost eliminates the spread between first and last branch on a route. Beyond that you simply spread more stock thinly and waste it.');};
+M.log.ana=function(){return drv('Why on-time delivery fell 3.1 points','Contribution by route factor',
+ [['R-03 afternoon leg',47,DC.d],['Load build time',21,DC.c],['Traffic variance',16,DC.e],['Vehicle downtime',16,DC.a]])
+ +wif('What-if · re-sequence route R-03','Nine drops, currently failing the last two',
+ ['SEQUENCE','ON-TIME','COST / DROP','COLD MINUTES'],
+ [['<b>Current</b>','81.6%','€18.40','<span class="t-cr tag">168</span>'],
+  ['<b>Bellecour first</b>','<span class="t-ok tag">94.2%</span>','€18.60','<span class="t-ok tag">121</span>'],
+  ['<b>Split into two routes</b>','<span class="t-ok tag">97.8%</span>','<span class="t-cr tag">€26.10</span>','98'],
+  ['<b>Earlier depart 03:30</b>','92.1%','€18.40','142']],
+ 'Re-sequencing costs 20 cents a drop and recovers nearly 13 points of on-time performance. Splitting the route works too, but at a 42% cost increase for 3.6 points more.');};
+M.inv.ana=function(){return drv('Where the butter went','Decomposition of the 6.4% usage variance',
+ [['Lamination portioning',52,DC.d],['Trim &amp; offcut',19,DC.c],['Recipe yield drift',14,DC.e],['Measurement error',9,DC.a],['Spoilage',6,DC.b]])
+ +wif('What-if · correct portioning at three branches','Scale weighing on the lamination station',
+ ['ACTION','VARIANCE','COST','PAYBACK'],
+ [['<b>Do nothing</b>','+6.4%','—','—'],
+  ['<b>Retrain three branches</b>','<span class="t-wa tag">+4.1%</span>','€340','<span class="t-ok tag">3 weeks</span>'],
+  ['<b>Scale-guided portioning</b>','<span class="t-ok tag">+1.6%</span>','€2,800','<span class="t-ok tag">9 weeks</span>'],
+  ['<b>Pre-portioned butter blocks</b>','+1.2%','<span class="t-cr tag">+€0.04/unit</span>','<span class="t-cr tag">never</span>']],
+ 'Scale-guided portioning pays back inside a quarter and holds. Buying pre-portioned butter fixes the variance but permanently raises unit cost by more than the variance was costing.');};
+M.proc.ana=function(){return drv('What is slowing the procurement cycle','Contribution to the 1.8-day plan-to-dispatch time',
+ [['Approval queue',43,DC.c],['Receipt to match',29,DC.d],['Sourcing where no contract',18,DC.e],['System handoff',10,DC.a]])
+ +wif('What-if · raise the delegated approval limit','Where the queue clears without losing control',
+ ['LIMIT','CYCLE TIME','% AUTO-APPROVED','CONTROL RISK'],
+ [['<b>€5,000 (today)</b>','1.8 d','34%','<span class="t-ok tag">LOW</span>'],
+  ['<b>€10,000</b>','<span class="t-ok tag">1.3 d</span>','61%','<span class="t-ok tag">LOW</span>'],
+  ['<b>€25,000</b>','<span class="t-ok tag">1.0 d</span>','84%','<span class="t-wa tag">MEDIUM</span>'],
+  ['<b>No limit under contract</b>','0.8 d','96%','<span class="t-cr tag">HIGH</span>']],
+ 'Raising the delegated limit to €10,000 removes most of the queue with no meaningful change in control, because every one of those orders is against a contracted price anyway.');};
+M.rfq.ana=function(){return drv('What the butter award actually turns on','Weighted contribution to total cost of ownership',
+ [['Unit price',38,DC.a],['Reliability / OTIF',31,DC.d],['Lost production risk',18,DC.e],['Freight &amp; handling',13,DC.c]])
+ +wif('What-if · award RFQ-114','Three ways to place the butter contract',
+ ['AWARD','ANNUAL PRICE','RELIABILITY COST','TOTAL','CONCENTRATION'],
+ [['<b>Renew Delcourt</b>','<span class="t-ok tag">€1,184,000</span>','<span class="t-cr tag">€38,000</span>','€1,222,000','<span class="t-cr tag">96%</span>'],
+  ['<b>Award Beurre Vallée</b>','€1,198,900','<span class="t-ok tag">€4,200</span>','<span class="t-ok tag">€1,203,100</span>','<span class="t-ok tag">62%</span>'],
+  ['<b>Split 60/40</b>','€1,203,400','€9,100','€1,212,500','<span class="t-ok tag">58%</span>']],
+ 'The single award is cheapest on total cost; the split costs €9,400 more and buys the most resilience. Renewing the incumbent is cheapest on paper and most expensive in practice.');};
+M.sup.ana=function(){return drv('What is behind the Delcourt decline','Signals contributing to the OTIF slide',
+ [['Their capacity constraint',44,DC.d],['Our order variability',24,DC.c],['Route / delivery window',18,DC.e],['Quality holds',14,DC.a]])
+ +wif('What-if · stabilise our own ordering','Some of their unreliability is ours',
+ ['CHANGE','THEIR OTIF','OUR COST','EFFORT'],
+ [['<b>Today · variable orders</b>','81.4%','—','—'],
+  ['<b>Share 4-week forecast</b>','<span class="t-ok tag">88.2%</span>','€0','<span class="t-ok tag">Low</span>'],
+  ['<b>Fixed weekly volume ±10%</b>','<span class="t-ok tag">92.6%</span>','<span class="t-wa tag">+€6,400</span>','Medium'],
+  ['<b>Re-source entirely</b>','98.1%','+€14,900','<span class="t-cr tag">High</span>']],
+ 'Roughly a quarter of the supplier\'s unreliability traces to our own order variability. Sharing the forecast costs nothing and recovers seven points before any commercial conversation begins.');};
+M.bom.ana=function(){return drv('What moves recipe cost','Contribution to cost per unit across the laminated range',
+ [['Butter',52,DC.d],['Flour',18,DC.c],['Yield loss',14,DC.e],['Fillings',11,DC.a],['Other',5,DC.b]])
+ +wif('What-if · improve lamination yield','Currently 96% on croissant',
+ ['YIELD','COST / UNIT','GM%','ANNUAL VALUE'],
+ [['<b>96% (today)</b>','€0.41','74.4%','—'],
+  ['<b>97%</b>','€0.405','<span class="t-ok tag">74.7%</span>','<span class="t-ok tag">+€21,400</span>'],
+  ['<b>98%</b>','€0.401','75.0%','<span class="t-ok tag">+€42,600</span>'],
+  ['<b>99% (theoretical)</b>','€0.397','75.2%','<span class="t-wa tag">not achievable</span>']],
+ 'A single point of yield is worth €21,400 a year on croissant alone. The last point is theoretical — trim and proofing loss put a practical ceiling around 98%.');};
+M.waste.ana=function(){return drv('What is actually being thrown away','Attribution of €41,380 monthly waste',
+ [['Over-production',48,DC.d],['Portion variance',29,DC.c],['Expiry',13,DC.e],['Damage',6,DC.a],['Quality reject',4,DC.b]])
+ +wif('What-if · deepen the markdown curve','Move product before it becomes waste',
+ ['MARKDOWN POLICY','WASTE','MARKDOWN COST','NET'],
+ [['<b>−25% at T−2h (today)</b>','€41,380','€21,600','—'],
+  ['<b>−25% at T−3h</b>','<span class="t-ok tag">€36,100</span>','€24,900','<span class="t-ok tag">+€1,980</span>'],
+  ['<b>−40% at T−2h</b>','<span class="t-ok tag">€33,800</span>','<span class="t-wa tag">€29,400</span>','<span class="t-wa tag">−€240</span>'],
+  ['<b>−25% T−3h, −50% T−1h</b>','<span class="t-ok tag">€29,200</span>','€28,100','<span class="t-ok tag">+€5,680</span>']],
+ 'Going earlier beats going deeper. A two-step curve that starts earlier and finishes deeper recovers €5,680 a month; simply discounting harder at the same hour loses money.');};
+M.xfer.ana=function(){return drv('What constrains the central kitchens','Contribution to Lyon reaching 87% of throughput',
+ [['Branch count served',41,DC.c],['Dispatch window',26,DC.d],['Oven capacity',19,DC.a],['Indent lateness',14,DC.e]])
+ +wif('What-if · rebalance the network','Move branches between central kitchens',
+ ['SCENARIO','LYON','VIENNA','BRUSSELS','DRIVE TIME'],
+ [['<b>Today</b>','<span class="t-wa tag">87%</span>','68%','52%','62 min avg'],
+  ['<b>Move 8 to Brussels</b>','<span class="t-ok tag">78%</span>','68%','63%','<span class="t-wa tag">71 min</span>'],
+  ['<b>Move 6 to Vienna</b>','<span class="t-ok tag">80%</span>','<span class="t-wa tag">76%</span>','52%','68 min'],
+  ['<b>Add 4th CK · Bordeaux</b>','71%','68%','52%','<span class="t-ok tag">48 min</span>']],
+ 'Moving eight branches to Brussels relieves Lyon immediately at the cost of nine minutes of average drive time. A fourth kitchen solves it properly but is a capital decision, not a scheduling one.');};
+
+/* ---------- new engine modules ---------- */
+M.mark={
+ wb:function(){return iflag('<b>Going earlier beats going deeper.</b> A two-step curve starting at T−3h and finishing at −50% recovers €5,680 a month; discounting harder at the same hour actually loses money.')
+ +'<div class="kpis">'+kpi('MARKDOWN REVENUE (MTD)','€21,600','18,400 units')+kpi('SELL-THROUGH BEFORE CLOSE',circ('88.2%'),'<span class="dn">target 92%</span>')
+ +kpi('MARGIN GIVEN AWAY','€7,940','2.1% of sales')+kpi('WASTE AVOIDED','€26,300','vs no markdown')+kpi('AUTO-APPLIED','96%','rules engine')+'</div>'
+ +'<div class="pan"><h3>Markdown curve in force</h3><div class="ph">Triggered on remaining shelf life, not on clock time alone</div>'
+ +pipe([['T−3h','Watchlist','142 SKU','doing'],['T−2h','First markdown −25%','88',''],['T−1h','Second markdown −50%','41',''],['T−30m','Staff / redistribute','18',''],['CLOSE','Write off','9','block']])+'</div>'
+ +'<div class="pan"><h3>Live markdown queue</h3><div class="ph">By branch and product, with the decision Iris took</div>'
+ +tbl(['BRANCH','PRODUCT','ON HAND','SHELF LIFE','ACTION','RECOVERY'],[
+ ['<b>B041 · Bellecour</b>','Almond croissant','34','1h 10m','<span class="t-wa tag">−25%</span>','€66'],
+ ['<b>B112 · Graben</b>','Sourdough loaf','18','2h 40m','<span class="t-nu tag">WATCH</span>','—'],
+ ['<b>B087 · Sablon</b>','Chocolate tart','11','0h 45m','<span class="t-cr tag">−50%</span>','€38'],
+ ['<b>B038 · Part-Dieu</b>','Baguette','52','1h 05m','<span class="t-wa tag">−25%</span>','€78'],
+ ['<b>B044 · Confluence</b>','Pain au chocolat','9','0h 25m','<span class="t-ai tag">REDISTRIBUTE</span>','€0 · donated']])+'</div>';},
+ bi:function(){return bi([['Markdown depth by category','Average discount applied',hbars([['Patisserie',38,'cr','38%'],['Laminated',31,'wa','31%'],['Bread',27,'wa','27%'],['Savoury',24,'','24%'],['Drinks',0,'mi','0%']],45)],
+ ['Sell-through by markdown step','Units cleared at each stage',hbars([['Full price',82,'mi','82%'],['−25%',11,'','11%'],['−50%',4,'','4%'],['Redistributed',2,'mi','2%'],['Written off',1,'wa','1%']],90)],
+ ['Recovery vs give-away','€ per week',tbl(['WEEK','MARKDOWN REV','MARGIN GIVEN','WASTE AVOIDED','NET'],[['W27','€5,140','€1,880','€6,200','+€4,320'],['W28','€5,380','€1,940','€6,510','+€4,570'],['W29','€5,610','€2,090','€6,740','+€4,650'],['W30','€5,470','€2,030','€6,850','+€4,820']])],
+ ['Markdown timing','Hour of first markdown',hbars([['15:00–16:00',18,'','18%'],['16:00–17:00',34,'','34%'],['17:00–18:00',31,'wa','31%'],['18:00+',17,'cr','17%']],40)]]);},
+ ana:function(){return drv('What determines markdown effectiveness','Contribution to recovered value',
+ [['Timing of first step',44,DC.a],['Depth of discount',24,DC.c],['Product visibility',18,DC.e],['Branch footfall at hour',14,DC.b]])
+ +wif('What-if · optimise the curve','Same products, different curve shape',
+ ['CURVE','WASTE','MARGIN GIVEN','NET VS TODAY'],
+ [['<b>−25% at T−2h (today)</b>','€41,380','€7,940','—'],
+  ['<b>−25% at T−3h</b>','€36,100','€8,720','<span class="t-ok tag">+€1,980</span>'],
+  ['<b>−40% at T−2h</b>','€33,800','<span class="t-cr tag">€11,100</span>','<span class="t-wa tag">−€240</span>'],
+  ['<b>−25% T−3h then −50% T−1h</b>','<span class="t-ok tag">€29,200</span>','€9,860','<span class="t-ok tag">+€5,680</span>']],
+ 'Timing contributes nearly twice as much as depth. The two-step curve wins because it reaches shoppers who are still in the store, rather than deeper-discounting to shoppers who have already gone.');},
+ cfg:function(){return cfg([['Markdown triggers','What starts the clock',[['Trigger basis','Remaining shelf life','QUALITY'],['First markdown at','T−2h','<span style="color:var(--amber)">T−3h MODELLED BETTER</span>'],['Second markdown at','T−1h','PRICING'],['Redistribute at','T−30m','ESG']]],
+ ['Discount steps','Depth per step',[['First step','−25%','PRICING'],['Second step','−50%','PRICING'],['Max total depth','−50%','FINANCE'],['Never mark down below cost',true,'ENABLED']]],
+ ['Scope','What may be marked down',[['Laminated & bread',true,'ENABLED'],['Patisserie',true,'ENABLED'],['Savoury',true,'ENABLED'],['Hot drinks',false,'EXCLUDED'],['Promotional items',false,'EXCLUDED']]],
+ ['Governance','Who can change the curve',[['Branch may deepen',false,'BLOCKED'],['Branch may start earlier',true,'ALLOWED'],['Area manager may override',true,'AUDITED'],['Iris may auto-apply',true,'ENABLED']]]]);}};
+
+M.promo={
+ wb:function(){return iflag('<b>Reported promo uplift is 14.2%; true incremental uplift is 6.1%.</b> The rest would have been bought anyway. Measuring against a matched control group rather than last year is the difference between a campaign that works and one that only looks like it does.')
+ +'<div class="kpis">'+kpi('ACTIVE CAMPAIGNS','6','4 markets')+kpi('REPORTED UPLIFT','+14.2%','vs last year')
+ +kpi('TRUE INCREMENTAL',circ('+6.1%'),'vs matched control')+kpi('PROMO MARGIN COST','€34,200','MTD')+kpi('ROI ON SPEND','1.8×','blended')+'</div>'
+ +'<div class="pan"><h3>Campaign performance</h3><div class="ph">Measured against a matched control group, not against last year</div>'
+ +tbl(['CAMPAIGN','MECHANIC','REPORTED','INCREMENTAL','MARGIN COST','ROI'],[
+ ['<b>Morning Pair</b>','Coffee + laminated bundle','+18.4%','<span class="t-ok tag">+11.2%</span>','€9,400','<span class="t-ok tag">2.9×</span>'],
+ ['<b>Loyalty Double Points</b>','Points multiplier','+12.1%','<span class="t-ok tag">+7.8%</span>','€6,200','<span class="t-ok tag">2.4×</span>'],
+ ['<b>Afternoon Sourdough</b>','Fixed discount −20%','+16.8%','<span class="t-wa tag">+3.1%</span>','€8,900','<span class="t-cr tag">0.9×</span>'],
+ ['<b>App-Only Free Pastry</b>','Threshold gift','+9.4%','<span class="t-ok tag">+6.4%</span>','€4,800','1.9×'],
+ ['<b>Weekend Family Box</b>','Bundle','+11.2%','+5.2%','€4,900','1.6×']])+'</div>'
+ +'<div class="pan"><h3>Cannibalisation check</h3><div class="ph">What the promoted item took from elsewhere</div>'
+ +tbl(['CAMPAIGN','PROMOTED ITEM','CANNIBALISED','NET UNITS'],[
+ ['<b>Afternoon Sourdough</b>','Sourdough +820','<span class="t-cr tag">Baguette −540</span>','+280'],
+ ['<b>Morning Pair</b>','Bundle +1,140','<span class="t-wa tag">Single coffee −210</span>','+930'],
+ ['<b>Weekend Family Box</b>','Box +310','<span class="t-wa tag">Individual −140</span>','+170']])+'</div>';},
+ bi:function(){return bi([['Incremental vs reported','Gap by campaign',hbars([['Morning Pair',11.2,'mi','11.2%'],['Loyalty Double',7.8,'mi','7.8%'],['App-Only Gift',6.4,'mi','6.4%'],['Family Box',5.2,'','5.2%'],['Afternoon Sourdough',3.1,'cr','3.1%']],20)],
+ ['Mechanic effectiveness','Blended ROI by type',hbars([['Bundle',2.6,'mi','2.6×'],['Points multiplier',2.4,'mi','2.4×'],['Threshold gift',1.9,'','1.9×'],['Fixed discount',0.9,'cr','0.9×']],3)],
+ ['Promo margin cost','Share of gross margin',tbl(['MARKET','PROMO SPEND','% OF GM','TREND'],[['France','€14,800','2.1%','<span class="t-wa tag">+0.3</span>'],['Germany','€8,900','1.8%','<span class="t-ok tag">−0.1</span>'],['Belgium','€5,600','1.6%','<span class="t-ok tag">flat</span>'],['Austria','€4,900','1.9%','<span class="t-wa tag">+0.2</span>']])],
+ ['Halo effect','Uplift on non-promoted items',hbars([['Morning Pair',4.2,'mi','+4.2%'],['Family Box',2.8,'mi','+2.8%'],['App-Only Gift',1.4,'','+1.4%'],['Afternoon Sourdough',-1.9,'cr','−1.9%']],5)]]);},
+ ana:function(){return drv('Why reported uplift overstates the truth','Decomposition of the 14.2% reported figure',
+ [['Would have bought anyway',52,DC.d],['Genuine incremental',31,DC.b],['Pulled forward from later',11,DC.c],['Cannibalised from other lines',6,DC.e]])
+ +wif('What-if · retire the weakest mechanic','Afternoon Sourdough at 0.9× ROI',
+ ['ACTION','UNITS','GROSS MARGIN','GUEST IMPACT'],
+ [['<b>Continue as-is</b>','+820','<span class="t-cr tag">−€890</span>','none'],
+  ['<b>Reduce depth to −10%</b>','+410','<span class="t-ok tag">+€1,240</span>','minimal'],
+  ['<b>Switch to bundle mechanic</b>','+680','<span class="t-ok tag">+€2,110</span>','<span class="t-ok tag">positive</span>'],
+  ['<b>Stop the campaign</b>','−820','+€2,380','<span class="t-wa tag">habit loss risk</span>']],
+ 'A fixed discount on a staple is the least efficient mechanic you run — it mostly pays people to do what they were already doing, and it cannibalises baguette. Converting it to a bundle keeps most of the volume and turns the margin positive.');},
+ cfg:function(){return cfg([['Measurement','How uplift is judged',[['Baseline method','Matched control group','L2 ZEN'],['Control group size','15% of comparable branches','STATS'],['Minimum test duration','2 weeks','STATS'],['Report vs last year',false,'<span style="color:var(--amber)">MISLEADING</span>']]],
+ ['Mechanics permitted','What may be run',[['Bundle',true,'ENABLED'],['Points multiplier',true,'ENABLED'],['Threshold gift',true,'ENABLED'],['Fixed discount',true,'<span style="color:var(--amber)">LOW ROI</span>'],['Deep discount &gt; 30%',false,'BLOCKED']]],
+ ['Guard-rails','Limits on promotional spend',[['Max promo % of gross margin','2.5%','FINANCE'],['Max concurrent campaigns','3 per market','COMMERCIAL'],['Cannibalisation check required',true,'MANDATORY'],['Stop campaign if ROI &lt;','1.2×','AUTO']]],
+ ['Approval','Who signs a campaign off',[['Under €5,000','Marketing manager','DELEGATED'],['€5,000 – €25,000','Commercial director','ESCALATED'],['Any margin-dilutive mechanic','CFO','ESCALATED']]]]);}};
+
+M.cat={
+ wb:function(){return iflag('<b>Eleven items are live in at least one branch but absent from the master catalogue.</b> They sell, they consume ingredients, and they are invisible to forecasting and costing — which is why those branches show unexplained usage variance.')
+ +'<div class="kpis">'+kpi('CATALOGUE ITEMS',String(SKU.length),'master')+kpi('ACTIVE IN BRANCH',String(SKU.length+11),'<span class="wa">11 unlisted</span>')
+ +kpi('SEASONS DEFINED','4','plus 6 waves')+kpi('CALENDAR LOCKED',circ('W31–W38'),'8 weeks ahead')+'</div>'
+ +'<div class="pan"><h3>Season &amp; wave calendar</h3><div class="ph">What is planned to be on sale, and when</div>'
+ +tbl(['WAVE','SEASON','LIVE FROM','ENDS','ITEMS','STATUS'],[
+ ['<b>Summer Core</b>','Summer','W22','W35','86','<span class="t-ok tag">LIVE</span>'],
+ ['<b>Iced &amp; Cold Brew</b>','Summer','W24','W36','14','<span class="t-ok tag">LIVE</span>'],
+ ['<b>Stone Fruit Patisserie</b>','Summer','W28','W33','8','<span class="t-ok tag">LIVE</span>'],
+ ['<b>Back to School</b>','Transition','W35','W38','11','<span class="t-nu tag">PLANNED</span>'],
+ ['<b>Autumn Spice</b>','Autumn','W38','W47','16','<span class="t-nu tag">PLANNED</span>'],
+ ['<b>Festive Range</b>','Winter','W47','W52','22','<span class="t-wa tag">DRAFT</span>']])+'</div>'
+ +'<div class="pan"><h3>Catalogue integrity</h3><div class="ph">Every item needs a recipe, a cost, allergens and a cluster assortment</div>'
+ +tbl(['CHECK','ITEMS','COMPLETE','GAP'],[
+ ['<b>Recipe / BOM linked</b>',String(SKU.length),'<span class="t-ok tag">100%</span>','—'],
+ ['<b>Allergens tagged</b>',String(SKU.length),'<span class="t-ok tag">100%</span>','—'],
+ ['<b>Cost derived</b>',String(SKU.length),'<span class="t-ok tag">100%</span>','—'],
+ ['<b>Cluster assortment set</b>',String(SKU.length),'<span class="t-wa tag">94%</span>','7 items'],
+ ['<b>Shelf life defined</b>',String(SKU.length),'<span class="t-wa tag">97%</span>','4 items'],
+ ['<b>Unlisted branch items</b>','11','<span class="t-cr tag">0%</span>','<span class="t-cr tag">11 items</span>']])+'</div>'
+ +'<div class="pan"><h3>Master catalogue</h3><div class="ph">Every item with its commercial and production attributes</div>'
+ +big(['ID','ITEM','CATEGORY','PRICE','GM%','SHELF LIFE','VELOCITY','LIFECYCLE'],
+  SKU.map(function(k){
+   return ['<b>'+k.id+'</b>',k.n,k.cat,'€'+k.price.toFixed(2),k.gm+'%',k.shelf?k.shelf+' h':'—',k.vel,
+    k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST PENDING</span>'];}),SKU.length+' ITEMS')+'</div>';},
+ bi:function(){return bi([['Assortment depth by cluster','Items live',hbars([['Destination',134,'mi','134'],['Suburban',126,'mi','126'],['Urban High',118,'','118'],['Office',88,'','88'],['Transit',74,'wa','74']],140)],
+ ['Item lifecycle','Where the catalogue sits',hbars([['Core · always on',62,'mi','62'],['Seasonal',34,'','34'],['Trial / NPI',12,'wa','12'],['Delist pending',10,'cr','10']],70)],
+ ['New product survival','NPI still live after N weeks',tbl(['WEEKS','SURVIVING','NOTE'],[['4','92%','early honeymoon'],['12','64%','first real read'],['26','41%','seasonal exits'],['52','<span class="t-wa tag">28%</span>','true keepers']])],
+ ['Catalogue churn','Items added / removed per quarter',bars([12,14,11,16,13,18,15,19,14,21,17,22])]]);},
+ ana:function(){return drv('Why unlisted items appear','Root cause of the 11 off-catalogue items',
+ [['Local trial never registered',46,DC.d],['Legacy item never delisted',27,DC.c],['Franchise-specific line',18,DC.e],['Data entry error',9,DC.a]])
+ +wif('What-if · enforce catalogue integrity','Block sale of items not in the master catalogue',
+ ['POLICY','UNEXPLAINED VARIANCE','BRANCH FRICTION','FORECAST QUALITY'],
+ [['<b>Today · permissive</b>','<span class="t-cr tag">2.1%</span>','none','MAPE 7.2%'],
+  ['<b>Warn only</b>','1.6%','<span class="t-ok tag">low</span>','MAPE 7.0%'],
+  ['<b>Block sale after 14 days</b>','<span class="t-ok tag">0.4%</span>','<span class="t-wa tag">medium</span>','<span class="t-ok tag">MAPE 6.7%</span>'],
+  ['<b>Block immediately</b>','0.3%','<span class="t-cr tag">high</span>','MAPE 6.7%']],
+ 'A 14-day grace period captures nearly all of the benefit while still letting a branch trial something on a Saturday. Blocking immediately buys 0.1 points of variance and guarantees resentment.');},
+ cfg:function(){return cfg([['Catalogue governance','What an item needs before it goes live',[['Recipe / BOM linked',true,'MANDATORY'],['Allergens tagged',true,'MANDATORY'],['Cost derived',true,'MANDATORY'],['Shelf life defined',true,'MANDATORY'],['Cluster assortment set',true,'MANDATORY']]],
+ ['Season &amp; wave structure','How the calendar is built',[['Seasons per year','4','COMMERCIAL'],['Waves per season','1–3','COMMERCIAL'],['Calendar lock horizon','8 weeks','PLANNING'],['Change after lock','CFO approval','GOVERNANCE']]],
+ ['Off-catalogue items','Local trials',[['Branch may trial locally',true,'ALLOWED'],['Grace period before blocking','14 days','POLICY'],['Auto-register to catalogue',false,'REVIEW FIRST'],['Alert planner on first sale',true,'ENABLED']]],
+ ['Lifecycle','Adding and retiring',[['NPI protected period','6 weeks','COMMERCIAL'],['Auto-flag delist candidates',true,'ENABLED'],['Delist requires replacement',false,'NOT REQUIRED'],['Archive retains history',true,'ENABLED']]]]);}};
+
+var TT={cmd:['Command Centre','SUPPLY CHAIN · LIVE'],fc:['Demand Forecast','FORECASTING · L2 ZEN MODELS'],dp:['Demand Planning','CONSENSUS PLAN · L2 ZEN MODELS'],
+menu:['Menu Performance','MENU ENGINEERING · L2 ZEN MODELS'],plan:['Production Plan','PLANNING · L2 ZEN MODELS'],clus:['Store Clustering','NETWORK · SEGMENTATION ML'],
+alloc:['Allocation Engine','EXECUTION · L1 RULES + FORECAST'],cat:['Catalogue &amp; Calendar','MASTER DATA · SEASON &amp; WAVE'],mark:['Markdown Engine','DYNAMIC PRICING · L2 ZEN MODELS'],promo:['Promotions Engine','CAUSAL UPLIFT · L2 ZEN MODELS'],log:['Logistics &amp; Cold Chain','DISTRIBUTION · IOT'],inv:['Ingredient Ledger','INVENTORY · L1 ZEN RULES'],
+proc:['Plan to Procure','PROCUREMENT CYCLE · L2 ZEN MODELS'],rfq:['Sourcing &amp; Contracts','RFQ · AWARD · CONTRACT'],sup:['Suppliers','SUPPLIER PERFORMANCE'],
+bom:['Recipe &amp; BOM','COSTING · L2 ZEN MODELS'],waste:['Waste &amp; Variance','LOSS CONTROL · ANOMALY'],xfer:['Central Kitchen','TRANSFERS &amp; INDENTS']};
+var IR={cmd:'<b>Butter is the binding constraint.</b> Route R-03 has also missed its window six times this month — route design, not driver.',
+fc:'<b>Iced drinks carry most of the remaining forecast error</b> at 78% confidence, and rain is forecast tomorrow.',
+dp:'<b>Twelve overrides carry no reason.</b> Those historically run 6.8% above actual.',
+menu:'<b>Almond croissant is a plough-horse because of butter, not demand.</b> Sourcing fix, not menu fix.',
+plan:'<b>Staggering the bake recovers about €1,840 a week</b> by protecting afternoon sell-through.',
+clus:'<b>Eleven branches changed cluster this quarter</b> — nine drifted from Office toward Urban High as hybrid working settled.',
+cat:'<b>Eleven items sell but are not in the master catalogue</b> — invisible to forecasting and costing.',
+mark:'<b>Going earlier beats going deeper.</b> The two-step curve recovers €5,680 a month.',
+promo:'<b>Reported uplift is 14.2%; true incremental is 6.1%.</b> The rest would have been bought anyway.',
+alloc:'<b>Office & Campus is short six SKUs</b> because those branches still run their old cluster calendar.',
+log:'<b>L-2214 ran 2.1°C over specification for 40 minutes.</b> Quarantine the dairy and pull that vehicle off cold rotation.',
+inv:'<b>Butter variance is 6.4% above theoretical</b> — lamination portioning at three branches.',
+proc:'<b>PO-4455 is invoiced 6.1% above contract.</b> One exception explains the group price variance.',
+rfq:'<b>Beurre Vallée costs more landed and is still the better award</b> — it removes single-source risk.',
+sup:'<b>Delcourt holds 96% of dairy spend with OTIF at 81%.</b> Concentration risk, not a routine dip.',
+bom:'<b>Butter is 52% of laminated dough cost</b> — one price move, six products below floor.',
+waste:'<b>58% of waste is unsold product</b> — planning, not kitchen discipline.',
+xfer:'<b>Lyon CK is at 87% of reliable throughput.</b> Two more branches would push it past the point of compounding delay.'};
+document.querySelectorAll('.nit').forEach(function(n){n.onclick=function(){go(n.dataset.r,'wb');};});
+go('cmd','wb');
+</script></body></html>

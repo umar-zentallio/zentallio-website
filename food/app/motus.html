@@ -1,0 +1,593 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zentallio · Motus — Operations Workbench</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05080F;--bg2:#070C18;--panel:#0A1120;--line:rgba(255,255,255,.07);--lineS:rgba(255,255,255,.14);
+--ink:#E8EEF7;--muted:#93A1B5;--subtle:#5E6C82;--teal:#15F2F2;--ai:#FF2D95;--mint:#3FD9A4;--amber:#E5A24B;--violet:#9B7BFF;--red:#FF5C6C}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+#app{display:flex;height:100vh}
+/* nav */
+.nav{width:232px;flex-shrink:0;border-right:.5px solid var(--line);background:var(--bg2);display:flex;flex-direction:column;padding:20px 0}
+.brand{padding:0 20px 20px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid var(--line);margin-bottom:14px}
+.zm{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--amber),#B87A2E);display:flex;align-items:center;justify-content:center;font-family:Fraunces,serif;font-weight:600;color:#04212B;font-size:16px}
+.brand b{font-family:Fraunces,serif;font-weight:600;font-size:16px;letter-spacing:-.01em}
+.brand span{display:block;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.16em;color:var(--subtle);margin-top:2px}
+.ngrp{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--subtle);padding:14px 20px 7px}
+.nit{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;border-left:2px solid transparent;transition:.15s}
+.nit:hover{color:var(--ink);background:rgba(255,255,255,.03)}
+.nit.on{color:#fff;background:linear-gradient(90deg,rgba(229,162,75,.14),transparent);border-left-color:var(--amber)}
+.nit i{width:16px;height:16px;flex-shrink:0;opacity:.85}
+.nfoot{margin-top:auto;padding:14px 20px 0;border-top:.5px solid var(--line)}
+.nfoot .mono{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);line-height:1.8}
+/* main */
+.main{flex:1;overflow-y:auto;position:relative}
+.top{position:sticky;top:0;z-index:20;background:rgba(5,8,15,.9);backdrop-filter:blur(14px);border-bottom:.5px solid var(--line);padding:16px 28px;display:flex;align-items:center;gap:14px}
+.top h1{font-family:Fraunces,serif;font-weight:500;font-size:20px;letter-spacing:-.01em}
+.top .sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:3px}
+.live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--amber);border:.5px solid rgba(229,162,75,.14);border-radius:999px;padding:6px 12px}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);animation:pu 1.8s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.35}}
+.body{padding:24px 28px 90px}
+.rt{display:none}.rt.on{display:block;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin-bottom:22px}
+.kpi{border:.5px solid var(--line);border-radius:14px;padding:16px 17px;background:var(--panel)}
+.kpi .l{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--subtle);margin-bottom:9px}
+.kpi .v{font-family:Fraunces,serif;font-weight:500;font-size:26px;letter-spacing:-.02em}
+.kpi .d{font-size:11px;color:var(--muted);margin-top:5px}
+.up{color:var(--mint)}.dn{color:var(--red)}.wa{color:var(--amber)}
+/* panels */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:1.4fr 1fr;gap:15px}
+.pan{border:.5px solid var(--line);border-radius:15px;background:var(--panel);padding:19px;margin-bottom:15px}
+.pan h3{font-family:Fraunces,serif;font-weight:500;font-size:16px;margin-bottom:3px}
+.pan .ph{font-size:11.5px;color:var(--subtle);margin-bottom:15px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--subtle);padding:0 10px 9px 0;font-weight:500;border-bottom:.5px solid var(--line)}
+td{padding:10px 10px 10px 0;border-bottom:.5px solid rgba(255,255,255,.045);color:var(--muted)}
+td b{color:var(--ink);font-weight:600}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;padding:3px 7px;border-radius:5px;border:.5px solid}
+.t-ok{color:var(--mint);border-color:rgba(63,217,164,.35)}
+.t-wa{color:var(--amber);border-color:rgba(229,162,75,.35)}
+.t-cr{color:var(--red);border-color:rgba(255,92,108,.35)}
+.t-ai{color:var(--ai);border-color:rgba(255,45,149,.35)}
+.t-nu{color:var(--teal);border-color:rgba(21,242,242,.3)}
+/* bars */
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--amber);transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:44px}
+.spark i{flex:1;background:linear-gradient(180deg,var(--amber),rgba(229,162,75,.14));border-radius:2px 2px 0 0;transition:height .7s}
+/* iris */
+.iris{position:fixed;right:22px;bottom:22px;z-index:60}
+.ibtn{height:46px;border-radius:999px;background:linear-gradient(135deg,#ff5cae,var(--ai));border:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:0 18px 0 14px;box-shadow:0 12px 30px -8px rgba(255,45,149,.6)}
+.iorb{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,255,255,.45)}
+.ibtn b{color:#fff;font-size:13px;font-weight:600}
+.ipan{position:fixed;right:22px;bottom:80px;width:340px;max-height:60vh;border:.5px solid var(--lineS);border-radius:16px;background:var(--bg2);box-shadow:0 40px 90px -24px rgba(0,0,0,.85);display:none;flex-direction:column;overflow:hidden;z-index:61}
+.ipan.on{display:flex}
+.ihd{padding:13px 16px;border-bottom:.5px solid var(--line);display:flex;align-items:center;gap:9px}
+.ihd b{font-family:Fraunces,serif;font-size:14px}
+.ihd span{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle);display:block}
+.ibody{padding:14px 16px;overflow-y:auto;font-size:12.5px;color:var(--muted);line-height:1.7}
+.ibody .msg{border-left:2px solid var(--ai);padding-left:11px;margin-bottom:13px}
+.ibody .msg b{color:var(--ink)}
+@media(max-width:900px){.nav{display:none}.grid2,.grid3{grid-template-columns:1fr}}
+</style><style>
+.pipe{display:flex;gap:0;margin:6px 0 18px;overflow-x:auto}
+.pstep{flex:1;min-width:104px;position:relative;padding:11px 12px;border:.5px solid var(--line);border-right:none;background:var(--panel)}
+.pstep:first-child{border-radius:11px 0 0 11px}
+.pstep:last-child{border-right:.5px solid var(--line);border-radius:0 11px 11px 0}
+.pstep .n{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;color:var(--subtle)}
+.pstep .t{font-size:11.5px;font-weight:600;color:var(--ink);margin:4px 0 5px;line-height:1.25}
+.pstep .c{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--amber)}
+.pstep.doing{background:linear-gradient(180deg,rgba(229,162,75,.14),transparent)}
+.pstep.doing .n{color:var(--amber)}
+.pstep.block{background:linear-gradient(180deg,rgba(255,92,108,.12),transparent)}
+.pstep.block .c{color:var(--red)}
+.mtx{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.mq{border:.5px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+.mq h5{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;margin-bottom:4px}
+.mq .sub{font-size:10.5px;color:var(--subtle);margin-bottom:10px}
+.mq p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:3px}
+.mq p b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.08em;padding:4px 9px;border-radius:6px;border:.5px solid var(--line);color:var(--muted)}
+.chip.on{color:var(--teal);border-color:rgba(21,242,242,.35);background:rgba(21,242,242,.07)}
+.tempbar{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tempbar .nm{font-size:12px;width:118px;flex-shrink:0}
+.tempbar .tr{flex:1;height:22px;border-radius:6px;background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.tempbar .tr i{position:absolute;top:0;bottom:0;border-radius:6px}
+.tempbar .vv{font-family:'JetBrains Mono',monospace;font-size:11px;width:64px;text-align:right}
+</style>
+<style>:root{--acc:var(--amber)}
+/* ---- three-layer tabs ---- */
+.lyr{display:flex;gap:7px;margin-bottom:18px;border-bottom:.5px solid var(--line);padding-bottom:14px}
+.lb{background:rgba(255,255,255,.02);border:.5px solid var(--line);border-radius:10px;padding:8px 15px;cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600;font-family:Inter,sans-serif;transition:.16s;display:flex;align-items:center;gap:7px}
+.lb .lx{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;opacity:.7}
+.lb:hover:not(.on){color:var(--ink);border-color:var(--lineS)}
+.lb.on{color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,transparent),color-mix(in srgb,var(--acc) 8%,transparent));border-color:color-mix(in srgb,var(--acc) 65%,transparent)}
+.lb.on .lx{color:var(--acc);opacity:1}
+/* ---- Iris annotation: circled numbers ---- */
+.circ{position:relative;display:inline-block;padding:1px 7px;z-index:1}
+.circ>svg{position:absolute;left:-9px;right:-9px;top:-7px;bottom:-7px;width:calc(100% + 18px);height:calc(100% + 14px);overflow:visible;pointer-events:none}
+.circ ellipse{fill:none;stroke:var(--ai);stroke-width:1.7;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:drawc 1.2s cubic-bezier(.3,.7,.4,1) forwards;filter:drop-shadow(0 0 5px rgba(255,45,149,.5))}
+@keyframes drawc{to{stroke-dashoffset:0}}
+.circ.d2 ellipse{animation-delay:.5s}
+.circ.d3 ellipse{animation-delay:1s}
+.iflag{display:flex;gap:11px;align-items:flex-start;border:.5px solid rgba(255,45,149,.28);background:linear-gradient(135deg,rgba(255,45,149,.09),rgba(255,45,149,.02));border-radius:13px;padding:14px 16px;margin-bottom:16px}
+.iflag .fo{width:24px;height:24px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 34% 30%,#fff,#ff8fc8 42%,#ff2d95);box-shadow:0 0 12px rgba(255,45,149,.5);margin-top:1px}
+.iflag .ft{font-size:12.5px;color:var(--muted);line-height:1.7}
+.iflag .ft b{color:var(--ink)}
+.iflag .fl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;color:var(--ai);display:block;margin-bottom:5px}
+/* ---- BI layer ---- */
+.bigrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.bcard{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.bcard h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.bcard .bh{font-size:11px;color:var(--subtle);margin-bottom:13px}
+.hbar{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:12px}
+.hbar .hl{width:112px;flex-shrink:0;color:var(--muted)}
+.hbar .ht{flex:1;height:16px;border-radius:5px;background:rgba(255,255,255,.05);overflow:hidden}
+.hbar .ht i{display:block;height:100%;border-radius:5px;background:var(--acc);transition:width .8s}
+.hbar .hv{width:62px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink)}
+.scat{position:relative;height:190px;border-left:.5px solid var(--line);border-bottom:.5px solid var(--line);margin:6px 0 4px}
+.scat i{position:absolute;width:7px;height:7px;border-radius:50%;transform:translate(-50%,50%);opacity:.85}
+.axl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--subtle);display:flex;justify-content:space-between;margin-top:5px}
+/* ---- Config layer ---- */
+.cfgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.cgrp{border:.5px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}
+.cgrp h4{font-family:Fraunces,serif;font-weight:500;font-size:14.5px;margin-bottom:2px}
+.cgrp .ch{font-size:11px;color:var(--subtle);margin-bottom:14px}
+.crow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.045);font-size:12.5px}
+.crow:last-child{border-bottom:none}
+.crow .cn{flex:1;color:var(--muted)}
+.crow .cv{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:6px;padding:4px 9px}
+.tog{width:34px;height:19px;border-radius:99px;background:rgba(255,255,255,.1);position:relative;flex-shrink:0}
+.tog.on{background:color-mix(in srgb,var(--acc) 70%,transparent)}
+.tog::after{content:"";position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}
+.tog.on::after{left:17.5px}
+.own{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--subtle)}
+
+.cfgbar{display:flex;align-items:center;gap:12px;padding:11px 15px;border:.5px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:15px}
+.cfgbar .cb-t{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.15em;color:var(--subtle)}
+.cfgbar .cb-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ai)}
+.cfgbar button{margin-left:auto;background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:8px;color:var(--muted);font-size:11.5px;font-family:Inter,sans-serif;padding:6px 13px;cursor:pointer;transition:.15s}
+.cfgbar button:hover{color:#fff;border-color:var(--lineS)}
+.cfgbar .save{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 30%,transparent),transparent);border-color:color-mix(in srgb,var(--acc) 55%,transparent);color:#fff;margin-left:0}
+.cvi{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink);background:rgba(255,255,255,.05);border:.5px solid var(--line);border-radius:7px;padding:5px 10px;width:132px;text-align:right;outline:none;transition:.15s}
+.cvi:hover{border-color:var(--lineS)}
+.cvi:focus{border-color:color-mix(in srgb,var(--acc) 70%,transparent);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 12%,transparent)}
+select.cvi{text-align:left;width:150px;cursor:pointer;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--subtle) 50%),linear-gradient(135deg,var(--subtle) 50%,transparent 50%);background-position:calc(100% - 14px) 11px,calc(100% - 9px) 11px;background-size:5px 5px;background-repeat:no-repeat}
+.tog{cursor:pointer;transition:.18s}
+.crow.mod{background:linear-gradient(90deg,rgba(255,45,149,.09),transparent);margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:6px}
+.crow .edt{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:var(--ai);opacity:0;transition:.2s}
+.crow.mod .edt{opacity:1}
+.crow.locked .cvi{opacity:.55;pointer-events:none}
+
+.tscroll{max-height:420px;overflow-y:auto;margin:0 -4px;padding:0 4px}
+.tscroll::-webkit-scrollbar{width:6px}.tscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:9px}
+.tscroll table thead th{position:sticky;top:0;background:var(--panel);z-index:2}
+.tcount{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--subtle);margin-top:10px}
+</style></head><body>
+<div id="app"><nav class="nav">
+ <div class="brand"><div><b>Motus</b><span>OPERATIONS WORKBENCH</span></div></div>
+ <div class="ngrp">DAILY</div><div class="nit on" data-r="cmd">Command Centre</div><div class="nit" data-r="shift">Shift &amp; Checklists</div><div class="nit" data-r="std">Store Standards</div>
+ <div class="ngrp">SAFETY</div><div class="nit" data-r="hyg">Hygiene &amp; HACCP</div><div class="nit" data-r="hs">Health &amp; Safety</div><div class="nit" data-r="audit">Audits &amp; Compliance</div><div class="nit" data-r="inc">Incidents</div>
+ <div class="ngrp">ASSETS</div><div class="nit" data-r="asset">Asset Maintenance</div><div class="nit" data-r="energy">Energy &amp; Ambiance</div><div class="nit" data-r="sus">Sustainability</div>
+ <div class="nfoot"><div class="mono">MAISON CROQ<br>200 BRANCHES · 4 MARKETS<br>ILLUSTRATIVE DATA</div></div></nav>
+ <div class="main"><div class="top"><div><h1 id="rtT">Command Centre</h1><div class="sub" id="rtS">OPERATIONS · LIVE</div></div><span class="live"><i></i>LIVE</span></div>
+ <div class="body" id="rts"></div></div></div>
+<div class="iris"><button class="ibtn" onclick="tg()"><span class="iorb"></span><b>Ask Iris</b></button></div>
+<div class="ipan" id="ip"><div class="ihd"><span class="iorb" style="width:20px;height:20px"></span><div><b>Iris</b><span>ASK ZEN · MOTUS</span></div></div><div class="ibody" id="ib"></div></div>
+<script>
+
+/* ---------- 200-branch estate (seeded, deterministic) ---------- */
+var BR=(function(){
+ function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+ var R=rng(20260722);
+ var CL=[
+  {id:'urban',n:'Urban High-Traffic',fmt:'Café',rev:[34,52],basket:[7.4,9.6],txn:[3600,5200],lab:[25,28],waste:[2.6,3.6],am:[.62,.74],sqm:[95,150],nps:[52,64]},
+  {id:'transit',n:'Transit & Station',fmt:'Kiosk',rev:[28,44],basket:[5.2,6.9],txn:[4400,6800],lab:[22,26],waste:[3.2,4.6],am:[.74,.86],sqm:[28,55],nps:[38,52]},
+  {id:'suburb',n:'Suburban Family',fmt:'Café + Bakery',rev:[26,42],basket:[12.4,16.8],txn:[1700,2700],lab:[28,32],waste:[2.2,3.2],am:[.34,.46],sqm:[130,210],nps:[58,71]},
+  {id:'office',n:'Office & Campus',fmt:'Counter',rev:[22,36],basket:[8.6,11.2],txn:[2200,3400],lab:[27,31],waste:[3.4,4.8],am:[.48,.60],sqm:[70,120],nps:[48,60]},
+  {id:'dest',n:'Destination / Weekend',fmt:'Flagship',rev:[30,58],basket:[16.2,22.4],txn:[1400,2400],lab:[30,34],waste:[1.8,2.8],am:[.22,.34],sqm:[180,320],nps:[62,78]}];
+ var CITY=[['Lyon','FR'],['Paris','FR'],['Bordeaux','FR'],['Lille','FR'],['Nantes','FR'],['Vienna','AT'],['Graz','AT'],['Salzburg','AT'],['Brussels','BE'],['Antwerp','BE'],['Ghent','BE'],['Berlin','DE'],['Munich','DE'],['Hamburg','DE'],['Cologne','DE']];
+ var mix=[42,38,44,40,36]; /* branches per cluster -> 200 */
+ var out=[],id=1;
+ CL.forEach(function(c,ci){
+  for(var i=0;i<mix[ci];i++){
+   function u(a){return a[0]+R()*(a[1]-a[0]);}
+   var city=CITY[Math.floor(R()*CITY.length)];
+   var rev=u(c.rev)*1000, txn=Math.round(u(c.txn)), basket=rev/txn;
+   out.push({id:'B'+String(id).padStart(3,'0'),city:city[0],cc:city[1],cl:c.id,cln:c.n,fmt:c.fmt,
+    rev:Math.round(rev), txn:txn, basket:+basket.toFixed(2), lab:+u(c.lab).toFixed(1), waste:+u(c.waste).toFixed(1),
+    am:+u(c.am).toFixed(2), sqm:Math.round(u(c.sqm)), nps:Math.round(u(c.nps)),
+    rps:+(rev/u(c.sqm)).toFixed(1), avail:+(93+R()*6.5).toFixed(1)});
+   id++;
+  }
+ });
+ return out;
+})();
+
+var CLC={urban:'#15F2F2',transit:'#3FD9A4',suburb:'#E5A24B',office:'#9B7BFF',dest:'#FF2D95'};
+function agg(key,fn){var g={};BR.forEach(function(b){(g[b[key]]=g[b[key]]||[]).push(b);});return Object.keys(g).map(function(k){return [k,g[k],fn?fn(g[k]):0];});}
+function avg(a,f){return a.reduce(function(s,x){return s+f(x);},0)/a.length;}
+function sum(a,f){return a.reduce(function(s,x){return s+f(x);},0);}
+function eur(n){return '€'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
+
+/* ---------- extended master data ---------- */
+var RX=(function(){var s=77003;return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
+function pick(a){return a[Math.floor(RX()*a.length)];}
+function rnd(a,b,d){var v=a+RX()*(b-a);return d===0?Math.round(v):+v.toFixed(d===undefined?2:d);}
+/* --- SKU catalogue: 124 items --- */
+var SKU=(function(){
+ var C=[['Hot drinks',['Flat white','Cappuccino','Latte','Espresso','Americano','Filter · single origin','Mocha','Cortado','Macchiato','Hot chocolate','Chai latte','Matcha latte'],[2.6,4.2],[.28,.52],[.86,.90]],
+  ['Cold drinks',['Iced latte','Cold brew','Iced americano','Iced matcha','Frappe','Iced tea','Lemonade','Fruit smoothie','Sparkling water','Orange juice'],[2.8,5.4],[.62,1.42],[.54,.72]],
+  ['Laminated',['Butter croissant','Pain au chocolat','Almond croissant','Pain aux raisins','Chocolate twist','Cinnamon swirl','Kouign-amann','Ham & cheese croissant','Pistachio croissant'],[1.5,3.2],[.38,1.06],[.60,.76]],
+  ['Bread',['Sourdough loaf','Baguette','Country loaf','Rye loaf','Seeded batard','Focaccia','Ciabatta','Brioche loaf','Wholemeal tin'],[2.2,4.8],[.52,1.24],[.68,.80]],
+  ['Patisserie',['Chocolate tart','Lemon tart','Fruit tartlet','Éclair','Mille-feuille','Opera slice','Cheesecake slice','Seasonal tart','Paris-Brest','Canelé','Madeleine box'],[2.4,6.2],[.68,2.04],[.62,.78]],
+  ['Savoury',['Baguette sandwich','Croque monsieur','Quiche lorraine','Veg quiche','Sausage roll','Focaccia sandwich','Soup of the day','Salad box'],[3.8,8.4],[1.42,3.66],[.48,.64]],
+  ['Cakes & occasion',['Celebration cake 8in','Celebration cake 10in','Birthday cupcakes x6','Sharing brownie tray','Gift box assorted'],[14,48],[4.2,17.5],[.58,.72]],
+  ['Retail & bean',['Whole bean 250g','Whole bean 1kg','Ground coffee 250g','Jam jar','Honey jar','Branded mug','Reusable cup'],[4.5,26],[2.1,14.2],[.38,.56]]];
+ var out=[],id=1;
+ C.forEach(function(c){c[1].forEach(function(n){
+  var price=rnd(c[2][0],c[2][1]),cost=rnd(c[3][0],c[3][1]),gm=(price-cost)/price;
+  out.push({id:'S'+String(id).padStart(3,'0'),n:n,cat:c[0],price:price,cost:cost,gm:+(gm*100).toFixed(1),
+   vel:Math.round(rnd(80,7400,0)),shelf:c[0]==='Hot drinks'||c[0]==='Cold drinks'?0:pick([4,8,12,24,48,72]),
+   waste:rnd(0.4,6.4,1),status:RX()<.08?'NPI':RX()<.06?'Delist':'Core'});
+  id++;});});
+ return out;})();
+/* --- suppliers: 38 --- */
+var SUPS=(function(){var nm=['Moulin Berger','Delcourt Dairy','Cacao Nord','Verger Lyon','EmballagePro','Beurre Vallée','Grains du Sud','Laiterie Alpine','Chocolaterie Vasse','Fruits Provence','Papier & Co','Levain Naturel','Sucre Atlantique','Œufs Bressans','Noix du Périgord','Épices Marseille','Café Verde','Torréfaction Nord','Lait Bio Ouest','Farine Royale','Confiture Maison','Crème Normandie','Vanille Import','Miel Cévennes','Sel Guérande','Beurre Charentes','Amandes Ibéria','Pistache Levant','Emballage Vert','Étiquettes Pro','Froid Logistique','Transport Rapide','Nettoyage Pro','Uniformes Sud','Maintenance Est','Énergie Verte','Eau Minérale','Jus Pressé'];
+ var cat=['Flour & grain','Dairy','Chocolate','Fresh produce','Packaging','Services','Coffee','Sundries'];
+ return nm.map(function(n,i){var otif=rnd(78,99.6,1);
+  return {n:n,cat:cat[i%cat.length],otif:otif,fill:rnd(Math.max(80,otif-6),99.8,1),pv:rnd(-1.2,6.4,1),
+   spend:Math.round(rnd(18000,204000,0)),terms:pick([30,42,45,60]),
+   q:otif>96?'A':otif>90?'B':'C',risk:otif<85?'HIGH':otif<92?'MED':'LOW'};});})();
+/* --- routes: 26 --- */
+var ROUTES=(function(){var city=['Lyon','Paris','Bordeaux','Vienna','Graz','Brussels','Antwerp','Berlin','Munich','Hamburg','Lille','Nantes','Ghent'];
+ var out=[];for(var i=1;i<=26;i++){var ot=rnd(79,99,1);
+  out.push({id:'R-'+String(i).padStart(2,'0'),city:pick(city),chain:pick(['COLD 2–4°C','DRY AMBIENT','FROZEN −18°C']),
+   drops:Math.round(rnd(4,12,0)),otd:ot,cpd:rnd(11.8,29.4,2),exc:ot<86?Math.round(rnd(1,4,0)):0});}
+ return out;})();
+/* --- assets: 148 sample --- */
+var ASSETS=(function(){var t=[['Chiller','Refrigeration',6],['Freezer','Refrigeration',6],['Espresso machine','Bar',2600],['Grinder','Bar',2000],['Deck oven','Bakery',5500],['Proofer','Bakery',4000],['Display case','Front',12],['POS terminal','IT',36],['Dishwasher','Back',12]];
+ var out=[];for(var i=0;i<148;i++){var a=t[i%t.length];var b=BR[Math.floor(RX()*BR.length)];
+  var life=rnd(18,96,0),due=Math.round(rnd(-45,120,0));
+  out.push({asset:a[0]+' '+(1+i%3),cls:a[1],br:b.id,city:b.city,hrs:a[2]>100?Math.round(rnd(400,a[2]*1.3,0)):null,
+   due:due,life:Math.round(rnd(24,92,0)),st:due<0?'OVERDUE':due<10?'DUE SOON':'OK'});}
+ return out;})();
+/* --- purchase orders: 64 --- */
+var POS=(function(){var st=['IRIS DRAFT','AWAITING APPROVAL','APPROVED','GRN BOOKED','3-WAY MATCHED','PRICE MISMATCH','SCHEDULED'];
+ var it=['Butter 82%','Flour T55','Dark chocolate','Fresh berries','Fresh yeast','Cups 12oz','Milk','Cream','Almonds','Sugar','Eggs','Packaging film'];
+ var out=[];for(var i=0;i<64;i++){var s=SUPS[Math.floor(RX()*SUPS.length)];
+  out.push({ref:'PO-'+(4400+i),sup:s.n,item:pick(it),qty:Math.round(rnd(80,6400,0)),val:Math.round(rnd(1800,42000,0)),
+   age:Math.round(rnd(0,18,0)),st:pick(st)});}
+ return out;})();
+/* --- incidents: 72 --- */
+var INCS=(function(){var ty=[['Refrigeration fault','Equipment'],['Espresso machine fault','Equipment'],['Oven fault','Equipment'],['Closing not completed','Process'],['Opening late','Process'],['Guest complaint · wait','Guest'],['Guest complaint · quality','Guest'],['Slip · wet floor','Safety'],['Burn · steam wand','Safety'],['Cut · slicer','Safety'],['Cold-chain excursion','Food safety'],['Pest sighting','Food safety']];
+ var out=[];for(var i=0;i<72;i++){var b=BR[Math.floor(RX()*BR.length)];var t=ty[i%ty.length];var age=Math.round(rnd(0,26,0));
+  out.push({ref:'INC-'+(3320+i),br:b.id,city:b.city,type:t[0],cls:t[1],age:age,
+   st:age<3?'OPEN':age<7?(RX()<.4?'OVERDUE':'ACTION'):'RESOLVED',sev:t[1]==='Safety'||t[1]==='Food safety'?'HIGH':RX()<.3?'MED':'LOW'});}
+ return out;})();
+/* --- workforce: 3,010 aggregated to 148 shift records --- */
+var SHIFTS=(function(){var role=['Team member','Barista G1','Barista G2','Baker','Shift lead','Branch manager'];
+ var out=[];for(var i=0;i<148;i++){var b=BR[Math.floor(RX()*BR.length)];var ros=Math.round(rnd(4,14,0));
+  var clk=Math.max(0,ros-(RX()<.18?Math.round(rnd(1,3,0)):0));
+  out.push({br:b.id,city:b.city,cl:b.cl,role:pick(role),ros:ros,clk:clk,late:Math.round(rnd(0,3,0)),
+   ot:rnd(0,9.5,1),lab:b.lab,cert:RX()<.06?'EXPIRING':'VALID'});}
+ return out;})();
+function take(a,n,f){return a.filter(f||function(){return true;}).slice(0,n);}
+function srt(a,k,dir){return a.slice().sort(function(x,y){return dir==='asc'?x[k]-y[k]:y[k]-x[k];});}
+
+
+/* ---------- shared framework ---------- */
+function tbl(h,rows){return '<table><thead><tr>'+h.map(function(x,i){return '<th'+(i>0?' class="num"':'')+'>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(i>0?' class="num"':'')+'>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
+function kpi(l,v,d){return '<div class="kpi"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="d">'+(d||'')+'</div></div>';}
+function bars(a){return '<div class="spark">'+a.map(function(v){return '<i style="height:'+v+'%"></i>';}).join('')+'</div>';}
+function cover(rows,max){max=max||12;return rows.map(function(r){var pct=Math.min(100,r[1]/max*100);var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>'+r[0]+'</span><b style="font-family:JetBrains Mono,monospace;font-size:11.5px;color:'+c+'">'+(r[3]||r[1])+'</b></div><div class="bar"><i style="width:'+pct+'%;background:'+c+'"></i></div></div>';}).join('');}
+function iris(t){return '<div style="border-left:2px solid var(--ai);padding-left:12px;font-size:12.5px;color:var(--muted);line-height:1.75">'+t+'</div>';}
+function pipe(steps){return '<div class="pipe">'+steps.map(function(s,i){return '<div class="pstep '+(s[3]||'')+'"><div class="n">'+(i+1)+' · '+s[0]+'</div><div class="t">'+s[1]+'</div><div class="c">'+s[2]+'</div></div>';}).join('')+'</div>';}
+/* Iris circles a number */
+function circ(v,d){return '<span class="circ '+(d||'')+'">'+v+'<svg viewBox="0 0 100 40" preserveAspectRatio="none"><ellipse cx="50" cy="20" rx="46" ry="17" transform="rotate(-2 50 20)"/></svg></span>';}
+function iflag(t){return '<div class="iflag"><div class="fo"></div><div class="ft"><span class="fl">IRIS · FLAGGED ON THIS VIEW</span>'+t+'</div></div>';}
+/* BI renderers */
+function hbars(rows,max){max=max||Math.max.apply(null,rows.map(function(r){return r[1];}));
+ return rows.map(function(r){var c=r[2]==='cr'?'var(--red)':r[2]==='wa'?'var(--amber)':r[2]==='mi'?'var(--mint)':'var(--acc)';
+ return '<div class="hbar"><span class="hl">'+r[0]+'</span><span class="ht"><i style="width:'+Math.min(100,r[1]/max*100)+'%;background:'+c+'"></i></span><span class="hv">'+(r[3]||r[1])+'</span></div>';}).join('');}
+function scatter(pts,xl,yl){var xs=pts.map(function(p){return p[0];}),ys=pts.map(function(p){return p[1];});
+ var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs),y0=Math.min.apply(null,ys),y1=Math.max.apply(null,ys);
+ return '<div class="scat">'+pts.map(function(p){var l=(p[0]-x0)/((x1-x0)||1)*100,b=(p[1]-y0)/((y1-y0)||1)*100;
+  return '<i style="left:'+l+'%;bottom:'+b+'%;background:'+(p[2]||'var(--acc)')+'"></i>';}).join('')+'</div><div class="axl"><span>'+xl+'</span><span>'+yl+'</span></div>';}
+function bi(cards){return '<div class="bigrid">'+cards.map(function(c){return '<div class="bcard"><h4>'+c[0]+'</h4><div class="bh">'+c[1]+'</div>'+c[2]+'</div>';}).join('')+'</div>';}
+
+
+function big(h,rows,note){return '<div class="tscroll">'+tbl(h,rows)+'</div><div class="tcount">'+rows.length+' ROWS'+(note?' · '+note:'')+'</div>';}
+function tg2(v,g,w){return '<span class="'+(v>=g?'t-ok':v>=w?'t-wa':'t-cr')+' tag">'+v+'</span>';}
+/* ---------- editable configuration ---------- */
+var CFGV={},CFGD={};
+function ckey(g,n){return (g+'~'+n).replace(/<[^>]*>/g,'').replace(/[^A-Za-z0-9~]/g,'_');}
+function cnum(){var n=Object.keys(CFGV).length;var e=document.getElementById('cfgN');if(e)e.textContent=n?(n+' UNSAVED CHANGE'+(n>1?'S':'')):'NO CHANGES';var b=document.getElementById('cfgSave');if(b)b.style.opacity=n?1:.45;}
+function cset(k,v,el){ if(String(CFGD[k])===String(v)){delete CFGV[k];} else {CFGV[k]=v;} 
+ var row=el.closest('.crow'); if(row)row.classList.toggle('mod',k in CFGV); cnum();}
+function ctog(k,el){var on=!el.classList.contains('on');el.classList.toggle('on',on);cset(k,on,el);}
+function creset(){CFGV={};document.querySelectorAll('.crow.mod').forEach(function(r){r.classList.remove('mod');});go(CURR,'cfg');}
+function csave(){var n=Object.keys(CFGV).length;if(!n)return;
+ var b=document.getElementById('cfgSave');b.textContent='Applied · '+n;setTimeout(function(){CFGV={};go(CURR,'cfg');},700);}
+function cfg(groups){
+ var html='<div class="cfgbar"><span class="cb-t">CONFIGURATION</span><span class="cb-n" id="cfgN">NO CHANGES</span>'
+  +'<button id="cfgSave" class="save" onclick="csave()" style="opacity:.45">Apply changes</button>'
+  +'<button onclick="creset()" style="margin-left:8px">Reset</button></div>';
+ html+='<div class="cfgrid">'+groups.map(function(g){
+  return '<div class="cgrp"><h4>'+g[0]+'</h4><div class="ch">'+g[1]+'</div>'+g[2].map(function(r){
+   var k=ckey(g[0],r[0]); CFGD[k]=r[1];
+   var locked=/NEVER|MANDATORY|LAW|STATUTORY|FIXED|BLOCKED/.test(r[2]||'');
+   var ctl;
+   if(r[1]===true||r[1]===false){
+    ctl='<span class="tog'+(r[1]?' on':'')+'" onclick="'+(locked?'':'ctog(\''+k+'\',this)')+'"></span>';
+   } else if(Array.isArray(r[3])){
+    ctl='<select class="cvi" onchange="cset(\''+k+'\',this.value,this)">'+r[3].map(function(o){
+      return '<option'+(o===r[1]?' selected':'')+'>'+o+'</option>';}).join('')+'</select>';
+   } else {
+    ctl='<input class="cvi" value="'+String(r[1]).replace(/<[^>]*>/g,'').replace(/"/g,'&quot;')+'" onchange="cset(\''+k+'\',this.value,this)">';
+   }
+   return '<div class="crow'+(locked?' locked':'')+'"><span class="cn">'+r[0]+'</span><span class="edt">EDITED</span>'+ctl+'<span class="own">'+(r[2]||'')+'</span></div>';
+  }).join('')+'</div>';}).join('')+'</div>';
+ setTimeout(cnum,0);
+ return html;}
+
+/* layer switching */
+var CURL='wb';
+function layerbar(){return '<div class="lyr">'
+ +'<button class="lb'+(CURL==='wb'?' on':'')+'" data-l="wb"><span class="lx">L0</span>Workbench</button>'
+ +'<button class="lb'+(CURL==='bi'?' on':'')+'" data-l="bi"><span class="lx">L1</span>BI &amp; Analytics</button>'
+ +'<button class="lb'+(CURL==='cfg'?' on':'')+'" data-l="cfg"><span class="lx">L2</span>Configuration</button></div>';}
+function go(r,l){
+ if(l)CURL=l; CURR=r;
+ document.querySelectorAll('.nit').forEach(function(n){n.classList.toggle('on',n.dataset.r===r);});
+ document.getElementById('rtT').innerHTML=TT[r][0];document.getElementById('rtS').innerHTML=TT[r][1];
+ var m=M[r], body = CURL==='wb'?m.wb():CURL==='bi'?m.bi():m.cfg();
+ document.getElementById('rts').innerHTML='<div class="rt on">'+layerbar()+body+'</div>';
+ document.querySelectorAll('.lb').forEach(function(b){b.onclick=function(){go(CURR,b.dataset.l);};});
+ document.querySelector('.main').scrollTop=0;}
+var CURR='cmd';
+function tg(){var p=document.getElementById('ip');p.classList.toggle('on');
+ if(p.classList.contains('on')){document.getElementById('ib').innerHTML='<div class="msg">'+IR[CURR]+'</div><div style="font-size:11.5px;color:var(--subtle)">Layer: '+(CURL==='wb'?'Workbench':CURL==='bi'?'BI &amp; Analytics':'Configuration')+'. Ask about anything on this view.</div>';}}
+
+var M={};
+M.cmd={wb:function(){return iflag('<b>Graben chiller 3 is the only true emergency.</b> Six hours above 4°C puts €1,840 of dairy at risk and breaks the cold-chain record. Separately, the Berlin allergen finding is the one that would cost you an audit grade — open 11 days against a 7-day standard.')
+ +'<div class="kpis">'+kpi('BRANCHES TRADING','200 / 200','all open')+kpi('CHECKLIST COMPLIANCE',circ('94.2%'),'<span class="dn">-2.1pts WoW</span>')
+ +kpi('AUDIT SCORE','A−','last external A')+kpi('OPEN INCIDENTS','7','2 overdue')+kpi('ASSETS DUE SERVICE','14','3 overdue')+kpi('ENERGY / €1K REV','38.2 kWh','<span class="dn">+8% Vienna</span>')+'</div>'
+ +'<div class="pan"><h3>Operating day</h3><div class="ph">Open → trade → changeover → close → verify</div>'
+ +pipe([['OPEN','Branches opened','200/200',''],['CHECKS','Opening done','196','doing'],['TRADE','Changeover done','184',''],['CLOSE','Closing due','200',''],['VERIFY','Photo-verified','78%','block'],['ESCALATE','Open actions','7','']])+'</div>'
+ +'<div class="pan"><h3>What needs a decision today</h3><div class="ph">Ranked by operational risk</div>'
+ +tbl(['SIGNAL','RISK','WINDOW'],[['<b>Chiller 3 at Graben running 4.2°C</b>','<span class="t-cr tag">CRITICAL</span>','now'],
+ ['<b>Closing checklist missed 4 nights</b> — B087 Sablon','<span class="t-cr tag">HYGIENE</span>','tonight'],
+ ['<b>Allergen audit finding unclosed</b> — 11 days','<span class="t-cr tag">COMPLIANCE</span>','overdue'],
+ ['<b>Espresso service overdue</b> — 3 branches','<span class="t-wa tag">€6,200</span>','this week']])+'</div>';},
+ bi:function(){var byC=agg('cln',function(g){return avg(g,function(b){return b.avail;});});
+  return bi([['Compliance by cluster','Checklist completion',hbars(byC.map(function(r){return [r[0].split(' ')[0],r[2],r[2]<95?'wa':'mi',r[2].toFixed(1)+'%'];}),100)],
+  ['Compliance by market','Completed on time',hbars([['France',97.1,'mi','97.1%'],['Belgium',95.4,'mi','95.4%'],['Germany',93.8,'wa','93.8%'],['Austria',88.2,'cr','88.2%']],100)],
+  ['Risk composite','Branches by risk band',tbl(['BAND','BRANCHES','DRIVER'],[['Low','142','routine'],['Watch','41','<span class="t-wa tag">checklist slip</span>'],['High','14','<span class="t-wa tag">asset age</span>'],['Critical','3','<span class="t-cr tag">CCP breach</span>']])],
+  ['Compliance trend','14 days',bars([96,97,95,96,94,93,95,92,94,91,93,90,92,89])]]);},
+ cfg:function(){return cfg([['Operating standards','The day\'s non-negotiables',[['Opening checklist due','−45 min to open','OPS'],['Changeover checklist','14:00','OPS'],['Closing checklist due','+30 min to close','OPS'],['Photo verification required','Critical tasks only','QUALITY']]],
+ ['Escalation ladder','Who hears about a miss',[['1st miss','Branch manager','AUTO'],['2nd miss in 7 days','Area manager','AUTO'],['3rd miss','Head of Ops','AUTO'],['CCP breach','Food safety lead immediately','AUTO']]],
+ ['Iris autonomy','What Iris may do unaided',[['Raise maintenance jobs',true,'ENABLED'],['Escalate repeat causes',true,'ENABLED'],['Close findings',false,'NEVER'],['Quarantine stock on breach',true,'ENABLED']]],
+ ['Data sources','What feeds this workbench',[['Branch mobile app','live · 200 branches','INTEGRATION'],['Fridge & oven telemetry','live','IOT'],['Energy meters','30-min interval','IOT'],['Audit platform','daily sync','INTEGRATION']]]]);}};
+M.shift={wb:function(){return iflag('Sablon has missed closing four nights running, always on the same two-person late shift. The checklist takes 18 minutes and the shift ends 10 minutes after last service — <b>a rota design problem, not a discipline problem</b>.')
+ +'<div class="kpis">'+kpi('TASKS DUE TODAY','2,600','200 branches')+kpi('COMPLETED ON TIME','94.2%','')+kpi('PHOTO-VERIFIED',circ('78%'),'of critical tasks')+kpi('AVG OPEN TIME','12m','before first sale')+'</div>'
+ +'<div class="pan"><h3>Shift checklists</h3><div class="ph">Completed on a phone with timestamp and photo — not a clipboard</div>'
+ +tbl(['BRANCH','OPENING','CHANGEOVER','CLOSING','LAST MISS','STATUS'],[
+ ['<b>B041 · Bellecour</b>','08:04 ✓','14:02 ✓','—','—','<span class="t-ok tag">ON TRACK</span>'],
+ ['<b>B112 · Graben</b>','08:22 <span class="t-wa tag">LATE</span>','—','—','19 Jul','<span class="t-wa tag">WATCH</span>'],
+ ['<b>B087 · Sablon</b>','08:11 ✓','—','<span class="t-cr tag">MISSED ×4</span>','21 Jul','<span class="t-cr tag">ESCALATED</span>'],
+ ['<b>B038 · Part-Dieu</b>','07:58 ✓','14:11 ✓','—','12 Jul','<span class="t-ok tag">ON TRACK</span>']])+'</div>'
+ +'<div class="pan"><h3>Estate checklist status</h3><div class="ph">Every branch, ranked by compliance</div>'
+ +big(['BRANCH','CITY','CLUSTER','TASKS DUE','COMPLIANCE','LAST MISS','STATUS'],
+  srt(BR,'avail','asc').map(function(b){var due=Math.round(6+b.sqm/26);
+   return ['<b>'+b.id+'</b>',b.city,b.cln.split(' ')[0],due,
+    '<span class="'+(b.avail>96?'t-ok':b.avail>94?'t-wa':'t-cr')+' tag">'+b.avail+'%</span>',
+    b.avail<95?'this week':b.avail<97?'last week':'—',
+    b.avail>96?'<span class="t-ok tag">ON TRACK</span>':b.avail>94?'<span class="t-wa tag">WATCH</span>':'<span class="t-cr tag">ESCALATED</span>'];}),'200 BRANCHES')+'</div>';},
+ bi:function(){return bi([['Completion by task type','Last 7 days',hbars([['Opening',98.4,'mi','98.4%'],['Temperature logs',97.1,'mi','97.1%'],['Changeover',94.8,'wa','94.8%'],['Deep clean',92.6,'wa','92.6%'],['Closing',89.2,'cr','89.2%']],100)],
+ ['Miss timing','When tasks are missed',hbars([['Late shift close',61,'cr','61%'],['Changeover',22,'wa','22%'],['Opening',11,'','11%'],['Mid-shift',6,'mi','6%']],70)],
+ ['Time to complete','Median minutes',tbl(['CHECKLIST','MEDIAN','TARGET'],[['Opening','14 m','15 m'],['Changeover','8 m','10 m'],['Closing','<span class="t-wa tag">18 m</span>','15 m']])],
+ ['Repeat offenders','Branches with 3+ misses',hbars([['B087 Sablon',4,'cr','4'],['B112 Graben',3,'wa','3'],['B160 Hamburg',3,'wa','3'],['B044 Confluence',2,'','2']],5)]]);},
+ cfg:function(){return cfg([['Checklist builder','What each shift must do',[['Opening tasks','14 items','OPS'],['Changeover tasks','8 items','OPS'],['Closing tasks','17 items','OPS'],['Cluster-specific variants',true,'ENABLED']]],
+ ['Verification','Proof of completion',[['Photo required · critical',true,'MANDATORY'],['Geo-fence check-in',true,'ENABLED'],['Timestamp tolerance','±10 min','AUTO'],['Retrospective completion',false,'BLOCKED']]],
+ ['Reminders','Nudges before a miss',[['First reminder','−15 min','AUTO'],['Second reminder','due time','AUTO'],['Manager alert','+10 min','AUTO']]],
+ ['Task ownership','Who is accountable',[['Assign by role',true,'ENABLED'],['Allow reassignment in shift',true,'ENABLED'],['Lock after completion',true,'ENABLED']]]]);}};
+M.std={wb:function(){return iflag('<b>Transit branches score lowest on greeting and highest on speed</b> — largely the right trade for a commuter format. The number worth fixing is display fill at 79%, which is a replenishment timing issue, not a behaviour issue.')
+ +'<div class="kpis">'+kpi('STANDARDS SCORE','91.4%','<span class="dn">-1.6pts</span>')+kpi('MYSTERY VISITS (MTD)','54','of 200 branches')
+ +kpi('DISPLAY COMPLIANCE',circ('88.2%'),'planogram')+kpi('SERVICE TIME','2m 41s','order to hand-off')+'</div>'
+ +'<div class="pan"><h3>Store standards scorecard</h3><div class="ph">What a guest actually experiences</div>'
+ +tbl(['STANDARD','GROUP','BEST CLUSTER','WORST CLUSTER','TREND'],[
+ ['<b>Display fill &amp; planogram</b>','88.2%','Destination 96%','Transit 79%','<span class="t-wa tag">-2.4pts</span>'],
+ ['<b>Cleanliness</b>','94.1%','Suburban 98%','Urban High 90%','<span class="t-ok tag">+0.6pts</span>'],
+ ['<b>Service time</b>','2m 41s','Transit 1m 52s','Destination 3m 40s','<span class="t-wa tag">+11s</span>'],
+ ['<b>Quality at pass</b>','92.8%','Suburban 96%','Office 89%','<span class="t-ok tag">+0.2pts</span>'],
+ ['<b>Greeting &amp; farewell</b>','86.4%','Destination 93%','Transit 78%','<span class="t-cr tag">-3.1pts</span>']])+'</div>';},
+ bi:function(){var n=agg('cln',function(g){return avg(g,function(b){return b.nps;});});
+  return bi([['NPS by cluster','200-branch estate',hbars(n.map(function(r){return [r[0].split(' ')[0],r[2],r[2]<50?'wa':'mi',Math.round(r[2])];}),80)],
+  ['Standards vs NPS','Correlation by branch',scatter(BR.map(function(b){return [b.avail,b.nps,CLC[b.cl]];}),'AVAILABILITY →','↑ NPS')],
+  ['Service time by day-part','Order to hand-off',hbars([['Morning rush',3.1,'wa','3m 06s'],['Midday',2.4,'mi','2m 24s'],['Afternoon',2.1,'mi','2m 06s'],['Evening',2.3,'mi','2m 18s']],4)],
+  ['Mystery visit findings','Most common',tbl(['FINDING','FREQUENCY'],[['Display gaps at 15:00+','38%'],['No farewell','31%'],['Upsell not offered','27%'],['Table not cleared','19%']])]]);},
+ cfg:function(){return cfg([['Standards definition','What is measured',[['Planogram compliance',true,'COMMERCIAL'],['Service time target','&lt; 3 min','OPS'],['Greeting standard',true,'BRAND'],['Quality at pass',true,'QUALITY']]],
+ ['Mystery visit programme','Independent measurement',[['Visits per branch / quarter','2','BRAND'],['Provider','Third party','EXTERNAL'],['Score weighting · service','40%','BRAND'],['Share results with branch',true,'ENABLED']]],
+ ['Cluster-specific targets','One size does not fit all',[['Transit · service time','&lt; 2 min','OPS'],['Destination · service time','&lt; 4 min','OPS'],['Transit · greeting weight','20%','BRAND'],['Destination · greeting weight','45%','BRAND']]],
+ ['Improvement loop','What happens after a finding',[['Auto-create action',true,'ENABLED'],['Re-visit after action','4 weeks','BRAND'],['Link to training module',true,'ENABLED']]]]);}};
+M.hyg={wb:function(){return iflag('<b>Third alert in 11 days at Graben.</b> A sustained rise rather than a spike is consistent with a failing compressor, not a door left open — which is why this became a breach rather than another cleared alert.')
+ +'<div class="kpis">'+kpi('TEMPERATURE LOGS','5,880','captured today')+kpi('CCP BREACHES',circ('3'),'1 unresolved')+kpi('CLEANING TASKS','98.1%','completed')+kpi('ALLERGEN CHECKS','100%','matrix current')+'</div>'
+ +'<div class="pan"><h3>Critical control points</h3><div class="ph">Recorded to a standard that survives an inspection</div>'
+ +tbl(['CCP','BRANCH','READING','LIMIT','TIME','STATUS'],[
+ ['<b>Chiller 3 · dairy</b>','B112 Graben','4.2°C','≤ 4.0°C','06:20','<span class="t-cr tag">BREACH</span>'],
+ ['<b>Freezer 1</b>','B112 Graben','−19.1°C','≤ −18°C','06:20','<span class="t-ok tag">OK</span>'],
+ ['<b>Display case</b>','B041 Bellecour','3.1°C','≤ 5.0°C','07:10','<span class="t-ok tag">OK</span>'],
+ ['<b>Hot hold</b>','B038 Part-Dieu','64.8°C','≥ 63°C','12:40','<span class="t-ok tag">OK</span>'],
+ ['<b>Chiller 2</b>','B087 Sablon','4.9°C','≤ 5.0°C','06:55','<span class="t-wa tag">MARGINAL</span>']])+'</div>'
+ +'<div class="pan"><h3>Graben chiller 3 · 24 hrs</h3><div class="ph">°C — sustained rise, not a door event</div>'+bars([30,31,29,32,34,38,44,52,58,62,66,64,68,72])+'</div>';},
+ bi:function(){return bi([['Breaches by CCP type','Last 90 days',hbars([['Chilled storage',18,'cr','18'],['Display case',9,'wa','9'],['Hot hold',4,'mi','4'],['Frozen',2,'mi','2']],20)],
+ ['Time to resolve','Median hours',hbars([['Display case',1.2,'mi','1.2 h'],['Hot hold',0.8,'mi','0.8 h'],['Chilled storage',6.4,'cr','6.4 h'],['Frozen',3.1,'wa','3.1 h']],8)],
+ ['Allergen control','Currency of checks',tbl(['CHECK','STATUS','LAST'],[['Matrix vs live recipes','<span class="t-ok tag">CURRENT</span>','today'],['Nut separation','<span class="t-ok tag">PASS</span>','today'],['Label accuracy audit','<span class="t-wa tag">1 FINDING</span>','11 d'],['Staff allergen training','<span class="t-wa tag">3 EXPIRING</span>','—']])],
+ ['Log completeness','% of required logs captured',bars([97,98,97,99,98,97,99,98,96,97,95,96])]]);},
+ cfg:function(){return cfg([['Critical control points','Limits enforced',[['Chilled storage','≤ 4.0°C','FOOD SAFETY'],['Display case','≤ 5.0°C','FOOD SAFETY'],['Frozen','≤ −18.0°C','FOOD SAFETY'],['Hot hold','≥ 63.0°C','FOOD SAFETY']]],
+ ['Monitoring','How readings are taken',[['Automatic telemetry',true,'IOT'],['Manual log frequency','3× daily','OPS'],['Alert on breach',true,'IMMEDIATE'],['Alert on trend toward limit',true,'ENABLED']]],
+ ['Breach response','Automatic actions',[['Quarantine affected stock',true,'ENABLED'],['Notify food safety lead',true,'IMMEDIATE'],['Create incident record',true,'AUTO'],['Block sale of affected SKUs',true,'ENABLED']]],
+ ['Records retention','For inspection',[['CCP log retention','24 months','LEGAL'],['Photo evidence retention','12 months','LEGAL'],['Export for inspector',true,'ENABLED']]]]);}};
+M.audit={wb:function(){return iflag('<b>Two of the four overdue findings sit with the same area manager</b>, who currently owns 31 open actions across 24 branches. That is a capacity problem, not a diligence problem.')
+ +'<div class="kpis">'+kpi('AUDITS COMPLETED (QTR)','182','internal + external')+kpi('GROUP SCORE','A−','2 branches B')+kpi('OPEN FINDINGS',circ('19'),'4 overdue')+kpi('AVG CLOSURE','5.2 days','standard 7')+'</div>'
+ +'<div class="pan"><h3>Audit &amp; corrective action cycle</h3><div class="ph">Finding → owner → action → evidence → verification → close</div>'
+ +pipe([['AUDIT','Completed','182',''],['FINDING','Raised','19','doing'],['OWNER','Assigned','19',''],['ACTION','In progress','11',''],['EVIDENCE','Submitted','8',''],['VERIFY','Closed','163','']])+'</div>'
+ +'<div class="pan"><h3>Open findings</h3><div class="ph">Tracked to evidence, not to a promise</div>'
+ +tbl(['REF','BRANCH','FINDING','SEVERITY','AGE','STATUS'],[
+ ['<b>F-2291</b>','Berlin cluster','Allergen label mismatch','<span class="t-cr tag">MAJOR</span>','11 d','<span class="t-cr tag">OVERDUE</span>'],
+ ['<b>F-2288</b>','B112 Graben','Cold-chain record incomplete','<span class="t-cr tag">MAJOR</span>','6 d','<span class="t-wa tag">ACTION</span>'],
+ ['<b>F-2284</b>','B087 Sablon','Closing verification missing','<span class="t-wa tag">MINOR</span>','4 d','<span class="t-wa tag">ACTION</span>'],
+ ['<b>F-2279</b>','B044 Confluence','Waste area cleaning','<span class="t-wa tag">MINOR</span>','3 d','<span class="t-nu tag">EVIDENCE</span>']])+'</div>';},
+ bi:function(){return bi([['Findings by category','Last quarter',hbars([['Records & documentation',34,'wa','34'],['Cleaning & hygiene',28,'wa','28'],['Temperature control',19,'','19'],['Allergen',11,'cr','11'],['Pest control',6,'mi','6']],40)],
+ ['Closure performance','Days to close by severity',hbars([['Minor',3.8,'mi','3.8 d'],['Major',7.2,'wa','7.2 d'],['Critical',1.1,'mi','1.1 d']],10)],
+ ['Action load by manager','Open actions owned',hbars([['A. Moreau',31,'cr','31'],['C. Weber',18,'wa','18'],['S. Declerq',12,'','12'],['M. Fischer',9,'mi','9']],35)],
+ ['Audit score trend','Group, 8 quarters',bars([82,84,83,86,88,87,89,86])]]);},
+ cfg:function(){return cfg([['Audit programme','Cadence and scope',[['Internal audit frequency','Quarterly','GOVERNANCE'],['External audit','Annual','EXTERNAL'],['Unannounced visits','20% of audits','GOVERNANCE'],['Scope','Full HACCP + brand','FIXED']]],
+ ['Finding severity','Classification rules',[['Critical · close within','24 hours','POLICY'],['Major · close within','7 days','POLICY'],['Minor · close within','21 days','POLICY'],['Auto-escalate when overdue',true,'ENABLED']]],
+ ['Evidence standards','What closes a finding',[['Photo evidence required',true,'MANDATORY'],['Second-person verification',true,'MANDATORY'],['Self-closure allowed',false,'BLOCKED']]],
+ ['Workload guard','Preventing owner overload',[['Max open actions per owner','20','GUARD'],['Alert when exceeded',true,'ENABLED'],['Auto-reassign on breach',false,'MANUAL']]]]);}};
+M.inc={wb:function(){return iflag('<b>Three refrigeration incidents at Graben in 11 days were each closed individually.</b> As separate events they look minor; as a series they are a failing compressor that has now become a cold-chain breach.')
+ +'<div class="kpis">'+kpi('OPEN INCIDENTS','7','2 overdue')+kpi('CLOSED THIS MONTH','34','avg 2.1 days')+kpi('GUEST-AFFECTING','3','all resolved')+kpi('REPEAT CAUSES',circ('2'),'refrigeration')+'</div>'
+ +'<div class="pan"><h3>Incident log</h3><div class="ph">Captured with photo and context, tracked to closure</div>'
+ +tbl(['REF','BRANCH','TYPE','RAISED','AGE','STATUS'],[
+ ['<b>INC-3391</b>','B112 Graben','Refrigeration fault','21 Jul','1 d','<span class="t-cr tag">OPEN · CRITICAL</span>'],
+ ['<b>INC-3388</b>','B087 Sablon','Closing not completed','20 Jul','2 d','<span class="t-wa tag">OPEN</span>'],
+ ['<b>INC-3382</b>','B041 Bellecour','Espresso machine fault','18 Jul','4 d','<span class="t-wa tag">OVERDUE</span>'],
+ ['<b>INC-3374</b>','B112 Graben','Refrigeration alert','15 Jul','7 d','<span class="t-ok tag">RESOLVED</span>'],
+ ['<b>INC-3366</b>','B112 Graben','Refrigeration alert','11 Jul','11 d','<span class="t-ok tag">RESOLVED</span>']])+'</div>'
+ +'<div class="pan"><h3>Full incident register</h3><div class="ph">Every incident across the estate, newest first</div>'
+ +big(['REF','BRANCH','CITY','TYPE','CLASS','SEVERITY','AGE','STATUS'],
+  srt(INCS,'age','asc').map(function(x){
+   return ['<b>'+x.ref+'</b>',x.br,x.city,x.type,x.cls,
+    '<span class="'+(x.sev==='HIGH'?'t-cr':x.sev==='MED'?'t-wa':'t-ok')+' tag">'+x.sev+'</span>',x.age+' d',
+    x.st==='OVERDUE'?'<span class="t-cr tag">OVERDUE</span>':x.st==='OPEN'?'<span class="t-wa tag">OPEN</span>':x.st==='ACTION'?'<span class="t-wa tag">ACTION</span>':'<span class="t-ok tag">RESOLVED</span>'];}),'72 INCIDENTS')+'</div>';},
+ bi:function(){return bi([['Incidents by type','Last 90 days',hbars([['Equipment fault',48,'wa','48'],['Process miss',31,'','31'],['Guest complaint',22,'','22'],['Injury / near miss',9,'cr','9'],['Security',4,'mi','4']],55)],
+ ['Repeat-cause detection','Series identified by Iris',tbl(['SERIES','EVENTS','ROOT CAUSE'],[['Graben refrigeration','3','<span class="t-cr tag">Compressor</span>'],['R-03 late delivery','6','<span class="t-wa tag">Route design</span>'],['Sablon closing','4','<span class="t-wa tag">Rota</span>']])],
+ ['Time to close','Median days by type',hbars([['Guest complaint',0.8,'mi','0.8'],['Process miss',1.9,'mi','1.9'],['Equipment fault',4.2,'wa','4.2'],['Injury',6.1,'cr','6.1']],8)],
+ ['Incident rate','Per 100 branches per week',bars([22,24,21,26,23,27,25,29,26,31,28,32])]]);},
+ cfg:function(){return cfg([['Incident types','What gets recorded',[['Equipment fault',true,'ENABLED'],['Process miss',true,'ENABLED'],['Guest complaint',true,'ENABLED'],['Injury / near miss',true,'MANDATORY'],['Security event',true,'ENABLED']]],
+ ['Response targets','Time to close',[['Critical','24 hours','POLICY'],['High','3 days','POLICY'],['Standard','7 days','POLICY'],['Auto-escalate overdue',true,'ENABLED']]],
+ ['Repeat-cause detection','How series are found',[['Window','30 days','AUTO'],['Min events to flag','3','AUTO'],['Same asset or location',true,'REQUIRED'],['Raise root-cause job',true,'ENABLED']]],
+ ['Notification','Who is told',[['Branch manager',true,'IMMEDIATE'],['Area manager · critical',true,'IMMEDIATE'],['Head of Ops · critical',true,'IMMEDIATE'],['Insurer · injury',true,'WITHIN 24H']]]]);}};
+M.asset={wb:function(){return iflag('<b>Refrigeration is at 82% of expected life across the estate.</b> The Graben failure is the leading edge of a replacement cycle, not an isolated fault — and three espresso machines 40 days past service are costing about €6,200 a month in lost throughput.')
+ +'<div class="kpis">'+kpi('ASSETS TRACKED','1,806','200 branches')+kpi('DUE SERVICE','14','3 overdue')+kpi('UNPLANNED FAILURES','6','MTD')
+ +kpi('DOWNTIME COST (MTD)','€18,400','')+kpi('PLANNED VS REACTIVE',circ('71 / 29'),'target 85/15')+'</div>'
+ +'<div class="pan"><h3>Maintenance schedule</h3><div class="ph">Planned service, not emergency repair</div>'
+ +tbl(['ASSET','BRANCH','RUN HOURS','LAST SERVICE','DUE','STATUS'],[
+ ['<b>Chiller 3</b>','B112 Graben','—','12 Mar','<span class="t-cr tag">OVERDUE 41d</span>','<span class="t-cr tag">FAILING</span>'],
+ ['<b>Espresso · La Marzocco</b>','B041 Bellecour','2,840 h','18 Apr','<span class="t-cr tag">OVERDUE 40d</span>','<span class="t-wa tag">DEGRADED</span>'],
+ ['<b>Espresso · La Marzocco</b>','B038 Part-Dieu','2,610 h','24 Apr','<span class="t-wa tag">DUE 4d</span>','<span class="t-ok tag">OK</span>'],
+ ['<b>Deck oven 2</b>','Lyon CK','5,120 h','02 Jun','<span class="t-ok tag">DUE 22d</span>','<span class="t-ok tag">OK</span>']])+'</div>'
+ +'<div class="pan"><h3>Full asset register</h3><div class="ph">Every tracked asset, ranked by service urgency</div>'
+ +big(['ASSET','CLASS','BRANCH','CITY','RUN HOURS','SERVICE DUE','% OF LIFE','STATUS'],
+  srt(ASSETS,'due','asc').map(function(a){
+   return ['<b>'+a.asset+'</b>',a.cls,a.br,a.city,a.hrs?a.hrs.toLocaleString()+' h':'—',
+    a.due<0?'<span class="t-cr tag">OVERDUE '+(-a.due)+'d</span>':a.due<10?'<span class="t-wa tag">DUE '+a.due+'d</span>':'<span class="t-ok tag">DUE '+a.due+'d</span>',
+    '<span class="'+(a.life>85?'t-cr':a.life>70?'t-wa':'t-ok')+' tag">'+a.life+'%</span>',
+    a.st==='OVERDUE'?'<span class="t-cr tag">OVERDUE</span>':a.st==='DUE SOON'?'<span class="t-wa tag">DUE SOON</span>':'<span class="t-ok tag">OK</span>'];}),'148 ASSETS')+'</div>'
+ +'<div class="pan"><h3>Asset lifecycle</h3><div class="ph">Age against expected life</div>'
+ +cover([['Refrigeration',82,'cr','82%'],['Espresso machines',68,'wa','68%'],['Grinders',54,'ok','54%'],['Ovens &amp; decks',41,'ok','41%'],['POS hardware',37,'ok','37%']],100)+'</div>';},
+ bi:function(){return bi([['Downtime cost by asset class','MTD',hbars([['Espresso machines',8200,'cr','€8.2k'],['Refrigeration',5400,'wa','€5.4k'],['Ovens',3100,'','€3.1k'],['POS',1700,'mi','€1.7k']])],
+ ['MTBF','Mean hours between failures',hbars([['Ovens',9400,'mi','9,400'],['Grinders',6100,'mi','6,100'],['Espresso',3800,'wa','3,800'],['Refrigeration',2900,'cr','2,900']],10000)],
+ ['Service compliance','On-schedule %',hbars([['Ovens',96,'mi','96%'],['POS',94,'mi','94%'],['Grinders',89,'wa','89%'],['Espresso',78,'cr','78%'],['Refrigeration',74,'cr','74%']],100)],
+ ['Replacement forecast','Assets past 80% of life',tbl(['CLASS','COUNT','CAPEX'],[['Refrigeration','61','€412k'],['Espresso','28','€336k'],['Grinders','14','€42k']])]]);},
+ cfg:function(){return cfg([['Asset register','What is tracked',[['Refrigeration',true,'ENABLED'],['Espresso & grinders',true,'ENABLED'],['Ovens & bakery plant',true,'ENABLED'],['POS & IT hardware',true,'ENABLED'],['Furniture & fit-out',false,'NOT TRACKED']]],
+ ['Service intervals','Planned maintenance',[['Espresso machine','2,600 run hours','MANUFACTURER'],['Refrigeration','6 months','MANUFACTURER'],['Deck oven','5,500 run hours','MANUFACTURER'],['Grinder','2,000 run hours','MANUFACTURER']]],
+ ['Predictive triggers','Beyond the calendar',[['Run-hour based scheduling',true,'ENABLED'],['Telemetry anomaly triggers job',true,'ENABLED'],['Repeat-incident triggers job',true,'ENABLED'],['Auto-order consumables',false,'MANUAL']]],
+ ['Replacement policy','When to renew not repair',[['Replace above % of life','85%','FINANCE'],['Replace after N failures','3 in 12 months','OPS'],['Capex approval','Head of Ops','DELEGATED']]]]);}};
+M.energy={wb:function(){return iflag('<b>Vienna uses 36% more energy per euro of revenue than Lyon.</b> Two thirds of the gap traces to refrigeration running out of specification — the same Graben fault plus two units at Stephansplatz never returning to setpoint overnight. Fixing it recovers roughly €3,400 a month.')
+ +'<div class="kpis">'+kpi('ENERGY / €1K REVENUE',circ('38.2 kWh'),'<span class="dn">+8% Vienna</span>')+kpi('GROUP CONSUMPTION','580 MWh','MTD')
+ +kpi('COLD-CHAIN ALERTS','3','1 unresolved')+kpi('AMBIANCE AUTO-SET','186 / 200','on schedule')+'</div>'
+ +'<div class="pan"><h3>Energy intensity by cluster</h3><div class="ph">kWh per €1,000 revenue — comparable across branch sizes</div>'
+ +cover([['Lyon cluster',34.1,'mi','34.1 kWh'],['Brussels cluster',36.8,'mi','36.8 kWh'],['Berlin cluster',39.2,'wa','39.2 kWh'],['Vienna cluster',46.4,'cr','46.4 kWh']],50)+'</div>'
+ +'<div class="pan"><h3>Ambiance schedule</h3><div class="ph">Lighting and sound follow footfall</div>'
+ +tbl(['DAY-PART','LIGHTING','SOUND','MODE'],[['<b>Open · 07:00</b>','80%','42 dB','Bright / calm'],
+ ['<b>Rush · 08:00</b>','100%','48 dB','Bright / lively'],['<b>Midday · 12:00</b>','90%','46 dB','Neutral'],
+ ['<b>Afternoon · 15:00</b>','70%','40 dB','Warm / soft'],['<b>Close · 19:00</b>','55%','36 dB','Wind-down']])+'</div>';},
+ bi:function(){return bi([['Consumption by end use','Share of kWh',hbars([['Refrigeration',38,'wa','38%'],['Baking & ovens',27,'','27%'],['HVAC',18,'','18%'],['Lighting',9,'mi','9%'],['Espresso & bar',8,'mi','8%']],45)],
+ ['Energy vs revenue','Each dot is one branch',scatter(BR.map(function(b){return [b.sqm,b.rev/1000,CLC[b.cl]];}),'FLOOR AREA m² →','↑ WEEKLY REVENUE €k')],
+ ['Out-of-hours draw','% of daily consumption',hbars([['Vienna',31,'cr','31%'],['Berlin',24,'wa','24%'],['Brussels',19,'','19%'],['Lyon',16,'mi','16%']],35)],
+ ['Intensity trend','kWh per €1k, 12 weeks',bars([34,35,34,36,35,37,36,38,37,39,38,40])]]);},
+ cfg:function(){return cfg([['Metering','How energy is measured',[['Interval','30 minutes','IOT'],['Sub-metering by end use',true,'ENABLED'],['Branches metered','186 / 200','ROLLOUT'],['Estimated where unmetered',true,'FLAGGED']]],
+ ['Ambiance automation','Comfort and saving',[['Lighting follows day-part',true,'ENABLED'],['Sound follows footfall',true,'ENABLED'],['HVAC setback out of hours',true,'ENABLED'],['Manual override at branch',true,'ALLOWED · 2H']]],
+ ['Anomaly detection','When draw looks wrong',[['Flag deviation above','15%','AUTO'],['Out-of-hours draw ceiling','20%','AUTO'],['Link anomaly to asset',true,'ENABLED']]],
+ ['Targets','What good looks like',[['Group intensity target','&lt; 35 kWh / €1k','ESG'],['Reduction target','−8% year on year','ESG'],['Review cadence','Monthly','ESG']]]]);}};
+M.sus={wb:function(){return iflag('Scope 3 emissions — the supply chain — are <b>not included</b> in this carbon figure, and for a food business they are usually the largest share. Packaging recycling rests on supplier declaration rather than independent verification.')
+ +'<div class="kpis">'+kpi('WASTE TO LANDFILL','18.2%','target &lt; 20%')+kpi('CARBON (SCOPE 1+2)',circ('284 tCO₂e'),'MTD')
+ +kpi('RECYCLED PACKAGING','76%','<span class="wa">target 85%</span>')+kpi('SURPLUS REDISTRIBUTED','4,180 u','to food partners')+'</div>'
+ +'<div class="pan"><h3>Sustainability targets</h3><div class="ph">Measured, not estimated — a number only counts if it is metered</div>'
+ +tbl(['MEASURE','CURRENT','TARGET','SOURCE','STATUS'],[
+ ['<b>Waste to landfill</b>','18.2%','&lt; 20%','Weighed at collection','<span class="t-ok tag">ON TRACK</span>'],
+ ['<b>Recycled packaging</b>','76%','85%','Supplier declaration','<span class="t-wa tag">BEHIND</span>'],
+ ['<b>Energy intensity</b>','38.2 kWh','&lt; 35 kWh','Metered','<span class="t-wa tag">BEHIND</span>'],
+ ['<b>Surplus redistributed</b>','4,180 u','5,000 u','Partner receipts','<span class="t-wa tag">BEHIND</span>'],
+ ['<b>Scope 1+2 carbon</b>','284 t','&lt; 300 t','Calculated from metered','<span class="t-ok tag">ON TRACK</span>']])+'</div>';},
+ bi:function(){return bi([['Emissions by source','Scope 1+2, tCO₂e',hbars([['Electricity',186,'','186'],['Gas · ovens',72,'','72'],['Refrigerant leakage',18,'wa','18'],['Fleet · owned',8,'mi','8']],200)],
+ ['Data quality','How each measure is evidenced',tbl(['MEASURE','BASIS','CONFIDENCE'],[['Energy','Metered','<span class="t-ok tag">HIGH</span>'],['Waste','Weighed','<span class="t-ok tag">HIGH</span>'],['Packaging','Declared','<span class="t-wa tag">MEDIUM</span>'],['Scope 3','<span class="t-cr tag">Not measured</span>','—']])],
+ ['Waste diversion','Route of surplus',hbars([['Redistributed',34,'mi','34%'],['Recycled',28,'mi','28%'],['Anaerobic digestion',20,'','20%'],['Landfill',18,'wa','18%']],40)],
+ ['Carbon trend','tCO₂e per month',bars([62,60,58,57,55,54,52,51,50,48,47,46])]]);},
+ cfg:function(){return cfg([['Reporting scope','What is included',[['Scope 1 · direct',true,'REPORTED'],['Scope 2 · purchased energy',true,'REPORTED'],['Scope 3 · supply chain',false,'<span style="color:var(--amber)">NOT YET MEASURED</span>'],['Framework','GHG Protocol','STANDARD']]],
+ ['Emission factors','Calculation basis',[['Electricity factor','Market-based','STANDARD'],['Gas factor','National average','STANDARD'],['Refrigerant GWP','Per gas type','STANDARD'],['Factor review','Annual','ESG']]],
+ ['Targets & assurance','Credibility of the numbers',[['Reduction target','−8% YoY','BOARD'],['Third-party assurance',false,'<span style="color:var(--amber)">NOT ASSURED</span>'],['Publish externally',false,'DRAFT'],['Restate on method change',true,'MANDATORY']]],
+ ['Surplus redistribution','Food partner programme',[['Partner collection',true,'ENABLED'],['Cut-off time','19:30','OPS'],['Chilled dairy excluded',true,'FOOD SAFETY']]]]);}};
+
+M.hs={wb:function(){return iflag('<b>Slips and burns account for 71% of all reportable injuries</b>, and both cluster in the same two hours — the morning changeover when floors are wet and the bar is running hardest. That is a scheduling and matting problem, not a carelessness problem.')
+ +'<div class="kpis">'+kpi('REPORTABLE INJURIES (YTD)','34','200 branches')+kpi('LOST-TIME INJURY RATE',circ('1.8'),'per 100 FTE · sector 3.1')
+ +kpi('NEAR MISSES LOGGED','218','<span class="up">good reporting</span>')+kpi('DAYS SINCE LOST TIME','11','B112 Graben')
+ +kpi('RISK ASSESSMENTS CURRENT','94.2%','<span class="wa">12 overdue</span>')+'</div>'
+ +'<div class="pan"><h3>Injury and near-miss register</h3><div class="ph">Near misses are recorded because they are the cheapest warning you will get</div>'
+ +tbl(['REF','BRANCH','TYPE','MECHANISM','SEVERITY','STATUS'],[
+ ['<b>HS-1184</b>','B112 Graben','Injury','Burn · steam wand','<span class="t-cr tag">LOST TIME</span>','<span class="t-wa tag">INVESTIGATION</span>'],
+ ['<b>HS-1181</b>','B087 Sablon','Near miss','Slip · wet floor','<span class="t-wa tag">POTENTIAL</span>','<span class="t-ok tag">ACTIONED</span>'],
+ ['<b>HS-1178</b>','B041 Bellecour','Injury','Cut · slicer guard','<span class="t-wa tag">FIRST AID</span>','<span class="t-ok tag">CLOSED</span>'],
+ ['<b>HS-1174</b>','Lyon CK','Near miss','Manual handling · flour sack','<span class="t-wa tag">POTENTIAL</span>','<span class="t-wa tag">ACTION</span>'],
+ ['<b>HS-1169</b>','B160 Hamburg','Injury','Burn · oven tray','<span class="t-wa tag">FIRST AID</span>','<span class="t-ok tag">CLOSED</span>']])+'</div>'
+ +'<div class="pan"><h3>Safety events across the estate</h3><div class="ph">Injuries and near misses, all branches</div>'
+ +big(['REF','BRANCH','CITY','MECHANISM','SEVERITY','AGE','STATUS'],
+  INCS.filter(function(x){return x.cls==='Safety'||x.cls==='Food safety';}).map(function(x){
+   return ['<b>'+x.ref.replace('INC','HS')+'</b>',x.br,x.city,x.type,
+    '<span class="'+(x.sev==='HIGH'?'t-cr':'t-wa')+' tag">'+x.sev+'</span>',x.age+' d',
+    x.st==='RESOLVED'?'<span class="t-ok tag">CLOSED</span>':'<span class="t-wa tag">'+x.st+'</span>'];}),'SAFETY & FOOD SAFETY EVENTS')+'</div>'
+ +'<div class="pan"><h3>Risk assessment status</h3><div class="ph">Live documents, not a folder in the back office</div>'
+ +tbl(['ASSESSMENT','SCOPE','LAST REVIEW','DUE','STATUS'],[
+ ['<b>Hot beverage &amp; steam</b>','All branches','14 Mar','<span class="t-wa tag">DUE 18d</span>','<span class="t-ok tag">CURRENT</span>'],
+ ['<b>Slips, trips &amp; falls</b>','All branches','02 Feb','<span class="t-cr tag">OVERDUE 22d</span>','<span class="t-cr tag">OVERDUE</span>'],
+ ['<b>Manual handling</b>','Central kitchens','19 Apr','<span class="t-ok tag">DUE 61d</span>','<span class="t-ok tag">CURRENT</span>'],
+ ['<b>Machinery &amp; guarding</b>','Bakery plant','28 May','<span class="t-ok tag">DUE 94d</span>','<span class="t-ok tag">CURRENT</span>'],
+ ['<b>Fire &amp; evacuation</b>','All branches','11 Jun','<span class="t-ok tag">DUE 112d</span>','<span class="t-ok tag">CURRENT</span>'],
+ ['<b>Lone working</b>','Early &amp; late shifts','—','<span class="t-cr tag">NEVER DONE</span>','<span class="t-cr tag">GAP</span>']])+'</div>';},
+ bi:function(){return bi([['Injury mechanism','Share of reportable injuries',hbars([['Burns · steam & oven',41,'cr','41%'],['Slips & trips',30,'cr','30%'],['Cuts & lacerations',16,'wa','16%'],['Manual handling',9,'wa','9%'],['Other',4,'mi','4%']],45)],
+ ['Injuries by hour','When people get hurt',hbars([['07:00–09:00',38,'cr','38%'],['14:00–16:00',24,'wa','24%'],['09:00–12:00',16,'','16%'],['16:00–close',14,'','14%'],['12:00–14:00',8,'mi','8%']],42)],
+ ['Near miss to injury ratio','Higher is healthier reporting',hbars([['France',7.4,'mi','7.4 : 1'],['Belgium',6.8,'mi','6.8 : 1'],['Germany',5.1,'wa','5.1 : 1'],['Austria',3.2,'cr','3.2 : 1']],9)],
+ ['Lost-time trend','Days lost per month',bars([48,44,46,41,38,40,35,33,36,30,28,26])]]);},
+ cfg:function(){return cfg([['Reporting duties','What must be recorded',[['Reportable injury',true,'STATUTORY'],['First aid case',true,'MANDATORY'],['Near miss',true,'ENCOURAGED'],['Dangerous occurrence',true,'STATUTORY'],['Report to regulator within','10 days','LAW']]],
+ ['Risk assessment','Cadence and ownership',[['Review cycle','12 months','LAW'],['Review after any injury',true,'MANDATORY'],['Owner','Branch manager','DELEGATED'],['Lone working assessment',false,'<span style="color:var(--red)">GAP — REQUIRED</span>']]],
+ ['Controls in force','Preventive measures',[['Anti-slip matting · bar',true,'FITTED'],['Steam wand guard',true,'FITTED'],['Slicer interlock',true,'FITTED'],['Wet-floor signage protocol',true,'ENABLED'],['Maximum lift weight','16 kg','POLICY']]],
+ ['Training & competence','Who may do what',[['H&S induction',true,'MANDATORY'],['Manual handling training','On hire + 24 mo','MANDATORY'],['First aiders per branch','1 minimum','LAW'],['Fire marshal per branch','1 minimum','LAW']]]]);}};
+
+var TT={cmd:['Command Centre','OPERATIONS · LIVE'],shift:['Shift &amp; Checklists','DAILY OPS · L1 ZEN RULES'],std:['Store Standards','GUEST EXPERIENCE · L2 MODELS'],
+hyg:['Hygiene &amp; HACCP','FOOD SAFETY · L1 ZEN RULES'],hs:['Health &amp; Safety','PEOPLE SAFETY · L1 ZEN RULES'],audit:['Audits &amp; Compliance','CORRECTIVE ACTION CYCLE'],inc:['Incidents','ANOMALY · L1 ZEN RULES'],
+asset:['Asset Maintenance','ASSET LIFECYCLE · FORECAST'],energy:['Energy &amp; Ambiance','IOT · L2 ZEN MODELS'],sus:['Sustainability','ESG REPORTING']};
+var IR={cmd:'<b>Graben chiller 3 is the only true emergency.</b> The Berlin allergen finding is the one that costs an audit grade.',
+shift:'<b>Sablon closing misses are a rota problem</b> — the checklist takes 18 minutes; the shift ends 10 minutes after service.',
+std:'<b>Transit trades greeting for speed — largely correctly.</b> Display fill at 79% is the number worth fixing.',
+hs:'<b>Burns and slips are 71% of injuries and both cluster in the morning changeover</b> — scheduling and matting, not carelessness.',
+hyg:'<b>Third alert in 11 days at Graben.</b> A sustained rise is a failing compressor, not a door.',
+audit:'<b>Two of four overdue findings sit with one manager</b> holding 31 open actions.',
+inc:'<b>Three refrigeration incidents closed individually are one failing compressor.</b>',
+asset:'<b>Refrigeration is at 82% of expected life estate-wide.</b> Graben is the leading edge of a replacement cycle.',
+energy:'<b>Vienna uses 36% more energy per euro than Lyon</b> — two thirds refrigeration out of specification.',
+sus:'<b>Scope 3 is not included</b>, and for a food business it is usually the largest share.'};
+document.querySelectorAll('.nit').forEach(function(n){n.onclick=function(){go(n.dataset.r,'wb');};});
+go('cmd','wb');
+</script></body></html>
