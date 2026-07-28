@@ -1,7 +1,412 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
-<title>Redirecting…</title>
-<link rel="canonical" href="https://zentallio.com/contact/">
-<meta http-equiv="refresh" content="0; url=https://zentallio.com/contact/">
-<script>location.replace("https://zentallio.com/contact/");</script>
-</head><body><p>This page has moved to <a href="https://zentallio.com/contact/">https://zentallio.com/contact/</a>.</p></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="zentallio-version" content="contact-1.0">
+<title>Contact — Zentallio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070C18'/><circle cx='16' cy='16' r='7' fill='%23ff2d95'/><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff2d95' stroke-opacity='.45' stroke-width='1.5'/></svg>">
+<meta name="description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
+<meta name="theme-color" content="#070C18">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zentallio">
+<meta property="og:title" content="Contact — Zentallio">
+<meta property="og:description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
+<meta property="og:image" content="https://zentallio.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — Zentallio">
+<meta name="twitter:description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
+<meta name="twitter:image" content="https://zentallio.com/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#070C18;--ai:#ff2d95;--teal:#15F2F2;--violet:#9B7BFF;--amber:#E5A24B;
+ --fg:#F2F6FC;--fg2:#AEB9CB;--fg3:#6E798F;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);
+ --serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+ --gut:clamp(20px,4vw,52px);--maxw:1220px;--readw:760px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--fg2);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ai);box-shadow:0 0 12px var(--ai)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.028em;line-height:1.05}
+
+.top{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px var(--gut);transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease}
+.top.scrolled{background:linear-gradient(180deg,rgba(7,12,24,.97) 0%,rgba(7,12,24,.9) 52%,rgba(7,12,24,0) 100%);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+.brand{font-family:var(--serif);font-size:1.3rem;font-weight:500;letter-spacing:-.01em;background:linear-gradient(100deg,#fff,#fff 45%,var(--teal) 50%,var(--violet) 54%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+@keyframes wmShine{0%{background-position:130% center}100%{background-position:-30% center}}
+.menu-btn{width:46px;height:46px;border:1px solid var(--line2);border-radius:4px;background:rgba(10,16,32,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;display:grid;place-items:center;gap:5px;transition:.25s;z-index:80}
+.menu-btn span{display:block;width:18px;height:1.5px;background:var(--fg);transition:.3s}
+.menu-btn:hover{border-color:var(--ai)}
+body.menu .menu-btn span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+body.menu .menu-btn span:nth-child(2){opacity:0}
+body.menu .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+.menu-ov{position:fixed;inset:0;z-index:70;background:rgba(6,10,20,.97);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);display:flex;flex-direction:column;justify-content:center;padding:0 var(--gut);opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s}
+body.menu .menu-ov{opacity:1;visibility:visible}
+.menu-nav{max-width:var(--maxw);margin:0 auto;width:100%}
+.menu-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vh,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
+body.menu .menu-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}
+body.menu .menu-nav a:nth-child(1){transition-delay:.06s}body.menu .menu-nav a:nth-child(2){transition-delay:.12s}body.menu .menu-nav a:nth-child(3){transition-delay:.18s}body.menu .menu-nav a:nth-child(4){transition-delay:.24s}
+.menu-nav a i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
+.menu-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}
+.menu-nav a .d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.menu-nav a .d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.menu-nav a .d-ai{background:var(--ai);box-shadow:0 0 12px var(--ai)}
+.menu-nav a:hover{color:#fff;padding-left:14px}
+.menu-sub{max-width:var(--maxw);margin:clamp(24px,4vh,46px) auto 0;width:100%;display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.menu-sub a:hover{color:#fff}
+
+.lg-hero{position:relative;padding:clamp(128px,17vh,188px) 0 clamp(30px,5vh,54px);overflow:hidden}
+.lg-hero::before{content:"";position:absolute;width:60vw;height:60vw;max-width:760px;max-height:760px;top:-30%;right:-14%;border-radius:50%;background:radial-gradient(circle,rgba(255,45,149,.10),transparent 62%);filter:blur(8px);z-index:0;pointer-events:none}
+.lg-hero .wrap{position:relative;z-index:1}
+.lg-hero h1{font-size:clamp(2.6rem,6.6vw,4.6rem);margin:22px 0 20px;letter-spacing:-.035em;max-width:16ch}
+.lg-meta{display:flex;flex-wrap:wrap;gap:10px 20px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.lg-meta span{display:inline-flex;align-items:center;gap:9px}
+.lg-meta .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+.lg-intro{font-size:clamp(1.04rem,1.5vw,1.24rem);color:var(--fg2);max-width:var(--readw);line-height:1.55;margin-top:26px}
+.lg-intro b{color:var(--fg);font-weight:500}
+
+.lg-body{padding:clamp(30px,5vw,60px) 0 clamp(60px,9vw,120px);border-top:1px solid var(--line)}
+.lg-grid{display:grid;grid-template-columns:220px minmax(0,var(--readw));gap:clamp(30px,5vw,70px);align-items:start}
+@media(max-width:900px){.lg-grid{grid-template-columns:1fr;gap:8px}}
+
+.lg-toc{position:sticky;top:96px;font-family:var(--mono);font-size:.7rem;letter-spacing:.04em}
+@media(max-width:900px){.lg-toc{position:static;top:auto;margin-bottom:12px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0))}}
+.lg-toc h5{color:var(--fg3);text-transform:uppercase;letter-spacing:.16em;font-size:.6rem;margin-bottom:14px}
+.lg-toc a{display:block;color:var(--fg2);padding:6px 0;border-left:1px solid var(--line);padding-left:14px;transition:.2s;line-height:1.35}
+.lg-toc a:hover{color:#fff;border-color:var(--ai)}
+
+.prose h2{font-size:clamp(1.5rem,2.6vw,2rem);margin:0 0 14px;scroll-margin-top:100px}
+.prose h3{font-size:1.05rem;font-family:var(--sans);font-weight:600;color:var(--fg);margin:18px 0 8px;letter-spacing:0}
+.prose section{padding:0 0 clamp(34px,4vw,48px)}
+.prose section + section{border-top:1px solid var(--line);padding-top:clamp(34px,4vw,48px)}
+.prose .num{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--ai);display:block;margin-bottom:12px}
+.prose p{color:var(--fg2);font-size:1rem;line-height:1.68;margin:0 0 14px}
+.prose p:last-child{margin-bottom:0}
+.prose b{color:var(--fg);font-weight:500}
+.prose .fill{color:var(--amber);font-style:normal}
+.prose a.inl{color:var(--teal);border-bottom:1px solid rgba(21,242,242,.3)}
+.prose a.inl:hover{border-color:var(--teal)}
+.prose ul{list-style:none;margin:2px 0 16px;padding:0}
+.prose li{position:relative;color:var(--fg2);font-size:1rem;line-height:1.6;padding:5px 0 5px 22px}
+.prose li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:.7}
+.prose li b{color:var(--fg);font-weight:500}
+.lg-contact{margin-top:clamp(36px,5vw,60px);padding-top:26px;border-top:1px solid var(--line);font-size:.98rem;color:var(--fg2)}
+.lg-contact a{color:var(--teal)}
+
+.site-footer{position:relative;border-top:1px solid var(--line);background:linear-gradient(180deg,#070C18,#04060D);padding:clamp(50px,6vw,82px) 0 32px}
+.ft-top{display:grid;grid-template-columns:1.35fr 2fr;gap:clamp(32px,5vw,72px)}
+@media(max-width:820px){.ft-top{grid-template-columns:1fr;gap:36px}}
+.ft-logo{font-family:var(--serif);font-size:1.5rem;display:inline-block;background:linear-gradient(100deg,#fff,#fff 45%,var(--teal) 50%,var(--violet) 54%,#fff 60%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:wmShine 7s linear infinite}
+.ft-tag{color:var(--fg2);margin-top:14px;max-width:42ch;font-size:.96rem}
+.ft-social{display:flex;gap:11px;margin-top:18px}
+.ft-social a{width:36px;height:36px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--fg2);transition:.25s}
+.ft-social a:hover{color:#fff;border-color:var(--teal);box-shadow:0 0 18px -7px var(--teal)}
+.ft-social svg{width:15px;height:15px}
+.ft-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:680px){.ft-cols{grid-template-columns:repeat(2,1fr);gap:30px 20px}}
+.ft-cols h5{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:16px}
+.ft-cols a{display:block;color:var(--fg2);padding:6px 0;font-size:.94rem;transition:.2s}
+.ft-cols a:hover{color:#fff}
+.ft-cols a.here{color:#fff}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-top:clamp(38px,6vw,66px);padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--fg3)}
+
+/* cookie policy table */
+.ck-table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:.94rem}
+.ck-table th,.ck-table td{text-align:left;vertical-align:top;padding:12px 14px;border-bottom:1px solid var(--line)}
+.ck-table thead th{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);font-weight:400}
+.ck-table td{color:var(--fg2);line-height:1.55}
+.ck-table td b{color:var(--fg);font-weight:500}
+.ck-table tr:last-child td{border-bottom:none}
+@media(max-width:560px){.ck-table,.ck-table thead,.ck-table tbody,.ck-table tr,.ck-table th,.ck-table td{display:block}.ck-table thead{display:none}.ck-table td{border:none;padding:3px 0}.ck-table tr{padding:14px 0;border-bottom:1px solid var(--line)}.ck-table td::before{content:attr(data-l);display:block;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);margin-bottom:3px}}
+.ck-open{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--teal);border:1px solid rgba(21,242,242,.35);border-radius:999px;padding:9px 16px;cursor:pointer;background:transparent;transition:.2s}
+.ck-open:hover{border-color:var(--teal);box-shadow:0 0 18px -7px var(--teal)}
+.ft-pref{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;color:var(--fg3);background:transparent;border:none;cursor:pointer;padding:0;transition:.2s}
+.ft-pref:hover{color:#fff}
+
+/* contact page */
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,66px);align-items:start}
+@media(max-width:860px){.ct-grid{grid-template-columns:1fr;gap:34px}}
+.ct-methods{display:flex;flex-direction:column;gap:24px}
+.ct-item .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:7px}
+.ct-item a,.ct-item .val{color:var(--fg);font-size:1.06rem;text-decoration:none;line-height:1.5;display:inline-block}
+.ct-item a:hover{color:var(--teal)}
+.ct-item .val.addr{color:var(--fg);font-size:1.02rem}
+.ct-form{position:relative;border:1px solid var(--line);border-radius:18px;padding:clamp(24px,3vw,32px);background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0))}
+.ct-form::after{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.4),transparent)}
+.ff{position:relative;margin-bottom:22px;opacity:0;transform:translateY(10px);animation:ffIn .55s cubic-bezier(.16,.84,.44,1) forwards}
+.ff:nth-child(1){animation-delay:.05s}.ff:nth-child(2){animation-delay:.12s}.ff:nth-child(3){animation-delay:.19s}.ff:nth-child(4){animation-delay:.26s}
+@keyframes ffIn{to{opacity:1;transform:none}}
+.ff-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line2);padding:20px 2px 9px;color:var(--fg);font-family:var(--sans);font-size:1rem;transition:border-color .3s}
+.ff-input:focus{outline:none}
+textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
+.ff-label{position:absolute;left:2px;top:19px;color:var(--fg3);font-size:1rem;pointer-events:none;transition:top .25s cubic-bezier(.16,.84,.44,1),font-size .25s,color .25s,letter-spacing .25s}
+.ff-input:focus + .ff-label,.ff-input:not(:placeholder-shown) + .ff-label{top:-3px;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;font-family:var(--mono);color:var(--teal)}
+.ff-line{position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--teal),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .34s cubic-bezier(.16,.84,.44,1)}
+.ff-input:focus ~ .ff-line{transform:scaleX(1)}
+.ff.err .ff-input{border-bottom-color:#ff5c7a;animation:ffShake .38s}
+.ff.err .ff-label{color:#ff5c7a}
+@keyframes ffShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.ct-send{position:relative;display:inline-flex;align-items:center;gap:9px;margin-top:6px;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;background:var(--teal);color:#04121a;border:none;border-radius:11px;padding:13px 22px;cursor:pointer;font-weight:600;overflow:hidden;transition:box-shadow .25s,transform .15s}
+.ct-send:hover{box-shadow:0 10px 26px -10px var(--teal);transform:translateY(-1px)}
+.ct-send:active{transform:translateY(0)}
+.ct-send .cs-ico{transition:transform .25s}
+.ct-send:hover .cs-ico{transform:translateX(4px)}
+.ct-send.sending{pointer-events:none}
+.ct-send.sending .cs-ico{transform:translateX(4px)}
+.ct-send::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-120%)}
+.ct-send.sending::after{animation:csSweep .9s ease}
+@keyframes csSweep{to{transform:translateX(120%)}}
+.ct-note{margin-top:14px;color:var(--fg3);font-size:.82rem;transition:color .25s}
+.ct-note.ok{color:var(--teal)}
+@media(prefers-reduced-motion:reduce){.ff{animation:none;opacity:1;transform:none}.ff-line,.ff-label,.ct-send,.ct-send .cs-ico{transition:none}.ff.err .ff-input{animation:none}.ct-send.sending::after{animation:none}}
+
+/* careers page */
+.cr-sec{margin-top:clamp(30px,5vw,54px)}
+.cr-h{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,1.9rem);margin-bottom:6px}
+.cr-sub{color:var(--fg2);margin-bottom:20px;max-width:62ch}
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:16px}
+.cr-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:linear-gradient(180deg,rgba(255,255,255,.022),transparent);transition:transform .25s,border-color .25s}
+.cr-card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.cr-card .k{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:block}
+.cr-card h3{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:8px}
+.cr-card p{color:var(--fg2);font-size:.92rem;line-height:1.55}
+.cr-roles{border-top:1px solid var(--line);margin-top:4px}
+.cr-role{display:flex;align-items:center;gap:16px;padding:18px 2px;border-bottom:1px solid var(--line);color:inherit;transition:padding-left .25s,background .25s}
+.cr-role:hover{padding-left:10px}
+.cr-role .rt{font-family:var(--serif);font-size:1.18rem;color:var(--fg)}
+.cr-role .rm{margin-left:auto;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3)}
+.cr-role .ra{color:var(--teal);font-family:var(--mono);font-size:.95rem;transition:transform .25s}
+.cr-role:hover .ra{transform:translateX(5px)}
+.cr-cta{margin-top:clamp(30px,5vw,52px);border:1px solid var(--line);border-radius:16px;padding:clamp(24px,4vw,34px);background:linear-gradient(120deg,rgba(21,242,242,.055),transparent 62%);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cr-cta h3{font-family:var(--serif);font-size:1.3rem;color:var(--fg);margin-bottom:6px}
+.cr-cta p{color:var(--fg2);font-size:.95rem;max-width:52ch}
+.cr-btn{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;background:var(--teal);color:#04121a;border-radius:10px;padding:13px 22px;font-weight:600;white-space:nowrap;transition:box-shadow .25s,transform .15s;display:inline-flex;align-items:center;gap:8px}
+.cr-btn:hover{box-shadow:0 10px 26px -10px var(--teal);transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){.cr-card,.cr-role,.cr-btn,.cr-role .ra{transition:none}}
+
+@media(prefers-reduced-motion:reduce){.brand,.ft-logo{animation:none}html{scroll-behavior:auto}}
+</style>
+<link rel="canonical" href="https://zentallio.com/contact">
+<meta property="og:url" content="https://zentallio.com/contact">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Zentallio","url":"https://zentallio.com","logo":"https://zentallio.com/og-image.png","description":"The AI decision platform for multi-outlet operators in Food & Beverage and Fashion Retail.","email":"info@zentallio.com","telephone":"+92-310-7602811","address":{"@type":"PostalAddress","streetAddress":"142-C, D.H.A. Commercial Broadway, DHA Phase 8","addressLocality":"Lahore","postalCode":"54940","addressCountry":"PK"},"sameAs":["https://www.linkedin.com/company/zentallio","https://x.com/zentallio","https://www.instagram.com/zentallio"]}</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-29VN9NGJDK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-29VN9NGJDK');
+  </script>
+</head>
+<body>
+<header class="top" id="top">
+  <a class="brand" href="/" aria-label="Zentallio home">Zentallio</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+
+<div class="menu-ov" id="menuOv">
+  <nav class="menu-nav">
+    <a href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="d-fb"></b></a>
+    <a href="/fashion"><i>02</i><span>Fashion Retail</span><b class="d-fa"></b></a>
+    <a href="/meet-iris"><i>03</i><span>Meet Iris</span><b class="d-ai"></b></a>
+    <a href="/contact"><i>04</i><span>Contact</span></a>
+  </nav>
+  <div class="menu-sub"><a href="/">Home</a><a href="/about">About</a><a href="/food-beverage#demo">Book a walkthrough</a></div>
+</div>
+<main>
+  <section class="lg-hero"><div class="wrap">
+    <span class="eyebrow">Company · Contact</span>
+    <h1>Let's <em style="font-style:italic;color:var(--ai)">talk</em>.</h1>
+    <p class="lg-intro">Tell us about your outlets and what you'd like to decide better. We usually reply within one business day.</p>
+  </div></section>
+  <section class="lg-body"><div class="wrap"><div class="ct-grid">
+<div class="ct-methods">
+<div class="ct-item"><div class="lbl">Email</div><a href="mailto:info@zentallio.com">info@zentallio.com</a></div>
+<div class="ct-item"><div class="lbl">Phone</div><a href="tel:+923270000901" style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+923270000901</a><br><a href="tel:+19294192694" style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+19294192694</a></div>
+<div class="ct-item"><div class="lbl">Office</div><a class="val addr" href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener">142-C, D.H.A. Commercial Broadway,<br>DHA Phase 8, Lahore 54940</a></div>
+<div class="ct-item"><div class="lbl">Hours</div><span class="val">Mon–Sat · 10:00–19:00 PKT</span></div>
+</div>
+<div class="ct-form">
+<div class="ff"><input class="ff-input" id="ctName" type="text" placeholder=" " autocomplete="name"><label class="ff-label" for="ctName">Name</label><span class="ff-line"></span></div>
+<div class="ff"><input class="ff-input" id="ctEmail" type="email" placeholder=" " autocomplete="email"><label class="ff-label" for="ctEmail">Email</label><span class="ff-line"></span></div>
+<div class="ff"><input class="ff-input" id="ctCo" type="text" placeholder=" " autocomplete="organization"><label class="ff-label" for="ctCo">Company</label><span class="ff-line"></span></div>
+<div class="ff"><textarea class="ff-input" id="ctMsg" placeholder=" "></textarea><label class="ff-label" for="ctMsg">Message</label><span class="ff-line"></span></div>
+<button type="button" class="ct-send" id="ctSend"><span class="cs-txt">Send message</span><span class="cs-ico">→</span></button>
+<div class="ct-note" id="ctNote">This opens your email app addressed to info@zentallio.com.</div>
+</div>
+</div></div></section></main>
+<script>
+(function(){
+  var btn=document.getElementById('ctSend');if(!btn)return;
+  function el(id){return document.getElementById(id);}
+  function val(id){var e=el(id);return e?e.value.trim():'';}
+  function flag(id){var f=el(id);if(!f)return;var w=f.closest('.ff');if(w){w.classList.remove('err');void w.offsetWidth;w.classList.add('err');setTimeout(function(){w.classList.remove('err');},650);}f.focus();}
+  var txt=btn.querySelector('.cs-txt'), note=el('ctNote');
+  btn.addEventListener('click',function(){
+    var n=val('ctName'),em=val('ctEmail'),co=val('ctCo'),m=val('ctMsg');
+    if(!n){flag('ctName');return;}
+    if(!m){flag('ctMsg');return;}
+    var subj='Zentallio enquiry — '+n;
+    var body=m+'\n\n—\n'+n+(co?(', '+co):'')+(em?(' · '+em):'');
+    if(txt)txt.textContent='Opening mail';
+    if(note){note.textContent='Opening your email app…';note.classList.add('ok');}
+    btn.classList.add('sending');
+    window.location.href='mailto:fahad.amjad@lucrumerp.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    setTimeout(function(){btn.classList.remove('sending');if(txt)txt.textContent='Send message';if(note){note.textContent='This opens your email app addressed.';note.classList.remove('ok');}},3000);
+  });
+})();
+</script>
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+<div id="zckBanner" class="zck" role="dialog" aria-modal="false" aria-label="Cookie notice" hidden>
+<style>
+.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:'Inter',system-ui,sans-serif}
+.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
+.zck-card::before{content:"";position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
+@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
+.zck-x svg{width:8px;height:8px}
+.zck-x:hover{color:#EAF0F8}
+.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
+.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
+.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
+.zck-txt a:hover{border-color:#15F2F2}
+.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
+.zck-panel[hidden]{display:none}
+.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
+.zck-chip:hover{border-color:rgba(255,255,255,.22)}
+.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
+.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
+.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
+.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
+.zck-actions{display:flex;align-items:center;gap:8px}
+.zck-link{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
+.zck-link:hover{color:#fff}
+.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
+.zck-btn{font-family:'Inter',system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
+.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
+.zck-btn.ghost:hover{color:#fff}
+.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
+.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
+@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
+@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
+</style>
+<div class="zck-card">
+  <button type="button" class="zck-x" data-zck="reject" aria-label="Dismiss — essentials only"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+  <p class="zck-txt"><span class="zck-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#15F2F2" stroke-opacity=".9" stroke-width="1.5"/><circle cx="12" cy="12" r="2.4" fill="#15F2F2"/></svg></span>A few cookies keep Zentallio running; analytics only with your consent. <a href="/cookies">The details</a>.</p>
+  <div class="zck-panel" hidden>
+    <span class="zck-chip locked"><i class="dot"></i>Essential</span>
+    <label class="zck-chip"><input type="checkbox" data-cat="analytics"><i class="dot"></i>Analytics</label>
+    <label class="zck-chip"><input type="checkbox" data-cat="marketing"><i class="dot"></i>Marketing</label>
+  </div>
+  <div class="zck-actions">
+    <button type="button" class="zck-link" data-zck="manage">Customize</button>
+    <div class="zck-cta">
+      <button type="button" class="zck-btn ghost" data-zck="reject">Essentials only</button>
+      <button type="button" class="zck-btn solid" data-zck="accept" data-default>Accept all</button>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  var KEY='zentallio_cookie_consent';
+  var el=document.getElementById('zckBanner');
+  if(!el)return;
+  var panel=el.querySelector('.zck-panel');
+  var acceptBtn=el.querySelector('[data-zck=accept]');
+  var mem=null;
+  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
+  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+  function apply(p){
+    // Consent gate — initialise non-essential tags only when allowed:
+    // if(p.analytics){ /* load analytics */ }
+    // if(p.marketing){ /* load marketing/ad tags */ }
+    try{document.dispatchEvent(new CustomEvent('zentallio:consent',{detail:p}));}catch(e){}
+  }
+  function syncChips(){el.querySelectorAll('.zck-chip input[data-cat]').forEach(function(i){i.closest('.zck-chip').classList.toggle('on',i.checked);});}
+  function show(openPanel){
+    var cur=read()||{analytics:false,marketing:false};
+    el.querySelectorAll('input[data-cat]').forEach(function(i){i.checked=!!cur[i.getAttribute('data-cat')];});
+    syncChips();
+    panel.hidden=!openPanel;
+    el.hidden=false;
+  }
+  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
+  el.addEventListener('change',function(e){if(e.target.matches('input[data-cat]'))syncChips();});
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('[data-zck]');if(!b)return;
+    var a=b.getAttribute('data-zck');
+    if(a==='accept')decide({analytics:true,marketing:true});
+    else if(a==='reject')decide({analytics:false,marketing:false});
+    else if(a==='manage'){
+      var opening=panel.hidden;panel.hidden=!opening;
+      // when customizing, the primary action becomes "Save my choices"
+      acceptBtn.textContent=opening?'Save choices':'Accept all';
+      acceptBtn.setAttribute('data-zck',opening?'save':'accept');
+    }
+  });
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('[data-zck=save]');if(!b)return;
+    var p={};el.querySelectorAll('input[data-cat]').forEach(function(i){p[i.getAttribute('data-cat')]=i.checked;});
+    decide(p);
+  });
+  window.zentallioCookiePrefs=function(){
+    acceptBtn.textContent='Save choices';acceptBtn.setAttribute('data-zck','save');
+    show(true);
+  };
+  var stored=read();
+  if(stored){apply(stored);}else{show(false);}
+})();
+</script>
+<script>
+(function(){
+  var body=document.body,btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOv');
+  function set(open){body.classList.toggle('menu',open);btn.setAttribute('aria-expanded',open?'true':'false');}
+  btn.addEventListener('click',function(){set(!body.classList.contains('menu'));});
+  ov.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+  var hd=document.querySelector('.top');
+  function onScroll(){var y=window.scrollY||window.pageYOffset||0;hd.classList.toggle('scrolled',y>24);}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
