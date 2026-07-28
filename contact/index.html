@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="zentallio-version" content="cookie-banner-ref-1.0">
-<title>Cookie banner — drop-in — Zentallio</title>
+<meta name="zentallio-version" content="contact-1.0">
+<title>Contact — Zentallio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070C18'/><circle cx='16' cy='16' r='7' fill='%23ff2d95'/><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff2d95' stroke-opacity='.45' stroke-width='1.5'/></svg>">
-<meta name="description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
 <meta name="theme-color" content="#070C18">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zentallio">
-<meta property="og:title" content="Cookie banner — drop-in — Zentallio">
-<meta property="og:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta property="og:title" content="Contact — Zentallio">
+<meta property="og:description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
 <meta property="og:image" content="https://zentallio.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cookie banner — drop-in — Zentallio">
-<meta name="twitter:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="twitter:title" content="Contact — Zentallio">
+<meta name="twitter:description" content="Get in touch with Zentallio — email, phone, or our Lahore office.">
 <meta name="twitter:image" content="https://zentallio.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,7 +195,9 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 
 @media(prefers-reduced-motion:reduce){.brand,.ft-logo{animation:none}html{scroll-behavior:auto}}
 </style>
-<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://zentallio.com/contact/">
+<meta property="og:url" content="https://zentallio.com/contact/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Zentallio","url":"https://zentallio.com","logo":"https://zentallio.com/og-image.png","description":"The AI decision platform for multi-outlet operators in Food & Beverage and Fashion Retail.","email":"info@zentallio.com","telephone":"+92-310-7602811","address":{"@type":"PostalAddress","streetAddress":"142-C, D.H.A. Commercial Broadway, DHA Phase 8","addressLocality":"Lahore","postalCode":"54940","addressCountry":"PK"},"sameAs":["https://www.linkedin.com/company/zentallio","https://x.com/zentallio","https://www.instagram.com/zentallio"]}</script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-29VN9NGJDK"></script>
   <script>
@@ -221,124 +223,48 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
   <div class="menu-sub"><a href="/">Home</a><a href="/about/">About</a><a href="/food-beverage/#demo">Book a walkthrough</a></div>
 </div>
 <main>
-  <section class="lg-hero">
-    <div class="wrap">
-      <span class="eyebrow">Reference · Cookie banner</span>
-      <h1>Cookie banner <em style='font-style:italic;color:var(--ai)'>snippet</em></h1>
-      <div class="lg-meta"><span><i class="dot"></i>Last updated 1 July 2026</span><span>Zentallio · The AI Decision Platform</span></div>
-      <p class="lg-intro">Paste the block below just before <b>&lt;/body&gt;</b> on every page of the site. It's self-contained (its own styles and script), blocks analytics/marketing until consent, and exposes <b>window.zentallioCookiePrefs()</b> to reopen the settings. The live banner on this page is the same code.</p>
-    </div>
-  </section>
-
-  <section class="lg-body">
-    <div class="wrap lg-grid">
-<section class="lg-body"><div class="wrap"><div class="prose">
-<p style="color:var(--fg2)">How it works: on first visit the card appears and nothing non-essential loads. “Accept all”, “Essentials only”, or “Customize” (per-category chips, then “Save choices”) all store the choice and fire a <b>zentallio:consent</b> event. Gate your analytics/marketing tags on that event — see the commented hooks inside the script. A “Cookie preferences” link is already wired into the footer of every legal page.</p>
-<pre style="white-space:pre-wrap;word-break:break-word;background:#05080F;border:1px solid var(--line2);border-radius:12px;padding:20px;font-family:var(--mono);font-size:.72rem;line-height:1.5;color:#AEB9CB;overflow:auto;max-height:520px">&lt;div id=&quot;zckBanner&quot; class=&quot;zck&quot; role=&quot;dialog&quot; aria-modal=&quot;false&quot; aria-label=&quot;Cookie notice&quot; hidden&gt;
-&lt;style&gt;
-.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:&#x27;Inter&#x27;,system-ui,sans-serif}
-.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
-.zck-card::before{content:&quot;&quot;;position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
-@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
-.zck-x svg{width:8px;height:8px}
-.zck-x:hover{color:#EAF0F8}
-.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
-.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
-.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
-.zck-txt a:hover{border-color:#15F2F2}
-.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
-.zck-panel[hidden]{display:none}
-.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
-.zck-chip:hover{border-color:rgba(255,255,255,.22)}
-.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
-.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
-.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
-.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-actions{display:flex;align-items:center;gap:8px}
-.zck-link{font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
-.zck-link:hover{color:#fff}
-.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
-.zck-btn{font-family:&#x27;Inter&#x27;,system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
-.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
-.zck-btn.ghost:hover{color:#fff}
-.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
-.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
-@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
-@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
-&lt;/style&gt;
-&lt;div class=&quot;zck-card&quot;&gt;
-  &lt;button type=&quot;button&quot; class=&quot;zck-x&quot; data-zck=&quot;reject&quot; aria-label=&quot;Dismiss — essentials only&quot;&gt;&lt;svg viewBox=&quot;0 0 12 12&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M1 1l10 10M11 1L1 11&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
-  &lt;p class=&quot;zck-txt&quot;&gt;&lt;span class=&quot;zck-ico&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot; stroke=&quot;#15F2F2&quot; stroke-opacity=&quot;.9&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;2.4&quot; fill=&quot;#15F2F2&quot;/&gt;&lt;/svg&gt;&lt;/span&gt;A few cookies keep Zentallio running; analytics only with your consent. &lt;a href=&quot;cookies.html&quot;&gt;The details&lt;/a&gt;.&lt;/p&gt;
-  &lt;div class=&quot;zck-panel&quot; hidden&gt;
-    &lt;span class=&quot;zck-chip locked&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Essential&lt;/span&gt;
-    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;analytics&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Analytics&lt;/label&gt;
-    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;marketing&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Marketing&lt;/label&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;zck-actions&quot;&gt;
-    &lt;button type=&quot;button&quot; class=&quot;zck-link&quot; data-zck=&quot;manage&quot;&gt;Customize&lt;/button&gt;
-    &lt;div class=&quot;zck-cta&quot;&gt;
-      &lt;button type=&quot;button&quot; class=&quot;zck-btn ghost&quot; data-zck=&quot;reject&quot;&gt;Essentials only&lt;/button&gt;
-      &lt;button type=&quot;button&quot; class=&quot;zck-btn solid&quot; data-zck=&quot;accept&quot; data-default&gt;Accept all&lt;/button&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
+  <section class="lg-hero"><div class="wrap">
+    <span class="eyebrow">Company · Contact</span>
+    <h1>Let's <em style="font-style:italic;color:var(--ai)">talk</em>.</h1>
+    <p class="lg-intro">Tell us about your outlets and what you'd like to decide better. We usually reply within one business day.</p>
+  </div></section>
+  <section class="lg-body"><div class="wrap"><div class="ct-grid">
+<div class="ct-methods">
+<div class="ct-item"><div class="lbl">Email</div><a href="mailto:info@zentallio.com">info@zentallio.com</a></div>
+<div class="ct-item"><div class="lbl">Phone</div><a href="tel:+923270000901" style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+923270000901</a><br><a href="tel:+19294192694" style="display:inline-flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;flex-shrink:0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+19294192694</a></div>
+<div class="ct-item"><div class="lbl">Office</div><a class="val addr" href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener">142-C, D.H.A. Commercial Broadway,<br>DHA Phase 8, Lahore 54940</a></div>
+<div class="ct-item"><div class="lbl">Hours</div><span class="val">Mon–Sat · 10:00–19:00 PKT</span></div>
+</div>
+<div class="ct-form">
+<div class="ff"><input class="ff-input" id="ctName" type="text" placeholder=" " autocomplete="name"><label class="ff-label" for="ctName">Name</label><span class="ff-line"></span></div>
+<div class="ff"><input class="ff-input" id="ctEmail" type="email" placeholder=" " autocomplete="email"><label class="ff-label" for="ctEmail">Email</label><span class="ff-line"></span></div>
+<div class="ff"><input class="ff-input" id="ctCo" type="text" placeholder=" " autocomplete="organization"><label class="ff-label" for="ctCo">Company</label><span class="ff-line"></span></div>
+<div class="ff"><textarea class="ff-input" id="ctMsg" placeholder=" "></textarea><label class="ff-label" for="ctMsg">Message</label><span class="ff-line"></span></div>
+<button type="button" class="ct-send" id="ctSend"><span class="cs-txt">Send message</span><span class="cs-ico">→</span></button>
+<div class="ct-note" id="ctNote">This opens your email app addressed to info@zentallio.com.</div>
+</div>
+</div></div></section></main>
+<script>
 (function(){
-  var KEY=&#x27;zentallio_cookie_consent&#x27;;
-  var el=document.getElementById(&#x27;zckBanner&#x27;);
-  if(!el)return;
-  var panel=el.querySelector(&#x27;.zck-panel&#x27;);
-  var acceptBtn=el.querySelector(&#x27;[data-zck=accept]&#x27;);
-  var mem=null;
-  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
-  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
-  function apply(p){
-    // Consent gate — initialise non-essential tags only when allowed:
-    // if(p.analytics){ /* load analytics */ }
-    // if(p.marketing){ /* load marketing/ad tags */ }
-    try{document.dispatchEvent(new CustomEvent(&#x27;zentallio:consent&#x27;,{detail:p}));}catch(e){}
-  }
-  function syncChips(){el.querySelectorAll(&#x27;.zck-chip input[data-cat]&#x27;).forEach(function(i){i.closest(&#x27;.zck-chip&#x27;).classList.toggle(&#x27;on&#x27;,i.checked);});}
-  function show(openPanel){
-    var cur=read()||{analytics:false,marketing:false};
-    el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){i.checked=!!cur[i.getAttribute(&#x27;data-cat&#x27;)];});
-    syncChips();
-    panel.hidden=!openPanel;
-    el.hidden=false;
-  }
-  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
-  el.addEventListener(&#x27;change&#x27;,function(e){if(e.target.matches(&#x27;input[data-cat]&#x27;))syncChips();});
-  el.addEventListener(&#x27;click&#x27;,function(e){
-    var b=e.target.closest(&#x27;[data-zck]&#x27;);if(!b)return;
-    var a=b.getAttribute(&#x27;data-zck&#x27;);
-    if(a===&#x27;accept&#x27;)decide({analytics:true,marketing:true});
-    else if(a===&#x27;reject&#x27;)decide({analytics:false,marketing:false});
-    else if(a===&#x27;manage&#x27;){
-      var opening=panel.hidden;panel.hidden=!opening;
-      // when customizing, the primary action becomes &quot;Save my choices&quot;
-      acceptBtn.textContent=opening?&#x27;Save choices&#x27;:&#x27;Accept all&#x27;;
-      acceptBtn.setAttribute(&#x27;data-zck&#x27;,opening?&#x27;save&#x27;:&#x27;accept&#x27;);
-    }
+  var btn=document.getElementById('ctSend');if(!btn)return;
+  function el(id){return document.getElementById(id);}
+  function val(id){var e=el(id);return e?e.value.trim():'';}
+  function flag(id){var f=el(id);if(!f)return;var w=f.closest('.ff');if(w){w.classList.remove('err');void w.offsetWidth;w.classList.add('err');setTimeout(function(){w.classList.remove('err');},650);}f.focus();}
+  var txt=btn.querySelector('.cs-txt'), note=el('ctNote');
+  btn.addEventListener('click',function(){
+    var n=val('ctName'),em=val('ctEmail'),co=val('ctCo'),m=val('ctMsg');
+    if(!n){flag('ctName');return;}
+    if(!m){flag('ctMsg');return;}
+    var subj='Zentallio enquiry — '+n;
+    var body=m+'\n\n—\n'+n+(co?(', '+co):'')+(em?(' · '+em):'');
+    if(txt)txt.textContent='Opening mail';
+    if(note){note.textContent='Opening your email app…';note.classList.add('ok');}
+    btn.classList.add('sending');
+    window.location.href='mailto:fahad.amjad@lucrumerp.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    setTimeout(function(){btn.classList.remove('sending');if(txt)txt.textContent='Send message';if(note){note.textContent='This opens your email app addressed.';note.classList.remove('ok');}},3000);
   });
-  el.addEventListener(&#x27;click&#x27;,function(e){
-    var b=e.target.closest(&#x27;[data-zck=save]&#x27;);if(!b)return;
-    var p={};el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){p[i.getAttribute(&#x27;data-cat&#x27;)]=i.checked;});
-    decide(p);
-  });
-  window.zentallioCookiePrefs=function(){
-    acceptBtn.textContent=&#x27;Save choices&#x27;;acceptBtn.setAttribute(&#x27;data-zck&#x27;,&#x27;save&#x27;);
-    show(true);
-  };
-  var stored=read();
-  if(stored){apply(stored);}else{show(false);}
 })();
-&lt;/script&gt;
-</pre>
-</div></div></section>
+</script>
 <footer class="zfoot">
 <style>
 .zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}

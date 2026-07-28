@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="zentallio-version" content="cookie-banner-ref-1.0">
-<title>Cookie banner — drop-in — Zentallio</title>
+<meta name="zentallio-version" content="privacy-1.1">
+<title>Privacy Policy — Zentallio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23070C18'/><circle cx='16' cy='16' r='7' fill='%23ff2d95'/><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff2d95' stroke-opacity='.45' stroke-width='1.5'/></svg>">
-<meta name="description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="description" content="How Zentallio collects, uses, and protects personal data across its AI decision platform for multi-outlet operators.">
 <meta name="theme-color" content="#070C18">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zentallio">
-<meta property="og:title" content="Cookie banner — drop-in — Zentallio">
-<meta property="og:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta property="og:title" content="Privacy Policy — Zentallio">
+<meta property="og:description" content="How Zentallio collects, uses, and protects personal data across its AI decision platform for multi-outlet operators.">
 <meta property="og:image" content="https://zentallio.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cookie banner — drop-in — Zentallio">
-<meta name="twitter:description" content="Reusable Zentallio cookie consent banner snippet.">
+<meta name="twitter:title" content="Privacy Policy — Zentallio">
+<meta name="twitter:description" content="How Zentallio collects, uses, and protects personal data across its AI decision platform for multi-outlet operators.">
 <meta name="twitter:image" content="https://zentallio.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,7 +195,9 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 
 @media(prefers-reduced-motion:reduce){.brand,.ft-logo{animation:none}html{scroll-behavior:auto}}
 </style>
-<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://zentallio.com/privacy/">
+<meta property="og:url" content="https://zentallio.com/privacy/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Zentallio","url":"https://zentallio.com","logo":"https://zentallio.com/og-image.png","description":"The AI decision platform for multi-outlet operators in Food & Beverage and Fashion Retail.","email":"info@zentallio.com","telephone":"+92-310-7602811","address":{"@type":"PostalAddress","streetAddress":"142-C, D.H.A. Commercial Broadway, DHA Phase 8","addressLocality":"Lahore","postalCode":"54940","addressCountry":"PK"},"sameAs":["https://www.linkedin.com/company/zentallio","https://x.com/zentallio","https://www.instagram.com/zentallio"]}</script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-29VN9NGJDK"></script>
   <script>
@@ -223,122 +225,71 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 <main>
   <section class="lg-hero">
     <div class="wrap">
-      <span class="eyebrow">Reference · Cookie banner</span>
-      <h1>Cookie banner <em style='font-style:italic;color:var(--ai)'>snippet</em></h1>
+      <span class="eyebrow">Legal · Privacy</span>
+      <h1>Privacy <em style='font-style:italic;color:var(--ai)'>Policy</em></h1>
       <div class="lg-meta"><span><i class="dot"></i>Last updated 1 July 2026</span><span>Zentallio · The AI Decision Platform</span></div>
-      <p class="lg-intro">Paste the block below just before <b>&lt;/body&gt;</b> on every page of the site. It's self-contained (its own styles and script), blocks analytics/marketing until consent, and exposes <b>window.zentallioCookiePrefs()</b> to reopen the settings. The live banner on this page is the same code.</p>
+      <p class="lg-intro">This policy explains what personal data Zentallio handles, why, and the choices you have. <b>We collect only what the platform needs to run</b>, and we describe below the limited cases in which data is shared.</p>
     </div>
   </section>
 
   <section class="lg-body">
     <div class="wrap lg-grid">
-<section class="lg-body"><div class="wrap"><div class="prose">
-<p style="color:var(--fg2)">How it works: on first visit the card appears and nothing non-essential loads. “Accept all”, “Essentials only”, or “Customize” (per-category chips, then “Save choices”) all store the choice and fire a <b>zentallio:consent</b> event. Gate your analytics/marketing tags on that event — see the commented hooks inside the script. A “Cookie preferences” link is already wired into the footer of every legal page.</p>
-<pre style="white-space:pre-wrap;word-break:break-word;background:#05080F;border:1px solid var(--line2);border-radius:12px;padding:20px;font-family:var(--mono);font-size:.72rem;line-height:1.5;color:#AEB9CB;overflow:auto;max-height:520px">&lt;div id=&quot;zckBanner&quot; class=&quot;zck&quot; role=&quot;dialog&quot; aria-modal=&quot;false&quot; aria-label=&quot;Cookie notice&quot; hidden&gt;
-&lt;style&gt;
-.zck{position:fixed;bottom:16px;left:16px;z-index:120;width:min(330px,calc(100vw - 28px));font-family:&#x27;Inter&#x27;,system-ui,sans-serif}
-.zck-card{position:relative;background:rgba(8,12,22,.6);-webkit-backdrop-filter:blur(32px) saturate(1.4);backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:13px 14px 11px;box-shadow:0 10px 30px -14px rgba(0,0,0,.58);overflow:hidden;animation:zckIn .44s cubic-bezier(.16,.9,.4,1) both}
-.zck-card::before{content:&quot;&quot;;position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.3),transparent)}
-@keyframes zckIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.zck-x{position:absolute;top:10px;right:10px;width:15px;height:15px;border:none;background:transparent;color:#454F63;cursor:pointer;display:grid;place-items:center;padding:0;transition:.2s}
-.zck-x svg{width:8px;height:8px}
-.zck-x:hover{color:#EAF0F8}
-.zck-ico{display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;opacity:.9}
-.zck-txt{color:#8A96A8;font-size:.8rem;line-height:1.5;margin:0 0 11px;padding-right:12px}
-.zck-txt a{color:#15F2F2;text-decoration:none;border-bottom:1px solid rgba(21,242,242,.22)}
-.zck-txt a:hover{border-color:#15F2F2}
-.zck-panel{margin:0 0 9px;display:flex;flex-wrap:wrap;gap:6px}
-.zck-panel[hidden]{display:none}
-.zck-chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:#8A96A8;font-size:.72rem;cursor:pointer;user-select:none;transition:.2s}
-.zck-chip:hover{border-color:rgba(255,255,255,.22)}
-.zck-chip .dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:.2s}
-.zck-chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-.zck-chip.on{color:#EAF0F8;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.055)}
-.zck-chip.on .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-chip.locked{color:#454F63;cursor:default;border-style:dashed}
-.zck-chip.locked .dot{background:#15F2F2;box-shadow:0 0 6px #15F2F2}
-.zck-actions{display:flex;align-items:center;gap:8px}
-.zck-link{font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#7C8798;background:transparent;border:none;cursor:pointer;padding:5px 0;transition:.2s}
-.zck-link:hover{color:#fff}
-.zck-cta{margin-left:auto;display:flex;align-items:center;gap:2px}
-.zck-btn{font-family:&#x27;Inter&#x27;,system-ui,sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;transition:.2s}
-.zck-btn.ghost{border:none;background:transparent;color:#9AA6B8;padding:7px 8px;border-radius:7px}
-.zck-btn.ghost:hover{color:#fff}
-.zck-btn.solid{background:#15F2F2;color:#04141c;border:1px solid #15F2F2;font-weight:600;padding:7px 13px;border-radius:8px}
-.zck-btn.solid:hover{box-shadow:0 5px 14px -8px rgba(21,242,242,.6)}
-@media(max-width:560px){.zck{left:10px;right:10px;bottom:10px;width:auto}}
-@media(prefers-reduced-motion:reduce){.zck-card{animation:none}}
-&lt;/style&gt;
-&lt;div class=&quot;zck-card&quot;&gt;
-  &lt;button type=&quot;button&quot; class=&quot;zck-x&quot; data-zck=&quot;reject&quot; aria-label=&quot;Dismiss — essentials only&quot;&gt;&lt;svg viewBox=&quot;0 0 12 12&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M1 1l10 10M11 1L1 11&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
-  &lt;p class=&quot;zck-txt&quot;&gt;&lt;span class=&quot;zck-ico&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot; stroke=&quot;#15F2F2&quot; stroke-opacity=&quot;.9&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;2.4&quot; fill=&quot;#15F2F2&quot;/&gt;&lt;/svg&gt;&lt;/span&gt;A few cookies keep Zentallio running; analytics only with your consent. &lt;a href=&quot;cookies.html&quot;&gt;The details&lt;/a&gt;.&lt;/p&gt;
-  &lt;div class=&quot;zck-panel&quot; hidden&gt;
-    &lt;span class=&quot;zck-chip locked&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Essential&lt;/span&gt;
-    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;analytics&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Analytics&lt;/label&gt;
-    &lt;label class=&quot;zck-chip&quot;&gt;&lt;input type=&quot;checkbox&quot; data-cat=&quot;marketing&quot;&gt;&lt;i class=&quot;dot&quot;&gt;&lt;/i&gt;Marketing&lt;/label&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;zck-actions&quot;&gt;
-    &lt;button type=&quot;button&quot; class=&quot;zck-link&quot; data-zck=&quot;manage&quot;&gt;Customize&lt;/button&gt;
-    &lt;div class=&quot;zck-cta&quot;&gt;
-      &lt;button type=&quot;button&quot; class=&quot;zck-btn ghost&quot; data-zck=&quot;reject&quot;&gt;Essentials only&lt;/button&gt;
-      &lt;button type=&quot;button&quot; class=&quot;zck-btn solid&quot; data-zck=&quot;accept&quot; data-default&gt;Accept all&lt;/button&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-(function(){
-  var KEY=&#x27;zentallio_cookie_consent&#x27;;
-  var el=document.getElementById(&#x27;zckBanner&#x27;);
-  if(!el)return;
-  var panel=el.querySelector(&#x27;.zck-panel&#x27;);
-  var acceptBtn=el.querySelector(&#x27;[data-zck=accept]&#x27;);
-  var mem=null;
-  function read(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):mem;}catch(e){return mem;}}
-  function save(p){mem=p;try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
-  function apply(p){
-    // Consent gate — initialise non-essential tags only when allowed:
-    // if(p.analytics){ /* load analytics */ }
-    // if(p.marketing){ /* load marketing/ad tags */ }
-    try{document.dispatchEvent(new CustomEvent(&#x27;zentallio:consent&#x27;,{detail:p}));}catch(e){}
-  }
-  function syncChips(){el.querySelectorAll(&#x27;.zck-chip input[data-cat]&#x27;).forEach(function(i){i.closest(&#x27;.zck-chip&#x27;).classList.toggle(&#x27;on&#x27;,i.checked);});}
-  function show(openPanel){
-    var cur=read()||{analytics:false,marketing:false};
-    el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){i.checked=!!cur[i.getAttribute(&#x27;data-cat&#x27;)];});
-    syncChips();
-    panel.hidden=!openPanel;
-    el.hidden=false;
-  }
-  function decide(p){p.essential=true;p.ts=Date.now();save(p);apply(p);el.hidden=true;}
-  el.addEventListener(&#x27;change&#x27;,function(e){if(e.target.matches(&#x27;input[data-cat]&#x27;))syncChips();});
-  el.addEventListener(&#x27;click&#x27;,function(e){
-    var b=e.target.closest(&#x27;[data-zck]&#x27;);if(!b)return;
-    var a=b.getAttribute(&#x27;data-zck&#x27;);
-    if(a===&#x27;accept&#x27;)decide({analytics:true,marketing:true});
-    else if(a===&#x27;reject&#x27;)decide({analytics:false,marketing:false});
-    else if(a===&#x27;manage&#x27;){
-      var opening=panel.hidden;panel.hidden=!opening;
-      // when customizing, the primary action becomes &quot;Save my choices&quot;
-      acceptBtn.textContent=opening?&#x27;Save choices&#x27;:&#x27;Accept all&#x27;;
-      acceptBtn.setAttribute(&#x27;data-zck&#x27;,opening?&#x27;save&#x27;:&#x27;accept&#x27;);
-    }
-  });
-  el.addEventListener(&#x27;click&#x27;,function(e){
-    var b=e.target.closest(&#x27;[data-zck=save]&#x27;);if(!b)return;
-    var p={};el.querySelectorAll(&#x27;input[data-cat]&#x27;).forEach(function(i){p[i.getAttribute(&#x27;data-cat&#x27;)]=i.checked;});
-    decide(p);
-  });
-  window.zentallioCookiePrefs=function(){
-    acceptBtn.textContent=&#x27;Save choices&#x27;;acceptBtn.setAttribute(&#x27;data-zck&#x27;,&#x27;save&#x27;);
-    show(true);
-  };
-  var stored=read();
-  if(stored){apply(stored);}else{show(false);}
-})();
-&lt;/script&gt;
-</pre>
-</div></div></section>
+<aside class="lg-toc"><h5>On this page</h5><a href="#p-who">1 · Who we are</a><a href="#p-collect">2 · What we collect</a><a href="#p-use">3 · How we use it</a><a href="#p-legal">4 · Legal bases</a><a href="#p-auto">5 · Automated decisions & Iris</a><a href="#p-share">6 · Sharing & sub-processors</a><a href="#p-retain">7 · Retention</a><a href="#p-rights">8 · Your rights</a><a href="#p-us">9 · US state privacy rights</a><a href="#p-intl">10 · International transfers</a><a href="#p-security">11 · Security</a><a href="#p-cookies">12 · Cookies</a><a href="#p-changes">13 · Changes</a></aside>
+<div class="prose">
+<section id="p-who"><span class="num">01</span><h2>Who we are</h2>
+<p>This platform is provided by <span class="fill">[Zentallio legal entity name]</span> (“Zentallio”, “we”, “us”), an AI decision platform for multi-outlet operators in food &amp; beverage and fashion retail. This policy covers our marketing website and the Zentallio product.</p>
+<p><b>Registered address:</b> <span class="fill">[registered company address, Lahore, Pakistan]</span>. For questions about your personal data, contact our privacy team at <a class="inl" href="mailto:privacy@zentallio.com">privacy@zentallio.com</a><span class="fill">[ or DPO name/contact, if appointed]</span>.</p>
+<p><b>EU / UK visitors:</b> where we offer services to people in the EU or UK from outside those regions, our representative is <span class="fill">[EU/UK representative name and address, if appointed]</span>.</p>
+<p>For personal data our customers load into the platform about their own staff and guests, the customer is the <b>controller</b> and Zentallio acts as a <b>processor</b> on their instructions, as set out in our <a class="inl" href="/data-processing/">Data Processing terms</a>.</p></section>
+<section id="p-collect"><span class="num">02</span><h2>What we collect</h2>
+<p>Depending on how you use Zentallio, we may collect:</p>
+<ul>
+<li><b>Account &amp; contact data</b> — name, work email, company, and role, when you sign up, book a walkthrough, or contact us.</li>
+<li><b>Usage data</b> — pages viewed, features used, and device/browser details, to keep the service reliable and improve it.</li>
+<li><b>Support data</b> — messages and attachments you send us.</li>
+<li><b>Customer platform data</b> — operational records our customers process through Zentallio, handled under their instructions.</li>
+</ul></section>
+<section id="p-use"><span class="num">03</span><h2>How we use it</h2>
+<p>We use personal data to provide and secure the service, respond to enquiries, send service and (where permitted) marketing messages, and improve the product. We do not use customer platform data to train models shared across other customers without the customer’s explicit permission.</p></section>
+<section id="p-legal"><span class="num">04</span><h2>Legal bases</h2>
+<p>Where the GDPR or similar laws apply, we rely on: <b>contract</b> (to deliver the service), <b>legitimate interests</b> (to run and improve Zentallio and keep it secure), <b>consent</b> (for optional marketing and non-essential cookies), and <b>legal obligation</b> where required. Where we rely on legitimate interests, you may object as described in “Your rights”.</p></section>
+<section id="p-auto"><span class="num">05</span><h2>Automated decisions & Iris</h2>
+<p>The Zentallio platform includes <b>Iris</b>, an AI agent that produces forecasts and decision recommendations from operational data. In the ordinary course, Iris supports human decision-making rather than making decisions that produce legal or similarly significant effects on individuals without human involvement.</p>
+<p>Where a customer configures Zentallio to make automated decisions about individuals, that customer (as controller) is responsible for providing any additional notice, obtaining any required consent, and offering human review, as their local law requires. If you believe an automated decision has affected you, contact the relevant operator, or reach us at <a class="inl" href="mailto:privacy@zentallio.com">privacy@zentallio.com</a> and we will route your request.</p></section>
+<section id="p-share"><span class="num">06</span><h2>Sharing & sub-processors</h2>
+<p>We share personal data only with:</p>
+<ul>
+<li><b>Service providers</b> (“sub-processors”) — e.g. cloud hosting, analytics, and email delivery, bound by contract to protect it.</li>
+<li><b>Professional advisors and authorities</b> where legally required.</li>
+<li><b>A successor entity</b> in the event of a merger or acquisition.</li>
+</ul>
+<p>We do not sell your personal data for money. A current list of sub-processors is available on request via <a class="inl" href="mailto:privacy@zentallio.com">privacy@zentallio.com</a>. Some analytics or advertising cookies may involve “sharing” or “sale” as defined under US state laws — see “US state privacy rights” and “Cookies” for how to opt out.</p></section>
+<section id="p-retain"><span class="num">07</span><h2>Retention</h2>
+<p>We keep personal data only as long as needed for the purposes above or as required by law, then delete or anonymise it. Customer platform data is retained per the customer’s configuration and our Data Processing terms.</p></section>
+<section id="p-rights"><span class="num">08</span><h2>Your rights</h2>
+<p>Subject to local law, you may have the right to access, correct, delete, or port your data, and to object to or restrict certain processing. You can withdraw consent at any time and opt out of marketing using the link in any email.</p>
+<p>To exercise these rights, contact <a class="inl" href="mailto:privacy@zentallio.com">privacy@zentallio.com</a>. If Zentallio processes your data on behalf of a customer, we’ll direct your request to that customer. We aim to respond within the timeframe required by applicable law.</p>
+<p><b>Right to complain.</b> If you’re in the EU, UK, or a region with a data protection authority, you have the right to lodge a complaint with your local supervisory authority. We’d appreciate the chance to address your concern first.</p></section>
+<section id="p-us"><span class="num">09</span><h2>US state privacy rights</h2>
+<p>If you’re a resident of California or another US state with a privacy law, you may have rights to know, access, correct, delete, and to opt out of the “sale” or “sharing” of personal information and of targeted advertising, without discrimination for exercising them.</p>
+<ul>
+<li><b>Categories collected:</b> identifiers, professional/employment information, and internet/usage activity (see “What we collect”).</li>
+<li><b>Purposes and disclosures:</b> as described in “How we use it” and “Sharing &amp; sub-processors”.</li>
+<li><b>To exercise these rights or opt out:</b> email <a class="inl" href="mailto:privacy@zentallio.com">privacy@zentallio.com</a><span class="fill">[ link a Do Not Sell/Share mechanism if ad/analytics cookies are used]</span>. You may use an authorised agent where the law allows.</li>
+</ul></section>
+<section id="p-intl"><span class="num">10</span><h2>International transfers</h2>
+<p>Zentallio operates globally and is based outside the EU/UK. Where personal data is transferred across borders, we use appropriate safeguards such as the European Commission’s Standard Contractual Clauses (and the UK Addendum where relevant) or another mechanism recognised under applicable law. A copy of the relevant safeguards is available on request.</p></section>
+<section id="p-security"><span class="num">11</span><h2>Security</h2>
+<p>We use technical and organisational measures — encryption in transit, access controls, logging, and monitoring — to protect personal data. No method of transmission or storage is completely secure, but we work to protect your information and to notify affected parties of significant incidents where required by law.</p></section>
+<section id="p-cookies"><span class="num">12</span><h2>Cookies</h2>
+<p>Our website uses essential cookies to function and, with your consent, analytics cookies to understand usage. You can review categories and change your choices any time via the <b>“Cookie preferences”</b> link in the footer, or through your browser settings. Full details are in our <a class="inl" href="/cookies/">Cookie Policy</a>. Blocking some cookies may affect how the site works. Where analytics or advertising cookies count as a “sale” or “share” under US state law, opting out of those cookies serves as your opt-out.</p></section>
+<section id="p-changes"><span class="num">13</span><h2>Changes</h2>
+<p>We may update this policy from time to time. Material changes will be posted here with a new “last updated” date, and where required we’ll provide additional notice.</p></section>
+<div class="lg-contact">Questions about privacy? Email <a href="mailto:privacy@zentallio.com">privacy@zentallio.com</a> or write to Zentallio, Lahore, Pakistan.</div>
+</div>
+    </div>
+  </section>
+</main>
 <footer class="zfoot">
 <style>
 .zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
