@@ -106,12 +106,17 @@
   function body() {
     return root.querySelector(".zbook-body");
   }
-  function open(kind) {
+  function open(kind, opts) {
     build();
+    opts = opts || {};
     state = { type: kind === "call" ? "call" : "walkthrough", chat: [] };
+    if (opts.email && validEmail(opts.email)) state.email = opts.email;
     root.removeAttribute("hidden");
     document.body.style.overflow = "hidden";
-    root.querySelector('.zbook-tabs button[data-tab="chat"]').click();
+    // If the visitor already gave a valid email (e.g. from a page's email-capture
+    // CTA), open straight to the pre-filled Quick form; otherwise start with Iris.
+    var tab = opts.tab || (state.email ? "form" : "chat");
+    root.querySelector('.zbook-tabs button[data-tab="' + tab + '"]').click();
   }
   function close() {
     if (!root) return;
@@ -127,7 +132,11 @@
     var form = b.querySelector(".zbook-input");
     var input = form.querySelector("input");
     if (!state.chat.length) {
-      addMsg(log, "bot", "Hi! I'm Iris. I can book you a " + state.type + " with a consultant. Want to go ahead? Tell me your email to start, or ask me anything.");
+      var greet = "Hi! I'm Iris. I can book you a " + state.type + " with a consultant. ";
+      greet += state.email
+        ? "I've got your email as " + state.email + " — just tell me a day and time that suits you, or ask me anything."
+        : "Want to go ahead? Tell me your email to start, or ask me anything.";
+      addMsg(log, "bot", greet);
     } else {
       state.chat.forEach(function (m) {
         addMsg(log, m.role === "assistant" ? "bot" : "me", m.content);
@@ -192,6 +201,7 @@
       "</form>";
     var form = b.querySelector("form");
     form.type.value = chosen.type;
+    if (state.email) form.email.value = state.email; // carried over from a page CTA
     var dateSel = form.date,
       timeSel = form.time;
     av.days.forEach(function (d) {
@@ -269,6 +279,14 @@
     if (node.getAttribute && node.getAttribute("data-book") === "call") return "call";
     return /call/.test(txt) ? "call" : "walkthrough";
   }
+  // If the CTA sits next to an email box (the page's "See it on your numbers" /
+  // "See it configured" capture blocks), carry that typed email into the flow.
+  function emailNear(node) {
+    var scope = node.closest("form,.demorow,.demoform") || node.closest("section,.demo,.hcta") || node.parentElement;
+    if (!scope) return "";
+    var inp = scope.querySelector('input[type="email"], input[name*="mail" i], input[placeholder*="mail" i]');
+    return inp && inp.value ? inp.value.trim() : "";
+  }
   document.addEventListener(
     "click",
     function (e) {
@@ -276,7 +294,7 @@
       if (!node || !isBookingCta(node)) return;
       e.preventDefault();
       e.stopPropagation();
-      open(kindFrom(node));
+      open(kindFrom(node), { email: emailNear(node) });
     },
     true // capture, so we win over existing page handlers
   );
