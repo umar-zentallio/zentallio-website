@@ -175,6 +175,7 @@ a{color:inherit;text-decoration:none}
   box-shadow:0 16px 40px -14px rgba(255,45,149,.85);transition:transform .3s,box-shadow .3s}
 .askzen:hover{transform:translateY(-2px);box-shadow:0 20px 46px -14px rgba(255,45,149,1)}
 .askzen .dot{width:8px;height:8px;border-radius:50%;background:#20040F;opacity:.55;flex:none}
+@media(max-width:640px){.askzen{padding:0;width:54px;height:54px;justify-content:center;gap:0}.askzen .azlabel{display:none}.askzen .dot{width:12px;height:12px;opacity:.9}}
 
 /* ==================================================================
    shared section furniture
@@ -750,7 +751,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </header>
 
-<button class="askzen" id="askZen"><span class="dot"></span>Ask Zen</button>
+<button class="askzen" id="askZen"><span class="dot"></span><span class="azlabel">Ask Zen</span></button>
 
 <!-- ==================== 2 · SECTOR DETAIL ==================== -->
 
