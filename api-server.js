@@ -106,6 +106,22 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(
+      `\n  Port ${PORT} is already in use — another api-server is probably still running.\n` +
+        `  Either stop it:   pkill -f api-server.js\n` +
+        `  or use a port:    PORT=3002 node api-server.js\n`
+    );
+    process.exit(1);
+  }
+  if (err.code === "EACCES") {
+    console.error(`\n  Not allowed to bind port ${PORT}. Ports below 1024 need root — pick a higher one.\n`);
+    process.exit(1);
+  }
+  throw err;
+});
+
 server.listen(PORT, HOST, () => {
   const mode = process.env.ANTHROPIC_API_KEY ? "Claude tool-use" : "scripted fallback (no ANTHROPIC_API_KEY)";
   console.log(`[api] listening on http://${HOST}:${PORT}  —  booking assistant: ${mode}`);

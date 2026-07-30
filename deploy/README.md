@@ -179,11 +179,20 @@ All pages `200`, `/about/` redirects, `vercel.json` blocked.
 ## Local testing
 
 The site cannot be opened over `file://` — links like `/about` are
-root-absolute and the browser resolves them against your disk root. Use:
+root-absolute and the browser resolves them against your disk root. Run two
+processes, in two terminals:
 
 ```bash
-python3 dev-server.py       # static pages, port 8000
-node api-server.js          # API, port 3001  (separate terminal)
+node api-server.js          # terminal 1 — API on :3001
+python3 dev-server.py       # terminal 2 — site on :8000
 ```
+
+Then open **http://localhost:8000** only. `dev-server.py` proxies `/api/*` to
+:3001, so the browser talks to one origin — the same shape as nginx in
+production. You never open :3001 directly.
+
+The API is optional: without it the pages all render fine and the dev server
+returns a clear `api_unreachable` message instead of a confusing 404. Only the
+booking chat needs it.
 
 `dev-server.py` is dev-only and is excluded from deploys.
