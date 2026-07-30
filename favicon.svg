@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zentallio">
+  <defs>
+    <linearGradient id="zg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15F2F2"/>
+      <stop offset="1" stop-color="#9B7BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0A1020"/>
+  <polyline points="20,21 44,21 20,43 44,43" fill="none" stroke="url(#zg)"
+            stroke-width="6.5" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>
