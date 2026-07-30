@@ -1,0 +1,50 @@
+[Unit]
+Description=Zentallio booking/chat API (api-server.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/zentallio-website
+
+# Node 18+ required (api/chat.js uses global fetch).
+# `which node` on the server and put the full path here -- systemd has no PATH
+# from your shell, so nvm installs will NOT be found by the bare name "node".
+ExecStart=/usr/bin/node /var/www/zentallio-website/api-server.js
+
+Environment=NODE_ENV=production
+Environment=PORT=3001
+Environment=HOST=127.0.0.1
+
+# API keys live here, not in the unit file (systemctl cat would leak them).
+# chmod 600, chown root:www-data
+EnvironmentFile=-/etc/zentallio/api.env
+
+Restart=always
+RestartSec=3
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=zentallio-api
+
+# ---- hardening ----
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/var/www/zentallio-website
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
