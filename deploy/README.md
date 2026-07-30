@@ -64,12 +64,22 @@ sudo nano /etc/zentallio/api.env
 ```
 
 ```ini
+# Real Iris AI chat (optional — scripted fallback works without it)
 ANTHROPIC_API_KEY=sk-ant-...
 BOOKING_MODEL=claude-sonnet-5
-# optional, only once you wire the real integrations in lib/booking-core.js:
-# CALCOM_API_KEY=...
-# RESEND_API_KEY=...
+
+# Cal.com — real availability + bookings; Cal.com sends the invite/email itself.
+# Connect your Microsoft 365 calendar inside Cal.com first. See BOOKING.md.
+CALCOM_API_KEY=cal_live_...
+CALCOM_EVENT_TYPE_ID=123456
+# or set separate event types per kind instead of the single id above:
+# CALCOM_EVENT_ID_WALKTHROUGH=123456
+# CALCOM_EVENT_ID_CALL=123457
 ```
+
+No separate email service is needed — Cal.com emails both parties. Full
+step-by-step (Cal.com account, calendar connect, event type, keys) is in
+`BOOKING.md`.
 
 ```bash
 sudo chown root:www-data /etc/zentallio/api.env

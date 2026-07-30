@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "method_not_allowed" });
   const body = await readBody(req);
-  const result = createBooking({
+  const result = await createBooking({
     name: body.name,
     email: body.email,
     date: body.date,
@@ -31,5 +31,6 @@ module.exports = async (req, res) => {
     type: body.type,
     notes: body.notes,
   });
-  res.status(result.ok ? 200 : 400).json(result);
+  const code = result.ok ? 200 : result.error === "scheduler_error" ? 502 : 400;
+  res.status(code).json(result);
 };

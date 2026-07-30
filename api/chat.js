@@ -45,7 +45,7 @@ const TOOLS = [
   },
 ];
 
-function runTool(name, input) {
+async function runTool(name, input) {
   if (name === "get_availability") return core.getAvailability();
   if (name === "create_booking") return core.createBooking(input || {});
   return { error: "unknown_tool" };
@@ -94,7 +94,7 @@ async function aiTurn(history) {
       const results = [];
       for (const block of resp.content) {
         if (block.type === "tool_use") {
-          const out = runTool(block.name, block.input);
+          const out = await runTool(block.name, block.input);
           if (block.name === "create_booking" && out.ok) booking = out;
           results.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(out) });
         }
@@ -113,7 +113,7 @@ async function aiTurn(history) {
 }
 
 /* ---- deterministic fallback (no API key) ---- */
-function mockTurn(history, state) {
+async function mockTurn(history, state) {
   state = state || {};
   const lastUser = [...history].reverse().find((m) => m.role === "user");
   const text = (lastUser && lastUser.content) || "";
@@ -124,7 +124,10 @@ function mockTurn(history, state) {
     else if (/call|consult|talk|speak/.test(lower)) state.type = "call";
   }
   const emailMatch = text.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
-  if (emailMatch && core.isValidEmail(emailMatch[0])) state.email = emailMatch[0];
+  if (emailMatch) {
+    const addr = emailMatch[0].replace(/[.,;:!?)\]]+$/, ""); // drop trailing punctuation
+    if (core.isValidEmail(addr)) state.email = addr;
+  }
   const timeMatch = text.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
   if (timeMatch) state.time = timeMatch[0].padStart(5, "0");
   const dateMatch = text.match(/\b\d{4}-\d{2}-\d{2}\b/);
@@ -135,7 +138,7 @@ function mockTurn(history, state) {
   if (!state.email)
     return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to?`, booking: null, state };
   if (!state.date || !state.time) {
-    const av = core.getAvailability();
+    const av = await core.getAvailability();
     const opts = av.days
       .slice(0, 3)
       .map((d) => `• ${d.label} (${d.date}) — ${d.slots.slice(0, 4).join(", ")}…`)
@@ -146,8 +149,8 @@ function mockTurn(history, state) {
       state,
     };
   }
-  const booking = core.createBooking(state);
-  return { reply: booking.ok ? booking.message : booking.message, booking: booking.ok ? booking : null, state };
+  const booking = await core.createBooking(state);
+  return { reply: booking.message, booking: booking.ok ? booking : null, state };
 }
 
 module.exports = async (req, res) => {
@@ -162,9 +165,9 @@ module.exports = async (req, res) => {
       const out = await aiTurn(history);
       return res.status(200).json({ ...out, state: body.state || {} });
     }
-    return res.status(200).json(mockTurn(history, body.state));
+    return res.status(200).json(await mockTurn(history, body.state));
   } catch (e) {
     // On any AI error, degrade to the scripted assistant so booking still works.
-    return res.status(200).json(mockTurn(history, body.state));
+    return res.status(200).json(await mockTurn(history, body.state));
   }
 };
