@@ -71,10 +71,11 @@ BOOKING_MODEL=claude-sonnet-5
 # Cal.com — real availability + bookings; Cal.com sends the invite/email itself.
 # Connect your Microsoft 365 calendar inside Cal.com first. See BOOKING.md.
 CALCOM_API_KEY=cal_live_...
-CALCOM_EVENT_TYPE_ID=123456
-# or set separate event types per kind instead of the single id above:
-# CALCOM_EVENT_ID_WALKTHROUGH=123456
-# CALCOM_EVENT_ID_CALL=123457
+# Event type id defaults to 6503154 (baked in); only set this to override:
+# CALCOM_EVENT_TYPE_ID=6503154
+# or separate event types per kind:
+# CALCOM_EVENT_ID_WALKTHROUGH=6503154
+# CALCOM_EVENT_ID_CALL=6503155
 ```
 
 No separate email service is needed — Cal.com emails both parties. Full

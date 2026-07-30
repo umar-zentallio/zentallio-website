@@ -50,11 +50,11 @@ slots; a booking failure is reported honestly (never faked).
    with a consultant". Open the event type and note its **numeric id** (in the
    URL / event-type settings).
 4. **Get an API key:** Settings → *Developer / API keys* → create one.
-5. Set these environment variables:
+5. Set the API key:
    - `CALCOM_API_KEY` = your key
-   - `CALCOM_EVENT_TYPE_ID` = the walkthrough event-type id (used for both), **or**
-     set both `CALCOM_EVENT_ID_WALKTHROUGH` and `CALCOM_EVENT_ID_CALL` for
-     separate event types.
+   - The event-type id defaults to **6503154** (baked in), so nothing else is
+     needed. To point at a different event type, set `CALCOM_EVENT_TYPE_ID`, or
+     set `CALCOM_EVENT_ID_WALKTHROUGH` + `CALCOM_EVENT_ID_CALL` for two types.
 
 Cal.com then sends the confirmation email + calendar invite to the visitor and
 you, and includes the video link — so **no separate email service is needed**.
@@ -86,7 +86,7 @@ Anthropic key is live.
 | Variable | Required? | Enables |
 |---|---|---|
 | `CALCOM_API_KEY` | for live booking | Real availability + bookings + Cal.com email/invite |
-| `CALCOM_EVENT_TYPE_ID` | with the key | Event type for both kinds (fallback) |
+| `CALCOM_EVENT_TYPE_ID` | optional | Override the baked-in event id (6503154) for both kinds |
 | `CALCOM_EVENT_ID_WALKTHROUGH` / `CALCOM_EVENT_ID_CALL` | optional | Separate event types per kind |
 | `ANTHROPIC_API_KEY` | optional | Real Iris AI chat (else scripted) |
 | `BOOKING_MODEL` | optional | Model override (default `claude-sonnet-5`) |
