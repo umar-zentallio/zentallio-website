@@ -4,47 +4,111 @@
  * is demonstrable on a static host; on Vercel the /api endpoints take over. */
 (function () {
   "use strict";
-  var TZ = "PKT (UTC+5)";
+  var DEFAULT_TZ = "Asia/Karachi"; // PKT (no DST)
   var built = false,
     root,
     state;
 
-  /* ---------- client-side fallback (mirrors /lib/booking-core) ---------- */
-  function localAvailability() {
-    var days = [],
-      now = new Date();
-    for (var i = 1; i <= 7 && days.length < 5; i++) {
-      var d = new Date(now);
-      d.setDate(d.getDate() + i);
-      if (d.getDay() === 0) continue; // skip Sunday
-      var slots = [];
-      for (var h = 10; h < 17; h++) for (var m = 0; m < 60; m += 30) slots.push(pad(h) + ":" + pad(m));
-      days.push({
-        date: d.toISOString().slice(0, 10),
-        label: d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }),
-        slots: slots,
-      });
-    }
-    return { timezone: TZ, days: days };
-  }
-  function localBook(b) {
-    var id = "ZEN-" + b.date.replace(/-/g, "") + "-" + b.time.replace(":", "");
-    return {
-      ok: true,
-      bookingId: id,
-      type: b.type,
-      email: b.email,
-      date: b.date,
-      time: b.time,
-      timezone: TZ,
-      message: "Your " + b.type + " is confirmed for " + b.date + " at " + b.time + " " + TZ + ". A calendar invite is on its way to " + b.email + ".",
-    };
-  }
+  /* ---------- timezone-aware slot helpers ----------
+   * Availability is a flat list of absolute UTC instants; the browser formats
+   * them into whichever timezone the visitor picks, so switching zones just
+   * re-labels the same slots (DST handled by Intl). */
   function pad(n) {
     return String(n).padStart(2, "0");
   }
   function validEmail(e) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((e || "").trim());
+  }
+  function partsInTz(iso, tz) {
+    var d = new Date(iso),
+      p = {};
+    new Intl.DateTimeFormat("en-GB", { timeZone: tz, weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", hour12: false })
+      .formatToParts(d)
+      .forEach(function (x) {
+        p[x.type] = x.value;
+      });
+    var dateKey = new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+    return { dateKey: dateKey, dayLabel: p.weekday + ", " + p.day + " " + p.month, time: p.hour + ":" + p.minute };
+  }
+  function groupSlots(slots, tz) {
+    var days = {};
+    (slots || []).forEach(function (iso) {
+      var f = partsInTz(iso, tz);
+      if (!days[f.dateKey]) days[f.dateKey] = { dateKey: f.dateKey, label: f.dayLabel, slots: [] };
+      days[f.dateKey].slots.push({ iso: iso, label: f.time });
+    });
+    return Object.keys(days)
+      .sort()
+      .map(function (k) {
+        return days[k];
+      });
+  }
+  function tzListing() {
+    var detected = "Asia/Karachi";
+    try {
+      detected = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Karachi";
+    } catch (e) {}
+    var base = [detected, "Asia/Karachi", "Asia/Dubai", "Asia/Kolkata", "Asia/Singapore", "Asia/Shanghai", "Europe/London", "Europe/Berlin", "America/New_York", "America/Chicago", "America/Los_Angeles", "Australia/Sydney"];
+    var seen = {},
+      list = [];
+    base.forEach(function (z) {
+      if (z && !seen[z]) {
+        seen[z] = 1;
+        list.push(z);
+      }
+    });
+    return { detected: detected, list: list };
+  }
+  function tzLabel(z) {
+    try {
+      var parts = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "shortOffset" }).formatToParts(new Date());
+      var off = (parts.find(function (p) { return p.type === "timeZoneName"; }) || {}).value || "";
+      return z.replace(/_/g, " ") + (off ? " (" + off + ")" : "");
+    } catch (e) {
+      return z.replace(/_/g, " ");
+    }
+  }
+
+  /* ---------- client-side fallback (mirrors /lib/booking-core) ---------- */
+  function localAvailability() {
+    var slots = [],
+      now = new Date(),
+      added = 0;
+    for (var i = 1; i <= 7 && added < 5; i++) {
+      var pkt = new Date(now.getTime() + 5 * 3600 * 1000); // shift to PKT wall clock
+      pkt.setUTCDate(pkt.getUTCDate() + i);
+      if (pkt.getUTCDay() === 0) continue; // skip Sunday in PKT
+      var y = pkt.getUTCFullYear(),
+        m = pkt.getUTCMonth() + 1,
+        d = pkt.getUTCDate();
+      for (var h = 10; h < 17; h++) for (var min = 0; min < 60; min += 30) {
+        slots.push(new Date(y + "-" + pad(m) + "-" + pad(d) + "T" + pad(h) + ":" + pad(min) + ":00+05:00").toISOString());
+      }
+      added++;
+    }
+    return { defaultTz: DEFAULT_TZ, slots: slots };
+  }
+  function tzShort(iso, tz) {
+    try {
+      var parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(new Date(iso));
+      return (parts.find(function (p) { return p.type === "timeZoneName"; }) || {}).value || tz;
+    } catch (e) {
+      return tz;
+    }
+  }
+  function localBook(b) {
+    var tz = b.tz || DEFAULT_TZ;
+    var f = partsInTz(b.start, tz);
+    var id = "ZEN-" + b.start.replace(/[-:T]/g, "").slice(0, 12);
+    return {
+      ok: true,
+      bookingId: id,
+      type: b.type,
+      email: b.email,
+      start: b.start,
+      timezone: tz,
+      message: "Your " + b.type + " is confirmed for " + f.dayLabel + " at " + f.time + " (" + tzShort(b.start, tz) + "). A calendar invite is on its way to " + b.email + ".",
+    };
   }
 
   async function api(path, opts) {
@@ -187,43 +251,71 @@
   async function renderForm() {
     var b = body();
     b.innerHTML = '<div class="zbook-loading">Loading available times…</div>';
-    var av = await getAvailability();
-    var chosen = { type: state.type };
+    var av = await getAvailability(); // { defaultTz, slots: [ISO...] }
+    var slots = av.slots || [];
+    var tzo = tzListing();
+    var chosenTz = state.tz || tzo.detected || av.defaultTz || DEFAULT_TZ;
+    var tzOpts = tzo.list
+      .map(function (z) {
+        return '<option value="' + z + '"' + (z === chosenTz ? " selected" : "") + ">" + escapeHtml(tzLabel(z)) + "</option>";
+      })
+      .join("");
     b.innerHTML =
       '<form class="zbook-form">' +
       '<label>Purpose<select name="type"><option value="walkthrough">Book a walkthrough</option><option value="call">Call with a consultant</option></select></label>' +
       '<label>Work email<input name="email" type="email" required placeholder="you@company.com"></label>' +
+      "<label>Timezone<select name=\"tz\">" + tzOpts + "</select></label>" +
       '<label>Day<select name="date"></select></label>' +
-      '<label>Time (' + av.timezone + ")<select name=\"time\"></select></label>" +
+      '<label>Time<select name="time"></select></label>' +
       '<label>Anything we should know? (optional)<textarea name="notes" rows="2"></textarea></label>' +
       '<div class="zbook-err" hidden></div>' +
       '<button type="submit" class="zbook-go">Confirm booking</button>' +
       "</form>";
     var form = b.querySelector("form");
-    form.type.value = chosen.type;
+    form.type.value = state.type;
     if (state.email) form.email.value = state.email; // carried over from a page CTA
-    var dateSel = form.date,
-      timeSel = form.time;
-    av.days.forEach(function (d) {
-      var o = el("option");
-      o.value = d.date;
-      o.textContent = d.label;
-      dateSel.appendChild(o);
-    });
+    var tzSel = form.tz,
+      dateSel = form.date,
+      timeSel = form.time,
+      grouped = [];
     function fillTimes() {
       timeSel.innerHTML = "";
-      var day = av.days.find(function (d) {
-        return d.date === dateSel.value;
+      var day = grouped.find(function (d) {
+        return d.dateKey === dateSel.value;
       });
       (day ? day.slots : []).forEach(function (s) {
         var o = el("option");
-        o.value = s;
-        o.textContent = s;
+        o.value = s.iso; // absolute instant is the value
+        o.textContent = s.label;
         timeSel.appendChild(o);
       });
     }
+    function rebuild() {
+      var keepIso = timeSel.value;
+      grouped = groupSlots(slots, tzSel.value);
+      dateSel.innerHTML = "";
+      grouped.forEach(function (d) {
+        var o = el("option");
+        o.value = d.dateKey;
+        o.textContent = d.label;
+        dateSel.appendChild(o);
+      });
+      // try to keep the same instant selected across a tz switch
+      var stay = grouped.find(function (d) {
+        return d.slots.some(function (s) {
+          return s.iso === keepIso;
+        });
+      });
+      if (stay) dateSel.value = stay.dateKey;
+      fillTimes();
+      if (keepIso) timeSel.value = keepIso;
+    }
+    tzSel.addEventListener("change", function () {
+      state.tz = tzSel.value;
+      rebuild();
+    });
     dateSel.addEventListener("change", fillTimes);
-    fillTimes();
+    rebuild();
     var err = form.querySelector(".zbook-err");
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -233,14 +325,19 @@
         err.hidden = false;
         return;
       }
+      if (!timeSel.value) {
+        err.textContent = "Please choose a day and time.";
+        err.hidden = false;
+        return;
+      }
       var go = form.querySelector(".zbook-go");
       go.disabled = true;
       go.textContent = "Booking…";
       var res = await book({
         type: form.type.value,
         email: form.email.value.trim(),
-        date: form.date.value,
-        time: form.time.value,
+        start: timeSel.value, // absolute instant (ISO)
+        tz: tzSel.value,
         notes: form.notes.value.trim(),
       });
       if (res.ok) success(res);

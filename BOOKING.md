@@ -93,7 +93,10 @@ Anthropic key is live.
 
 ## Business rules (edit in `lib/booking-core.js`)
 
-- Timezone: **PKT (UTC+5)** — `Asia/Karachi` for Cal.com
+- Timezone: business hours are defined in **PKT (UTC+5, `Asia/Karachi`)**, but
+  availability is emitted as absolute instants and the widget lets the visitor
+  pick their own timezone (defaulting to their detected one) — slots re-label
+  live, and the booking is created in the chosen zone.
 - Hours / slots in mock mode: 10:00–17:00, 30-min slots, next 5 working days,
   Sundays skipped. In live mode these come from your Cal.com availability.
 - Booking ref: Cal.com's booking `uid` in live mode; `ZEN-YYYYMMDD-HHMM` in mock.

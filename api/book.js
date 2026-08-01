@@ -26,8 +26,8 @@ module.exports = async (req, res) => {
   const result = await createBooking({
     name: body.name,
     email: body.email,
-    date: body.date,
-    time: body.time,
+    start: body.start, // absolute instant (ISO)
+    tz: body.tz, // visitor's IANA timezone
     type: body.type,
     notes: body.notes,
   });

@@ -15,39 +15,56 @@ const API_KEY = process.env.ANTHROPIC_API_KEY;
 
 const SYSTEM = [
   "You are Iris, Zentallio's friendly booking assistant. Your only job is to book a walkthrough or a call with a consultant.",
-  "Collect, in a natural conversation: (1) whether they want a 'walkthrough' or a 'call', (2) their email, (3) a preferred day and time.",
-  "Use get_availability to show real options before asking them to pick a time. Confirm the details back to them, then use create_booking.",
-  "After booking, give them the confirmation clearly. Keep replies short and warm. Never invent times — only offer slots from get_availability.",
+  "Collect, in a natural conversation: (1) whether they want a 'walkthrough' or a 'call', (2) their email, (3) a preferred slot.",
+  "Ask the visitor which timezone they're in (default Asia/Karachi / PKT if they don't say). Call get_availability with that timezone to show real options, then confirm and call create_booking.",
+  "When calling create_booking, pass the chosen slot's exact `start` value (the ISO instant from get_availability) and the same `timezone`. Never invent times — only offer slots from get_availability. Keep replies short and warm.",
 ].join(" ");
 
 const TOOLS = [
   {
     name: "get_availability",
-    description: "List available days and time slots for a booking. Call before offering times.",
-    input_schema: { type: "object", properties: {}, additionalProperties: false },
+    description: "List available booking slots. Returns each slot's absolute `start` (ISO) plus a human `label` in the given timezone. Call before offering times.",
+    input_schema: {
+      type: "object",
+      properties: { timezone: { type: "string", description: "IANA timezone to label slots in, e.g. 'Europe/London'. Defaults to Asia/Karachi." } },
+      additionalProperties: false,
+    },
   },
   {
     name: "create_booking",
-    description: "Create the booking once email, day, time and type are known.",
+    description: "Create the booking once type, email, slot and timezone are known.",
     input_schema: {
       type: "object",
       properties: {
         type: { type: "string", enum: ["walkthrough", "call"] },
         email: { type: "string" },
-        date: { type: "string", description: "YYYY-MM-DD from get_availability" },
-        time: { type: "string", description: "HH:MM from get_availability" },
+        start: { type: "string", description: "The chosen slot's exact ISO `start` from get_availability" },
+        timezone: { type: "string", description: "The visitor's IANA timezone (e.g. 'Europe/London'), default 'Asia/Karachi'" },
         name: { type: "string" },
         notes: { type: "string" },
       },
-      required: ["type", "email", "date", "time"],
+      required: ["type", "email", "start"],
       additionalProperties: false,
     },
   },
 ];
 
 async function runTool(name, input) {
-  if (name === "get_availability") return core.getAvailability();
-  if (name === "create_booking") return core.createBooking(input || {});
+  input = input || {};
+  if (name === "get_availability") {
+    const tz = input.timezone || core.TZ_DEFAULT;
+    const av = await core.getAvailability();
+    return {
+      timezone: tz,
+      slots: (av.slots || []).slice(0, 12).map((iso) => {
+        const f = core.formatSlot(iso, tz);
+        return { start: iso, label: `${f.dayLabel} ${f.time}` };
+      }),
+    };
+  }
+  if (name === "create_booking") {
+    return core.createBooking({ type: input.type, email: input.email, start: input.start, tz: input.timezone, name: input.name, notes: input.notes });
+  }
   return { error: "unknown_tool" };
 }
 
@@ -115,6 +132,7 @@ async function aiTurn(history) {
 /* ---- deterministic fallback (no API key) ---- */
 async function mockTurn(history, state) {
   state = state || {};
+  const tz = state.tz || core.TZ_DEFAULT;
   const lastUser = [...history].reverse().find((m) => m.role === "user");
   const text = (lastUser && lastUser.content) || "";
   const lower = text.toLowerCase();
@@ -128,29 +146,30 @@ async function mockTurn(history, state) {
     const addr = emailMatch[0].replace(/[.,;:!?)\]]+$/, ""); // drop trailing punctuation
     if (core.isValidEmail(addr)) state.email = addr;
   }
-  const timeMatch = text.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
-  if (timeMatch) state.time = timeMatch[0].padStart(5, "0");
-  const dateMatch = text.match(/\b\d{4}-\d{2}-\d{2}\b/);
-  if (dateMatch) state.date = dateMatch[0];
 
-  if (!state.type)
-    return { reply: "Happy to help you book! Would you like a walkthrough or a call with a consultant?", booking: null, state };
-  if (!state.email)
-    return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to?`, booking: null, state };
-  if (!state.date || !state.time) {
+  if (!state.type) return { reply: "Happy to help you book! Would you like a walkthrough or a call with a consultant?", booking: null, state };
+  if (!state.email) return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to?`, booking: null, state };
+
+  // Offer numbered slots, then book the one they pick.
+  if (!state.offered) {
     const av = await core.getAvailability();
-    const opts = av.days
-      .slice(0, 3)
-      .map((d) => `• ${d.label} (${d.date}) — ${d.slots.slice(0, 4).join(", ")}…`)
-      .join("\n");
+    state.offered = (av.slots || []).slice(0, 6);
+    const list = state.offered.map((iso, i) => { const f = core.formatSlot(iso, tz); return `${i + 1}. ${f.dayLabel} ${f.time}`; }).join("\n");
     return {
-      reply: `Thanks! Here are some openings (${av.timezone}). Reply with a date (YYYY-MM-DD) and time (HH:MM):\n${opts}`,
+      reply: `Thanks! Here are the next openings (times in PKT — use the Quick form to pick another timezone). Reply with a number 1–${state.offered.length}:\n${list}`,
       booking: null,
       state,
     };
   }
-  const booking = await core.createBooking(state);
-  return { reply: booking.message, booking: booking.ok ? booking : null, state };
+  const numMatch = text.match(/\b([1-9])\b/);
+  if (numMatch) {
+    const iso = state.offered[parseInt(numMatch[1], 10) - 1];
+    if (iso) {
+      const booking = await core.createBooking({ type: state.type, email: state.email, start: iso, tz });
+      return { reply: booking.message, booking: booking.ok ? booking : null, state };
+    }
+  }
+  return { reply: `Please reply with a number 1–${state.offered.length}, or open the Quick form to choose a day, time and timezone.`, booking: null, state };
 }
 
 module.exports = async (req, res) => {
