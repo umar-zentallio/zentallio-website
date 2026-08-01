@@ -189,28 +189,40 @@
   }
 
   /* ---------- assistant (AI) ---------- */
+  var CHIPS = ["What can Zentallio do for my business?", "Food & Beverage solutions", "Fashion retail solutions", "How does pricing work?", "Book a walkthrough"];
   function renderChat() {
     var b = body();
-    b.innerHTML = '<div class="zbook-log"></div><form class="zbook-input"><input type="text" placeholder="Type here… e.g. book a walkthrough" autocomplete="off"><button type="submit">Send</button></form>';
+    b.innerHTML =
+      '<div class="zbook-log"></div>' +
+      '<div class="zbook-chips"></div>' +
+      '<form class="zbook-input"><input type="text" placeholder="Ask Iris anything… or say &quot;book a walkthrough&quot;" autocomplete="off"><button type="submit">Send</button></form>';
     var log = b.querySelector(".zbook-log");
+    var chips = b.querySelector(".zbook-chips");
     var form = b.querySelector(".zbook-input");
     var input = form.querySelector("input");
     if (!state.chat.length) {
-      var greet = "Hi! I'm Iris. I can book you a " + state.type + " with a consultant. ";
-      greet += state.email
-        ? "I've got your email as " + state.email + " — just tell me a day and time that suits you, or ask me anything."
-        : "Want to go ahead? Tell me your email to start, or ask me anything.";
+      var greet = "Hi, I'm Iris — Zentallio's AI guide. Ask me anything about our sectors, solutions, how it works or pricing";
+      greet += state.email ? " — I've got your email as " + state.email + ", so I can book you a " + state.type + " whenever you're ready." : ", and I can book you a walkthrough or a call whenever you like.";
       addMsg(log, "bot", greet);
+      CHIPS.forEach(function (c) {
+        var chip = el("button", "zbook-chip", escapeHtml(c));
+        chip.type = "button";
+        chip.addEventListener("click", function () {
+          send(c);
+        });
+        chips.appendChild(chip);
+      });
     } else {
+      chips.remove();
       state.chat.forEach(function (m) {
         addMsg(log, m.role === "assistant" ? "bot" : "me", m.content);
       });
     }
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      var t = input.value.trim();
+    async function send(t) {
+      t = (t || "").trim();
       if (!t) return;
       input.value = "";
+      if (chips) chips.remove();
       addMsg(log, "me", t);
       state.chat.push({ role: "user", content: t });
       var typing = addMsg(log, "bot", "…");
@@ -227,11 +239,15 @@
         if (res.booking && res.booking.ok) success(res.booking);
       } catch (err) {
         typing.remove();
-        addMsg(log, "bot", "The live assistant isn't reachable here — switching you to the quick form.");
+        addMsg(log, "bot", "I can't reach the live assistant right now — you can book directly on the quick form.");
         setTimeout(function () {
           root.querySelector('.zbook-tabs button[data-tab="form"]').click();
         }, 700);
       }
+    }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      send(input.value);
     });
     input.focus();
   }

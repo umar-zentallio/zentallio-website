@@ -16,6 +16,9 @@
 .zbook-msg{max-width:82%;padding:9px 12px;border-radius:13px;font-size:.9rem;line-height:1.45}
 .zbook-msg.bot{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
 .zbook-msg.me{align-self:flex-end;background:linear-gradient(135deg,rgba(21,242,242,.18),rgba(155,123,255,.18));border:1px solid rgba(155,123,255,.3)}
+.zbook-chips{display:flex;flex-wrap:wrap;gap:7px;margin:2px 2px 8px}
+.zbook-chip{background:rgba(255,255,255,.05);border:1px solid rgba(155,123,255,.3);color:#CBD3E1;font-size:.8rem;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .15s,border-color .15s;font-family:inherit}
+.zbook-chip:hover{background:rgba(155,123,255,.16);border-color:#9B7BFF;color:#fff}
 .zbook-input{display:flex;gap:8px;margin-top:6px}
 .zbook-input input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.9rem;outline:none}
 .zbook-input input:focus{border-color:#15F2F2}
