@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/fashion/Zentallio-Fashion-Sector-Solutions-v7.0.html", "destination": "/fashion/sector-solutions", "permanent": true },
+    { "source": "/fashion/Zentallio-Fashion-Sector-Solutions-v7.0", "destination": "/fashion/sector-solutions", "permanent": true }
+  ]
+}
