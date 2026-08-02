@@ -144,10 +144,10 @@
     root = el("div", "zbook-overlay");
     root.setAttribute("hidden", "");
     root.innerHTML =
-      '<div class="zbook-card" role="dialog" aria-modal="true" aria-label="Book with Zentallio">' +
+      '<div class="zbook-card" role="dialog" aria-modal="true" aria-label="Ask Iris — Zentallio">' +
       '<button class="zbook-x" aria-label="Close">&times;</button>' +
-      '<div class="zbook-head"><span class="zbook-dot"></span><b>Book with Zentallio</b></div>' +
-      '<div class="zbook-tabs"><button data-tab="chat" class="on">Ask Iris</button><button data-tab="form">Quick form</button></div>' +
+      '<div class="zbook-head"><span class="zbook-dot"></span><b>Ask Iris</b></div>' +
+      '<div class="zbook-tabs"><button data-tab="chat" class="on">Chat</button><button data-tab="form">Quick form</button></div>' +
       '<div class="zbook-body"></div>' +
       "</div>";
     document.body.appendChild(root);
@@ -449,10 +449,14 @@
   function injectFab() {
     if (document.querySelector(".zbook-fab")) return;
     if (cornerOccupied()) return;
-    var b = el("button", "zbook-fab", '<span class="zbook-fab-dot"></span><span class="zbook-fab-lbl">Book a walkthrough</span>');
+    // One launcher: Ask Iris. Booking is a capability inside (chat, the Quick
+    // form tab, and a "Book a walkthrough" chip) — no separate booking icon.
+    var b = el("button", "zbook-fab", '<span class="zbook-fab-ic" aria-hidden="true">✦</span><span class="zbook-fab-lbl">Ask Iris</span>');
     b.type = "button";
-    b.setAttribute("data-book", "walkthrough");
-    b.setAttribute("aria-label", "Book a walkthrough");
+    b.setAttribute("aria-label", "Ask Iris — questions or book a walkthrough");
+    b.addEventListener("click", function () {
+      open("walkthrough", { tab: "chat" });
+    });
     document.body.appendChild(b);
   }
   // Lift the FAB above any bottom-anchored banner it overlaps (e.g. the cookie
