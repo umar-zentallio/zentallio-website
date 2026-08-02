@@ -4,7 +4,7 @@
 - **Zentallio** — the AI Decision Platform for Food & Beverage and Fashion Retail.
 - Product surfaces named on the site: **Iris** (the AI decision layer), and named
   workbenches/engines including **Numerus** (CFO/finance), **Nexus** (supply
-  chain), **Motus** (operations), **Manus** (workforce), and **Ask Zen** (plain-
+  chain), **Motus** (operations), **Manus** (workforce), and **Ask Iris** (plain-
   language answers over live data).
 - **Contact:** info@zentallio.com
 

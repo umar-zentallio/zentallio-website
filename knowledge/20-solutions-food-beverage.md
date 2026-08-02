@@ -208,7 +208,7 @@ Illustrative outcomes: −€60 labour saved / shift · 24% flagged lull · 7 st
 
 ## Intelligence
 
-### Ask Zen
+### Ask Iris
 *Ask anything. In plain language.*
 
 The natural-language brain over your whole operation. Ask in plain words — “how are we tracking?”, “what’s at risk on stock?” — and Iris answers from live data across every module. Standalone, and built into every screen.
@@ -239,7 +239,7 @@ Illustrative outcomes: −22% perceived wait · 96% portion accuracy · live foo
 ### Reporting & Analytics
 *Every metric, self-serve.*
 
-Every number, every outlet — scheduled reports, ad-hoc exploration and boardroom roll-ups. Ask Zen writes the query so you don’t have to.
+Every number, every outlet — scheduled reports, ad-hoc exploration and boardroom roll-ups. Ask Iris writes the query so you don’t have to.
 
 What it does:
 - Self-serve dashboards

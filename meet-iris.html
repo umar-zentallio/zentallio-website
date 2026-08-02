@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="zentallio-version" content="meet-iris-1.3">
 <title>Meet Iris — Zentallio</title>
-<meta name="description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Zen — read every signal and turn plain questions into decisions.">
+<meta name="description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Iris — read every signal and turn plain questions into decisions.">
 <meta name="theme-color" content="#05080F">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zentallio">
 <meta property="og:title" content="Meet Iris — Zentallio">
-<meta property="og:description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Zen — read every signal and turn plain questions into decisions.">
+<meta property="og:description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Iris — read every signal and turn plain questions into decisions.">
 <meta property="og:image" content="https://zentallio.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Meet Iris — Zentallio">
-<meta name="twitter:description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Zen — read every signal and turn plain questions into decisions.">
+<meta name="twitter:description" content="Meet Iris, the agent inside Zentallio. Three layers — Zen Rules, Zen Models and Ask Iris — read every signal and turn plain questions into decisions.">
 <meta name="twitter:image" content="https://zentallio.com/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -242,7 +242,7 @@ a{color:inherit;text-decoration:none}
     </div>
     <div class="arch rv">
       <div class="arch-stack" id="archStack">
-        <div class="layer l3 on" data-k="2"><div class="lno">L3 · ASK ZEN</div><h3>Ask Zen</h3><p>Natural language → answer</p></div>
+        <div class="layer l3 on" data-k="2"><div class="lno">L3 · ASK ZEN</div><h3>Ask Iris</h3><p>Natural language → answer</p></div>
         <div class="layer l2" data-k="1"><div class="lno">L2 · ZEN MODELS</div><h3>Zen Models</h3><p>Forecasting &amp; prediction</p></div>
         <div class="layer l1" data-k="0"><div class="lno">L1 · ZEN RULES</div><h3>Zen Rules</h3><p>Deterministic guardrails</p></div>
       </div>
@@ -255,12 +255,12 @@ a{color:inherit;text-decoration:none}
 <section class="sec" id="ask">
   <div class="wrap">
     <div class="rv">
-      <div class="kicker">Ask Zen · live demo</div>
+      <div class="kicker">Ask Iris · live demo</div>
       <h2 class="h2">Ask in plain words. <em>Get the move.</em></h2>
       <p class="sub">Iris turns a question into a query, an answer and a recommendation. Pick a question — or type your own.</p>
     </div>
     <div class="ask-card rv">
-      <div class="ask-head"><span class="od"></span> Ask Zen</div>
+      <div class="ask-head"><span class="od"></span> Ask Iris</div>
       <div class="ask-body" id="askBody">
         <div class="ask-q"><span class="who">You</span><span class="qt">What's my food cost in Austria this week?</span></div>
         <div class="ask-a"><span class="who">Iris</span><div style="flex:1"><div class="ask-sql"></div><div class="ask-ans"></div></div></div>
@@ -305,7 +305,7 @@ a{color:inherit;text-decoration:none}
       <div class="pstep"><div class="pn">01 · Signal</div><h4>It happens</h4><p>An order, a sale, a shift, a delivery — captured live.</p><span class="flow"></span></div>
       <div class="pstep"><div class="pn">02 · Zen Rules</div><h4>Vetted</h4><p>Hard limits and policies checked before anything moves.</p><span class="flow"></span></div>
       <div class="pstep"><div class="pn">03 · Zen Models</div><h4>Forecast</h4><p>Boosted models predict what happens next.</p><span class="flow"></span></div>
-      <div class="pstep"><div class="pn">04 · Ask Zen</div><h4>Explained</h4><p>Iris reasons in plain language with the why.</p><span class="flow"></span></div>
+      <div class="pstep"><div class="pn">04 · Ask Iris</div><h4>Explained</h4><p>Iris reasons in plain language with the why.</p><span class="flow"></span></div>
       <div class="pstep"><div class="pn">05 · Decision</div><h4>Delivered</h4><p>A recommended move on the CEO, COO or CFO desk.</p><span class="flow"></span></div>
     </div>
   </div>
@@ -411,7 +411,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
  var LAYERS=[
   {c:'var(--teal)',tag:'L1 · Deterministic',h:'Zen Rules',p:'The limits Iris will never cross. Hard policies and thresholds — HACCP windows, price floors, cash controls, allocation caps — encoded as deterministic rules. Fast, auditable, and safe by construction: if a move breaks a rule, it never leaves the building.',lbl:'A rule, always enforced',eg:'IF temp_holding > <b>5°C</b> for > <b>30 min</b>\n→ block service · alert manager · log HACCP-04'},
   {c:'var(--amber)',tag:'L2 · Predictive',h:'Zen Models',p:'Gradient-boosted models (LightGBM) turn history into what happens next — demand by daypart, food-cost drift, labour need, sell-through and service times. Nine live models score every outlet and style continuously, so the forecast is always current.',lbl:'A forecast, scored live',eg:'model: demand_qsr_v9 · LightGBM\nstore AT-014 · 18:00–20:00 → <b>+12% covers</b>\nlabour gap: <b>1 runner</b> · confidence 0.92'},
-  {c:'var(--ai)',tag:'L3 · Natural language',h:'Ask Zen',p:'An LLM with text-to-SQL lets anyone ask in plain words — no dashboards. Iris writes the query, reads the result, explains the why, and proposes the move. The rules keep it safe; the models keep it sharp; Ask Zen makes it human.',lbl:'A question, answered',eg:'“Why is Austria food cost high?”\n→ portion drift on 3 SKUs · <b>+2.0pt</b>\n→ re-spec + 2% price recovers the gap'}
+  {c:'var(--ai)',tag:'L3 · Natural language',h:'Ask Iris',p:'An LLM with text-to-SQL lets anyone ask in plain words — no dashboards. Iris writes the query, reads the result, explains the why, and proposes the move. The rules keep it safe; the models keep it sharp; Ask Iris makes it human.',lbl:'A question, answered',eg:'“Why is Austria food cost high?”\n→ portion drift on 3 SKUs · <b>+2.0pt</b>\n→ re-spec + 2% price recovers the gap'}
  ];
  var stack=document.getElementById('archStack'),detail=document.getElementById('archDetail');
  function render(k){var L=LAYERS[k];detail.style.setProperty('--dc',L.c);
@@ -421,7 +421,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
  render(2);
 })();
 
-/* ===== Ask Zen interactive ===== */
+/* ===== Ask Iris interactive ===== */
 (function(){
  var ASK=[
   {q:"What's my food cost in Austria this week?",sql:"@SELECT market, AVG(food_cost_pct)\n@FROM orders\n@WHERE market='AT' AND week = CURRENT_WEEK\n@GROUP BY market;",a:"Austria is running <b>32.0% food cost</b> against a 30% plan — a 2-point gap. I traced it to portion drift on three high-volume SKUs; a re-spec plus a 2% price move closes it.",m:["32.0%","food cost · Austria"]},

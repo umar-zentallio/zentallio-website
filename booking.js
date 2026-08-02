@@ -522,4 +522,16 @@
 
   // expose for programmatic use / testing
   window.zentallioBook = open;
+
+  /* ---------- retire the legacy "Ask Zen" bot ----------
+   * The old solution pages define toggleZen/askZen/bookCall for an on-page
+   * scripted bot whose launcher is now hidden. booking.js is deferred, so it
+   * runs after those definitions — reroute every legacy entry point to the one
+   * global Iris so no old trigger is left dangling. */
+  ["toggleZen", "askZen", "bookCall", "openZen", "askAbout"].forEach(function (fn) {
+    window[fn] = function () {
+      open("walkthrough", { tab: "chat" });
+      return false;
+    };
+  });
 })();

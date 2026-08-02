@@ -39,6 +39,8 @@
 .zbook-done h3{margin:0 0 8px;font-weight:600}
 .zbook-done p{color:#AEB9CB;font-size:.9rem;line-height:1.5;margin:0 0 8px}
 .zbook-ref{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#8592A6}
+/* Retire the legacy on-page "Ask Zen" launcher — the global Ask Iris replaces it. */
+.zdock,.askzen,#askZen{display:none !important}
 /* floating CTA */
 .zbook-fab{position:fixed;right:clamp(16px,3vw,30px);bottom:clamp(18px,3vh,30px);z-index:120;display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border:none;border-radius:999px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:.9rem;font-weight:700;color:#07101F;background:linear-gradient(135deg,#15F2F2,#9B7BFF);box-shadow:0 16px 40px -12px rgba(21,242,242,.55),0 6px 18px -8px rgba(155,123,255,.6);transition:transform .18s ease,box-shadow .18s ease}
 .zbook-fab:hover{transform:translateY(-2px);box-shadow:0 22px 52px -12px rgba(21,242,242,.7),0 8px 22px -8px rgba(155,123,255,.75)}
