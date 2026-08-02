@@ -222,14 +222,16 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "method_not_allowed" });
   const body = await readBody(req);
   const history = Array.isArray(body.messages) ? body.messages : [];
-  try {
-    if (API_KEY) {
-      const out = await aiTurn(history);
-      return res.status(200).json({ ...out, state: body.state || {} });
-    }
+  if (!API_KEY) {
+    console.warn("[chat] no ANTHROPIC_API_KEY — using scripted fallback (set it in .env / api.env to enable the AI)");
     return res.status(200).json(await mockTurn(history, body.state));
+  }
+  try {
+    const out = await aiTurn(history);
+    return res.status(200).json({ ...out, state: body.state || {} });
   } catch (e) {
-    // On any AI error, degrade to the scripted assistant so booking still works.
+    // Make the reason visible, then degrade to the scripted assistant so booking still works.
+    console.error("[chat] AI call failed, falling back to scripted flow:", (e && e.message) || e, "(a 401 usually means the ANTHROPIC_API_KEY is invalid or revoked)");
     return res.status(200).json(await mockTurn(history, body.state));
   }
 };
