@@ -278,7 +278,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:n
 .dtlfoot{margin-top:13px;padding-top:12px;border-top:1px solid var(--line);color:var(--mut);font:500 11.5px/1.4 var(--mono);display:flex;align-items:center;gap:8px}
 .dtlfoot b{color:var(--teal)}
 
-/* Ask Zen conversation (ch.7) */
+/* Ask Iris conversation (ch.7) */
 .convo{display:flex;flex-direction:column;gap:10px}
 .msg{max-width:90%;padding:11px 14px;border-radius:13px;font-size:13px;line-height:1.52}
 .msg.u{align-self:flex-end;border:1px solid var(--line);background:rgba(255,255,255,.045);border-bottom-right-radius:4px;color:var(--ink)}
@@ -379,7 +379,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:n
 .mnote b{color:var(--amber)}
 .mnote.good b{color:var(--mint)}
 
-/* Ask Zen · your data (ch.3) */
+/* Ask Iris · your data (ch.3) */
 .execcap .tryd{margin-left:14px;color:#ffa9d3;border:1px solid rgba(255,45,149,.4);border-radius:20px;padding:5px 11px;cursor:pointer;text-transform:none;letter-spacing:.03em;font:600 10px/1 var(--mono);background:rgba(255,45,149,.05)}
 .execcap .tryd:hover{background:rgba(255,45,149,.12)}
 .azov{position:absolute;inset:0;display:none;z-index:25}
@@ -748,7 +748,7 @@ svg.ring #loopDot{display:none}
       <div class="eyebrow rise" style="--i:0">05 · The scorecard, live</div>
       <h2 class="h rise" style="--i:1;font-size:clamp(20px,2.5vw,30px)">Health at a glance, quarter by quarter.</h2>
       <div class="exec rise" id="execRow" style="--i:2"></div>
-      <div class="execcap rise" style="--i:2"><span class="hot">Q3 FY 2026</span> · trajectory shows Q1→Q4 · click any KPI to drill into markets<button class="tryd" id="azOpen">⌁ Ask Zen · use your own data</button></div>
+      <div class="execcap rise" style="--i:2"><span class="hot">Q3 FY 2026</span> · trajectory shows Q1→Q4 · click any KPI to drill into markets<button class="tryd" id="azOpen">⌁ Ask Iris · use your own data</button></div>
       <div class="qscore rise" style="--i:3">
         <table class="qtbl">
           <colgroup><col><col class="own"><col><col><col><col><col></colgroup>
@@ -792,25 +792,25 @@ svg.ring #loopDot{display:none}
         </div>
       </div>
 
-      <!-- Ask Zen · your own data -->
+      <!-- Ask Iris · your own data -->
       <div class="azov" id="azov">
         <div class="bd" data-azclose></div>
         <div class="azpanel">
           <div class="azhead">
             <div class="orb"></div>
-            <div><h3>Ask Zen · use your own numbers</h3><div class="sub">Paste your KPIs in the format below — one per line. Zen builds your scorecard and reads it back to you. Nothing leaves your browser.</div></div>
+            <div><h3>Ask Iris · use your own numbers</h3><div class="sub">Paste your KPIs in the format below — one per line. Zen builds your scorecard and reads it back to you. Nothing leaves your browser.</div></div>
             <button class="close" data-azclose aria-label="Close">✕</button>
           </div>
           <div class="azfmt"><b>Format &nbsp;›</b> Lens, KPI, dir, target, Q1, Q2, Q3, Q4 &nbsp;—&nbsp; <b>dir</b> = <b>min</b> (higher is better) or <b>max</b> (lower is better)</div>
           <textarea class="aztext" id="azText" spellcheck="false"></textarea>
           <div class="azbtns">
-            <button class="azbtn run" id="azRun">Ask Zen ▸</button>
+            <button class="azbtn run" id="azRun">Ask Iris ▸</button>
             <button class="azbtn" id="azSample">Load sample</button>
             <button class="azbtn" id="azClear">Clear</button>
           </div>
           <div class="azerr" id="azErr"></div>
           <div class="azres" id="azRes">
-            <div class="azsum"><div class="who">Iris · Ask Zen</div><p id="azSum"></p></div>
+            <div class="azsum"><div class="who">Iris · Ask Iris</div><p id="azSum"></p></div>
             <table class="aztbl"><thead><tr><th class="l">Lens</th><th class="l">KPI</th><th>Target</th><th>Now</th><th>Δ</th><th>Trend</th><th></th></tr></thead><tbody id="azBody"></tbody></table>
           </div>
         </div>
@@ -869,16 +869,16 @@ svg.ring #loopDot{display:none}
     <section class="scene">
       <div class="split">
         <div>
-          <div class="eyebrow rise" style="--i:0;color:var(--iris)">08 · Layer 3 · Ask Zen</div>
-          <h2 class="h rise" style="--i:1">Ask Zen — the answer,<br>in plain language.</h2>
+          <div class="eyebrow rise" style="--i:0;color:var(--iris)">08 · Layer 3 · Ask Iris</div>
+          <h2 class="h rise" style="--i:1">Ask Iris — the answer,<br>in plain language.</h2>
           <p class="lede rise" style="--i:2">Iris reads all four lenses together, names the cause, and recommends the action. Ask in words — <b>“which branch is trending over food cost?”</b> — and get the answer, not another chart.</p>
         </div>
         <div class="panel">
           <div class="convo">
             <div class="msg u rise" style="--i:2"><span class="um">You</span>Which branch is trending over food cost?</div>
-            <div class="msg z rise" style="--i:3"><span class="zwho">Iris <span class="askz">Ask Zen</span></span><span class="hl">Austria</span> — 32% against a 30% plan. It's the one branch pulling group net margin below 6.2% this week.</div>
+            <div class="msg z rise" style="--i:3"><span class="zwho">Iris <span class="askz">Ask Iris</span></span><span class="hl">Austria</span> — 32% against a 30% plan. It's the one branch pulling group net margin below 6.2% this week.</div>
             <div class="msg u rise" style="--i:4"><span class="um">You</span>Why, and what do we do?</div>
-            <div class="msg z rise" style="--i:5"><span class="zwho">Iris <span class="askz">Ask Zen</span></span><span class="hl">Cause:</span> portion drift on 3 items. <span class="hl">Recommend:</span> re-issue the portion guide, cap the cheese scoop to 95 g. I've drafted the kitchen notice — approve to send.</div>
+            <div class="msg z rise" style="--i:5"><span class="zwho">Iris <span class="askz">Ask Iris</span></span><span class="hl">Cause:</span> portion drift on 3 items. <span class="hl">Recommend:</span> re-issue the portion guide, cap the cheese scoop to 95 g. I've drafted the kitchen notice — approve to send.</div>
           </div>
         </div>
       </div>
@@ -912,7 +912,7 @@ svg.ring #loopDot{display:none}
           <div class="iris beatiris" id="beatIris">
             <div class="orb"></div>
             <div class="bubble">
-              <div class="who">Iris <span class="askz">Ask Zen</span></div>
+              <div class="who">Iris <span class="askz">Ask Iris</span></div>
               <p><b class="hl">Cause:</b> portion drift on 3 items in Austria. <b class="hl">Recommend:</b> re-issue portion guide, cap the cheese scoop to 95 g.</p>
             </div>
           </div>
@@ -931,7 +931,7 @@ svg.ring #loopDot{display:none}
           <p class="lede rise" style="--i:2">Detect → forecast → explain → recommend → act → verify → learn. Each pass trains the models, so the next drift is caught earlier. <b>The scorecard doesn't just report — it acts, then checks its own work.</b></p>
           <div class="legend rise" style="--i:3">
             <span><i style="background:var(--teal)"></i>Scorecard · Rules · Models</span>
-            <span><i style="background:var(--iris)"></i>Ask Zen · Iris</span>
+            <span><i style="background:var(--iris)"></i>Ask Iris · Iris</span>
             <span><i style="background:var(--amber)"></i>Outlet acts</span>
             <span><i style="background:var(--mint)"></i>Models learn</span>
           </div>
@@ -986,7 +986,7 @@ svg.ring #loopDot{display:none}
 (function(){
   "use strict";
   var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
-  var names = ["Cover","The classic scorecard","Why food retail breaks it","AI Learning as the base","The operating model","The scorecard, live","Layer 1 · Zen Rules","Layer 2 · Zen Models","Layer 3 · Ask Zen","Live · cause → action","The loop","The outcome"];
+  var names = ["Cover","The classic scorecard","Why food retail breaks it","AI Learning as the base","The operating model","The scorecard, live","Layer 1 · Zen Rules","Layer 2 · Zen Models","Layer 3 · Ask Iris","Live · cause → action","The loop","The outcome"];
   var dur   = [6500, 12000, 10500, 11000, 12500, 13000, 8000, 8000, 8000, 12500, 13000, 9000]; // ms per chapter when playing
   var idx = 0, playing = false, timer = null, tickRAF = null, tStart = 0, beat = [];
 
@@ -1189,8 +1189,8 @@ svg.ring #loopDot{display:none}
       {t:'Measure',   o:'Scorecard',      c:'teal'},
       {t:'Detect',    o:'Zen Rules · L1', c:'teal'},
       {t:'Forecast',  o:'Zen Models · L2',c:'teal'},
-      {t:'Explain',   o:'Ask Zen · Iris', c:'iris'},
-      {t:'Recommend', o:'Ask Zen · Iris', c:'iris'},
+      {t:'Explain',   o:'Ask Iris · Iris', c:'iris'},
+      {t:'Recommend', o:'Ask Iris · Iris', c:'iris'},
       {t:'Act',       o:'Outlet team',    c:'amber'},
       {t:'Verify',    o:'Scorecard',      c:'teal'},
       {t:'Learn',     o:'Model retrain',  c:'mint'}
@@ -1342,7 +1342,7 @@ svg.ring #loopDot{display:none}
     window.__closeMkt=close;
   })();
 
-  // ---- Ask Zen · bring your own data (ch.3) ----
+  // ---- Ask Iris · bring your own data (ch.3) ----
   (function azdata(){
     var ov=document.getElementById('azov'); if(!ov) return;
     var SAMPLE=[

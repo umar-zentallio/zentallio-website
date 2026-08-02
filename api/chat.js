@@ -9,16 +9,31 @@
  * Response: { reply: "...", booking: {...}|null, state: {} }
  */
 const core = require("../lib/booking-core");
+const kb = require("../lib/iris-knowledge");
 
 const MODEL = process.env.BOOKING_MODEL || "claude-sonnet-5";
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 
 const SYSTEM = [
-  "You are Iris, Zentallio's friendly booking assistant. Your only job is to book a walkthrough or a call with a consultant.",
-  "Collect, in a natural conversation: (1) whether they want a 'walkthrough' or a 'call', (2) their email, (3) a preferred slot.",
-  "Ask the visitor which timezone they're in (default Asia/Karachi / PKT if they don't say). Call get_availability with that timezone to show real options, then confirm and call create_booking.",
-  "When calling create_booking, pass the chosen slot's exact `start` value (the ISO instant from get_availability) and the same `timezone`. Never invent times — only offer slots from get_availability. Keep replies short and warm.",
-].join(" ");
+  "You are Iris, Zentallio's AI guide on its website. You help visitors understand Zentallio and, when they're interested, get them to a walkthrough or a call with a consultant.",
+  "",
+  "ROLE & POSTURE:",
+  "- Be a helpful, consultative guide first — genuinely answer questions about sectors, solutions, how it works, implementation, buying, support, pricing and the company.",
+  "- Warm, concise, confident. Short paragraphs. When useful, ask one clarifying question (e.g. their sector or size) to tailor the answer.",
+  "- When a visitor shows buying intent (asks about price, a demo, timelines, 'how do we start'), offer to book a walkthrough or a call, and capture their details.",
+  "",
+  "GROUNDING RULES (important):",
+  "- Answer ONLY from the KNOWLEDGE BASE below. Do NOT invent facts, numbers, prices, timelines, integrations, customers, or claims.",
+  "- Pricing: follow the pricing policy exactly — describe the model, never quote specific numbers, and route to a call for a quote.",
+  "- If something isn't in the knowledge base, say so plainly and offer to connect them with a consultant. Never guess.",
+  "",
+  "TOOLS:",
+  "- capture_lead: when you learn a visitor's details (name/email/company/sector/interest), record them. Do this before or alongside booking.",
+  "- get_availability + create_booking: to book. Ask the visitor's timezone (default Asia/Karachi/PKT). Only offer slots returned by get_availability; when booking, pass the chosen slot's exact ISO `start` and the same `timezone`.",
+  "",
+  "KNOWLEDGE BASE:",
+  kb.knowledge,
+].join("\n");
 
 const TOOLS = [
   {
@@ -27,6 +42,22 @@ const TOOLS = [
     input_schema: {
       type: "object",
       properties: { timezone: { type: "string", description: "IANA timezone to label slots in, e.g. 'Europe/London'. Defaults to Asia/Karachi." } },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "capture_lead",
+    description: "Record an interested visitor's details as a lead. Call as soon as you learn them, even before booking.",
+    input_schema: {
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        email: { type: "string" },
+        company: { type: "string" },
+        sector: { type: "string", description: "e.g. 'casual dining', 'apparel retail'" },
+        interest: { type: "string", description: "what they're looking for / their need" },
+      },
+      required: ["email"],
       additionalProperties: false,
     },
   },
@@ -41,7 +72,7 @@ const TOOLS = [
         start: { type: "string", description: "The chosen slot's exact ISO `start` from get_availability" },
         timezone: { type: "string", description: "The visitor's IANA timezone (e.g. 'Europe/London'), default 'Asia/Karachi'" },
         name: { type: "string" },
-        notes: { type: "string" },
+        notes: { type: "string", description: "Include company, sector and interest here so they ride along with the booking" },
       },
       required: ["type", "email", "start"],
       additionalProperties: false,
@@ -61,6 +92,12 @@ async function runTool(name, input) {
         return { start: iso, label: `${f.dayLabel} ${f.time}` };
       }),
     };
+  }
+  if (name === "capture_lead") {
+    // Leads surface in the service logs and ride along with the booking notes.
+    // (Wire a CRM/email/webhook here later — see BOOKING.md.)
+    console.log("[lead]", JSON.stringify({ ...input, at: new Date().toISOString() }));
+    return { ok: true, captured: true };
   }
   if (name === "create_booking") {
     return core.createBooking({ type: input.type, email: input.email, start: input.start, tz: input.timezone, name: input.name, notes: input.notes });
@@ -147,7 +184,13 @@ async function mockTurn(history, state) {
     if (core.isValidEmail(addr)) state.email = addr;
   }
 
-  if (!state.type) return { reply: "Happy to help you book! Would you like a walkthrough or a call with a consultant?", booking: null, state };
+  if (!state.type)
+    return {
+      reply:
+        "Happy to help! I can point you to the right sectors and solutions, and the quickest way to get your questions answered on your own numbers is a short walkthrough or a call with a consultant. Which would you like — a walkthrough or a call?",
+      booking: null,
+      state,
+    };
   if (!state.email) return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to?`, booking: null, state };
 
   // Offer numbered slots, then book the one they pick.
@@ -179,14 +222,16 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "method_not_allowed" });
   const body = await readBody(req);
   const history = Array.isArray(body.messages) ? body.messages : [];
-  try {
-    if (API_KEY) {
-      const out = await aiTurn(history);
-      return res.status(200).json({ ...out, state: body.state || {} });
-    }
+  if (!API_KEY) {
+    console.warn("[chat] no ANTHROPIC_API_KEY — using scripted fallback (set it in .env / api.env to enable the AI)");
     return res.status(200).json(await mockTurn(history, body.state));
+  }
+  try {
+    const out = await aiTurn(history);
+    return res.status(200).json({ ...out, state: body.state || {} });
   } catch (e) {
-    // On any AI error, degrade to the scripted assistant so booking still works.
+    // Make the reason visible, then degrade to the scripted assistant so booking still works.
+    console.error("[chat] AI call failed, falling back to scripted flow:", (e && e.message) || e, "(a 401 usually means the ANTHROPIC_API_KEY is invalid or revoked)");
     return res.status(200).json(await mockTurn(history, body.state));
   }
 };

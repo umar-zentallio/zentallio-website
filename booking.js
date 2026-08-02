@@ -144,10 +144,10 @@
     root = el("div", "zbook-overlay");
     root.setAttribute("hidden", "");
     root.innerHTML =
-      '<div class="zbook-card" role="dialog" aria-modal="true" aria-label="Book with Zentallio">' +
+      '<div class="zbook-card" role="dialog" aria-modal="true" aria-label="Ask Iris — Zentallio">' +
       '<button class="zbook-x" aria-label="Close">&times;</button>' +
-      '<div class="zbook-head"><span class="zbook-dot"></span><b>Book with Zentallio</b></div>' +
-      '<div class="zbook-tabs"><button data-tab="chat" class="on">Ask Iris</button><button data-tab="form">Quick form</button></div>' +
+      '<div class="zbook-head"><span class="zbook-dot"></span><b>Ask Iris</b></div>' +
+      '<div class="zbook-tabs"><button data-tab="chat" class="on">Chat</button><button data-tab="form">Quick form</button></div>' +
       '<div class="zbook-body"></div>' +
       "</div>";
     document.body.appendChild(root);
@@ -170,16 +170,22 @@
   function body() {
     return root.querySelector(".zbook-body");
   }
+  function isOpen() {
+    return root && !root.hasAttribute("hidden");
+  }
   function open(kind, opts) {
     build();
     opts = opts || {};
+    // Two presentations: a docked, non-blocking chat "panel" (Ask Iris launcher)
+    // and a centered "modal" (booking CTAs).
+    var mode = opts.mode || "modal";
     state = { type: kind === "call" ? "call" : "walkthrough", chat: [] };
     if (opts.email && validEmail(opts.email)) state.email = opts.email;
+    root.classList.toggle("zbook-panel", mode === "panel");
     root.removeAttribute("hidden");
-    document.body.style.overflow = "hidden";
-    // If the visitor already gave a valid email (e.g. from a page's email-capture
-    // CTA), open straight to the pre-filled Quick form; otherwise start with Iris.
-    var tab = opts.tab || (state.email ? "form" : "chat");
+    document.body.style.overflow = mode === "modal" ? "hidden" : ""; // only the modal locks scroll
+    // panel → chat; modal → the Quick form (pre-filled if we have an email), unless told otherwise
+    var tab = opts.tab || (mode === "panel" ? "chat" : state.email ? "form" : "form");
     root.querySelector('.zbook-tabs button[data-tab="' + tab + '"]').click();
   }
   function close() {
@@ -189,28 +195,40 @@
   }
 
   /* ---------- assistant (AI) ---------- */
+  var CHIPS = ["What can Zentallio do for my business?", "Food & Beverage solutions", "Fashion retail solutions", "How does pricing work?", "Book a walkthrough"];
   function renderChat() {
     var b = body();
-    b.innerHTML = '<div class="zbook-log"></div><form class="zbook-input"><input type="text" placeholder="Type here… e.g. book a walkthrough" autocomplete="off"><button type="submit">Send</button></form>';
+    b.innerHTML =
+      '<div class="zbook-log"></div>' +
+      '<div class="zbook-chips"></div>' +
+      '<form class="zbook-input"><input type="text" placeholder="Ask Iris anything… or say &quot;book a walkthrough&quot;" autocomplete="off"><button type="submit">Send</button></form>';
     var log = b.querySelector(".zbook-log");
+    var chips = b.querySelector(".zbook-chips");
     var form = b.querySelector(".zbook-input");
     var input = form.querySelector("input");
     if (!state.chat.length) {
-      var greet = "Hi! I'm Iris. I can book you a " + state.type + " with a consultant. ";
-      greet += state.email
-        ? "I've got your email as " + state.email + " — just tell me a day and time that suits you, or ask me anything."
-        : "Want to go ahead? Tell me your email to start, or ask me anything.";
+      var greet = "Hi, I'm Iris — Zentallio's AI guide. Ask me anything about our sectors, solutions, how it works or pricing";
+      greet += state.email ? " — I've got your email as " + state.email + ", so I can book you a " + state.type + " whenever you're ready." : ", and I can book you a walkthrough or a call whenever you like.";
       addMsg(log, "bot", greet);
+      CHIPS.forEach(function (c) {
+        var chip = el("button", "zbook-chip", escapeHtml(c));
+        chip.type = "button";
+        chip.addEventListener("click", function () {
+          send(c);
+        });
+        chips.appendChild(chip);
+      });
     } else {
+      chips.remove();
       state.chat.forEach(function (m) {
         addMsg(log, m.role === "assistant" ? "bot" : "me", m.content);
       });
     }
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      var t = input.value.trim();
+    async function send(t) {
+      t = (t || "").trim();
       if (!t) return;
       input.value = "";
+      if (chips) chips.remove();
       addMsg(log, "me", t);
       state.chat.push({ role: "user", content: t });
       var typing = addMsg(log, "bot", "…");
@@ -227,11 +245,15 @@
         if (res.booking && res.booking.ok) success(res.booking);
       } catch (err) {
         typing.remove();
-        addMsg(log, "bot", "The live assistant isn't reachable here — switching you to the quick form.");
+        addMsg(log, "bot", "I can't reach the live assistant right now — you can book directly on the quick form.");
         setTimeout(function () {
           root.querySelector('.zbook-tabs button[data-tab="form"]').click();
         }, 700);
       }
+    }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      send(input.value);
     });
     input.focus();
   }
@@ -391,7 +413,8 @@
       if (!node || !isBookingCta(node)) return;
       e.preventDefault();
       e.stopPropagation();
-      open(kindFrom(node), { email: emailNear(node) });
+      // A booking CTA → the centered booking modal (Quick form), email carried over.
+      open(kindFrom(node), { mode: "modal", tab: "form", email: emailNear(node) });
     },
     true // capture, so we win over existing page handlers
   );
@@ -433,10 +456,16 @@
   function injectFab() {
     if (document.querySelector(".zbook-fab")) return;
     if (cornerOccupied()) return;
-    var b = el("button", "zbook-fab", '<span class="zbook-fab-dot"></span><span class="zbook-fab-lbl">Book a walkthrough</span>');
+    // One launcher: Ask Iris. Booking is a capability inside (chat, the Quick
+    // form tab, and a "Book a walkthrough" chip) — no separate booking icon.
+    var b = el("button", "zbook-fab", '<span class="zbook-fab-ic" aria-hidden="true">✦</span><span class="zbook-fab-lbl">Ask Iris</span>');
     b.type = "button";
-    b.setAttribute("data-book", "walkthrough");
-    b.setAttribute("aria-label", "Book a walkthrough");
+    b.setAttribute("aria-label", "Ask Iris — questions or book a walkthrough");
+    b.addEventListener("click", function () {
+      // toggle the docked chat panel
+      if (isOpen() && root.classList.contains("zbook-panel")) close();
+      else open("walkthrough", { mode: "panel", tab: "chat" });
+    });
     document.body.appendChild(b);
   }
   // Lift the FAB above any bottom-anchored banner it overlaps (e.g. the cookie
@@ -502,4 +531,20 @@
 
   // expose for programmatic use / testing
   window.zentallioBook = open;
+
+  /* ---------- retire the legacy "Ask Zen" bot ----------
+   * The old solution pages define toggleZen/askZen/bookCall for an on-page
+   * scripted bot whose launcher is now hidden. booking.js is deferred, so it
+   * runs after those definitions — reroute every legacy entry point to the one
+   * global Iris so no old trigger is left dangling. */
+  ["toggleZen", "askZen", "openZen", "askAbout"].forEach(function (fn) {
+    window[fn] = function () {
+      open("walkthrough", { mode: "panel", tab: "chat" }); // "ask" → chat panel
+      return false;
+    };
+  });
+  window.bookCall = function () {
+    open("call", { mode: "modal", tab: "form" }); // "book" → booking modal
+    return false;
+  };
 })();

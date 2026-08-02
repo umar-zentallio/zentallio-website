@@ -658,7 +658,7 @@ a{color:inherit;text-decoration:none}
         <div class="b-ask">
           <div class="iris-core" id="irisCore"></div>
           <div class="axt">
-            <div class="arow"><span class="dot"></span>Ask Zen <span class="chip" id="askLayer">L2 · Zen Models</span></div>
+            <div class="arow"><span class="dot"></span>Ask Iris <span class="chip" id="askLayer">L2 · Zen Models</span></div>
             <div class="msg" id="askMsg">Monitoring sell-through and size curves across 180 stores…</div>
           </div>
           <div class="stg" id="askStg">Stage · <b>Watching</b></div>
@@ -700,7 +700,7 @@ a{color:inherit;text-decoration:none}
       <div class="oc-ask">
         <div class="ic" id="ocIris"></div>
         <div class="axt">
-          <div class="arow"><span class="dot"></span>Iris &middot; Ask Zen <span style="color:var(--fg3);border:1px solid var(--line2);border-radius:20px;padding:2px 8px;letter-spacing:.08em">L1 &middot; Zen Rules</span></div>
+          <div class="arow"><span class="dot"></span>Iris &middot; Ask Iris <span style="color:var(--fg3);border:1px solid var(--line2);border-radius:20px;padding:2px 8px;letter-spacing:.08em">L1 &middot; Zen Rules</span></div>
           <div class="msg" id="ocMsg">One pool, every channel &mdash; stock and price reconcile the moment a unit sells anywhere.</div>
         </div>
       </div>
@@ -837,7 +837,7 @@ a{color:inherit;text-decoration:none}
 <p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
 </div>
 <nav class="zfoot-cols">
-<div><h4>Product</h4><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
 <div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a></div>
 <div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
 </nav>
@@ -888,7 +888,7 @@ a{color:inherit;text-decoration:none}
     {s:'Watching',  l:'L2 · Zen Models', t:'Monitoring sell-through and size curves across 180 stores…', flash:false},
     {s:'Detected',  l:'L1 · Zen Rules',  t:"Size break in Women's Outerwear — core M/L sold through, XS/XXL overstocked. Markdown pressure building.", flash:true},
     {s:'Modelling', l:'L2 · Zen Models', t:'Forecasting the tail: a blanket markdown costs 2.1pt of margin; a size-targeted move costs 0.4pt.', flash:true},
-    {s:'Recommended',l:'L3 · Ask Zen',   t:'Hold full price on core, re-balance M/L from low-velocity stores, mark down only XS/XXL.', flash:false},
+    {s:'Recommended',l:'L3 · Ask Iris',   t:'Hold full price on core, re-balance M/L from low-velocity stores, mark down only XS/XXL.', flash:false},
     {s:'Resolved',  l:'L2 · Zen Models', t:'Full-price sell-through protected — gross margin recovers to 58.4%, markdown contained to the tail.', flash:false}
   ];
   var bi=0,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -919,7 +919,7 @@ a{color:inherit;text-decoration:none}
        viz:[58,64,71,66,74,69,77]}},
     {n:'Menswear', fm:'5 formats', o:['Flagship','Mall','Outlet','Wholesale','Online'],
      cap:'Carryover cores plus seasonal newness. Replenishment accuracy on basics protects the whole margin line.',
-     ai:{ins:'Chino core running 8 days ahead in 40 doors — Iris auto-replenishes before the size break shows.', layer:'L3 · Ask Zen', proof:['96%','core in-stock'],
+     ai:{ins:'Chino core running 8 days ahead in 40 doors — Iris auto-replenishes before the size break shows.', layer:'L3 · Ask Iris', proof:['96%','core in-stock'],
        viz:[40,52,61,58,67,72,70]}},
     {n:'Footwear & Sneakers', fm:'6 formats', o:['Flagship','Drop','Mall','Outlet','Concession','Online'],
      cap:'Drops sell in hours, not weeks. Size-run integrity and resale-aware demand are the whole game.',
@@ -935,11 +935,11 @@ a{color:inherit;text-decoration:none}
        viz:[70,66,60,55,58,63,68]}},
     {n:'Accessories & Bags', fm:'5 formats', o:['Flagship','Mall','Concession','Travel-retail','Online'],
      cap:'High margin, low size complexity. The lever is attach rate and getting hero SKUs in front of the right basket.',
-     ai:{ins:'Bag attach rate climbs when shown with outerwear — Iris re-sequences the upsell at the till.', layer:'L3 · Ask Zen', proof:['+9%','attach rate'],
+     ai:{ins:'Bag attach rate climbs when shown with outerwear — Iris re-sequences the upsell at the till.', layer:'L3 · Ask Iris', proof:['+9%','attach rate'],
        viz:[44,49,53,58,62,68,73]}},
     {n:'Jewellery & Watches', fm:'4 formats', o:['Flagship','Concession','Travel-retail','Online'],
      cap:'High ticket, serialised stock, clienteling-led. Every unit is tracked; every sale is a relationship.',
-     ai:{ins:'A client\u2019s wishlist piece just landed in a nearby store — Iris cues the associate to reach out.', layer:'L3 · Ask Zen', proof:['+14%','clienteled conversion'],
+     ai:{ins:'A client\u2019s wishlist piece just landed in a nearby store — Iris cues the associate to reach out.', layer:'L3 · Ask Iris', proof:['+14%','clienteled conversion'],
        viz:[30,36,42,48,55,63,72]}},
     {n:'Kids & Family', fm:'5 formats', o:['Mall','Outlet','Department','Concession','Online'],
      cap:'Tight age-band size curves and fast outgrow cycles. Allocation by store demographic is everything.',
@@ -962,7 +962,7 @@ a{color:inherit;text-decoration:none}
       '<div class="sx-nm">'+s.n+'</div><div class="sx-cap">'+s.cap+'</div>'+
       '<div class="sx-chips">'+chips+'</div>'+
       '<div class="sx-ai">'+irisOrb+'<div class="body">'+
-        '<div class="arow"><span class="dot"></span><span class="badge">Ask Zen</span><span class="chip">'+s.ai.layer+'</span></div>'+
+        '<div class="arow"><span class="dot"></span><span class="badge">Ask Iris</span><span class="chip">'+s.ai.layer+'</span></div>'+
         '<div class="ins">'+s.ai.ins+'</div>'+
         '<div class="sx-viz"><div class="viz-bars">'+bars+'</div></div>'+
         '<div class="sx-impact"><b>'+s.ai.proof[0]+'</b><span>'+s.ai.proof[1]+'</span></div>'+
