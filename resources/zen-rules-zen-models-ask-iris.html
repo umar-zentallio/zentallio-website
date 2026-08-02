@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained — Zentallio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05080F; --bg-1:#070C18; --panel:#0A0F1C;
+    --teal:#15F2F2; --magenta:#ff2d95; --mint:#3FD9A4; --amber:#E5A24B; --violet:#9B7BFF;
+    --ink-0:#F3F5FA; --ink-1:#B9C2D6; --ink-2:#7C879E; --line:rgba(255,255,255,0.08);
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:var(--teal);}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--teal);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--teal);}
+
+  .nav-row{position:sticky;top:0;z-index:50;background:rgba(5,8,15,0.88);backdrop-filter:blur(10px);max-width:100%;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
+  .nav-z{width:24px;height:24px;border-radius:6px;background:linear-gradient(150deg,var(--teal),#0a8f8f);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#00201f;}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
+  .back:hover{color:var(--ink-0);}
+
+  .hero{
+    background:radial-gradient(60% 100% at 15% 0%, rgba(21,242,242,0.10), transparent 65%), var(--bg-1);
+    border-bottom:1px solid var(--line);padding:52px 32px 40px;
+  }
+  .hero-in{max-width:760px;margin:0 auto;}
+  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px;}
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);}
+  .pdeck-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#2b1a02;background:var(--amber);padding:3px 9px;border-radius:8px;font-weight:600;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
+
+  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
+
+  .toc{
+    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
+  }
+  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
+  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
+  .toc a:hover{color:var(--teal);border-left-color:var(--teal);}
+
+  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
+  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
+  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
+  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
+  .content li{margin-bottom:8px;}
+  .content strong{color:var(--ink-0);}
+  .content em{color:var(--teal);font-style:italic;}
+  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+
+  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0 32px;}
+  .feature-card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 20px;}
+  .feature-card h4{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink-0);margin-bottom:10px;}
+  .feature-card ul{margin:0 0 0 18px;}
+  .feature-card li{font-size:13.5px;color:var(--ink-1);margin-bottom:6px;}
+  @media (max-width:640px){ .feature-grid{grid-template-columns:1fr;} }
+
+  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .cta span{font-family:var(--serif);font-size:16px;}
+  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--teal);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
+
+  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
+  .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
+  .related-card:hover{border-color:rgba(255,255,255,0.22);}
+  .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
+  .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+<div class="progress" id="progressBar"></div>
+<div class="nav-row">
+  <a href="#" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
+  <a href="/resources" class="back">← Back to Resources</a>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="badge-row">
+      <div class="eyebrow">Article · Product</div>
+      
+    </div>
+    <h1>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</h1>
+    <div class="meta"><span></span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="toc"><div class="toc-label">On this page</div><a href="#l1-zen-rules-the-layer-that-never-needs-explaining">L1 — Zen Rules: the layer that never needs explaining</a>
+<a href="#l2-zen-models-the-layer-that-gets-better-with-data">L2 — Zen Models: the layer that gets better with data</a>
+<a href="#l3-ask-iris-the-layer-that-speaks-your-language">L3 — Ask Iris: the layer that speaks your language</a>
+<a href="#why-the-split-matters">Why the split matters</a></div>
+  <div class="content">
+<p><em>7 min read · Product</em></p>
+<p>Every operator we talk to has the same instinct when they hear "AI Decision Platform": they picture one big model that reads everything and tells you what to do. That's not how Iris works, and that's on purpose.</p>
+<p>Iris is built from three layers that do different jobs. Understanding the split matters, because it's the difference between an AI system you can trust with a live restaurant floor and one you have to babysit.</p>
+<h2 id="l1-zen-rules-the-layer-that-never-needs-explaining">L1 — Zen Rules: the layer that never needs explaining</h2>
+<p>At the bottom is a set of deterministic rules. If COGS crosses a threshold on a given shift, if a cold-chain temperature reading falls outside spec, if a delivery time exceeds its SLA — Zen Rules catches it immediately, every time, with zero ambiguity about why.</p>
+<p>Rules don't "learn" and they don't drift. That's the point. For anything safety-critical or compliance-critical — HACCP checks, price-floor breaches, portion tolerances — you want a layer that behaves exactly the same way on day one and day one thousand. Zen Rules is the layer your team never has to argue with, because there's nothing to interpret. It either fired or it didn't, and the condition that fired it is written down in plain language.</p>
+<p>This is also the fastest layer. A rule evaluates in milliseconds against live data, which is why it's the first line of defense for anything time-sensitive on the floor.</p>
+<h2 id="l2-zen-models-the-layer-that-gets-better-with-data">L2 — Zen Models: the layer that gets better with data</h2>
+<p>Above the rules sit Iris's forecasting models — gradient-boosted trees (LightGBM and GBT under the hood) trained on your own operational history. This is where Iris moves from "did something cross a line" to "what's likely to happen next."</p>
+<p>Zen Models forecast things like expected order volume by hour, COGS trajectory under current demand, labour needs by shift, and delivery load by route. Unlike a rule, a model doesn't need a hard threshold to be useful — it can tell you that Thursday's dinner rush is tracking 12% above forecast before the rush actually happens, giving a manager time to act instead of just a report to read afterward.</p>
+<p>Models are retrained on your data, not a generic industry benchmark, which is why the same Zen Model architecture gives different, specific answers for a 12-unit bakery chain and a 140-unit QSR group.</p>
+<h2 id="l3-ask-iris-the-layer-that-speaks-your-language">L3 — Ask Iris: the layer that speaks your language</h2>
+<p>The top layer is where most people actually meet Iris day to day. Ask Iris takes a plain-language question — "what was Android order volume last hour," "how does Austria's COGS compare to plan," "give me this week's revenue by market" — and turns it into a governed query against your real data, safely.</p>
+<p>"Safely" is doing real work in that sentence. Ask Iris runs inside read-only scopes, every query is logged, and it never has write access to your systems. It's built so that a shift lead or a CFO can ask a direct question and get a direct answer, without waiting on a report or learning SQL, and without opening a door that shouldn't be open.</p>
+<h2 id="why-the-split-matters">Why the split matters</h2>
+<p>The reason Iris is organized this way — rules, then models, then language — is that each layer earns trust differently. You trust Zen Rules because it's transparent and unchanging. You trust Zen Models because they're tested against your own outcomes over time. You trust Ask Iris because it's constrained to only ever tell you the truth about your own data, nothing more.</p>
+<p>Put together, the three layers mean Iris can catch a portion-drift issue on the line (L1), forecast that it'll cost you two points of margin by month-end if unaddressed (L2), and let your COO ask "how bad is it, exactly" in plain English and get a real answer in seconds (L3). That's the whole idea: not one model trying to do everything, but three layers, each doing the one thing it's actually good at.</p>
+  </div>
+  <div class="cta">
+    <span>Want to see this running on a live scorecard?</span>
+    <a href="/contact" data-book="walkthrough">Book a demo</a>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Related resources</div>
+    <div class="related-grid">
+<a class="related-card" href="/resources/why-cogs-drifts-before-anyone-notices"><div class="rc-type">Article</div><div class="rc-title">Why COGS drifts before anyone notices</div></a>
+<a class="related-card" href="/resources/buyers-guide-evaluating-an-ai-decision-platform"><div class="rc-type">Whitepaper</div><div class="rc-title">Buyer's Guide: Evaluating an AI Decision Platform for F&B Operations</div></a>
+<a class="related-card" href="/resources/why-pos-data-alone-cant-tell-you-whats-happening"><div class="rc-type">Article</div><div class="rc-title">Why your POS data alone can't tell you what's happening</div></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progressBar');
+  function update(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', update);
+  update();
+})();
+</script>
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+<script src="/booking.js" defer></script>
+</body>
+</html>

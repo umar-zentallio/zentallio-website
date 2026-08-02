@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Balanced Scorecard for Multi-Outlet F&B Operators — Zentallio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05080F; --bg-1:#070C18; --panel:#0A0F1C;
+    --teal:#15F2F2; --magenta:#ff2d95; --mint:#3FD9A4; --amber:#E5A24B; --violet:#9B7BFF;
+    --ink-0:#F3F5FA; --ink-1:#B9C2D6; --ink-2:#7C879E; --line:rgba(255,255,255,0.08);
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:var(--teal);}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--mint);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--mint);}
+
+  .nav-row{position:sticky;top:0;z-index:50;background:rgba(5,8,15,0.88);backdrop-filter:blur(10px);max-width:100%;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
+  .nav-z{width:24px;height:24px;border-radius:6px;background:linear-gradient(150deg,var(--teal),#0a8f8f);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#00201f;}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
+  .back:hover{color:var(--ink-0);}
+
+  .hero{
+    background:radial-gradient(60% 100% at 15% 0%, rgba(63,217,164,0.10), transparent 65%), var(--bg-1);
+    border-bottom:1px solid var(--line);padding:52px 32px 40px;
+  }
+  .hero-in{max-width:760px;margin:0 auto;}
+  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);display:flex;align-items:center;gap:8px;}
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint);}
+  .pdeck-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#2b1a02;background:var(--amber);padding:3px 9px;border-radius:8px;font-weight:600;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
+
+  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
+
+  .toc{
+    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
+  }
+  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
+  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
+  .toc a:hover{color:var(--mint);border-left-color:var(--mint);}
+
+  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
+  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
+  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
+  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
+  .content li{margin-bottom:8px;}
+  .content strong{color:var(--ink-0);}
+  .content em{color:var(--mint);font-style:italic;}
+  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+
+  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0 32px;}
+  .feature-card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 20px;}
+  .feature-card h4{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink-0);margin-bottom:10px;}
+  .feature-card ul{margin:0 0 0 18px;}
+  .feature-card li{font-size:13.5px;color:var(--ink-1);margin-bottom:6px;}
+  @media (max-width:640px){ .feature-grid{grid-template-columns:1fr;} }
+
+  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .cta span{font-family:var(--serif);font-size:16px;}
+  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--mint);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
+
+  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
+  .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
+  .related-card:hover{border-color:rgba(255,255,255,0.22);}
+  .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
+  .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+<div class="progress" id="progressBar"></div>
+<div class="nav-row">
+  <a href="#" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
+  <a href="/resources" class="back">← Back to Resources</a>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="badge-row">
+      <div class="eyebrow">Whitepaper · Strategy & Operations</div>
+      
+    </div>
+    <h1>The Balanced Scorecard for Multi-Outlet F&B Operators</h1>
+    <div class="meta"><span></span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="toc"><div class="toc-label">On this page</div><a href="#introduction">Introduction</a>
+<a href="#why-four-dimensions-and-why-together">Why four dimensions, and why together</a>
+<a href="#why-ai-learning-belongs-on-the-scorecard-at-all">Why "AI-Learning" belongs on the scorecard at all</a>
+<a href="#reading-the-scorecard-as-one-system-not-four-reports">Reading the scorecard as one system, not four reports</a>
+<a href="#what-this-requires-operationally">What this requires operationally</a>
+<a href="#common-mistakes-when-building-a-scorecard-like-this">Common mistakes when building a scorecard like this</a>
+<a href="#conclusion">Conclusion</a></div>
+  <div class="content">
+<p><em>Whitepaper · 18 min read · Strategy &amp; Operations</em></p>
+<h2 id="introduction">Introduction</h2>
+<p>Most multi-outlet F&amp;B groups run on four separate reporting habits: a monthly finance pack, a weekly ops report, a quarterly customer survey, and whatever ad-hoc analysis someone in the data team can pull together when leadership asks a pointed question. Each one is built by a different team, on a different cadence, often from a different source of truth. By the time all four land on an executive's desk, they rarely agree with each other — and none of them answer the question that actually matters: <strong>is this business getting better or worse, right now, and why?</strong></p>
+<p>This whitepaper lays out a simpler model: a single Balanced Scorecard built around four dimensions — Financial, Customer, Operational, and AI-Learning — read together, continuously, instead of stitched together after the fact.</p>
+<h2 id="why-four-dimensions-and-why-together">Why four dimensions, and why together</h2>
+<p>The classic Balanced Scorecard framework (Financial, Customer, Internal Process, Learning &amp; Growth) has been used in enterprise strategy for decades because it resists the trap of optimizing one number at the expense of everything else. A restaurant group can improve COGS by cutting portions — and lose customers doing it. It can improve customer satisfaction by over-staffing every shift — and lose the margin gains that made the business viable. The point of reading all four together is that each one acts as a check on the others.</p>
+<p>For an operator running many outlets, we adapt the classic model slightly:</p>
+<ul>
+<li><strong>Financial</strong> — net margin, COGS as a percentage of revenue, and the underlying trend, not just the trailing month's total.</li>
+<li><strong>Customer</strong> — repeat-order rate and Net Promoter Score, the two signals that most reliably predict whether growth is durable or borrowed from future churn.</li>
+<li><strong>Operational</strong> — on-time delivery rate and average delivery time, the two metrics that translate most directly into whether a customer's experience matched what was promised.</li>
+<li><strong>AI-Learning</strong> — forecast accuracy and the number of active models informing decisions, which sounds unusual to include on a scorecard but matters more than most operators assume (see below).</li>
+</ul>
+<h2 id="why-ai-learning-belongs-on-the-scorecard-at-all">Why "AI-Learning" belongs on the scorecard at all</h2>
+<p>Most scorecards stop at three dimensions and treat forecasting as a back-office function rather than a strategic one. We include it as a fourth pillar for a specific reason: in a multi-outlet business, the quality of your forecasts directly determines how early you can catch a problem in the other three dimensions.</p>
+<p>If your forecast accuracy is high and your model coverage is broad, a financial or operational anomaly gets caught in days. If forecast accuracy is low, the same anomaly gets caught in a monthly close — three to six weeks later, after it's compounded across every location running the same pattern. Tracking forecast accuracy as its own scorecard metric keeps that lag visible instead of invisible.</p>
+<h2 id="reading-the-scorecard-as-one-system-not-four-reports">Reading the scorecard as one system, not four reports</h2>
+<p>The real value of the four-dimension model isn't any single metric — it's the causal chains between them. A well-run scorecard reads like a story, not a table:</p>
+<ol>
+<li>A <strong>financial</strong> signal moves — COGS drifts above its threshold on a specific shift.</li>
+<li>The <strong>operational</strong> layer traces it to a cause — three high-volume items showing portion drift, not a supplier price change.</li>
+<li>A fix is applied — a portion re-spec plus a small, targeted price move on those items.</li>
+<li>The <strong>AI-learning</strong> layer confirms the fix worked — the forecast model shows the metric returning to trend within the expected window.</li>
+<li><strong>Customer</strong> signals are checked as a guardrail — repeat-order rate and NPS are monitored to confirm the fix didn't damage the experience it was meant to protect.</li>
+</ol>
+<p>That's a single narrative, traceable start to finish, instead of four disconnected reports that each show a different slice of the same underlying event.</p>
+<h2 id="what-this-requires-operationally">What this requires operationally</h2>
+<p>A scorecard like this only works if the underlying data is live, not batched. Monthly finance exports and quarterly customer surveys can populate a slide deck, but they can't support the "detected → understood → fixed → confirmed" loop described above, because each step depends on the previous one resolving in days, not weeks.</p>
+<p>In practice this means:</p>
+<ul>
+<li>Financial and operational data need to be readable at the shift level, not just the monthly level.</li>
+<li>Forecasting models need to run continuously against live data, not on a quarterly refresh cycle.</li>
+<li>Someone — a person or a system — needs to be actively watching the connections between dimensions, not just the dimensions themselves. This is the role an AI decision layer plays: not replacing the scorecard, but keeping all four parts of it in the same conversation in real time.</li>
+</ul>
+<h2 id="common-mistakes-when-building-a-scorecard-like-this">Common mistakes when building a scorecard like this</h2>
+<p><strong>Treating it as a dashboard instead of a decision tool.</strong> A scorecard with four quadrants of numbers is not the same as a scorecard that tells you what to do next. If a metric moving doesn't lead somewhere — a cause, a recommended fix, a way to confirm it worked — it's just a prettier version of the same four disconnected reports.</p>
+<p><strong>Picking too many metrics per dimension.</strong> Two per pillar, eight total, is enough. More than that and the scorecard becomes another report nobody reads cover to cover — which defeats the purpose of consolidating four reports into one.</p>
+<p><strong>Reviewing it on the wrong cadence.</strong> Financial and operational metrics move week to week; customer sentiment moves more slowly. A scorecard reviewed monthly will miss the early financial and operational signals it exists to catch. Weekly review, with daily exception-based alerts for anything crossing a threshold, matches the actual pace at which multi-outlet operations move.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>A Balanced Scorecard isn't a new report to add to the pile — it's a replacement for the four separate ones most operators already run, built around a simple idea: financial, customer, operational, and forecasting signals are not four different stories about the business. They're one story, told from four angles, and it only makes sense read together.</p>
+  </div>
+  <div class="cta">
+    <span>Want to see this running on a live scorecard?</span>
+    <a href="/contact" data-book="walkthrough">Book a demo</a>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Related resources</div>
+    <div class="related-grid">
+<a class="related-card" href="/resources/buyers-guide-evaluating-an-ai-decision-platform"><div class="rc-type">Whitepaper</div><div class="rc-title">Buyer's Guide: Evaluating an AI Decision Platform for F&B Operations</div></a>
+<a class="related-card" href="/resources/why-cogs-drifts-before-anyone-notices"><div class="rc-type">Article</div><div class="rc-title">Why COGS drifts before anyone notices</div></a>
+<a class="related-card" href="/resources/numerus-cfo-ledger-platform"><div class="rc-type">Pitch Deck</div><div class="rc-title">Numerus — The CFO Ledger Platform</div></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progressBar');
+  function update(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', update);
+  update();
+})();
+</script>
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+<script src="/booking.js" defer></script>
+</body>
+</html>
