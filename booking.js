@@ -170,16 +170,22 @@
   function body() {
     return root.querySelector(".zbook-body");
   }
+  function isOpen() {
+    return root && !root.hasAttribute("hidden");
+  }
   function open(kind, opts) {
     build();
     opts = opts || {};
+    // Two presentations: a docked, non-blocking chat "panel" (Ask Iris launcher)
+    // and a centered "modal" (booking CTAs).
+    var mode = opts.mode || "modal";
     state = { type: kind === "call" ? "call" : "walkthrough", chat: [] };
     if (opts.email && validEmail(opts.email)) state.email = opts.email;
+    root.classList.toggle("zbook-panel", mode === "panel");
     root.removeAttribute("hidden");
-    document.body.style.overflow = "hidden";
-    // If the visitor already gave a valid email (e.g. from a page's email-capture
-    // CTA), open straight to the pre-filled Quick form; otherwise start with Iris.
-    var tab = opts.tab || (state.email ? "form" : "chat");
+    document.body.style.overflow = mode === "modal" ? "hidden" : ""; // only the modal locks scroll
+    // panel → chat; modal → the Quick form (pre-filled if we have an email), unless told otherwise
+    var tab = opts.tab || (mode === "panel" ? "chat" : state.email ? "form" : "form");
     root.querySelector('.zbook-tabs button[data-tab="' + tab + '"]').click();
   }
   function close() {
@@ -407,7 +413,8 @@
       if (!node || !isBookingCta(node)) return;
       e.preventDefault();
       e.stopPropagation();
-      open(kindFrom(node), { email: emailNear(node) });
+      // A booking CTA → the centered booking modal (Quick form), email carried over.
+      open(kindFrom(node), { mode: "modal", tab: "form", email: emailNear(node) });
     },
     true // capture, so we win over existing page handlers
   );
@@ -455,7 +462,9 @@
     b.type = "button";
     b.setAttribute("aria-label", "Ask Iris — questions or book a walkthrough");
     b.addEventListener("click", function () {
-      open("walkthrough", { tab: "chat" });
+      // toggle the docked chat panel
+      if (isOpen() && root.classList.contains("zbook-panel")) close();
+      else open("walkthrough", { mode: "panel", tab: "chat" });
     });
     document.body.appendChild(b);
   }
@@ -528,10 +537,14 @@
    * scripted bot whose launcher is now hidden. booking.js is deferred, so it
    * runs after those definitions — reroute every legacy entry point to the one
    * global Iris so no old trigger is left dangling. */
-  ["toggleZen", "askZen", "bookCall", "openZen", "askAbout"].forEach(function (fn) {
+  ["toggleZen", "askZen", "openZen", "askAbout"].forEach(function (fn) {
     window[fn] = function () {
-      open("walkthrough", { tab: "chat" });
+      open("walkthrough", { mode: "panel", tab: "chat" }); // "ask" → chat panel
       return false;
     };
   });
+  window.bookCall = function () {
+    open("call", { mode: "modal", tab: "form" }); // "book" → booking modal
+    return false;
+  };
 })();
