@@ -1,0 +1,9 @@
+# Secrets — never commit. Keys live in a local .env (dev) or /etc/zentallio/api.env (server).
+.env
+.env.*
+*.env
+
+# Dependencies / OS / editor cruft
+node_modules/
+.DS_Store
+*.log
