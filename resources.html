@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="zentallio-version" content="Resources-v1.0">
+<title>Resources — Zentallio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05080F;
+    --bg-1:#070C18;
+    --teal:#15F2F2;
+    --magenta:#ff2d95;
+    --mint:#3FD9A4;
+    --amber:#E5A24B;
+    --violet:#9B7BFF;
+    --ink-0:#F3F5FA;
+    --ink-1:#B9C2D6;
+    --ink-2:#7C879E;
+    --line:rgba(255,255,255,0.08);
+    --card:rgba(255,255,255,0.03);
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-0);
+    color:var(--ink-0);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  .site-nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(5,8,15,0.82);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    max-width:1180px;margin:0 auto;padding:0 32px;
+    height:68px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:.01em;}
+  .nav-z{
+    width:26px;height:26px;border-radius:7px;
+    background:linear-gradient(150deg, var(--teal), #0a8f8f);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:600;font-size:13px;color:#00201f;
+  }
+  .nav-links{display:flex;gap:34px;font-size:14px;color:var(--ink-1);}
+  .nav-links a{transition:color .18s;}
+  .nav-links a:hover{color:var(--ink-0);}
+  .nav-links a.active{color:var(--teal);}
+  .nav-cta{
+    font-family:var(--mono);font-size:12.5px;font-weight:500;
+    color:var(--bg-0);background:var(--teal);
+    padding:9px 18px;border-radius:8px;letter-spacing:.02em;
+  }
+  @media (max-width:860px){ .nav-links{display:none;} }
+
+  /* ---------- PAGE HERO ---------- */
+  .rhero{
+    position:relative;overflow:hidden;
+    padding:88px 0 64px;
+    background:
+      radial-gradient(60% 55% at 18% 0%, rgba(21,242,242,0.10), transparent 60%),
+      radial-gradient(50% 50% at 88% 20%, rgba(255,45,149,0.08), transparent 60%),
+      var(--bg-1);
+    border-bottom:1px solid var(--line);
+  }
+  .rhero-eyebrow{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .rhero-eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);}
+  .rhero h1{
+    font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,58px);
+    line-height:1.06;letter-spacing:-.01em;max-width:760px;
+  }
+  .rhero h1 em{font-style:italic;font-weight:500;color:var(--teal);}
+  .rhero p{
+    margin-top:20px;max-width:560px;color:var(--ink-1);font-size:17px;line-height:1.6;
+  }
+  .rsearch{
+    margin-top:36px;display:flex;align-items:center;gap:10px;
+    max-width:460px;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:13px 16px;
+  }
+  .rsearch svg{flex:none;opacity:.5;}
+  .rsearch input{
+    flex:1;background:none;border:none;outline:none;color:var(--ink-0);
+    font-family:var(--mono);font-size:13.5px;
+  }
+  .rsearch input::placeholder{color:var(--ink-2);}
+
+  /* ---------- IRIS PICKS ---------- */
+  .iris-picks{padding:56px 0 8px;}
+  .ip-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+  .ip-orb{
+    width:22px;height:22px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 35% 30%, #ffb7dd, var(--magenta) 65%, #7a0f47);
+    box-shadow:0 0 16px rgba(255,45,149,.55);
+  }
+  .ip-head h2{font-family:var(--serif);font-weight:500;font-size:20px;}
+  .ip-head span{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);letter-spacing:.04em;margin-left:2px;}
+  .ip-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .ip-card{
+    display:block;
+    border:1px solid rgba(255,45,149,0.25);
+    background:linear-gradient(180deg, rgba(255,45,149,0.07), rgba(255,255,255,0.02));
+    border-radius:14px;padding:20px;transition:border-color .2s,transform .2s;
+  }
+  .ip-card:hover{border-color:rgba(255,45,149,0.55);transform:translateY(-2px);}
+  .ip-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta);}
+  .ip-card h3{font-family:var(--serif);font-weight:500;font-size:16.5px;margin:10px 0 8px;line-height:1.3;}
+  .ip-card p{font-size:13px;color:var(--ink-1);line-height:1.55;}
+  .ip-why{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px;}
+  .ip-why b{color:var(--ink-1);font-weight:500;}
+
+  /* ---------- FILTER TABS ---------- */
+  .filters{
+    position:sticky;top:68px;z-index:40;
+    background:rgba(5,8,15,0.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);padding:22px 0;margin-top:56px;
+  }
+  .filter-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .ftab{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;
+    padding:9px 16px;border-radius:20px;border:1px solid var(--line);
+    color:var(--ink-1);background:transparent;cursor:pointer;transition:all .18s;
+    display:flex;align-items:center;gap:7px;
+  }
+  .ftab .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.6;}
+  .ftab:hover{border-color:rgba(255,255,255,0.24);color:var(--ink-0);}
+  .ftab.active{background:var(--teal);border-color:var(--teal);color:#00201f;font-weight:600;}
+  .fcount{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--ink-2);}
+
+  /* ---------- GRID ---------- */
+  .rgrid-section{padding:44px 0 20px;}
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .rcard{
+    border:1px solid var(--line);background:var(--card);border-radius:16px;
+    overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s, transform .2s;
+  }
+  .rcard:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-3px);}
+  .rthumb{
+    height:150px;position:relative;
+    display:flex;align-items:center;justify-content:center;
+    border-bottom:1px solid var(--line);
+  }
+  .rthumb.t-article{background:linear-gradient(135deg, rgba(21,242,242,.14), rgba(21,242,242,.02));}
+  .rthumb.t-video{background:linear-gradient(135deg, rgba(229,162,75,.16), rgba(229,162,75,.02));}
+  .rthumb.t-pdf{background:linear-gradient(135deg, rgba(63,217,164,.14), rgba(63,217,164,.02));}
+  .rthumb.t-webinar{background:linear-gradient(135deg, rgba(155,123,255,.14), rgba(155,123,255,.02));}
+  .rthumb .rmono{
+    font-family:var(--mono);font-size:34px;letter-spacing:-.02em;opacity:.25;
+  }
+  .playbtn{
+    position:absolute;width:44px;height:44px;border-radius:50%;
+    background:rgba(5,8,15,0.55);border:1px solid rgba(255,255,255,.3);
+    display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);
+  }
+  .duration-chip{
+    position:absolute;bottom:10px;right:10px;
+    font-family:var(--mono);font-size:10.5px;background:rgba(5,8,15,0.72);
+    padding:3px 8px;border-radius:5px;color:var(--ink-1);border:1px solid var(--line);
+  }
+  .rbody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .rmeta-row{display:flex;align-items:center;gap:8px;}
+  .rbadge{
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 9px;border-radius:5px;border:1px solid;
+  }
+  .rbadge.article{color:var(--teal);border-color:rgba(21,242,242,.35);background:rgba(21,242,242,.06);}
+  .rbadge.video{color:var(--amber);border-color:rgba(229,162,75,.35);background:rgba(229,162,75,.06);}
+  .rbadge.pdf{color:var(--mint);border-color:rgba(63,217,164,.35);background:rgba(63,217,164,.06);}
+  .rbadge.webinar{color:var(--violet);border-color:rgba(155,123,255,.35);background:rgba(155,123,255,.06);}
+  .rsector{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);}
+  .rcard h3{font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.32;}
+  .rcard p.rex{font-size:13px;color:var(--ink-1);line-height:1.55;flex:1;}
+  .rfoot-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:10px;border-top:1px solid var(--line);margin-top:4px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-2);
+  }
+  .rfoot-row .rlink{color:var(--ink-0);font-weight:500;display:flex;align-items:center;gap:5px;}
+  .rfoot-row .rlink svg{width:12px;height:12px;}
+  .rcard.soon{opacity:.62;cursor:default;}
+  .rcard.soon:hover{transform:none;border-color:var(--line);}
+  .rcard.soon .rthumb .rmono{letter-spacing:.06em;font-size:15px;font-family:var(--mono);opacity:.7;}
+  .rcard.soon .rfoot-row .rlink{opacity:1;cursor:pointer;}
+  .rcard.soon .rfoot-row .rlink:hover{color:var(--teal);}
+
+  /* ---------- FEATURED WEBINAR (amber) ---------- */
+  .featwebinar{padding:60px 0;}
+  .fw-card{
+    border:1px solid rgba(229,162,75,0.3);
+    background:linear-gradient(120deg, rgba(229,162,75,0.10), rgba(255,255,255,0.02) 60%);
+    border-radius:20px;padding:38px 40px;
+    display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:center;
+  }
+  .fw-tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--amber);display:flex;align-items:center;gap:8px;margin-bottom:14px;
+  }
+  .fw-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);}
+  .fw-card h2{font-family:var(--serif);font-weight:500;font-size:26px;line-height:1.28;margin-bottom:12px;}
+  .fw-card p{color:var(--ink-1);font-size:14.5px;line-height:1.6;max-width:480px;}
+  .fw-meta{display:flex;gap:22px;margin-top:20px;font-family:var(--mono);font-size:12px;color:var(--ink-2);}
+  .fw-meta b{color:var(--ink-0);font-weight:500;}
+  .fw-side{
+    border:1px solid var(--line);background:rgba(5,8,15,0.4);
+    border-radius:14px;padding:24px;text-align:center;
+  }
+  .fw-side .fwn{font-family:var(--serif);font-size:30px;color:var(--amber);}
+  .fw-side .fwl{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:4px;letter-spacing:.05em;}
+  .fw-btn{
+    margin-top:18px;display:block;width:100%;text-align:center;
+    background:var(--amber);color:#221202;font-weight:600;font-family:var(--mono);
+    font-size:13px;padding:12px;border-radius:9px;letter-spacing:.02em;
+  }
+
+  /* ---------- CUSTOMER STORIES (mint) ---------- */
+  .stories{padding:20px 0 64px;}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:10px;}
+  .sec-head h2{font-family:var(--serif);font-weight:500;font-size:24px;}
+  .sec-head h2 em{color:var(--mint);font-style:italic;}
+  .sec-head .sub{font-family:var(--mono);font-size:12px;color:var(--ink-2);}
+  .story-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .story-card{
+    border:1px solid var(--line);background:var(--card);border-radius:14px;
+    padding:22px 20px;display:flex;flex-direction:column;gap:12px;
+  }
+  .story-logo{
+    font-family:var(--serif);font-weight:500;font-size:16px;color:var(--ink-0);
+  }
+  .story-tag{font-family:var(--mono);font-size:10px;color:var(--mint);letter-spacing:.06em;text-transform:uppercase;}
+  .story-card p{font-size:13px;color:var(--ink-1);line-height:1.55;flex:1;}
+  .story-stat{
+    font-family:var(--mono);font-size:12px;color:var(--ink-0);
+    border-top:1px solid var(--line);padding-top:10px;
+  }
+  .story-stat b{color:var(--mint);font-weight:600;}
+
+  /* ---------- PDF LIBRARY ---------- */
+  .library{padding:20px 0 70px;}
+  .lib-list{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);}
+  .lib-row{
+    display:grid;grid-template-columns:auto 1fr auto auto;gap:20px;align-items:center;
+    padding:18px 24px;border-bottom:1px solid var(--line);
+  }
+  .lib-row:last-child{border-bottom:none;}
+  .lib-row:hover{background:rgba(255,255,255,0.02);}
+  .lib-icon{
+    width:38px;height:38px;border-radius:9px;flex:none;
+    background:rgba(63,217,164,0.10);border:1px solid rgba(63,217,164,0.3);
+    display:flex;align-items:center;justify-content:center;color:var(--mint);
+  }
+  .lib-title{font-family:var(--sans);font-weight:600;font-size:14.5px;}
+  .lib-sub{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:3px;}
+  .lib-size{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);white-space:nowrap;}
+  .lib-dl{
+    font-family:var(--mono);font-size:11.5px;color:var(--mint);white-space:nowrap;
+    display:flex;align-items:center;gap:6px;font-weight:500;
+  }
+  @media (max-width:700px){ .lib-row{grid-template-columns:auto 1fr;} .lib-size,.lib-dl{display:none;} }
+
+  /* ---------- NEWSLETTER ---------- */
+  .nl{padding:10px 0 80px;}
+  .nl-card{
+    border:1px solid var(--line);border-radius:20px;
+    background:radial-gradient(80% 100% at 15% 0%, rgba(21,242,242,.08), transparent 60%);
+    padding:44px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
+  }
+  .nl-card h2{font-family:var(--serif);font-weight:500;font-size:22px;max-width:380px;line-height:1.3;}
+  .nl-form{display:flex;gap:10px;flex:1;min-width:280px;max-width:420px;}
+  .nl-form input{
+    flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--line);
+    border-radius:9px;padding:13px 16px;color:var(--ink-0);font-family:var(--mono);font-size:13px;outline:none;
+  }
+  .nl-form input::placeholder{color:var(--ink-2);}
+  .nl-form button{
+    font-family:var(--mono);font-size:13px;font-weight:600;background:var(--teal);
+    color:#00201f;border:none;border-radius:9px;padding:0 20px;cursor:pointer;white-space:nowrap;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{border-top:1px solid var(--line);padding:56px 0 30px;background:var(--bg-1);}
+  .foot-top{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:30px;padding-bottom:40px;}
+  .foot-brand{display:flex;flex-direction:column;gap:14px;}
+  .foot-brand-row{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
+  .foot-tag{color:var(--ink-2);font-size:13px;max-width:220px;line-height:1.5;}
+  .foot-social{display:flex;gap:10px;margin-top:6px;}
+  .foot-social a{
+    width:32px;height:32px;border-radius:8px;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--ink-1);transition:.18s;
+  }
+  .foot-social a:hover{border-color:var(--teal);color:var(--teal);}
+  .foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;}
+  .foot-col a{display:block;font-size:13.5px;color:var(--ink-1);margin-bottom:10px;}
+  .foot-col a:hover{color:var(--ink-0);}
+  .foot-bottom{
+    border-top:1px solid var(--line);padding-top:22px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-2);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+  @media (max-width:900px){ .foot-top{grid-template-columns:1fr 1fr;} }
+  @media (max-width:640px){ .foot-top{grid-template-columns:1fr;} }
+
+  @media (max-width:980px){
+    .rgrid{grid-template-columns:repeat(2,1fr);}
+    .ip-row{grid-template-columns:repeat(2,1fr);}
+    .story-row{grid-template-columns:repeat(2,1fr);}
+    .fw-card{grid-template-columns:1fr;}
+  }
+  @media (max-width:620px){
+    .rgrid{grid-template-columns:1fr;}
+    .ip-row{grid-template-columns:1fr;}
+    .story-row{grid-template-columns:1fr;}
+  }
+
+  [hidden]{display:none !important;}
+
+  /* mobile: stop the newsletter form overflowing */
+  @media(max-width:520px){.nl-form{flex-wrap:wrap;min-width:0;}.nl-form input,.nl-form button{width:100%;}}
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-row">
+    <a href="/" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
+    <div class="nav-links">
+      <a href="/food/food-beverage-solutions">Product</a>
+      <a href="/fashion/sector-solutions">Sectors</a>
+      <a href="/resources" class="active">Resources</a>
+      <a href="/about">Company</a>
+    </div>
+    <a href="/contact" data-book="walkthrough" class="nav-cta">Book a demo</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="rhero">
+  <div class="wrap">
+    <div class="rhero-eyebrow">Resources</div>
+    <h1>Everything Iris has<br>learned, <em>written down.</em></h1>
+    <p>Articles, product walkthroughs, whitepapers, and live sessions on running Food &amp; Beverage operations with an AI Decision Platform — from Zen Rules to Ask Iris.</p>
+    <div class="rsearch">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search resources — e.g. 'COGS forecasting'">
+    </div>
+  </div>
+</header>
+
+<!-- ===== IRIS PICKS ===== -->
+<section class="iris-picks">
+  <div class="wrap">
+    <div class="ip-head">
+      <div class="ip-orb"></div>
+      <h2>Iris picks for you</h2>
+      <span>— curated from what operators like you read first</span>
+    </div>
+    <div class="ip-row">
+      <a class="ip-card" href="/resources/zen-rules-zen-models-ask-iris">
+        <div class="ip-tag">Article</div>
+        <h3>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</h3>
+        <p>Why Iris isn't one big model — and why splitting deterministic rules, forecasting models, and plain-language query into three layers is what makes it trustworthy.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> The most useful first read for anyone new to the product</div>
+      </a>
+      <a class="ip-card" href="/resources/why-cogs-drifts-before-anyone-notices">
+        <div class="ip-tag">Article</div>
+        <h3>Why COGS drifts before anyone notices</h3>
+        <p>How portion drift on a few high-volume items quietly moves margin for weeks before it shows up on a P&amp;L — and why the fix is usually smaller than a price hike.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> The most common question we get from multi-outlet operators</div>
+      </a>
+      <a class="ip-card" href="/resources/balanced-scorecard-for-multi-outlet-fb">
+        <div class="ip-tag">Whitepaper</div>
+        <h3>The Balanced Scorecard for multi-outlet F&amp;B operators</h3>
+        <p>A framework for reading Financial, Customer, Operational, and AI-Learning signals as one story instead of four disconnected reports.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> Pairs directly with the live scorecard on the product page</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTERS ===== -->
+<div class="filters">
+  <div class="wrap filter-row">
+    <button class="ftab active" data-filter="all">All resources</button>
+    <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
+    <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
+    <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
+    <span class="fcount"><span id="fcountNum">13</span> results</span>
+  </div>
+</div>
+
+<!-- ===== GRID ===== -->
+<section class="rgrid-section">
+  <div class="wrap">
+    <div class="rgrid" id="rgrid">
+
+      <a class="rcard" data-type="article" href="/resources/zen-rules-zen-models-ask-iris">
+        <div class="rthumb t-article"><span class="rmono">L1·L2·L3</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Product</span></div>
+          <h3>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</h3>
+          <p class="rex">Why Iris isn't one big model — and why three layers, each doing one job well, is what makes it trustworthy on a live floor.</p>
+          <div class="rfoot-row"><span>7 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="article" href="/resources/why-cogs-drifts-before-anyone-notices">
+        <div class="rthumb t-article"><span class="rmono">L1</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Operations</span></div>
+          <h3>Why COGS drifts before anyone notices</h3>
+          <p class="rex">Portion drift on a handful of high-volume items quietly moves margin for weeks before it hits the P&amp;L — and the fix is usually smaller than a price hike. Paired with a narrated video walkthrough below.</p>
+          <div class="rfoot-row"><span>6 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="article" href="/resources/the-real-cost-of-manual-reconciliation">
+        <div class="rthumb t-article"><span class="rmono">$</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Finance</span></div>
+          <h3>The real cost of manual reconciliation</h3>
+          <p class="rex">Most F&amp;B finance teams spend close week proving numbers that were already true. What changes when the ledger reconciles continuously instead.</p>
+          <div class="rfoot-row"><span>5 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="article" href="/resources/why-pos-data-alone-cant-tell-you-whats-happening">
+        <div class="rthumb t-article"><span class="rmono">POS</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Operations</span></div>
+          <h3>Why your POS data alone can't tell you what's happening</h3>
+          <p class="rex">Every system in your stack tells a partial truth. What changes once they're on the same timeline instead of four separate reports.</p>
+          <div class="rfoot-row"><span>5 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="article" href="/resources/scheduling-is-a-cost-lever-not-just-a-headache">
+        <div class="rthumb t-article"><span class="rmono">⏱</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Operations</span></div>
+          <h3>Scheduling is a cost lever, not just a headache</h3>
+          <p class="rex">A schedule moves labor cost, service speed, and food cost at once — most tools only optimize for the first one.</p>
+          <div class="rfoot-row"><span>5 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/balanced-scorecard-for-multi-outlet-fb">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Whitepaper</span><span class="rsector">Strategy &amp; Ops</span></div>
+          <h3>The Balanced Scorecard for multi-outlet F&amp;B operators</h3>
+          <p class="rex">A framework for reading Financial, Customer, Operational, and AI-Learning signals as one story instead of four disconnected reports.</p>
+          <div class="rfoot-row"><span>18 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/buyers-guide-evaluating-an-ai-decision-platform">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Whitepaper</span><span class="rsector">Buyer's Guide</span></div>
+          <h3>Buyer's guide: evaluating an AI Decision Platform</h3>
+          <p class="rex">The architecture, data, usability, and commercial questions that separate a platform that holds up in production from one that only holds up in a demo.</p>
+          <div class="rfoot-row"><span>15 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/pos-point-of-sale-integration">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">POS</span></div>
+          <h3>POS — Point-of-Sale Integration Layer</h3>
+          <p class="rex">One connector standard across every POS you already run, streaming real-time transaction data into everything else Iris does.</p>
+          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/numerus-cfo-ledger-platform">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Numerus</span></div>
+          <h3>Numerus — The CFO Ledger Platform</h3>
+          <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
+          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/nexus-integration-connectivity-hub">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Nexus</span></div>
+          <h3>Nexus — The Integration &amp; Connectivity Hub</h3>
+          <p class="rex">Every source system — POS, delivery, suppliers, payroll — on one shared timeline, so a cross-system question has one place to be answered.</p>
+          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/manus-workforce-operations-management">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Manus</span></div>
+          <h3>Manus — Workforce &amp; Operations Management</h3>
+          <p class="rex">Scheduling that treats labor as a lever connected to food cost and compliance — not a standalone staffing exercise.</p>
+          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="pdf" href="/resources/motus-supply-chain-inventory-movement">
+        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Motus</span></div>
+          <h3>Motus — Supply Chain &amp; Inventory Movement</h3>
+          <p class="rex">Inventory tracked from receiving to plate — so a food-cost variance traces back to an actual event, not a shrug at month-end.</p>
+          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="video" href="/resources/Zentallio-COGS-Tour-with-Audio.mp4">
+        <div class="rthumb t-video"><div class="playbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--ink-0)"><path d="M8 5v14l11-7z"/></svg></div><span class="duration-chip">1:30</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge video">Demo video</span><span class="rsector">COGS Control Center</span></div>
+          <h3>Inside the COGS Control Center</h3>
+          <p class="rex">A narrated walkthrough of the COGS workbench — network overview, heads, item groups, alerts, forecast, and the final call, screen by screen.</p>
+          <div class="rfoot-row"><span>1:30 watch</span><span class="rlink">Watch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CUSTOMER STORIES (mint) ===== -->
+<section class="stories">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Built for operators like <em>these</em></h2>
+      <span class="sub">Case studies coming soon</span>
+    </div>
+    <div class="story-row">
+      <div class="story-card">
+        <div class="story-logo">Steak Away</div>
+        <div class="story-tag">F&amp;B · QSR</div>
+        <p>Portion-level COGS visibility across every grill station, watched continuously instead of at month-end close.</p>
+        <div class="story-stat">Full case study <b>coming soon</b></div>
+      </div>
+      <div class="story-card">
+        <div class="story-logo">Dagwood</div>
+        <div class="story-tag">F&amp;B · Casual dining</div>
+        <p>Delivery-time alerts routed straight to shift leads instead of sitting in an end-of-day report nobody opened.</p>
+        <div class="story-stat">Full case study <b>coming soon</b></div>
+      </div>
+      <div class="story-card">
+        <div class="story-logo">Sweet Crème</div>
+        <div class="story-tag">F&amp;B · Bakery-café</div>
+        <p>Ask Iris replaces a weekly spreadsheet request to the finance team with a question anyone on shift can ask directly.</p>
+        <div class="story-stat">Full case study <b>coming soon</b></div>
+      </div>
+      <div class="story-card">
+        <div class="story-logo">NY212</div>
+        <div class="story-tag">F&amp;B · Multi-format</div>
+        <p>One scorecard across formats that used to report on separate spreadsheets with separate totals.</p>
+        <div class="story-stat">Full case study <b>coming soon</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="nl">
+  <div class="wrap">
+    <div class="nl-card">
+      <h2>New resources land here first — before the blog even knows about them.</h2>
+      <form class="nl-form" onsubmit="return false;">
+        <input type="email" placeholder="you@company.com" required>
+        <button type="submit">Notify me</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.ftab');
+  var cards = document.querySelectorAll('#rgrid .rcard');
+  var countEl = document.getElementById('fcountNum');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      var f = tab.getAttribute('data-filter');
+      var visible = 0;
+      cards.forEach(function(c){
+        var show = (f === 'all' || c.getAttribute('data-type') === f);
+        c.hidden = !show;
+        if (show) visible++;
+      });
+      countEl.textContent = visible;
+    });
+  });
+})();
+</script>
+
+<script src="/booking.js" defer></script>
+</body>
+</html>

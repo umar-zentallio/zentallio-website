@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POS — Point-of-Sale Integration Layer — Zentallio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05080F; --bg-1:#070C18; --panel:#0A0F1C;
+    --teal:#15F2F2; --magenta:#ff2d95; --mint:#3FD9A4; --amber:#E5A24B; --violet:#9B7BFF;
+    --ink-0:#F3F5FA; --ink-1:#B9C2D6; --ink-2:#7C879E; --line:rgba(255,255,255,0.08);
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:var(--teal);}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--mint);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--mint);}
+
+  .nav-row{position:sticky;top:0;z-index:50;background:rgba(5,8,15,0.88);backdrop-filter:blur(10px);max-width:100%;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
+  .nav-z{width:24px;height:24px;border-radius:6px;background:linear-gradient(150deg,var(--teal),#0a8f8f);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#00201f;}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
+  .back:hover{color:var(--ink-0);}
+
+  .hero{
+    background:radial-gradient(60% 100% at 15% 0%, rgba(63,217,164,0.10), transparent 65%), var(--bg-1);
+    border-bottom:1px solid var(--line);padding:52px 32px 40px;
+  }
+  .hero-in{max-width:760px;margin:0 auto;}
+  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);display:flex;align-items:center;gap:8px;}
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint);}
+  .pdeck-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#2b1a02;background:var(--amber);padding:3px 9px;border-radius:8px;font-weight:600;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
+
+  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
+
+  .toc{
+    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
+  }
+  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
+  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
+  .toc a:hover{color:var(--mint);border-left-color:var(--mint);}
+
+  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
+  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
+  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
+  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
+  .content li{margin-bottom:8px;}
+  .content strong{color:var(--ink-0);}
+  .content em{color:var(--mint);font-style:italic;}
+  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+
+  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0 32px;}
+  .feature-card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 20px;}
+  .feature-card h4{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink-0);margin-bottom:10px;}
+  .feature-card ul{margin:0 0 0 18px;}
+  .feature-card li{font-size:13.5px;color:var(--ink-1);margin-bottom:6px;}
+  @media (max-width:640px){ .feature-grid{grid-template-columns:1fr;} }
+
+  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .cta span{font-family:var(--serif);font-size:16px;}
+  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--mint);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
+
+  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
+  .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
+  .related-card:hover{border-color:rgba(255,255,255,0.22);}
+  .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
+  .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+<div class="progress" id="progressBar"></div>
+<div class="nav-row">
+  <a href="#" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
+  <a href="/resources" class="back">← Back to Resources</a>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="badge-row">
+      <div class="eyebrow">Pitch Deck · POS</div>
+      <span class="pdeck-badge">Pitch Deck</span>
+    </div>
+    <h1>POS — Point-of-Sale Integration Layer</h1>
+    <div class="meta"><span></span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="toc"><div class="toc-label">On this page</div><a href="#the-problem">The problem</a>
+<a href="#the-product">The product</a>
+<a href="#key-features">Key features</a>
+<a href="#integrates-with">Integrates with</a>
+<a href="#why-zentallio-built-this">Why Zentallio built this</a>
+<a href="#see-it-on-your-data">See it on your data</a></div>
+  <div class="content">
+<p><em>Pitch deck · Product overview · 8 min read</em></p>
+<hr />
+<h2 id="the-problem">The problem</h2>
+<p>Every F&amp;B operator already has a POS system — sometimes three or four different ones across a growing network, after acquisitions, franchise conversions, or just different regional preferences. Each one captures transactions perfectly. None of them were built to feed a decision-making system. Getting clean, timely, structured transaction data out of a POS and into anything else usually means nightly batch exports, brittle CSV pipelines, and a data team babysitting integrations that break every time a POS vendor pushes an update.</p>
+<h2 id="the-product">The product</h2>
+<p><strong>Zentallio POS</strong> is the connection layer between however your restaurants ring up an order and everything Iris does with that data afterward. One connector standard, built once, that speaks to the POS systems already running in your stores — not a request to rip and replace what's on the counter today.</p>
+<h2 id="key-features">Key features</h2>
+<div class="feature-grid"><div class="feature-card"><h4>Universal connectivity</h4><ul>
+<li>Pre-built connectors for the major POS platforms used across U.S., European, and South Asian QSR and casual dining markets</li>
+<li>One integration standard regardless of how many different POS vendors your network runs</li>
+<li>New POS vendor support added without touching your existing store hardware</li>
+</ul></div><div class="feature-card"><h4>Real-time, not batch</h4><ul>
+<li>Transaction data streams as it happens, not on a nightly export</li>
+<li>Order status, modifiers, voids, and refunds captured with full detail, not just the final total</li>
+<li>Sub-second latency from till to Iris in normal operating conditions</li>
+</ul></div><div class="feature-card"><h4>Built for messy reality</h4><ul>
+<li>Offline resilience — a store's internet drop doesn't lose data, it queues and syncs</li>
+<li>Handles multi-terminal stores and split/merged tickets without duplicating or dropping transactions</li>
+<li>Menu and pricing sync keeps item-level data consistent between the POS and every downstream module, so a renamed SKU doesn't silently break a report</li>
+</ul></div><div class="feature-card"><h4>Employee and shift context</h4><ul>
+<li>Every transaction carries who rang it, on what terminal, during which shift</li>
+<li>Feeds directly into labor-cost and item-group analysis without a separate reconciliation step</li>
+</ul></div></div>
+<h2 id="integrates-with">Integrates with</h2>
+<ul>
+<li><strong>Motus</strong> — inventory movement ties directly to what was actually sold, not a manual count reconciliation</li>
+<li><strong>Numerus</strong> — revenue recognition flows straight into the ledger, transaction by transaction</li>
+<li><strong>Manus</strong> — shift-level sales data cross-references against who was scheduled to work it</li>
+<li><strong>Nexus</strong> — POS data joins the same timeline as delivery, supplier, and payroll data</li>
+</ul>
+<h2 id="why-zentallio-built-this">Why Zentallio built this</h2>
+<p>Every other module in this platform assumes clean, timely transaction data exists. It usually doesn't — not because POS vendors do a bad job, but because nobody built the layer that turns "the POS has the data" into "the data is usable everywhere else, in real time." This is that layer.</p>
+<h2 id="see-it-on-your-data">See it on your data</h2>
+<p>Zentallio POS connects to your existing terminals — no hardware change, no register downtime during setup. Ask about connector support for your specific POS vendor.</p>
+<p><strong>Hello@zentallio.com</strong></p>
+  </div>
+  <div class="cta">
+    <span>Want to see this running on a live scorecard?</span>
+    <a href="/contact" data-book="walkthrough">Book a demo</a>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Related resources</div>
+    <div class="related-grid">
+<a class="related-card" href="/resources/nexus-integration-connectivity-hub"><div class="rc-type">Pitch Deck</div><div class="rc-title">Nexus — The Integration & Connectivity Hub</div></a>
+<a class="related-card" href="/resources/numerus-cfo-ledger-platform"><div class="rc-type">Pitch Deck</div><div class="rc-title">Numerus — The CFO Ledger Platform</div></a>
+<a class="related-card" href="/resources/why-pos-data-alone-cant-tell-you-whats-happening"><div class="rc-type">Article</div><div class="rc-title">Why your POS data alone can't tell you what's happening</div></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progressBar');
+  function update(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', update);
+  update();
+})();
+</script>
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+<script src="/booking.js" defer></script>
+</body>
+</html>

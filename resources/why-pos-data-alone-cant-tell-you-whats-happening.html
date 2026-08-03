@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why your POS data alone can't tell you what's happening — Zentallio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05080F; --bg-1:#070C18; --panel:#0A0F1C;
+    --teal:#15F2F2; --magenta:#ff2d95; --mint:#3FD9A4; --amber:#E5A24B; --violet:#9B7BFF;
+    --ink-0:#F3F5FA; --ink-1:#B9C2D6; --ink-2:#7C879E; --line:rgba(255,255,255,0.08);
+    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:var(--teal);}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--teal);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--teal);}
+
+  .nav-row{position:sticky;top:0;z-index:50;background:rgba(5,8,15,0.88);backdrop-filter:blur(10px);max-width:100%;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
+  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
+  .nav-z{width:24px;height:24px;border-radius:6px;background:linear-gradient(150deg,var(--teal),#0a8f8f);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#00201f;}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
+  .back:hover{color:var(--ink-0);}
+
+  .hero{
+    background:radial-gradient(60% 100% at 15% 0%, rgba(21,242,242,0.10), transparent 65%), var(--bg-1);
+    border-bottom:1px solid var(--line);padding:52px 32px 40px;
+  }
+  .hero-in{max-width:760px;margin:0 auto;}
+  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:8px;}
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);}
+  .pdeck-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#2b1a02;background:var(--amber);padding:3px 9px;border-radius:8px;font-weight:600;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
+
+  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
+
+  .toc{
+    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
+  }
+  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
+  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
+  .toc a:hover{color:var(--teal);border-left-color:var(--teal);}
+
+  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
+  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
+  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
+  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
+  .content li{margin-bottom:8px;}
+  .content strong{color:var(--ink-0);}
+  .content em{color:var(--teal);font-style:italic;}
+  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+
+  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0 32px;}
+  .feature-card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 20px;}
+  .feature-card h4{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink-0);margin-bottom:10px;}
+  .feature-card ul{margin:0 0 0 18px;}
+  .feature-card li{font-size:13.5px;color:var(--ink-1);margin-bottom:6px;}
+  @media (max-width:640px){ .feature-grid{grid-template-columns:1fr;} }
+
+  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .cta span{font-family:var(--serif);font-size:16px;}
+  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--teal);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
+
+  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
+  .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
+  .related-card:hover{border-color:rgba(255,255,255,0.22);}
+  .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
+  .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/booking.css">
+</head>
+<body>
+<div class="progress" id="progressBar"></div>
+<div class="nav-row">
+  <a href="#" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
+  <a href="/resources" class="back">← Back to Resources</a>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="badge-row">
+      <div class="eyebrow">Article · Operations</div>
+      
+    </div>
+    <h1>Why your POS data alone can't tell you what's happening</h1>
+    <div class="meta"><span></span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="toc"><div class="toc-label">On this page</div><a href="#every-system-tells-a-partial-truth">Every system tells a partial truth</a>
+<a href="#where-the-real-cost-shows-up">Where the real cost shows up</a>
+<a href="#what-changes-when-systems-are-actually-connected">What changes when systems are actually connected</a>
+<a href="#the-takeaway">The takeaway</a></div>
+  <div class="content">
+<p><em>5 min read · Operations</em></p>
+<p>A point-of-sale system is very good at one thing: recording that a transaction happened. It knows what was ordered, when, for how much, and often by which terminal and which employee. What it doesn't know — because it was never built to know — is why an order was late, whether the ingredients used to make it were on-spec, whether the driver who delivered it was running behind on every stop that hour, or whether the price charged still makes sense given what the ingredients cost this week.</p>
+<p>That's not a flaw in the POS. It's a scope boundary. The problem is when operators treat POS data as if it's the whole picture, because it's the most complete data they have.</p>
+<h2 id="every-system-tells-a-partial-truth">Every system tells a partial truth</h2>
+<p>A delivery aggregator's dashboard tells a partial truth about demand and driver performance. A supplier's invoice tells a partial truth about ingredient cost. A payroll system tells a partial truth about labor. Each one is accurate within its own boundary and silent about everything outside it. The moment you need to answer a real operating question — did this order come in late because of a kitchen bottleneck or a driver shortage, and did that trace back to a scheduling gap or a portion-drift problem — no single system has the full answer, because no single system was ever meant to.</p>
+<h2 id="where-the-real-cost-shows-up">Where the real cost shows up</h2>
+<p>Most multi-outlet operators solve this the manual way: someone pulls a report from each system, drops it into a spreadsheet, and tries to line up timestamps by hand. It works, technically, but it's slow enough that by the time the picture is assembled, the moment to act on it has usually passed. Worse, it only gets built when someone already suspects there's a problem — which means the quiet, compounding issues that nobody's specifically looking for never get the cross-system view they'd need to surface.</p>
+<h2 id="what-changes-when-systems-are-actually-connected">What changes when systems are actually connected</h2>
+<p>The alternative isn't a bigger spreadsheet — it's a layer that ingests from every source system continuously and keeps them on a shared timeline, so a question like "why was this order late" can be answered by looking at one place instead of four. Order timing from the POS, driver status from the delivery platform, ingredient cost from the supplier feed, and labor coverage from the scheduling system all become facets of the same event instead of four separate reports that happen to share a date.</p>
+<p>This is also what makes early detection possible. A kitchen bottleneck that shows up as a two-minute service delay is easy to miss in isolation. The same bottleneck, cross-referenced against a scheduling gap on the same shift and a portion-drift alert on the same three items, stops being noise and starts being a pattern worth acting on — and it's only visible as a pattern once the systems are actually talking to each other.</p>
+<h2 id="the-takeaway">The takeaway</h2>
+<p>No single system in a modern F&amp;B operation is wrong. Each one is just answering a narrower question than the one an operator actually needs answered. The fix isn't replacing any of them — it's giving them a shared spine so the full picture can be assembled in seconds instead of reconstructed by hand after the fact, if anyone thinks to reconstruct it at all.</p>
+  </div>
+  <div class="cta">
+    <span>Want to see this running on a live scorecard?</span>
+    <a href="/contact" data-book="walkthrough">Book a demo</a>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Related resources</div>
+    <div class="related-grid">
+<a class="related-card" href="/resources/pos-point-of-sale-integration"><div class="rc-type">Pitch Deck</div><div class="rc-title">POS — Point-of-Sale Integration Layer</div></a>
+<a class="related-card" href="/resources/nexus-integration-connectivity-hub"><div class="rc-type">Pitch Deck</div><div class="rc-title">Nexus — The Integration & Connectivity Hub</div></a>
+<a class="related-card" href="/resources/zen-rules-zen-models-ask-iris"><div class="rc-type">Article</div><div class="rc-title">Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</div></a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progressBar');
+  function update(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', update);
+  update();
+})();
+</script>
+<footer class="zfoot">
+<style>
+.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.zfoot a{text-decoration:none}
+.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
+.zfoot-brand{max-width:400px}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
+.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
+.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
+.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
+.zfoot-cols a:hover{color:#fff}
+.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
+@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
+</style>
+<div class="zfoot-top">
+<div class="zfoot-brand">
+<div class="zfoot-name">Zentallio</div>
+<p class="zfoot-tag">The AI Decision Platform for food &amp; beverage and fashion retail operators.</p>
+</div>
+<nav class="zfoot-cols">
+<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
+<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
+</nav>
+</div>
+<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
+</footer>
+<script src="/booking.js" defer></script>
+</body>
+</html>
