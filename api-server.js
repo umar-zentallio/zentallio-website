@@ -39,6 +39,7 @@ const ROUTES = {
   "/api/chat": require("./api/chat"),
   "/api/book": require("./api/book"),
   "/api/availability": require("./api/availability"),
+  "/api/lead": require("./api/lead"),
 };
 
 /* ---- Vercel-compatible response helpers ---- */

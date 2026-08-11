@@ -167,7 +167,15 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 @keyframes csSweep{to{transform:translateX(120%)}}
 .ct-note{margin-top:14px;color:var(--fg3);font-size:.82rem;transition:color .25s}
 .ct-note.ok{color:var(--teal)}
-@media(prefers-reduced-motion:reduce){.ff{animation:none;opacity:1;transform:none}.ff-line,.ff-label,.ct-send,.ct-send .cs-ico{transition:none}.ff.err .ff-input{animation:none}.ct-send.sending::after{animation:none}}
+.ct-note.err{color:#ff6b6b}
+.ct-thanks{display:none;text-align:center;padding:28px 6px 8px;animation:ffIn .5s cubic-bezier(.16,.84,.44,1) forwards}
+.ct-thanks.show{display:block}
+.ct-thanks-ico{width:52px;height:52px;margin:0 auto 18px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -10px var(--teal)}
+.ct-thanks h3{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin-bottom:10px}
+.ct-thanks p{color:var(--fg2);font-size:.92rem;line-height:1.55;max-width:38ch;margin:0 auto}
+.ct-again{margin-top:22px;background:none;border:1px solid var(--line2);color:var(--fg2);border-radius:10px;padding:11px 20px;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s}
+.ct-again:hover{border-color:var(--teal);color:#fff}
+@media(prefers-reduced-motion:reduce){.ff{animation:none;opacity:1;transform:none}.ff-line,.ff-label,.ct-send,.ct-send .cs-ico{transition:none}.ff.err .ff-input{animation:none}.ct-send.sending::after{animation:none}.ct-thanks{animation:none}}
 
 /* careers page */
 .cr-sec{margin-top:clamp(30px,5vw,54px)}
@@ -236,12 +244,20 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 <div class="ct-item"><div class="lbl">Hours</div><span class="val">Mon–Sat · 10:00–19:00 PKT</span></div>
 </div>
 <div class="ct-form">
+<div id="ctFields">
 <div class="ff"><input class="ff-input" id="ctName" type="text" placeholder=" " autocomplete="name"><label class="ff-label" for="ctName">Name</label><span class="ff-line"></span></div>
 <div class="ff"><input class="ff-input" id="ctEmail" type="email" placeholder=" " autocomplete="email"><label class="ff-label" for="ctEmail">Email</label><span class="ff-line"></span></div>
 <div class="ff"><input class="ff-input" id="ctCo" type="text" placeholder=" " autocomplete="organization"><label class="ff-label" for="ctCo">Company</label><span class="ff-line"></span></div>
 <div class="ff"><textarea class="ff-input" id="ctMsg" placeholder=" "></textarea><label class="ff-label" for="ctMsg">Message</label><span class="ff-line"></span></div>
 <button type="button" class="ct-send" id="ctSend"><span class="cs-txt">Send message</span><span class="cs-ico">→</span></button>
-<div class="ct-note" id="ctNote">This opens your email app addressed to info@zentallio.com.</div>
+<div class="ct-note" id="ctNote">We usually reply within one business day.</div>
+</div>
+<div class="ct-thanks" id="ctThanks">
+<div class="ct-thanks-ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#04121a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<h3>Thank you!</h3>
+<p>Your message has been sent. We usually reply within one business day.</p>
+<button type="button" class="ct-again" id="ctAgain">Send another message</button>
+</div>
 </div>
 </div></div></section></main>
 <script>
@@ -251,17 +267,40 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
   function val(id){var e=el(id);return e?e.value.trim():'';}
   function flag(id){var f=el(id);if(!f)return;var w=f.closest('.ff');if(w){w.classList.remove('err');void w.offsetWidth;w.classList.add('err');setTimeout(function(){w.classList.remove('err');},650);}f.focus();}
   var txt=btn.querySelector('.cs-txt'), note=el('ctNote');
+  var fields=el('ctFields'), thanks=el('ctThanks'), again=el('ctAgain');
   btn.addEventListener('click',function(){
+    if(btn.classList.contains('sending'))return;
     var n=val('ctName'),em=val('ctEmail'),co=val('ctCo'),m=val('ctMsg');
     if(!n){flag('ctName');return;}
     if(!m){flag('ctMsg');return;}
-    var subj='Zentallio enquiry — '+n;
-    var body=m+'\n\n—\n'+n+(co?(', '+co):'')+(em?(' · '+em):'');
-    if(txt)txt.textContent='Opening mail';
-    if(note){note.textContent='Opening your email app…';note.classList.add('ok');}
+    if(txt)txt.textContent='Sending…';
+    if(note){note.textContent='Sending your message…';note.classList.remove('ok','err');}
     btn.classList.add('sending');
-    window.location.href='mailto:fahad.amjad@lucrumerp.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-    setTimeout(function(){btn.classList.remove('sending');if(txt)txt.textContent='Send message';if(note){note.textContent='This opens your email app addressed.';note.classList.remove('ok');}},3000);
+    fetch('/api/lead',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:n,email:em,company:co,message:m})
+    }).then(function(r){return r.json().then(function(data){return {ok:r.ok,data:data};});}).then(function(res){
+      btn.classList.remove('sending');
+      if(res.ok){
+        el('ctName').value='';el('ctEmail').value='';el('ctCo').value='';el('ctMsg').value='';
+        if(txt)txt.textContent='Send message';
+        if(note){note.classList.remove('ok','err');}
+        if(fields)fields.style.display='none';
+        if(thanks)thanks.classList.add('show');
+      }else{
+        if(txt)txt.textContent='Send message';
+        if(note){note.textContent='Something went wrong — please email info@zentallio.com directly.';note.classList.add('err');}
+      }
+    }).catch(function(){
+      btn.classList.remove('sending');
+      if(txt)txt.textContent='Send message';
+      if(note){note.textContent='Something went wrong — please email info@zentallio.com directly.';note.classList.add('err');}
+    });
+  });
+  if(again)again.addEventListener('click',function(){
+    if(thanks)thanks.classList.remove('show');
+    if(fields)fields.style.display='';
   });
 })();
 </script>
