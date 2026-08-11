@@ -5173,7 +5173,7 @@ function bookEmail(v){
  setTimeout(function(){
   pushZen('a','<b>Booked.</b> Reference <b>'+ref+'</b>.<br><br>'
    +'\u00b7 '+(d.size||'\u2014')+'<br>\u00b7 Focus: '+(d.focus||'\u2014')+'<br>\u00b7 '+(d.when||'\u2014')+'<br>\u00b7 Confirmation to '+v+'<br><br>'
-   +'A consultant will confirm the exact time by email. If you would rather write directly: <a href="mailto:Hello@?subject='+encodeURIComponent('Consultant call '+ref)+'" style="color:var(--ai)">Hello@</a>.<br><br>'
+   +'A consultant will confirm the exact time by email. If you would rather write directly: <a href="mailto:Hello@zentallio.com?subject='+encodeURIComponent('Consultant call '+ref)+'" style="color:var(--ai)">Hello@zentallio.com</a>.<br><br>'
    +'Anything you want to see before then? I can open any solution or workbench right now.');
   renderSug();
  },520);
@@ -5200,7 +5200,7 @@ function zenAnswer(q){
  if(/roi|worth|value|save|saving|benefit|impact|result/.test(ql)){return 'For <b>'+s.name+'</b>, the signals customers watch: '+s.kpis.map(function(k){return '<b>'+k[0]+'</b> '+k[1];}).join(', ')+'. It compounds because it shares data with every other module.';}
  if(/data|integrat|connect|source|where.*from/.test(ql)){return '<b>'+s.name+'</b> reads live from the same platform dataset \u2014 the till, stock, suppliers, finance and sensors \u2014 so there\u2019s no separate import. That shared spine is why Iris can answer across modules.';}
  if(/how.*work|layer|ai|model|iris/.test(ql)){return '<b>'+s.name+'</b> runs on Zentallio\u2019s <b>'+s.layer+'</b> intelligence: L1 deterministic rules for the guardrails, L2 models for the forecasting, and L3 Ask Iris so you can just ask. '+s.tag;}
- if(/price|cost|pilot|buy|licen|how much/.test(ql)){return 'Pricing is per-outlet and modular \u2014 start with <b>'+s.name+'</b> alone or run the whole platform. The best next step is a pilot on one outlet; I can point you to <b>Hello@</b>.';}
+ if(/price|cost|pilot|buy|licen|how much/.test(ql)){return 'Pricing is per-outlet and modular \u2014 start with <b>'+s.name+'</b> alone or run the whole platform. The best next step is a pilot on one outlet; I can point you to <b>Hello@zentallio.com</b>.';}
  if(/demo|show|see|try|launch/.test(ql)){return 'Every module has a <b>live demo</b> \u2014 use the switcher at the top of the page, or hit \u201cLaunch the live demo\u201d on any card. It\u2019s the product, running.';}
  return '<b>'+s.name+'</b> \u2014 '+s.desc+' It can: '+s.points.slice(0,3).join(', ')+', and more.';
 }

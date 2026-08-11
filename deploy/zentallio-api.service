@@ -7,12 +7,12 @@ Wants=network-online.target
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/zentallio-website
+WorkingDirectory=/var/www/zentallio
 
 # Node 18+ required (api/chat.js uses global fetch).
 # `which node` on the server and put the full path here -- systemd has no PATH
 # from your shell, so nvm installs will NOT be found by the bare name "node".
-ExecStart=/usr/bin/node /var/www/zentallio-website/api-server.js
+ExecStart=/usr/bin/node /var/www/zentallio/api-server.js
 
 Environment=NODE_ENV=production
 Environment=PORT=3001
@@ -34,7 +34,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadOnlyPaths=/var/www/zentallio-website
+ReadOnlyPaths=/var/www/zentallio
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true

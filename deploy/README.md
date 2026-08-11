@@ -43,8 +43,8 @@ which node       # note this path — you need it in step 4
 ## 2. Upload the site
 
 ```bash
-sudo mkdir -p /var/www/zentallio-website
-sudo chown -R $USER:$USER /var/www/zentallio-website
+sudo mkdir -p /var/www/zentallio
+sudo chown -R $USER:$USER /var/www/zentallio
 ```
 
 Then from your machine, in the repo root:
@@ -76,6 +76,12 @@ CALCOM_API_KEY=cal_live_...
 # or separate event types per kind:
 # CALCOM_EVENT_ID_WALKTHROUGH=6503154
 # CALCOM_EVENT_ID_CALL=6503155
+
+# Contact form -> Google Sheet (api/lead.js). See the service-account setup
+# notes in the repo's own .env template for how to get these three values.
+GOOGLE_SHEET_ID=1am5C51B_lfQIWp1aGdhYCxXpXobhD2GAn_1IVYStHdU
+GOOGLE_SERVICE_ACCOUNT_EMAIL=...@....iam.gserviceaccount.com
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
 
 No separate email service is needed — Cal.com emails both parties. Full
@@ -94,7 +100,7 @@ falls back to a scripted flow. Check which mode is live with
 ## 4. API service
 
 ```bash
-sudo cp /var/www/zentallio-website/deploy/zentallio-api.service \
+sudo cp /var/www/zentallio/deploy/zentallio-api.service \
         /etc/systemd/system/zentallio-api.service
 ```
 
@@ -103,7 +109,7 @@ if Node is not at `/usr/bin/node`, edit it. systemd does not use your shell's
 PATH, so a bare `node` (or an nvm install under `~/.nvm`) will not be found.
 
 ```bash
-sudo chown -R www-data:www-data /var/www/zentallio-website
+sudo chown -R www-data:www-data /var/www/zentallio
 sudo systemctl daemon-reload
 sudo systemctl enable --now zentallio-api
 sudo systemctl status zentallio-api      # should be active (running)
@@ -115,7 +121,7 @@ curl localhost:3001/health               # {"ok":true,"ai":true}
 Edit `server_name` in `nginx.conf` to your real domain first, then:
 
 ```bash
-sudo cp /var/www/zentallio-website/deploy/nginx.conf \
+sudo cp /var/www/zentallio/deploy/nginx.conf \
         /etc/nginx/sites-available/zentallio
 sudo ln -s /etc/nginx/sites-available/zentallio /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default    # drop the "Welcome to nginx" page

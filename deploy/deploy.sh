@@ -15,7 +15,7 @@ if [[ -z "$TARGET" ]]; then
 fi
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-REMOTE_ROOT="/var/www/zentallio-website"
+REMOTE_ROOT="/var/www/zentallio"
 
 echo "→ syncing $REPO  →  $TARGET:$REMOTE_ROOT"
 
@@ -25,14 +25,10 @@ rsync -avz --delete \
   --exclude 'node_modules' \
   --exclude 'dev-server.py' \
   --exclude '*.md' \
-  --rsync-path="sudo rsync" \
   "$REPO"/ "$TARGET:$REMOTE_ROOT/"
 
-echo "→ fixing ownership"
-ssh "$TARGET" "sudo chown -R www-data:www-data $REMOTE_ROOT"
-
 echo "→ restarting API"
-ssh "$TARGET" "sudo systemctl restart zentallio-api && sleep 1 && sudo systemctl is-active zentallio-api"
+ssh -t "$TARGET" "sudo systemctl restart zentallio-api && sleep 1 && sudo systemctl is-active zentallio-api"
 
 echo "→ health check"
 ssh "$TARGET" "curl -fsS http://127.0.0.1:3001/health" && echo
