@@ -27,8 +27,8 @@ rsync -avz --delete \
   --exclude '*.md' \
   "$REPO"/ "$TARGET:$REMOTE_ROOT/"
 
-echo "→ restarting API"
-ssh -t "$TARGET" "sudo systemctl restart zentallio-api && sleep 1 && sudo systemctl is-active zentallio-api"
+echo "→ restarting API (pm2)"
+ssh "$TARGET" "pm2 restart zentallio-api && sleep 1 && pm2 describe zentallio-api | grep status"
 
 echo "→ health check"
 ssh "$TARGET" "curl -fsS http://127.0.0.1:3001/health" && echo
