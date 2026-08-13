@@ -299,6 +299,61 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- ================= FOOTER ================= -->
+<!-- ================= SOLUTIONS CTA ================= -->
+<section class="solcta">
+<style>
+.solcta{position:relative;padding:clamp(54px,8vw,90px) clamp(20px,5vw,64px);border-top:1px solid rgba(255,255,255,.08)}
+.solcta-head{max-width:620px;margin:0 auto clamp(32px,4vw,46px);text-align:center}
+.solcta-head .ck{font-family:var(--mono);font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--fg2);display:inline-flex;align-items:center;gap:10px;margin-bottom:16px}
+.solcta-head .ck::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff2d95;box-shadow:0 0 10px #ff2d95}
+.solcta-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3.4vw,2.5rem);letter-spacing:-.02em;line-height:1.14;color:#F2F6FC}
+.solcta-head h2 em{font-style:normal;background:linear-gradient(100deg,#15F2F2,#9B7BFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.solcta-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:760px){.solcta-grid{grid-template-columns:1fr}}
+.solcta-card{position:relative;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.12);padding:clamp(28px,3.2vw,36px);display:flex;flex-direction:column;gap:14px;min-height:220px;transition:transform .3s cubic-bezier(.16,.84,.44,1),border-color .3s,background .3s}
+.solcta-card:hover{transform:translateY(-4px)}
+.solcta-card.fb{background:linear-gradient(160deg,rgba(21,242,242,.09),rgba(0,0,0,0) 62%)}
+.solcta-card.fb:hover{border-color:rgba(21,242,242,.5)}
+.solcta-card.fa{background:linear-gradient(160deg,rgba(155,123,255,.09),rgba(0,0,0,0) 62%)}
+.solcta-card.fa:hover{border-color:rgba(155,123,255,.5)}
+.solcta-card .tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
+.solcta-card.fb .tag{color:#15F2F2}
+.solcta-card.fa .tag{color:#9B7BFF}
+.solcta-card h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.28rem,2vw,1.55rem);letter-spacing:-.015em;line-height:1.2;color:#F2F6FC}
+.solcta-card p{color:var(--fg2);font-size:.94rem;line-height:1.58;max-width:44ch}
+.solcta-card .go{margin-top:auto;display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#F2F6FC;font-weight:600}
+.solcta-card .go .ar{display:inline-grid;place-items:center;flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);font-size:1.05rem;transition:transform .35s cubic-bezier(.16,.84,.44,1),border-color .3s,background .3s}
+.solcta-card.fb .go .ar{color:#15F2F2}
+.solcta-card.fa .go .ar{color:#9B7BFF}
+.solcta-card.fb:hover{box-shadow:0 22px 50px -20px rgba(21,242,242,.35)}
+.solcta-card.fa:hover{box-shadow:0 22px 50px -20px rgba(155,123,255,.35)}
+.solcta-card.fb:hover .go .ar{border-color:rgba(21,242,242,.8);background:rgba(21,242,242,.16);transform:translateX(7px)}
+.solcta-card.fa:hover .go .ar{border-color:rgba(155,123,255,.8);background:rgba(155,123,255,.16);transform:translateX(7px)}
+.solcta-card::after{content:"";position:absolute;top:22px;right:22px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.45)}
+.solcta-card.fb::after{content:"↗"}
+.solcta-card.fa::after{content:"↗"}
+@media(prefers-reduced-motion:reduce){.solcta-card,.solcta-card .go .ar{transition:none}.solcta-card:hover{transform:none}.solcta-card:hover .go .ar{transform:none}}
+</style>
+<div class="solcta-head">
+<div class="ck">Go deeper</div>
+<h2>See it configured <em>for your sector.</em></h2>
+</div>
+<div class="solcta-grid">
+<a class="solcta-card fb" href="/food/food-beverage-solutions">
+<span class="tag">Food &amp; Beverage</span>
+<h3>149 live solutions — from the till to the guest's phone.</h3>
+<p>Open any solution and watch it run, across quick service, casual dining, café, cloud kitchen and six more sectors.</p>
+<span class="go"><span class="ar">→</span>Explore F&amp;B solutions</span>
+</a>
+<a class="solcta-card fa" href="/fashion/sector-solutions">
+<span class="tag">Fashion Retail</span>
+<h3>Nine sectors, 49 store formats — one AI, configured per format.</h3>
+<p>Flagship solutions and sector-specific AI, mapped to how your stores actually run.</p>
+<span class="go"><span class="ar">→</span>Explore Fashion solutions</span>
+</a>
+</div>
+</section>
+
 <footer class="zfoot">
 <style>
 .zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
