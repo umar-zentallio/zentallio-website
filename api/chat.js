@@ -291,14 +291,41 @@ async function mockTurn(history, state) {
   const text = (lastUser && lastUser.content) || "";
   const lower = text.toLowerCase();
 
-  if (!state.type) {
-    if (/walk|demo|tour/.test(lower)) state.type = "walkthrough";
-    else if (/call|consult|talk|speak/.test(lower)) state.type = "call";
-  }
+  if (/walk|demo|tour/.test(lower)) state.type = "walkthrough";
+  else if (/call|consult|talk|speak/.test(lower)) state.type = "call";
   const emailMatch = text.match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
   if (emailMatch) {
     const addr = emailMatch[0].replace(/[.,;:!?)\]]+$/, ""); // drop trailing punctuation
     if (core.isValidEmail(addr)) state.email = addr;
+  }
+
+  // The scripted fallback has no knowledge base — it can only route to a human
+  // or take a booking. If the visitor is clearly asking for information (not
+  // giving an email or picking a slot), be honest and helpful instead of
+  // looping on the email question.
+  const slotNum = /^\s*[1-9]\s*$/.test(text.trim());
+
+  // A plain greeting should get a greeting — not an abrupt jump to the email
+  // ask, even if a booking CTA pre-seeded the type.
+  if (!state.email && !slotNum && /^\s*(hi+|hey+|hello+|yo|salaam|assalam\w*|hola|good (morning|afternoon|evening))\b[\s!.]*$/.test(lower)) {
+    return {
+      reply:
+        "Hi! I'm Iris. I can walk you through what Zentallio does for Food & Beverage and Fashion retail, how it works, and how pricing is shaped — or set up a walkthrough or a call whenever you're ready. What would you like to explore?",
+      booking: null,
+      state,
+    };
+  }
+
+  const wantsInfo =
+    !emailMatch && !slotNum && !state.offered &&
+    /\b(info|information|questions?|ask|tell me|explain|what|whats|how|why|which|where|who|pricing|price|cost|sectors?|solutions?|features?|integrat\w*|support|help|difference|dashboard)\b/.test(lower);
+  if (wantsInfo) {
+    return {
+      reply:
+        "Happy to help. Our live assistant is briefly unavailable, so I'm in a limited mode right now — the fastest way to get precise answers on your own setup is a short walkthrough or a quick call with one of our consultants. Want me to set one up? Just say “walkthrough” or “call” and share your work email. Or you can email us any time at info@zentallio.com.",
+      booking: null,
+      state,
+    };
   }
 
   if (!state.type)
@@ -308,7 +335,7 @@ async function mockTurn(history, state) {
       booking: null,
       state,
     };
-  if (!state.email) return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to?`, booking: null, state };
+  if (!state.email) return { reply: `Great — a ${state.type} it is. What's the best email to send the invite to? (Or tell me what you'd like to know.)`, booking: null, state };
 
   // Offer numbered slots, then book the one they pick.
   if (!state.offered) {
