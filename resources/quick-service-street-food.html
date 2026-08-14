@@ -235,15 +235,22 @@
   }
 
   @media print{
-    body{ overflow:visible; }
-    .chrome{ display:none; } .ambient{ display:none; }
-    .slide{ position:relative; opacity:1 !important; transform:none !important; page-break-after:always; height:100vh; }
+    @page{ size:297mm 167mm; margin:0; }                       /* landscape 16:9, no browser header/footer */
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }  /* keep the dark theme + colors */
+    html,body{ overflow:visible !important; background:var(--bg) !important; }
+    .chrome,.arrow,.dots,.progress,.counter,.wordmark,.toolbar,.scroll-cue{ display:none !important; }
+    .ambient{ display:none !important; }
+    .deck{ height:auto !important; }
+    .slide{ position:relative !important; inset:auto !important; opacity:1 !important; transform:none !important;
+            width:100%; height:167mm; padding:13mm 18mm; overflow:hidden;
+            background:linear-gradient(180deg, var(--card), var(--bg)) !important;
+            page-break-after:always; break-inside:avoid; }
+    .slide:last-child{ page-break-after:auto; }
     .feature-item{ opacity:1 !important; transform:none !important; }
     .flag-oval{ animation:none !important; opacity:1 !important; }
     .cycle-word{ position:static !important; opacity:1 !important; display:block; }
     .bubble{ opacity:1 !important; }
     .bubble .cursor{ display:none !important; }
-    .scroll-cue{ display:none !important; }
   }
 </style>
 </head>
