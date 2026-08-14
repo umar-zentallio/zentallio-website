@@ -1,248 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '848592854970724');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Numerus — The CFO Ledger Platform — Zentallio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg-0:#05080F; --bg-1:#070C18; --panel:#0A0F1C;
-    --teal:#15F2F2; --magenta:#ff2d95; --mint:#3FD9A4; --amber:#E5A24B; --violet:#9B7BFF;
-    --ink-0:#F3F5FA; --ink-1:#B9C2D6; --ink-2:#7C879E; --line:rgba(255,255,255,0.08);
-    --serif:'Fraunces', serif; --sans:'Inter', sans-serif; --mono:'JetBrains Mono', monospace;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
-  a{color:var(--teal);}
-
-  .progress{position:fixed;top:0;left:0;height:3px;background:var(--mint);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--mint);}
-
-  .nav-row{position:sticky;top:0;z-index:50;background:rgba(5,8,15,0.88);backdrop-filter:blur(10px);max-width:100%;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);}
-  .nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:18px;}
-  .nav-z{width:24px;height:24px;border-radius:6px;background:linear-gradient(150deg,var(--teal),#0a8f8f);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#00201f;}
-  .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
-  .back:hover{color:var(--ink-0);}
-
-  .hero{
-    background:radial-gradient(60% 100% at 15% 0%, rgba(63,217,164,0.10), transparent 65%), var(--bg-1);
-    border-bottom:1px solid var(--line);padding:52px 32px 40px;
-  }
-  .hero-in{max-width:760px;margin:0 auto;}
-  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);display:flex;align-items:center;gap:8px;}
-  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint);}
-  .pdeck-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#2b1a02;background:var(--amber);padding:3px 9px;border-radius:8px;font-weight:600;}
-  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
-  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
-
-  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
-
-  .toc{
-    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
-  }
-  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
-  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
-  .toc a:hover{color:var(--mint);border-left-color:var(--mint);}
-
-  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
-  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
-  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
-  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
-  .content li{margin-bottom:8px;}
-  .content strong{color:var(--ink-0);}
-  .content em{color:var(--mint);font-style:italic;}
-  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
-
-  .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:20px 0 32px;}
-  .feature-card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 20px;}
-  .feature-card h4{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink-0);margin-bottom:10px;}
-  .feature-card ul{margin:0 0 0 18px;}
-  .feature-card li{font-size:13.5px;color:var(--ink-1);margin-bottom:6px;}
-  @media (max-width:640px){ .feature-grid{grid-template-columns:1fr;} }
-
-  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  .cta span{font-family:var(--serif);font-size:16px;}
-  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--mint);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
-
-  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
-  .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
-  .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
-  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
-  .related-card:hover{border-color:rgba(255,255,255,0.22);}
-  .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
-  .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
-</style>
+<title>Numerus — CFO Ledger Platform · Zentallio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/booking.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05080F; --bg2:#070C18; --card:#0B111C; --card-hi:#0F1728;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --teal:#15F2F2; --magenta:#FF2D95; --mint:#3FD9A4; --amber:#E5A24B;
+    --ink:#F4F7FB; --body:#B7C1D1; --muted:#67728A;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(2px); opacity:.16; }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.01em; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--magenta); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(13.5px,1.15vw,16px); line-height:1.55; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; text-decoration:none; }
+  .wordmark b{ color:var(--teal); font-weight:600; }
+  .wordmark:hover{ color:var(--body); }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,0.02); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:16px; }
+  .arrow:hover{ border-color:var(--amber); color:var(--amber); background:rgba(229,162,75,0.08); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(255,45,149,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:14px; }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:900px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.small{ font-family:var(--mono); font-size:15px; color:var(--mint); }
+
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:13px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  .prod-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--sans); font-size:12px; color:var(--body); line-height:1.45; }
+
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:640px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:13px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .flagship-stats{ display:flex; gap:12px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:24px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(20px,2.4vw,28px); color:var(--ink); max-width:820px; margin:16px 0 20px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  #sCta{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:0 auto 24px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; max-width:600px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--magenta); color:var(--magenta); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #sCover{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:820px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--magenta); white-space:nowrap; }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  @media (max-width:1000px){
+    .narr-grid{ grid-template-columns:1fr 1fr; }
+    .prod-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+    .flagship-stats{ flex-wrap:wrap; }
+  }
+
+  @media print{
+    body{ overflow:visible; }
+    .chrome{ display:none; } .ambient{ display:none; }
+    .slide{ position:relative; opacity:1 !important; transform:none !important; page-break-after:always; height:100vh; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; }
+  }
+</style>
 </head>
 <body>
-<div class="progress" id="progressBar"></div>
-<div class="nav-row">
-  <a href="#" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
-  <a href="/resources" class="back">← Back to Resources</a>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide" id="sCover">
+    <div class="cover-orb-wrap"><div class="orb" id="orbCover"></div></div>
+    <div class="cover-copy">
+      <div class="cover-tag">ZENTALLIO &nbsp;·&nbsp; NUMERUS &nbsp;·&nbsp; CFO LEDGER PLATFORM</div>
+      <h1 class="display">The ledger that<br><span class="cycle-wrap" id="cycleWrap"></span></h1>
+      <p class="lede">How Numerus keeps the trial balance, P&amp;L, balance sheet and cash flow tied to the same transactions — continuously, not once a month under deadline.</p>
+      <div class="tagline-strip">ONE RECONCILED LEDGER &nbsp;·&nbsp; F&amp;B ACCOUNTING STANDARDS &nbsp;·&nbsp; CLOSE IN DAYS</div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div> USE ← → OR CLICK TO ADVANCE</div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot"></span>THE MONTH-END SCRAMBLE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Four statements,<br>reconciled once a month.</h1>
+    <p class="lede">Most multi-outlet F&amp;B finance teams run the trial balance, P&amp;L, balance sheet and cash flow as four separate exercises — each a different pull, on a different timeline, by a different person.</p>
+    <div class="narr-grid">
+      <div class="narr-card card"><div class="n-tag">Four separate builds</div><p>Each statement is assembled from <b>its own data pull</b> — so they only ever meet at close.</p></div>
+      <div class="narr-card card"><div class="n-tag">Forced to agree</div><p>The numbers are reconciled once a month, <b>under deadline</b>, instead of tying out all the time.</p></div>
+      <div class="narr-card card"><div class="n-tag">Discrepancies hide</div><p>A real error can sit for weeks inside <b>four figures that each look plausible</b> on their own.</p></div>
+    </div>
+  </section>
+
+  <!-- PRODUCT -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>THE PRODUCT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">One reconciled ledger,<br>not four reports.</h1>
+    <p class="lede">Numerus is a continuously reconciled ledger built for multi-outlet F&amp;B — one system of record where every statement ties to the same transactions, all the time.</p>
+    <div class="board card">
+      <div class="board-item"><div class="board-label">System of record</div><div class="board-val amber" data-count="1">0</div><div class="board-label" style="margin-top:8px;margin-bottom:0">Ledger, not 4 reports</div></div>
+      <div class="board-item"><div class="board-label">Sub-ledgers</div><div class="board-val teal" data-count="4">0</div><div class="board-label" style="margin-top:8px;margin-bottom:0">AR · AP · Inventory · Bank</div></div>
+      <div class="board-item"><div class="board-label">Reconciliation</div><div class="board-val small"><span class="live-dot"></span>To the cent</div><div class="board-label" style="margin-top:8px;margin-bottom:0">Continuous, not monthly</div></div>
+      <div class="board-item"><div class="board-label">Month-end close</div><div class="board-val amber">Days</div><div class="board-label" style="margin-top:8px;margin-bottom:0">Not weeks</div></div>
+    </div>
+  </section>
+
+  <!-- FEATURE 1 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>CAPABILITY 01 · ONE LEDGER</div>
+    <h1 class="display solution-name">One ledger, not four reports</h1>
+    <p class="lede">Every statement is a view of the same transactions — so they can't drift apart between closes.</p>
+    <div class="feature-list" data-stagger>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Same transaction set.</span> Trial balance, P&amp;L, balance sheet and cash flow all generate from one underlying set of transactions.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Sub-ledgers feed the core.</span> AR, AP, Inventory and Bank feed the same core ledger — no separate reconciliation step between them.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Ties out to the cent, continuously.</span> Every account reconciles all the time — not only when someone forces it to agree at month-end.</p></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(229,162,75,.4);">CONTINUOUS RECONCILIATION</div>
+  </section>
+
+  <!-- FEATURE 2 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>CAPABILITY 02 · F&amp;B STANDARDS</div>
+    <h1 class="display solution-name">Built for F&amp;B accounting standards</h1>
+    <p class="lede">Numerus classifies the way restaurant finance actually reads a P&amp;L — not a generic chart of accounts.</p>
+    <div class="feature-list" data-stagger>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">COGS per USAR practice.</span> Food, beverage and packaging only — not blended with labor or operating expense.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Labor and opex on their own lines.</span> Direct labor and controllable opex are tracked as distinct lines, not lumped in.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Gross profit done right.</span> Revenue minus COGS — not revenue minus everything.</p></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(229,162,75,.4);">USAR-ALIGNED</div>
+  </section>
+
+  <!-- FEATURE 3 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>CAPABILITY 03 · NOTHING HIDES</div>
+    <h1 class="display solution-name">Nothing hides. Close in days.</h1>
+    <p class="lede">Pending items stay visible and resolvable, and the close stops being a scramble.</p>
+    <div class="feature-list" data-stagger>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">A visible clearing account.</span> Freight-in variances, inventory count adjustments and vendor rebates live in a visible clearing account — not buried inside a head.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Auto-allocation, fully audited.</span> A configurable policy resolves pending items so nothing sits indefinitely; every reclassification carries a full audit trail.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Flagged live, rolled up continuously.</span> Anomalies surface as they happen; store, region and network rollups are always current — no waiting for every location to report in.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px;">
+      <div class="stat-chip card"><div class="sv">Days</div><div class="sl">Month-end close, not weeks</div></div>
+      <div class="stat-chip card"><div class="sv">To the cent</div><div class="sl">Continuous reconciliation</div></div>
+    </div>
+  </section>
+
+  <!-- INTEGRATES -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>ONE DATA SPINE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Reconciles against<br>everything upstream.</h1>
+    <p class="lede">Numerus sits under your existing chart of accounts — it doesn't replace it.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--mint)"></div><div class="prod-name">POS</div><div class="prod-desc">Revenue recognized transaction by transaction — not batch-uploaded.</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Motus</div><div class="prod-desc">Inventory movement and COGS ledger entries stay in sync automatically.</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Manus</div><div class="prod-desc">Payroll and labor cost flow straight into the labor line.</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--teal)"></div><div class="prod-name">Nexus</div><div class="prod-desc">Bank feeds, supplier invoices and payroll all reconcile against the same ledger.</div></div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>WHY WE BUILT IT</div>
+    <div class="story-quote">"A CFO shouldn't have to choose between a fast close and a correct one."</div>
+    <p class="story-body">The two aren't actually in tension once the ledger reconciles continuously instead of being assembled once a month under deadline. Numerus shifts the finance team from reconciling the past to reviewing exceptions and analysing what's ahead.</p>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" id="sCta">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">See Numerus on<br>your own ledger.</div>
+    <div class="cta-sub">Book a walkthrough with a consultant — on your chart of accounts, your close process, your numbers. Numerus is built to sit under what you already run.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">0327 0000901 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
 </div>
 
-<div class="hero">
-  <div class="hero-in">
-    <div class="badge-row">
-      <div class="eyebrow">Pitch Deck · Numerus</div>
-      <span class="pdeck-badge">Pitch Deck</span>
-    </div>
-    <h1>Numerus — The CFO Ledger Platform</h1>
-    <div class="meta"><span></span></div>
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources"><b>ZENTALLIO</b> &nbsp;/&nbsp; NUMERUS — CFO LEDGER PLATFORM &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
   </div>
-</div>
-
-<div class="layout">
-  <div class="toc"><div class="toc-label">On this page</div><a href="#the-problem">The problem</a>
-<a href="#the-product">The product</a>
-<a href="#key-features">Key features</a>
-<a href="#integrates-with">Integrates with</a>
-<a href="#why-zentallio-built-this">Why Zentallio built this</a>
-<a href="#see-it-on-your-data">See it on your data</a></div>
-  <div class="content">
-<p><em>Pitch deck · Product overview · 8 min read</em></p>
-<hr />
-<h2 id="the-problem">The problem</h2>
-<p>Most multi-outlet F&amp;B finance teams run their trial balance, P&amp;L, balance sheet, and cash flow statement as four separate exercises that happen to get compared at month-end. Each one is built from a slightly different data pull, on a slightly different timeline, by a different person — which is exactly how a real discrepancy hides for weeks inside four numbers that all look plausible on their own.</p>
-<h2 id="the-product">The product</h2>
-<p><strong>Numerus</strong> is a continuously reconciled ledger built specifically for multi-outlet F&amp;B operators — one system of record where the trial balance, P&amp;L, balance sheet, and cash flow all tie to the same underlying transactions, all the time, not just when someone forces them to agree during close.</p>
-<h2 id="key-features">Key features</h2>
-<div class="feature-grid"><div class="feature-card"><h4>One reconciled ledger, not four reports</h4><ul>
-<li>Trial balance, P&amp;L, balance sheet, and cash flow statement generated from the same transaction set</li>
-<li>Sub-ledgers for AR, AP, Inventory, and Bank feed the same core ledger — no separate reconciliation step between them</li>
-<li>Every account ties out to the cent, continuously, not just at month-end</li>
-</ul></div><div class="feature-card"><h4>Built for F&amp;B accounting standards</h4><ul>
-<li>COGS classified per restaurant-industry Uniform System of Accounts (USAR) practice — food, beverage, and packaging only, not blended with labor or opex</li>
-<li>Direct labor and Controllable Opex tracked as their own distinct lines</li>
-<li>Gross profit calculated correctly as revenue minus COGS, not revenue minus everything</li>
-</ul></div><div class="feature-card"><h4>Suspense and pool account visibility</h4><ul>
-<li>Unreconciled or pending items (freight-in variances, inventory count adjustments, vendor rebates) live in a visible clearing account, not buried inside a head where they can't be seen</li>
-<li>Configurable auto-allocation policy so nothing sits unresolved indefinitely</li>
-<li>Full audit trail on every reclassification</li>
-</ul></div><div class="feature-card"><h4>Close in days, not weeks</h4><ul>
-<li>Anomalies flagged as they happen, not discovered during a month-end scramble</li>
-<li>Store, region, and network-level rollups available continuously — no waiting for every location to report in</li>
-<li>Finance team time shifts from reconciling the past to reviewing exceptions and analyzing what's ahead</li>
-</ul></div></div>
-<h2 id="integrates-with">Integrates with</h2>
-<ul>
-<li><strong>POS</strong> — revenue recognized transaction by transaction, not batch-uploaded</li>
-<li><strong>Motus</strong> — inventory movement and COGS ledger entries stay in sync automatically</li>
-<li><strong>Manus</strong> — payroll and labor cost data flows straight into the labor line</li>
-<li><strong>Nexus</strong> — bank feeds, supplier invoices, and payroll systems all reconcile against the same ledger</li>
-</ul>
-<h2 id="why-zentallio-built-this">Why Zentallio built this</h2>
-<p>A CFO shouldn't have to choose between a fast close and a correct one. Numerus exists because the two aren't actually in tension once the ledger is built to reconcile continuously instead of being assembled once a month under deadline.</p>
-<h2 id="see-it-on-your-data">See it on your data</h2>
-<p>Numerus is built to sit under your existing chart of accounts, not replace it. Ask about migration paths from your current close process.</p>
-<p><strong>Hello@zentallio.com</strong></p>
-  </div>
-  <div class="cta">
-    <span>Want to see this running on a live scorecard?</span>
-    <a href="/contact" data-book="walkthrough">Book a demo</a>
-  </div>
-
-  <div class="related">
-    <div class="related-label">Related resources</div>
-    <div class="related-grid">
-<a class="related-card" href="/resources/the-real-cost-of-manual-reconciliation"><div class="rc-type">Article</div><div class="rc-title">The real cost of manual reconciliation</div></a>
-<a class="related-card" href="/resources/motus-supply-chain-inventory-movement"><div class="rc-type">Pitch Deck</div><div class="rc-title">Motus — Supply Chain & Inventory Movement</div></a>
-<a class="related-card" href="/resources/pos-point-of-sale-integration"><div class="rc-type">Pitch Deck</div><div class="rc-title">POS — Point-of-Sale Integration Layer</div></a>
-    </div>
-  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">08</span></div>
 </div>
 
 <script>
 (function(){
-  var bar = document.getElementById('progressBar');
-  function update(){
-    var h = document.documentElement;
-    var scrolled = h.scrollTop;
-    var max = h.scrollHeight - h.clientHeight;
-    bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%';
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + (target*eased).toFixed(decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
   }
-  document.addEventListener('scroll', update);
-  update();
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  buildOrb(document.getElementById('orbCover'), 170);
+  buildOrb(document.getElementById('orbCta'), 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-6vw', y:'-8vh', s:'46vw', c:'var(--amber)'}, {x:'86vw', y:'62vh', s:'50vw', c:'var(--magenta)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  const cycleWords = ['reconciles itself.', 'closes in days.', 'ties to the cent.'];
+  const wrap = document.getElementById('cycleWrap');
+  // Measure the widest word's real rendered width so nothing gets clipped
+  // (a ch-based guess is unreliable for a serif italic at this size).
+  let maxW = 0;
+  cycleWords.forEach(w=>{
+    const m = document.createElement('span'); m.className='cycle-word'; m.style.opacity=0; m.textContent=w;
+    wrap.appendChild(m); maxW = Math.max(maxW, m.offsetWidth); wrap.removeChild(m);
+  });
+  wrap.style.minWidth = Math.ceil(maxW+2) + 'px';
+  let ci = 0;
+  function showCycleWord(){
+    wrap.innerHTML = '';
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    el.textContent = cycleWords[ci % cycleWords.length];
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+
+  // Make count-up values correct on load too (so PDF/print captures them).
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + target.toFixed(decimals) + suffix;
+    });
+  }
+  finalizeStaticContent();
+
+  goTo(0);
 })();
 </script>
-<footer class="zfoot">
-<style>
-.zfoot{position:relative;z-index:2;background:linear-gradient(180deg,transparent,rgba(10,16,32,.55));border-top:1px solid rgba(255,255,255,.09);padding:clamp(46px,7vw,82px) clamp(20px,5vw,64px) 26px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
-.zfoot a{text-decoration:none}
-.zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
-.zfoot-brand{max-width:400px}
-.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
-.zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
-.zfoot-contact{margin-top:22px;display:flex;flex-direction:column;gap:9px;font-size:.88rem;line-height:1.55}
-.zfoot-contact a{color:#AEB9CB;width:fit-content;transition:color .2s}
-.zfoot-contact a:hover{color:#fff}
-.zfoot-tel{display:inline-flex;align-items:center;gap:8px}
-.zfoot-tel svg{width:12px;height:12px;flex-shrink:0;fill:currentColor;opacity:.7}
-.zfoot-contact .zfoot-mail{color:#4FD8E4}
-.zfoot-contact .zfoot-mail:hover{color:#15F2F2}
-.zfoot-social{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
-.zfoot-social a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);color:#AEB9CB;transition:color .2s,border-color .2s,background .2s,transform .2s}
-.zfoot-social a:hover{color:#fff;border-color:rgba(21,242,242,.5);background:rgba(21,242,242,.08);transform:translateY(-2px)}
-.zfoot-social svg{width:17px;height:17px;fill:currentColor}
-.zfoot-cols{display:flex;gap:clamp(30px,5vw,68px);flex-wrap:wrap}
-.zfoot-cols h4{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#7C8698;margin:0 0 15px;font-weight:600}
-.zfoot-cols a{display:block;color:#AEB9CB;font-size:.9rem;margin-bottom:11px;transition:color .2s;width:fit-content}
-.zfoot-cols a:hover{color:#fff}
-.zfoot-bot{max-width:1180px;margin:46px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.09);font-size:.72rem;letter-spacing:.05em;color:#7C8698}
-@media(prefers-reduced-motion:reduce){.zfoot-social a:hover{transform:none}}
-@media(max-width:820px){.zfoot-top{flex-direction:column;gap:34px}.zfoot-cols a{padding:7px 0;margin-bottom:3px}}
-</style>
-<div class="zfoot-top">
-<div class="zfoot-brand">
-<div class="zfoot-name">Zentallio</div>
-<p class="zfoot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail — one agent, Iris, reading every signal and deciding across every floor.</p>
-<div class="zfoot-contact">
-<a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener">142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</a>
-<a class="zfoot-tel" href="tel:+923270000901"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+923270000901</a>
-<a class="zfoot-tel" href="tel:+19294192694"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+19294192694</a>
-<a class="zfoot-mail" href="mailto:info@zentallio.com">info@zentallio.com</a>
-</div>
-<div class="zfoot-social">
-<a href="https://www.linkedin.com/company/zentallioai/" target="_blank" rel="noopener" aria-label="Zentallio on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-<a href="https://x.com/Zentallio" target="_blank" rel="noopener" aria-label="Zentallio on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 5.664-6.933zm-1.291 19.482h2.039L6.486 3.24H4.298l13.312 17.395z"/></svg></a>
-<a href="https://www.instagram.com/zentallio/" target="_blank" rel="noopener" aria-label="Zentallio on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.784 2.163 15.404 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.602.396 3.635 1.363 2.668 2.33 2.404 3.503 2.344 4.781 2.286 6.061 2.272 6.469 2.272 9.728v4.544c0 3.259.014 3.667.072 4.947.06 1.278.324 2.451 1.291 3.418.967.967 2.14 1.231 3.418 1.291 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.278-.06 2.451-.324 3.418-1.291.967-.967 1.231-2.14 1.291-3.418.058-1.28.072-1.688.072-4.947V9.728c0-3.259-.014-3.667-.072-4.947-.06-1.278-.324-2.451-1.291-3.418C19.398.396 18.225.132 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-<a href="https://www.facebook.com/people/ZentallioAi/61589720611365/" target="_blank" rel="noopener" aria-label="Zentallio on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-<a href="https://www.threads.com/@zentallio" target="_blank" rel="noopener" aria-label="Zentallio on Threads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.7 11.13c-.1-.05-.2-.09-.31-.14-.18-3.28-1.97-5.16-4.98-5.18h-.04c-1.8 0-3.29.77-4.21 2.16l1.65 1.14c.69-1.04 1.77-1.26 2.56-1.26h.03c.98.01 1.72.29 2.2.84.35.4.59.96.71 1.66a13.1 13.1 0 00-2.85-.14c-2.87.17-4.72 1.84-4.6 4.17.06 1.18.65 2.2 1.66 2.86.85.56 1.95.83 3.09.77 1.51-.08 2.69-.66 3.52-1.71.63-.8 1.03-1.83 1.21-3.13.73.44 1.27 1.01 1.57 1.7.51 1.17.54 3.08-1.02 4.64-1.37 1.36-3.01 1.95-5.51 1.97-2.77-.02-4.87-.91-6.23-2.64C4.68 17.15 4.02 14.84 4 12c.02-2.84.68-5.15 1.95-6.86C7.31 3.41 9.41 2.52 12.18 2.5c2.79.02 4.92.91 6.33 2.65.69.85 1.21 1.92 1.56 3.17l1.94-.52c-.42-1.53-1.08-2.85-1.97-3.94C18.25 1.65 15.63.52 12.19.5h-.01C8.74.52 6.15 1.66 4.4 3.87 2.85 5.84 2.05 8.58 2.02 12v.01c.03 3.42.83 6.16 2.38 8.13C6.15 22.34 8.74 23.48 12.18 23.5h.01c3.06-.02 5.21-.82 6.98-2.59 2.32-2.31 2.25-5.21 1.49-6.98-.55-1.27-1.6-2.3-3.04-2.98l.08.18zm-4.62 5.11c-1.26.07-2.57-.49-2.63-1.71-.05-.9.64-1.91 2.71-2.03.24-.01.47-.02.7-.02.75 0 1.46.07 2.1.21-.24 2.98-1.64 3.49-2.88 3.55z"/></svg></a>
-</div>
-</div>
-<nav class="zfoot-cols">
-<div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
-<div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
-<div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
-</nav>
-</div>
-<div class="zfoot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
-</footer>
-<script src="/booking.js" defer></script>
 </body>
 </html>
