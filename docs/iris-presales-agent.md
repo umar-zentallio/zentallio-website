@@ -43,7 +43,7 @@ hard Iris pushes a booking.
 ## Phase status
 - **A — Foundations (this branch, done):** `lead-store`, `lead-scoring`, `radar-crm` adapter (stub until keys), a node/stage-aware system prompt with the current lead injected each turn, an upgraded `capture_lead` (persists every field + flags + stage, returns score/tier), `create_booking` marks the lead converted, and `leadId` plumbed client↔server. Radar upsert fires on every lead update (stub logs until keys).
 - **B — Convert + Handoff (next):** `request_human` tool → generate a sales brief, notify the team, mark handoff. (Booking already works.)
-- **C — Radar wire-up:** set `RADAR_URL / RADAR_API_KEY / RADAR_API_SECRET / RADAR_LEAD_DOCTYPE`; confirm the DocType + field names in `mapToRadar()`.
+- **C — Radar wire-up (done, pending live keys):** Radar is **Frappe CRM (FCRM)** at `https://pm.lucrumerp.com`; leads are the standard **`CRM Lead`** DocType (schema confirmed live). `radar-crm.js` now upserts into `CRM Lead` via the Frappe REST API — deduped by email (only pushes once there's an email to key on), mapping name→`first_name/last_name/lead_name`, `email`, company→`organization`, role→`job_title`, Iris stage→`status` (real FCRM statuses: New/Contacted/Qualified/Proposal/Converted/Unqualified/Not Attending), and sector→`industry` (only when it maps to a real `CRM Industry`; `Food` / `Fashion Retail`). `source` = `Website` (a real `CRM Lead Source`). The rich qualification context (score, tier, #locations, timeline, pain points — FCRM has no field for these) is written once as a **timeline Comment** on first create. Still needs the live API key/secret in server env to switch from no-op to live.
 - **D — Recommend:** `send_resource` tool tied to the Resources section.
 - **E (optional):** funnel analytics, proactive greeting.
 
@@ -51,15 +51,17 @@ hard Iris pushes a booking.
 ```
 ANTHROPIC_API_KEY=…            # real Iris (required for the agent to reason)
 LEAD_STORE_DIR=/var/lib/zentallio/leads   # writable dir for the lead cache (server FS is read-only elsewhere)
-# Radar (Phase C):
-RADAR_URL=https://radar.zentallio.com
+# Radar (Phase C) — Frappe CRM at pm.lucrumerp.com:
+RADAR_URL=https://pm.lucrumerp.com
 RADAR_API_KEY=…
 RADAR_API_SECRET=…
-RADAR_LEAD_DOCTYPE=Lead
+RADAR_LEAD_DOCTYPE=CRM Lead
+RADAR_LEAD_SOURCE=Website
 ```
 On the systemd unit, add the lead dir to `ReadWritePaths` (the service is `ProtectSystem=strict`).
 
-## Still to confirm (for B/C)
+## Still to confirm (for B)
 - Hot-lead **alert** channel (email inbox / Slack / just Radar).
 - **Live chat**: real-time human takeover needs an agent console — v1 handoff = Radar lead + alert + booked meeting.
-- Radar **DocType + field names** for `mapToRadar()`.
+- Whether to also stamp `lead_owner` / `territory` on the Radar lead (leaving unset lets Radar's own assignment rules route it).
+- Radar `CRM Lead` **DocType + field names** — ✅ confirmed live (see Phase C). No custom fields exist for score/tier/locations, hence the timeline-Comment brief.
