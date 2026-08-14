@@ -13,6 +13,7 @@ const kb = require("../lib/iris-knowledge");
 const leadStore = require("../lib/lead-store");
 const { scoreLead } = require("../lib/lead-scoring");
 const radar = require("../lib/radar-crm");
+const handoff = require("../lib/handoff");
 
 const MODEL = process.env.BOOKING_MODEL || "claude-sonnet-5";
 const API_KEY = process.env.ANTHROPIC_API_KEY;
@@ -31,7 +32,7 @@ const SYSTEM_BASE = [
   "4) demonstrate — offer a walkthrough and point them to a relevant resource.",
   "5) pricing — give illustrative pricing + ROI framing; handle objections.",
   "6) convert — capture full details and book a walkthrough/call.",
-  "7) handoff — once booked (or clearly hot), confirm a consultant will follow up.",
+  "7) handoff — once booked (or clearly hot, or when the visitor wants a person), hand the lead to a human via request_human and confirm a consultant will follow up.",
   "You may move back and forth; qualification and education usually interleave.",
   "",
   "QUALIFYING & SCORING:",
@@ -47,9 +48,14 @@ const SYSTEM_BASE = [
   "- Never dead-end with just 'I can't find that.' If the KB doesn't cover something (a specific integration, SLA, timeline, contractual/technical detail), briefly say you want to get them an accurate answer, then PROACTIVELY offer a quick call with a consultant who can confirm it for their exact setup — capture their name + work email (capture_lead), or book it.",
   "- Always convert an unknown into a next step, framed as 'the fastest way to a precise answer.'",
   "",
+  "HANDOFF (important):",
+  "- Call request_human when: the visitor asks to talk to a person; a lead is hot/ready-to-buy; right after a booking (so a consultant is briefed to follow up); or a question genuinely needs a human expert. You need at least a work email first — capture it with capture_lead before handing off.",
+  "- request_human notifies the team and files the lead in our CRM with a full brief. After it succeeds, reassure the visitor in plain language that a consultant will follow up (don't mention CRMs or tools).",
+  "",
   "TOOLS:",
   "- capture_lead: persist ANY detail you learn (name, email, company, sector, locations, role, authority, timeline, painPoints, interests), set flags, and set the current `stage`. Call it whenever you learn something new; it scores the lead and returns the tier.",
   "- get_availability + create_booking: to book. Ask the visitor's timezone (default Asia/Karachi/PKT). Only offer slots from get_availability; when booking, pass the chosen slot's exact ISO `start` and the same `timezone`.",
+  "- request_human: hand a qualified lead to a human consultant (see HANDOFF above). Requires an email on file.",
   "",
   "KNOWLEDGE BASE:",
   kb.knowledge,
@@ -63,6 +69,7 @@ function summarizeLead(lead) {
     sector: lead.sector, locations: lead.locations, role: lead.role,
     authority: lead.authority, timeline: lead.timeline,
     painPoints: lead.painPoints, interests: lead.interests, flags: lead.flags,
+    handoff: lead.handoff && lead.handoff.status ? lead.handoff.status : undefined,
   };
 }
 
@@ -131,7 +138,51 @@ const TOOLS = [
       additionalProperties: false,
     },
   },
+  {
+    name: "request_human",
+    description:
+      "Hand the lead off to a human consultant: files the lead in the CRM with a full sales brief and alerts the team. Call when the visitor asks for a person, when a hot/ready-to-buy lead should be picked up, right after a booking, or when a question needs a human expert. Requires an email on file — capture it first.",
+    input_schema: {
+      type: "object",
+      properties: {
+        reason: { type: "string", description: "one line on why you're handing off" },
+        urgency: { type: "string", enum: ["standard", "hot"], description: "'hot' = ready-to-buy / high intent, pick up ASAP" },
+        summary: { type: "string", description: "your own 1–2 sentence summary of the lead and what they need" },
+      },
+      required: ["reason"],
+      additionalProperties: false,
+    },
+  },
 ];
+
+// Rescore + persist, then mirror the lead into Radar (fire-and-forget).
+function rescoreAndSync(leadId, patch) {
+  let lead = leadStore.upsert(leadId, patch);
+  const { score, tier } = scoreLead(lead);
+  lead = leadStore.upsert(leadId, { score, tier });
+  radar.upsertLead(lead).catch(() => {});
+  return lead;
+}
+
+// Hand the lead to a human once (idempotent on handoff status): build a brief,
+// file it in Radar with an alert, and mark the lead handed off.
+async function doHandoff(leadId, reason, urgency, summary) {
+  let lead = leadStore.get(leadId);
+  if (!lead || !lead.email) return { ok: false, need: "email" };
+  if (lead.handoff && lead.handoff.status === "sent") return { ok: true, already: true };
+  lead = leadStore.upsert(leadId, {
+    stage: "handoff",
+    recommendedNext: summary || lead.recommendedNext,
+    handoff: { status: "requested", reason, urgency: urgency || "standard", summary },
+  });
+  const { score, tier } = scoreLead(lead);
+  lead = leadStore.upsert(leadId, { score, tier });
+  const brief = handoff.buildBrief(lead, reason || "qualified lead", urgency || "standard");
+  const r = await radar.handoff(lead, brief.html).catch((e) => ({ ok: false, error: e.message }));
+  const n = await handoff.notify(brief).catch(() => ({ webhook: false }));
+  leadStore.upsert(leadId, { handoff: { status: "sent" } });
+  return { ok: true, radar: r && r.ok ? r.name : null, alerted: !!(n && n.webhook) };
+}
 
 async function runTool(name, input, ctx) {
   input = input || {};
@@ -148,21 +199,24 @@ async function runTool(name, input, ctx) {
     };
   }
   if (name === "capture_lead") {
-    let lead = leadStore.upsert(ctx.leadId, input);
-    const { score, tier } = scoreLead(lead);
-    lead = leadStore.upsert(ctx.leadId, { score, tier });
-    radar.upsertLead(lead).catch(() => {}); // Radar CRM (stub until keys) — fire-and-forget
-    return { ok: true, stage: lead.stage, score, tier };
+    const lead = rescoreAndSync(ctx.leadId, input);
+    return { ok: true, stage: lead.stage, score: lead.score, tier: lead.tier };
   }
   if (name === "create_booking") {
     const out = await core.createBooking({ type: input.type, email: input.email, start: input.start, tz: input.timezone, name: input.name, notes: input.notes });
     if (out.ok) {
-      let lead = leadStore.upsert(ctx.leadId, { stage: "convert", email: input.email, name: input.name, flags: { booked: true } });
-      const { score, tier } = scoreLead(lead);
-      lead = leadStore.upsert(ctx.leadId, { score, tier });
-      radar.upsertLead(lead).catch(() => {});
+      rescoreAndSync(ctx.leadId, { stage: "convert", email: input.email, name: input.name, flags: { booked: true } });
+      // a booked walkthrough is a handoff-worthy event — brief the team automatically
+      await doHandoff(ctx.leadId, "walkthrough booked", "hot", "Booked a walkthrough via Ask Iris.").catch(() => {});
     }
     return out;
+  }
+  if (name === "request_human") {
+    const r = await doHandoff(ctx.leadId, input.reason, input.urgency, input.summary);
+    if (!r.ok && r.need === "email") {
+      return { ok: false, need: "email", message: "I just need a work email so a consultant can reach you — what's the best one?" };
+    }
+    return { ok: true, handoff: true, message: "A consultant will follow up shortly." };
   }
   return { error: "unknown_tool" };
 }
