@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zentallio — Quick Service &amp; Street Food — Executive Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05080F; --bg2:#070C18; --card:#0B111C; --card-hi:#0F1728;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --teal:#15F2F2; --magenta:#FF2D95; --mint:#3FD9A4; --amber:#E5A24B;
+    --ink:#F4F7FB; --body:#B7C1D1; --muted:#67728A;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(2px); opacity:.16; }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.01em; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--magenta); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(13.5px,1.15vw,16px); line-height:1.55; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; }
+  .wordmark b{ color:var(--teal); font-weight:600; }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,0.02); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:16px; }
+  .arrow:hover{ border-color:var(--amber); color:var(--amber); background:rgba(229,162,75,0.08); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(255,45,149,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinRev{ to{ transform:translate(-50%,-50%) rotate(-360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:14px; }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  /* sector rail */
+  .sector-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; max-width:920px; }
+  .sector-chip{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sector-chip.active{ color:var(--amber); border-color:rgba(229,162,75,.5); background:rgba(229,162,75,.06); }
+
+  /* live board (cover / reality) */
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:820px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.watching{ font-family:var(--mono); font-size:15px; color:var(--mint); display:flex; align-items:center; gap:8px; }
+
+  /* narrative 3-card grid */
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:13px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  /* six products grid */
+  .prod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.03em; }
+
+  /* module badge (shared) */
+  .module-badge{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .module-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .layer-chip{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:5px 10px; border-radius:6px; border:1.5px solid; font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.03em; }
+  .module-badge2{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+
+  /* individual solution slides — modern detail layout, no rings */
+  .sol-eyebrow-row{ display:flex; align-items:center; justify-content:space-between; max-width:1180px; margin-bottom:6px; }
+  .sol-index{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
+  .solution-hero2{ display:grid; grid-template-columns:1.5fr 1fr; gap:5vw; margin-top:3vh; max-width:1180px; align-items:start; }
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-desc{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.5; max-width:520px; margin:0; }
+  .how-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; max-width:520px; }
+  .how-item{ display:flex; gap:12px; }
+  .how-num{ font-family:var(--mono); font-size:10px; color:var(--amber); flex:none; width:20px; padding-top:2px; }
+  .how-item p{ margin:0; font-family:var(--sans); font-size:12.5px; color:var(--body); line-height:1.48; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+  .stat-stack{ display:flex; flex-direction:column; gap:12px; margin-top:2px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+  .stat-row{ display:flex; gap:10px; }
+  .stat-row .stat-chip{ flex:1; padding:13px 15px; }
+  .stat-row .stat-chip .sv{ font-size:19px; }
+  .stat-row .stat-chip .sl{ font-size:8px; }
+  .tech-note{ color:var(--muted); font-size:.92em; }
+
+  @media (max-width:760px){ .solution-hero2{ grid-template-columns:1fr; } }
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:560px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:13px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .side-panel{ position:absolute; right:7.5vw; top:50%; transform:translateY(-50%); width:min(36vw, 440px); }
+
+  .alert-card{ padding:20px 22px; }
+  .alert-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .alert-time{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .alert-live{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; color:var(--mint); letter-spacing:.08em; }
+  .alert-title{ font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink); margin:0 0 6px 0; }
+  .alert-body{ font-family:var(--sans); font-size:12.5px; color:var(--body); line-height:1.5; margin:0 0 14px 0; }
+  .alert-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .alert-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); }
+  .alert-tag.amber{ color:var(--amber); border-color:rgba(229,162,75,.4); }
+
+  .chart-card{ padding:20px 22px; }
+  .chart-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+  .chart-legend{ display:flex; gap:16px; margin-bottom:12px; }
+  .chart-legend span{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--muted); }
+  .chart-legend i{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+  .live-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:3.5vh; max-width:1180px; }
+  .chat-card{ padding:22px; height:300px; display:flex; flex-direction:column; }
+  .chat-head{ display:flex; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .chat-head .iris-mini{ position:relative; width:19px; height:19px; }
+  .chat-head .iris-mini .r1{ position:absolute; inset:0; border-radius:50%; border:1.5px solid var(--magenta); }
+  .chat-head .iris-mini .r2{ position:absolute; inset:5px; border-radius:50%; background:var(--magenta); }
+  .chat-head-title{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .bubble{ border-radius:12px; padding:12px 14px; font-family:var(--sans); font-size:13px; line-height:1.48; margin-bottom:11px; max-width:90%; }
+  .bubble.user{ background:var(--card-hi); border:1px solid var(--line); color:var(--ink); align-self:flex-end; margin-left:auto; }
+  .bubble.iris{ background:rgba(255,45,149,0.06); border:1px solid rgba(255,45,149,0.28); color:var(--body); }
+  .bubble.iris .cursor{ display:inline-block; width:6px; height:12px; background:var(--magenta); margin-left:2px; animation:pulse .9s ease-in-out infinite; vertical-align:middle; }
+  .scorecard-card{ padding:22px; height:300px; }
+  .sc-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:14px; text-transform:uppercase; }
+  .sc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .sc-item{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:13px; position:relative; }
+  .sc-val{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .sc-lab{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.06em; margin-top:4px; text-transform:uppercase; }
+  .flag-oval{ position:absolute; border:1.5px dashed var(--magenta); border-radius:50%; top:6px; left:8px; width:68px; height:32px; opacity:0; }
+  .sc-item.flagged .flag-oval{ animation:flagIn .6s ease .3s forwards, pulse 2.2s ease-in-out 1s infinite; }
+  @keyframes flagIn{ from{ opacity:0; transform:scale(.85);} to{ opacity:1; transform:scale(1);} }
+
+  /* solution stack grid */
+  .sol-section{ margin-top:2.6vh; }
+  .sol-section + .sol-section{ margin-top:1.6vh; }
+  .sol-section-label{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+  .sol-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; max-width:1180px; }
+  .sol-chip{ padding:11px 13px; border-radius:10px; }
+  .sol-chip .sc-name{ font-family:var(--sans); font-size:11.8px; color:var(--ink); font-weight:500; line-height:1.28; }
+  .sol-chip .sc-tag2{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; text-transform:uppercase; }
+
+  /* story */
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:21px; color:var(--ink); max-width:740px; margin:16px 0 18px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:13px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  /* impact stats */
+  .impact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1040px; }
+  .impact-card{ padding:22px 18px; }
+  .impact-val{ font-family:var(--serif); font-weight:700; font-size:30px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .impact-lab{ font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.04em; margin-top:8px; text-transform:uppercase; line-height:1.4; }
+  .impact-footnote{ margin-top:22px; font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.6; max-width:840px; font-style:italic; }
+
+  /* pain/response (reused) */
+  .pr-wrap{ margin-top:3.5vh; display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1160px; }
+  .pr-col-label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+  .pr-card{ padding:18px 20px; }
+  .pr-item{ display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); }
+  .pr-item:last-child{ border-bottom:none; }
+  .pr-item .tag{ font-family:var(--mono); font-size:10px; font-weight:600; flex:none; width:24px; padding-top:2px; }
+  .pr-item p{ margin:0; font-family:var(--sans); font-size:12.5px; color:var(--body); line-height:1.46; }
+  .outcome-strip{ grid-column:1 / -1; display:flex; align-items:center; gap:20px; padding:18px 22px; }
+  .outcome-strip .big{ font-family:var(--serif); font-weight:700; font-size:36px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .outcome-strip .cap{ font-family:var(--sans); font-size:12.5px; color:var(--body); max-width:480px; line-height:1.4; }
+
+  #s13{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:0 auto 24px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--magenta); color:var(--magenta); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #s0{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:760px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--magenta); white-space:nowrap; }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  @media (max-width:1000px){
+    .narr-grid, .prod-grid{ grid-template-columns:1fr 1fr; }
+    .sol-grid{ grid-template-columns:repeat(2,1fr); }
+    .impact-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .live-grid, .pr-wrap{ grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .side-panel{ position:static; transform:none; width:100%; margin-top:22px; }
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  @media print{
+    body{ overflow:visible; }
+    .chrome{ display:none; } .ambient{ display:none; }
+    .slide{ position:relative; opacity:1 !important; transform:none !important; page-break-after:always; height:100vh; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .flag-oval{ animation:none !important; opacity:1 !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; }
+    .bubble{ opacity:1 !important; }
+    .bubble .cursor{ display:none !important; }
+    .scroll-cue{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- 0 — COVER -->
+  <section class="slide" id="s0">
+    <div class="cover-orb-wrap"><div class="orb" id="orbCover"></div></div>
+    <div class="cover-copy">
+      <div class="cover-tag">ZENTALLIO &nbsp;·&nbsp; SECTOR 01 OF 10 &nbsp;·&nbsp; QUICK SERVICE &amp; STREET FOOD</div>
+      <h1 class="display">The AI that runs<br><span class="cycle-wrap" id="cycleWrap"></span></h1>
+      <p class="lede">An executive briefing on how Iris — Zentallio's AI decision agent — runs the counter, the kiosk, the drive-through and every aggregator, minute by minute.</p>
+      <div class="tagline-strip">8 FORMATS &nbsp;·&nbsp; 13 AI SOLUTIONS &nbsp;·&nbsp; L1 ZEN RULES → L2 ZEN MODELS → L3 ASK IRIS</div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div> USE ← → OR CLICK TO ADVANCE</div>
+  </section>
+
+  <!-- 1 — THE RUSH, LIVE -->
+  <section class="slide" id="s1">
+    <div class="eyebrow"><span class="dot"></span>THE QSR REALITY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">In quick service,<br>the queue is the P&amp;L.</h1>
+    <p class="lede">Lane depth, order-to-window time, and the second window — measured to the second, because that's where the rush is won or lost.</p>
+    <div class="board card">
+      <div class="board-item"><div class="board-label">Orders / hr</div><div class="board-val amber" data-count="412">0</div></div>
+      <div class="board-item"><div class="board-label">Order to window</div><div class="board-val teal" data-count="96" data-suffix="s">0s</div></div>
+      <div class="board-item"><div class="board-label">Food cost</div><div class="board-val amber" data-count="30.8" data-suffix="%" data-decimals="1">0%</div></div>
+      <div class="board-item"><div class="board-label">Iris</div><div class="board-val watching"><span class="live-dot"></span>Watching</div></div>
+    </div>
+  </section>
+
+  <!-- 2 — ONE ORDER BOOK -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>UNIFIED ACROSS CHANNELS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Kiosk. Drive-through.<br>Counter. Every aggregator.</h1>
+    <p class="lede">One order book, sequenced by promise time — not by whoever shouted loudest.</p>
+    <div class="narr-grid">
+      <div class="narr-card card"><div class="n-tag">Order sequencing</div><p>Kiosk, drive-through, counter and every aggregator on <b>one order book</b> — sequenced by promise time.</p></div>
+      <div class="narr-card card"><div class="n-tag">Lane discipline</div><p>Lane depth, order-to-window time and the second window <b>measured to the second</b> — the queue is the P&amp;L.</p></div>
+      <div class="narr-card card"><div class="n-tag">Menu sync</div><p>One menu across kiosk, app, web and five aggregators. An item goes 86 at the counter and <b>disappears everywhere</b> in the same second.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 — SIX LIVE PRODUCTS -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><span class="dot" style="background:var(--mint)"></span>THE PLATFORM</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Six live products.<br>One data spine.</h1>
+    <p class="lede">Everything below reads from — and writes back to — the same order book, in real time.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--teal)"></div><div class="prod-name">Balanced Scorecard</div><div class="prod-desc">FINANCE · L2</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--mint)"></div><div class="prod-name">Point of Sale</div><div class="prod-desc">LIVE TILL · IRIS UPSELL</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Numerus</div><div class="prod-desc">CFO · BALANCED LEDGER</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--teal)"></div><div class="prod-name">Nexus</div><div class="prod-desc">SUPPLY CHAIN</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--mint)"></div><div class="prod-name">Motus</div><div class="prod-desc">OPERATIONS</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Manus</div><div class="prod-desc">WORKFORCE</div></div>
+    </div>
+  </section>
+
+  <!-- 3b -- POINT OF SALE -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--mint)"></span>THE COUNTER, FROM THE STAFF SIDE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Point of Sale</h1>
+    <p class="lede">The terminal a cashier runs all day. Order entry, payment and Iris's own upsell prompt, all on the same screen the till already has.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--mint)"></span><p><span class="fi-name">One screen, order to payment.</span> Order entry, ticket and card payment happen without switching apps or terminals.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--mint)"></span><p><span class="fi-name">Same order book as everywhere else.</span> Whatever's rung up here reconciles automatically with kiosk, app and aggregator sales.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Iris prompts the cashier, too.</span> A combo upgrade or add-on surfaces right on the till, timed to what's already in the order.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">412</div><div class="sl">Orders / hr through this till</div></div>
+      <div class="stat-chip card"><div class="sv">1</div><div class="sl">Screen, order to payment</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(63,217,164,.4); margin-top:20px;">LIVE TILL &middot; IRIS UPSELL</div>
+  </section>
+
+  <!-- 3c -- BALANCED SCORECARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE NUMBER EVERYTHING ELSE FEEDS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Balanced Scorecard</h1>
+    <p class="lede">The live financial view every other product feeds into &mdash; net margin, food cost and forecast accuracy, reconciled to one number.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Every module feeds one ledger.</span> Till, kitchen, workforce and supply chain all post to the same financial view.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Forecasting, not just reporting.</span> L2 models project where the quarter is heading, not only where it's been.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">One number, not four.</span> "Food cost" means the same thing whether Iris, a GM or the CFO is asking.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">30.8%</div><div class="sl">Food cost, live</div></div>
+      <div class="stat-chip card"><div class="sv">92.8%</div><div class="sl">Forecast accuracy</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4); margin-top:20px;">FINANCE &middot; L2</div>
+  </section>
+
+  <!-- 3d -- NUMERUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>THE CFO'S LEDGER</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Numerus</h1>
+    <p class="lede">The full ledger &mdash; P&amp;L, balance sheet, cash &mdash; reconciled down to the store, not just the region.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Every sale posts directly.</span> Sales, refunds and voids land in the ledger without a manual close.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Sub-ledgers reconcile themselves.</span> AR, AP and inventory tie out automatically, store by store.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Ask Iris for any number.</span> Any store, any period, instantly &mdash; not a week after month-end.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">142</div><div class="sl">Stores, one balanced ledger</div></div>
+      <div class="stat-chip card"><div class="sv">3 days</div><div class="sl">Month-end close</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(229,162,75,.4); margin-top:20px;">CFO &middot; LEDGER</div>
+  </section>
+
+  <!-- 3e -- NEXUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>DOCK TO PLATE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Nexus</h1>
+    <p class="lede">Connects every vendor, delivery and ingredient movement into one supply-chain view &mdash; from the receiving dock to the plate.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Every delivery logs itself.</span> Receipts and transfers are captured automatically, not written on a clipboard.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Vendor pricing, centralized.</span> Cost and lead times are tracked across the network, not negotiated per store.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Feeds Iris directly.</span> Recipe-Based Inventory Depletion runs on Nexus data, so drift is caught same-day.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">0</div><div class="sl">Manual receiving entries</div></div>
+      <div class="stat-chip card"><div class="sv">Same day</div><div class="sl">Cost visibility, dock to plate</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4); margin-top:20px;">SUPPLY CHAIN</div>
+  </section>
+
+  <!-- 3f -- MOTUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>THE FLOOR, WATCHED LIVE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Motus</h1>
+    <p class="lede">The operations layer &mdash; service times, staffing adherence, compliance &mdash; watching every store in real time.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Service times, tracked store by store.</span> Order-to-window and counter time roll up across the whole network.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Surfaces what needs attention.</span> Not a report on all 142 stores &mdash; the two or three that actually need a look today.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Feeds Zen Rules and Zen Models.</span> The operational data Iris's other two layers run on comes from here.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">96s</div><div class="sl">Order to window, network-wide</div></div>
+      <div class="stat-chip card"><div class="sv">142</div><div class="sl">Stores watched live</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(229,162,75,.4); margin-top:20px;">OPERATIONS</div>
+  </section>
+
+  <!-- 3g -- MANUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>SCHEDULED AGAINST DEMAND, NOT HABIT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Manus</h1>
+    <p class="lede">Workforce and scheduling &mdash; shift plans built against the demand curve, with labor compliance guardrails built in.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Staffing follows the forecast.</span> Shift plans are generated straight from Zen Models' hourly demand curve.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Compliance is built in.</span> Break rules and maximum hours are guardrails, not a separate checklist.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Flags bad schedules early.</span> An over- or under-staffed shift is caught before it's published, not after the rush.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">+12%</div><div class="sl">Peak-hour throughput</div></div>
+      <div class="stat-chip card"><div class="sv">412</div><div class="sl">Orders / hr, staffed to plan</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4); margin-top:20px;">WORKFORCE</div>
+  </section>
+
+  <!-- SECTION L1 -- IRIS, THE RULES LAYER (intro) -->
+  <section class="slide">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--teal); border-color:rgba(21,242,242,.5)">L1</span><div class="module-tag">Iris &middot; Intelligence layer 01</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris enforces the rules.</h1>
+    <p class="lede">Deterministic thresholds under the hood <span class="tech-note">(the &ldquo;Zen Rules&rdquo; layer)</span> &mdash; catch a known problem the instant it crosses a line. Six solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="alert-card card">
+        <div class="alert-head"><div class="alert-time">TODAY &middot; 12:14</div><div class="alert-live"><span class="live-dot"></span>LIVE ALERT</div></div>
+        <div class="alert-title">Item 86'd at the counter</div>
+        <p class="alert-body">Store #12 &mdash; Zinger Burger sold out at the counter. Pulled from kiosk, app, web and all 5 aggregators automatically.</p>
+        <div class="alert-tags"><span class="alert-tag amber">IRIS &middot; L1</span><span class="alert-tag">STORE #12</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 1/6 -- Kitchen Display & Station Routing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">01 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Kitchen Display &amp; Station Routing</h1>
+        <p class="solution-desc">Every ticket fires the instant an order is placed and routes to fry, grill or assembly by build time &mdash; not by whoever's screen is free.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Ticket fires the instant the order is confirmed, on any channel.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Routed to the station with the shortest build time, not the nearest screen.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Re-sequences automatically the moment a station backs up.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">QUEUE ML &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">&lt;1s</div><div class="sl">Ticket to station</div></div>
+          <div class="stat-chip card"><div class="sv">96s</div><div class="sl">Held at peak</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 2/6 -- Daypart Menu Auto-Switch -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">02 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Daypart Menu Auto-Switch</h1>
+        <p class="solution-desc">Breakfast closes and lunch opens on schedule &mdash; across kiosk, app, web and every aggregator, in the same second.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Daypart windows configured once, per store or per group.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Kiosk, app, web and all aggregators switch simultaneously.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>No manager has to remember to flip the menu by hand.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">IRIS &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">0</div><div class="sl">Manual changes / day</div></div>
+          <div class="stat-chip card"><div class="sv">5</div><div class="sl">Channels at once</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 3/6 -- Real-Time Out of Stock -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">03 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Real-Time Out of Stock</h1>
+        <p class="solution-desc">The moment an item sells out at the counter, it disappears from every channel &mdash; before a guest can order what you don't have.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Counter marks an item sold out.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Rule fires across kiosk, app, web and every aggregator.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Item reappears automatically the moment it's restocked.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">IRIS &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">&lt;1s</div><div class="sl">To pull everywhere</div></div>
+          <div class="stat-chip card"><div class="sv">5</div><div class="sl">Channels updated</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 4/6 -- Delivery Aggregator Sync -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">04 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Delivery Aggregator Sync</h1>
+        <p class="solution-desc">Menu, price and availability held as one source of truth &mdash; every aggregator reads the same feed, so nothing drifts out of sync.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>One menu feed powers kiosk, app and every aggregator.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A price or availability change lands everywhere at once.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>No re-uploads, no per-platform spreadsheet.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">IRIS &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">5</div><div class="sl">Aggregators synced</div></div>
+          <div class="stat-chip card"><div class="sv">0</div><div class="sl">Manual re-uploads</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 5/6 -- Multi-Site Rollout & Standards -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">05 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Multi-Site Rollout &amp; Standards</h1>
+        <p class="solution-desc">One rule set, defined once at HQ &mdash; a new store inherits the standard on day one, not after a training cycle.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Rules defined centrally, versioned like code.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>New stores inherit the current standard automatically.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Local exceptions require sign-off, not silent drift.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">IRIS &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">142</div><div class="sl">Stores, one standard</div></div>
+          <div class="stat-chip card"><div class="sv">1</div><div class="sl">Rule set</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 6/6 -- Food Safety & Temperature Compliance -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">06 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Food Safety &amp; Temperature Compliance</h1>
+        <p class="solution-desc">Fridge, freezer and holding temperatures monitored continuously &mdash; a breach alerts before spec is lost, not after a health inspection.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>IoT sensors log every fridge, freezer and holding unit.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A threshold breach triggers an alert immediately.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A compliant audit log is generated automatically.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(21,242,242,.4)">IoT</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">24/7</div><div class="sl">Monitoring</div></div>
+          <div class="stat-chip card"><div class="sv">&lt;2min</div><div class="sl">Alert on breach</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L2 -- IRIS, THE FORECASTING LAYER (intro) -->
+  <section class="slide" data-chart="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--mint); border-color:rgba(63,217,164,.5)">L2</span><div class="module-tag">Iris &middot; Intelligence layer 02</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris predicts the rush.</h1>
+    <p class="lede">LightGBM / GBT forecasting under the hood <span class="tech-note">(the &ldquo;Zen Models&rdquo; layer)</span> &mdash; predicts demand, prep and staffing before the rush starts. Four solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="chart-card card">
+        <div class="chart-title">Hourly Order Volume &mdash; Forecast vs Actual</div>
+        <div class="chart-legend"><span><i style="background:var(--mint)"></i>Forecast</span><span><i style="background:var(--teal)"></i>Actual</span></div>
+        <svg viewBox="0 0 380 140" width="100%" height="140"><g id="barChart"></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 1/4 -- Hourly Sales Heatmap & Staffing AI -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">01 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Hourly Sales Heatmap &amp; Staffing AI</h1>
+        <p class="solution-desc">Schedules people against the hourly demand curve &mdash; not against habit, not against last week's rota.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Forecasts order volume by hour, by store.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Suggests a staffing plan matched to the curve.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Flags shifts that are over- or under-scheduled before they happen.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(63,217,164,.4)">FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">412</div><div class="sl">Orders / hr forecasted</div></div>
+          <div class="stat-chip card"><div class="sv">+12%</div><div class="sl">Peak throughput</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 2/4 -- Speed of Service Analytics -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">02 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Speed of Service Analytics</h1>
+        <p class="solution-desc">Forecasts where the next lane or counter bottleneck forms &mdash; before it forms, not in next week's report.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Tracks order-to-window and counter time, live.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Learns the pattern behind recurring bottlenecks.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Flags a forming delay while there's still time to act.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(63,217,164,.4)">QUEUE ML</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">96s</div><div class="sl">Order to window</div></div>
+          <div class="stat-chip card"><div class="sv">34s</div><div class="sl">Drift caught early</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 3/4 -- Drive-Through Management -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">03 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Drive-Through Management</h1>
+        <p class="solution-desc">Watches every car in the lane, predicting order-to-window time before it slips past promise.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Tracks lane depth and per-car dwell time.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Predicts when the second window will miss promise time.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Suggests a fix &mdash; a second operator, a paused promo &mdash; before it does.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(63,217,164,.4)">QUEUE ML</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">96s</div><div class="sl">Avg order to window</div></div>
+          <div class="stat-chip card"><div class="sv">Every car</div><div class="sl">Tracked, lane to window</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 4/4 -- Recipe-Based Inventory Depletion -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">04 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Recipe-Based Inventory Depletion</h1>
+        <p class="solution-desc">Flags when ingredient usage drifts from the recipe &mdash; shrink caught the day it happens, not at month-end.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every sale depletes inventory by the exact recipe.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Actual usage is compared to expected, continuously.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A drift beyond threshold raises an anomaly, same day.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(63,217,164,.4)">ANOMALY DETECTION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">1.8%</div><div class="sl">Waste, was 4.1%</div></div>
+          <div class="stat-chip card"><div class="sv">Same day</div><div class="sl">Drift caught</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L3 -- ASK IRIS (live demo intro) -->
+  <section class="slide" data-chat="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--magenta); border-color:rgba(255,45,149,.5)">L3</span><div class="module-tag">Iris &middot; Intelligence layer 03 &mdash; live</div></div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,42px)">Ask Iris</h1>
+    <p class="lede" style="margin-bottom:0">Not a screenshot &mdash; the actual agent. Natural-language answers over the live order book. Three solutions run on this layer.</p>
+    <div class="live-grid">
+      <div class="chat-card card">
+        <div class="chat-head"><div class="iris-mini"><div class="r1"></div><div class="r2"></div></div><div class="chat-head-title">ASK IRIS &mdash; QUICK SERVICE &amp; STREET FOOD</div></div>
+        <div class="bubble user" id="qBubble" style="opacity:0"></div>
+        <div class="bubble iris" id="aBubble" style="opacity:0"></div>
+      </div>
+      <div class="scorecard-card card">
+        <div class="sc-title">Live Balanced Scorecard</div>
+        <div class="sc-grid">
+          <div class="sc-item flagged"><div class="flag-oval"></div><div class="sc-val" data-count="96" data-suffix="s">0s</div><div class="sc-lab">Order to window</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="412">0</div><div class="sc-lab">Orders / hr</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="30.8" data-suffix="%" data-decimals="1">0%</div><div class="sc-lab">Food cost</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="12" data-suffix="%">0%</div><div class="sc-lab">Peak throughput &#9650;</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 1/3 -- Self-Service Kiosk -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">01 / 03</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Self-Service Kiosk</h1>
+        <p class="solution-desc">Suggests the next item a guest is most likely to add, tuned to time of day and order history.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Reads the current order and the daypart.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Ranks the next-best add from what converts, not a fixed script.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Learns from what guests actually accept or skip.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--magenta); border-color:rgba(255,45,149,.4)">RECOMMENDATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">+12%</div><div class="sl">Peak-hour throughput</div></div>
+          <div class="stat-chip card"><div class="sv">5</div><div class="sl">Channels, one engine</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 2/3 -- Combo & Modifier Engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">02 / 03</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Combo &amp; Modifier Engine</h1>
+        <p class="solution-desc">Builds the combo and modifier prompt most likely to convert &mdash; tuned per channel, kiosk to counter to app.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Matches combo prompts to the item just ordered.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Tunes the offer differently for kiosk, counter and app.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Retires prompts that don't convert, automatically.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--magenta); border-color:rgba(255,45,149,.4)">RECOMMENDATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">3</div><div class="sl">Channels tuned separately</div></div>
+          <div class="stat-chip card"><div class="sv">Real-time</div><div class="sl">Learning</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 3/3 -- Loyalty, App & Offer Engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">03 / 03</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Loyalty, App &amp; Offer Engine</h1>
+        <p class="solution-desc">Sends the right offer to the right guest, timed to when they're most likely to come back through the door.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Segments guests by real order history, not broad demographics.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Times each offer to typical return windows.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Retires offers that guests stop responding to.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--magenta); border-color:rgba(255,45,149,.4)">RECOMMENDATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">43%</div><div class="sl">Repeat guest rate</div></div>
+          <div class="stat-chip card"><div class="sv">Timed</div><div class="sl">To return window</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -- PURELY AGENTIC -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>HOW IT'S IMPLEMENTED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Implementation,<br>run by Iris.</h1>
+    <p class="lede">No professional-services project, no six-month build. Iris configures the sector playbook herself &mdash; agentically, from day one.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Onboarding is agentic.</span> Iris connects the POS, kiosk and every aggregator feed directly &mdash; no manual data mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">The playbook applies itself.</span> Sector thresholds go live immediately, then tune from real data, store by store.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Weeks, not quarters.</span> There's no bespoke build to wait on &mdash; go-live is a configuration, not a project plan.</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -- AGENTIC FIRST LAYER -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>HOW SUPPORT WORKS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Support starts<br>with Iris.</h1>
+    <p class="lede">The first line of support is agentic &mdash; Iris resolves most of it herself. Our engineers pick up from there.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Layer 1 &mdash; Iris, 24/7.</span> Configuration questions, anomalies and routine issues resolved directly, instantly.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Layer 2 &mdash; our engineers.</span> Anything Iris can't close escalates automatically to a Zentallio engineer.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">No blank tickets.</span> Every escalation arrives with Iris's own diagnosis &mdash; engineers start from an answer.</p></div>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>IN PRACTICE — WITH CROQ EXPRESS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Sixty seconds<br>decides everything.</h1>
+    <p class="story-quote">"The margin lives in the rush: a lane that stalls, a fryer that runs ahead of demand, a promo that leaks — each costs more than a bad month of rent. Most operators only find out after close."</p>
+    <p class="story-body">Zentallio runs the counter minute by minute: Drive-Through Management watches every car, the Kitchen Display routes each item to the right station, recipe-level depletion catches shrink the moment it happens, and the Staffing AI schedules people against the demand curve — not against habit. Configured as a sector playbook, not a custom project: live in weeks, learning from day one.</p>
+  </section>
+
+  <!-- 9 — WHAT TO EXPECT -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>WHAT AN OPERATOR CAN EXPECT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">The rush, measured.</h1>
+    <div class="impact-grid">
+      <div class="impact-card card"><div class="impact-val" data-count="41" data-prefix="\u2212" data-suffix="s">\u22120s</div><div class="impact-lab">Avg counter-to-hand time</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="12" data-prefix="+" data-suffix="%">+0%</div><div class="impact-lab">Peak-hour throughput</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="1.8" data-suffix="%" data-decimals="1">0%</div><div class="impact-lab">Food waste — was 4.1%</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="3" data-suffix=" days">0 days</div><div class="impact-lab">Month-end close</div></div>
+    </div>
+    <div class="impact-footnote">Modelled from pilot assumptions &amp; comparable F&amp;B benchmarks — not yet a deployed-client result. We show real numbers as founding pilots conclude.</div>
+  </section>
+
+  <!-- 10 — PAIN / RESPONSE / OUTCOME -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>WHERE IT LEAKS, HOW IRIS RESPONDS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Where the counter<br>actually loses margin.</h1>
+    <div class="pr-wrap">
+      <div>
+        <div class="pr-col-label">Where it leaks</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">01</div><p>Small portion and recipe drifts are invisible at 412 orders/hr — until they compound.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">02</div><p>A stale menu across five aggregators sells items you no longer have.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">03</div><p>Peak-hour staffing guessed, not planned against the demand curve.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-col-label">How Iris responds</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--teal)">L1</div><p>Recipe-based depletion and out-of-stock rules fire the instant a threshold crosses.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--mint)">L2</div><p>Hourly demand forecasts drive prep and staffing before the rush hits.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--magenta)">L3</div><p>"Why did order-to-window spike?" — answered in seconds, not a week.</p></div>
+        </div>
+      </div>
+      <div class="outcome-strip card">
+        <div class="big" data-count="30.8" data-suffix="%" data-decimals="1">0%</div>
+        <div class="cap">food cost held to plan — while order-to-window stays at 96 seconds.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 — SECTOR RAIL (bonus context) -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>ONE PLATFORM, TEN SECTORS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Quick Service is<br>sector one of ten.</h1>
+    <p class="lede">Every Zentallio sector runs the same three-layer intelligence, tuned to how that format actually loses margin.</p>
+    <div class="sector-rail">
+      <span class="sector-chip active">01 Quick Service</span>
+      <span class="sector-chip">02 Casual Dining</span>
+      <span class="sector-chip">03 Fine Dining</span>
+      <span class="sector-chip">04 Café &amp; Bakery</span>
+      <span class="sector-chip">05 Ice Cream &amp; Desserts</span>
+      <span class="sector-chip">06 Beverages &amp; Drinks</span>
+      <span class="sector-chip">07 Health &amp; Wellness</span>
+      <span class="sector-chip">08 Cloud Kitchen</span>
+      <span class="sector-chip">09 Institutional &amp; B2B</span>
+      <span class="sector-chip">10 Niche &amp; Experience</span>
+    </div>
+  </section>
+
+  <!-- 13 — CTA -->
+  <section class="slide" id="s13">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">Let's put Iris on<br>your counter.</div>
+    <div class="cta-sub">Book a call with our consultant — a pilot walkthrough on your own outlets, your own numbers.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">0327 0000901 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources" style="text-decoration:none"><b>ZENTALLIO</b> &nbsp;/&nbsp; QUICK SERVICE &amp; STREET FOOD &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
+  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">14</span></div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + (target*eased).toFixed(decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function typeChat(slide){
+    const q = slide.querySelector('#qBubble'); const a = slide.querySelector('#aBubble');
+    if(!q || !a) return;
+    q.style.opacity = 0; a.style.opacity = 0; q.textContent=''; a.innerHTML='';
+    const qText = 'Why did order-to-window spike this morning?';
+    const aText = 'Store #12\u2019s second window is running 34s over promise time \u2014 a 3-car backup during the 8am rush. Recommended: pull a second window operator from 8\u20139am. Same drift resolved this way at Store #06 last week.';
+    setTimeout(()=>{
+      q.style.opacity = 1; let i=0;
+      const qi = setInterval(()=>{ q.textContent = qText.slice(0,i+1); i++; if(i>=qText.length){ clearInterval(qi); startAnswer(); } }, 22);
+    }, 300);
+    function startAnswer(){
+      setTimeout(()=>{
+        a.style.opacity = 1; a.innerHTML = '<span class="cursor"></span>'; let j=0;
+        const ai = setInterval(()=>{ a.innerHTML = aText.slice(0,j+1) + '<span class="cursor"></span>'; j++; if(j>=aText.length){ clearInterval(ai); a.innerHTML = aText; } }, 13);
+      }, 400);
+    }
+  }
+
+  function drawBarChart(slide){
+    const g = slide.querySelector('#barChart');
+    if(!g) return;
+    g.innerHTML = '';
+    const forecast = [40, 62, 88, 95, 70];
+    const actual   = [38, 65, 92, 90, 74];
+    const w = 380, h = 140, n = forecast.length, gap = 14, groupW = (w - gap*(n+1)) / n, barW = groupW/2 - 3;
+    const max = 100;
+    for(let i=0;i<n;i++){
+      const gx = gap + i*(groupW+gap);
+      const fh = (forecast[i]/max) * (h-20);
+      const ah = (actual[i]/max) * (h-20);
+      const rf = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rf.setAttribute('x', gx); rf.setAttribute('y', h-fh); rf.setAttribute('width', barW); rf.setAttribute('height', 0);
+      rf.setAttribute('fill', '#3FD9A4'); rf.setAttribute('rx', 2); g.appendChild(rf);
+      const ra = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ra.setAttribute('x', gx+barW+4); ra.setAttribute('y', h-ah); ra.setAttribute('width', barW); ra.setAttribute('height', 0);
+      ra.setAttribute('fill', '#15F2F2'); ra.setAttribute('rx', 2); g.appendChild(ra);
+      requestAnimationFrame(()=>{
+        rf.style.transition = 'height .7s ease, y .7s ease';
+        ra.style.transition = 'height .7s ease .1s, y .7s ease .1s';
+        rf.setAttribute('height', fh); rf.setAttribute('y', h-fh);
+        ra.setAttribute('height', ah); ra.setAttribute('y', h-ah);
+      });
+    }
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+    if(slide.dataset.chat === 'true') typeChat(slide);
+    if(slide.dataset.chart === 'true') drawBarChart(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  buildOrb(document.getElementById('orbCover'), 170);
+  buildOrb(document.getElementById('orbCta'), 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-6vw', y:'-8vh', s:'46vw', c:'var(--teal)'}, {x:'86vw', y:'62vh', s:'50vw', c:'var(--magenta)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  // cover cycling phrase
+  const cycleWords = ['the rush.', 'the drive-through.', 'every channel.'];
+  const wrap = document.getElementById('cycleWrap');
+  let widestCh = Math.max(...cycleWords.map(w=>w.length));
+  wrap.style.minWidth = (widestCh*0.62)+'ch';
+  let ci = 0;
+  function showCycleWord(){
+    wrap.innerHTML = '';
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    el.textContent = cycleWords[ci % cycleWords.length];
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+
+  // Ensure every slide's dynamic content (counters, chat bubbles) is already
+  // correct on load -- not just the slide currently on screen. This matters
+  // for PDF export / print, which captures the DOM as-is without clicking
+  // through every slide first. The live animated reveal (count-up, typing)
+  // still plays normally whenever a slide is actually navigated to, via
+  // animateCounters()/typeChat() inside onEnter().
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + target.toFixed(decimals) + suffix;
+    });
+    const q = document.getElementById('qBubble');
+    const a = document.getElementById('aBubble');
+    if(q) q.textContent = 'Why did order-to-window spike this morning?';
+    if(a) a.textContent = 'Store #12\u2019s second window is running 34s over promise time \u2014 a 3-car backup during the 8am rush. Recommended: pull a second window operator from 8\u20139am. Same drift resolved this way at Store #06 last week.';
+  }
+  finalizeStaticContent();
+
+  goTo(0);
+})();
+</script>
+</body>
+</html>

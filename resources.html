@@ -179,6 +179,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .rthumb.t-article{background:linear-gradient(135deg, rgba(21,242,242,.14), rgba(21,242,242,.02));}
   .rthumb.t-video{background:linear-gradient(135deg, rgba(229,162,75,.16), rgba(229,162,75,.02));}
   .rthumb.t-pdf{background:linear-gradient(135deg, rgba(63,217,164,.14), rgba(63,217,164,.02));}
+  .rthumb.t-deck{background:linear-gradient(135deg, rgba(255,45,149,.18), rgba(255,45,149,.02));}
   .rthumb.t-webinar{background:linear-gradient(135deg, rgba(155,123,255,.14), rgba(155,123,255,.02));}
   .rthumb .rmono{
     font-family:var(--mono);font-size:34px;letter-spacing:-.02em;opacity:.25;
@@ -203,6 +204,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .rbadge.video{color:var(--amber);border-color:rgba(229,162,75,.35);background:rgba(229,162,75,.06);}
   .rbadge.pdf{color:var(--mint);border-color:rgba(63,217,164,.35);background:rgba(63,217,164,.06);}
   .rbadge.webinar{color:var(--violet);border-color:rgba(155,123,255,.35);background:rgba(155,123,255,.06);}
+  .rbadge.deck{color:var(--magenta);border-color:rgba(255,45,149,.35);background:rgba(255,45,149,.06);}
   .rsector{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);}
   .rcard h3{font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.32;}
   .rcard p.rex{font-size:13px;color:var(--ink-1);line-height:1.55;flex:1;}
@@ -395,6 +397,12 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
       <span>— curated from what operators like you read first</span>
     </div>
     <div class="ip-row">
+      <a class="ip-card" href="/resources/quick-service-street-food">
+        <div class="ip-tag">Deck</div>
+        <h3>Quick Service &amp; Street Food — Executive Briefing</h3>
+        <p>How Iris runs the counter, kiosk, drive-through and every aggregator, minute by minute — the six live products and the AI solutions behind them, as a walk-through deck.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> The fastest way to see the whole platform working in one sector</div>
+      </a>
       <a class="ip-card" href="/resources/why-pos-data-alone-cant-tell-you-whats-happening">
         <div class="ip-tag">Article</div>
         <h3>Why POS data alone can't tell you what's happening</h3>
@@ -407,12 +415,6 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         <p>How portion drift on a few high-volume items quietly moves margin for weeks before it shows up on a P&amp;L — and why the fix is usually smaller than a price hike.</p>
         <div class="ip-why"><b>Why Iris picked this:</b> The most common question we get from multi-outlet operators</div>
       </a>
-      <a class="ip-card" href="/resources/balanced-scorecard-for-multi-outlet-fb">
-        <div class="ip-tag">Whitepaper</div>
-        <h3>The Balanced Scorecard for multi-outlet F&amp;B operators</h3>
-        <p>A framework for reading Financial, Customer, Operational, and AI-Learning signals as one story instead of four disconnected reports.</p>
-        <div class="ip-why"><b>Why Iris picked this:</b> Pairs directly with the live scorecard on the product page</div>
-      </a>
     </div>
   </div>
 </section>
@@ -421,10 +423,11 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
 <div class="filters">
   <div class="wrap filter-row">
     <button class="ftab active" data-filter="all">All resources</button>
+    <button class="ftab" data-filter="deck"><span class="dot" style="color:var(--magenta)"></span>Decks</button>
     <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
     <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
     <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
-    <span class="fcount"><span id="fcountNum">12</span> results</span>
+    <span class="fcount"><span id="fcountNum">13</span> results</span>
   </div>
 </div>
 
@@ -432,6 +435,16 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
 <section class="rgrid-section">
   <div class="wrap">
     <div class="rgrid" id="rgrid">
+
+      <a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
+        <div class="rthumb t-deck"><span class="rmono">QSR · 01/10</span></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Quick Service</span></div>
+          <h3>Quick Service &amp; Street Food — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: how Iris runs the counter, kiosk, drive-through and every aggregator minute by minute — six live products and the AI solutions behind them.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
 
       <a class="rcard" data-type="article" href="/resources/why-cogs-drifts-before-anyone-notices">
         <div class="rthumb t-article"><span class="rmono">L1</span></div>
@@ -503,13 +516,13 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="pdf" href="/resources/numerus-cfo-ledger-platform">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+      <a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
+        <div class="rthumb t-deck"><span class="rmono">CFO · L2</span></div>
         <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Numerus</span></div>
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
           <h3>Numerus — The CFO Ledger Platform</h3>
           <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
 
