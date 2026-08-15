@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zentallio — Casual Dining — Executive Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* CASUAL DINING — coral theme, sampled from the live sector page (#FF8A5C on #05080F) */
+    --bg:#05080F; --bg2:#0A0A12; --card:#0E1017; --card-hi:#141721;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --coral:#FF8A5C; --rose:#FF4F81; --aqua:#35CADC; --sage:#6FD98F;
+    /* legacy role aliases — keep every existing reference valid */
+    --amber:var(--coral); --magenta:var(--rose); --teal:var(--aqua); --mint:var(--sage);
+    --ink:#F4F7FB; --body:#BCC3CF; --muted:#767F92;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.20;
+         -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
+         mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%); }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.01em; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--coral); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(15px,1.3vw,18px); line-height:1.55; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; }
+  .wordmark b{ color:var(--coral); font-weight:600; }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:54px; height:54px; border-radius:50%; border:1.5px solid var(--amber); background:rgba(255,255,255,0.07); color:var(--amber); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:22px; box-shadow:0 3px 20px rgba(0,0,0,.45); }
+  .arrow:hover{ background:var(--amber); color:var(--bg); border-color:var(--amber); transform:translateY(-50%) scale(1.06); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(255,79,129,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinRev{ to{ transform:translate(-50%,-50%) rotate(-360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:14px; }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  /* sector rail */
+  .sector-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; max-width:920px; }
+  .sector-chip{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sector-chip.active{ color:var(--amber); border-color:rgba(255,138,92,.5); background:rgba(255,138,92,.06); }
+
+  /* live board (cover / reality) */
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:820px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.watching{ font-family:var(--mono); font-size:15px; color:var(--mint); display:flex; align-items:center; gap:8px; }
+
+  /* narrative 3-card grid */
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  /* six products grid */
+  .prod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.03em; }
+
+  /* module badge (shared) */
+  .module-badge{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .module-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .layer-chip{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:5px 10px; border-radius:6px; border:1.5px solid; font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.03em; }
+  .module-badge2{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+
+  /* individual solution slides — modern detail layout, no rings */
+  .sol-eyebrow-row{ display:flex; align-items:center; justify-content:space-between; max-width:1180px; margin-bottom:6px; }
+  .sol-index{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
+  .solution-hero2{ display:grid; grid-template-columns:1.5fr 1fr; gap:5vw; margin-top:3vh; max-width:1180px; align-items:start; }
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-desc{ font-family:var(--sans); font-size:15.5px; color:var(--body); line-height:1.5; max-width:520px; margin:0; }
+  .how-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; max-width:520px; }
+  .how-item{ display:flex; gap:12px; }
+  .how-num{ font-family:var(--mono); font-size:10px; color:var(--amber); flex:none; width:20px; padding-top:2px; }
+  .how-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.48; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+  .stat-stack{ display:flex; flex-direction:column; gap:12px; margin-top:2px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+  .stat-row{ display:flex; gap:10px; }
+  .stat-row .stat-chip{ flex:1; padding:13px 15px; }
+  .stat-row .stat-chip .sv{ font-size:19px; }
+  .stat-row .stat-chip .sl{ font-size:8px; }
+  .tech-note{ color:var(--muted); font-size:.92em; }
+
+  @media (max-width:760px){ .solution-hero2{ grid-template-columns:1fr; } }
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:560px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:14.5px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .side-panel{ position:absolute; right:7.5vw; top:50%; transform:translateY(-50%); width:min(36vw, 440px); }
+
+  .alert-card{ padding:20px 22px; }
+  .alert-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .alert-time{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .alert-live{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; color:var(--mint); letter-spacing:.08em; }
+  .alert-title{ font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink); margin:0 0 6px 0; }
+  .alert-body{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.5; margin:0 0 14px 0; }
+  .alert-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .alert-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); }
+  .alert-tag.amber{ color:var(--amber); border-color:rgba(255,138,92,.4); }
+
+  .chart-card{ padding:20px 22px; }
+  .chart-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+  .chart-legend{ display:flex; gap:16px; margin-bottom:12px; }
+  .chart-legend span{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--muted); }
+  .chart-legend i{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+  .live-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:3.5vh; max-width:1180px; }
+  .chat-card{ padding:22px; height:300px; display:flex; flex-direction:column; }
+  .chat-head{ display:flex; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .chat-head .iris-mini{ position:relative; width:19px; height:19px; }
+  .chat-head .iris-mini .r1{ position:absolute; inset:0; border-radius:50%; border:1.5px solid var(--magenta); }
+  .chat-head .iris-mini .r2{ position:absolute; inset:5px; border-radius:50%; background:var(--magenta); }
+  .chat-head-title{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .bubble{ border-radius:12px; padding:12px 14px; font-family:var(--sans); font-size:14.5px; line-height:1.48; margin-bottom:11px; max-width:90%; }
+  .bubble.user{ background:var(--card-hi); border:1px solid var(--line); color:var(--ink); align-self:flex-end; margin-left:auto; }
+  .bubble.iris{ background:rgba(255,79,129,0.06); border:1px solid rgba(255,79,129,0.28); color:var(--body); }
+  .bubble.iris .cursor{ display:inline-block; width:6px; height:12px; background:var(--magenta); margin-left:2px; animation:pulse .9s ease-in-out infinite; vertical-align:middle; }
+  .scorecard-card{ padding:22px; height:300px; }
+  .sc-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:14px; text-transform:uppercase; }
+  .sc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .sc-item{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:13px; position:relative; }
+  .sc-val{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .sc-lab{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.06em; margin-top:4px; text-transform:uppercase; }
+  .flag-oval{ position:absolute; border:1.5px dashed var(--magenta); border-radius:50%; top:6px; left:8px; width:68px; height:32px; opacity:0; }
+  .sc-item.flagged .flag-oval{ animation:flagIn .6s ease .3s forwards, pulse 2.2s ease-in-out 1s infinite; }
+  @keyframes flagIn{ from{ opacity:0; transform:scale(.85);} to{ opacity:1; transform:scale(1);} }
+
+  /* solution stack grid */
+  .sol-section{ margin-top:2.6vh; }
+  .sol-section + .sol-section{ margin-top:1.6vh; }
+  .sol-section-label{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+  .sol-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; max-width:1180px; }
+  .sol-chip{ padding:11px 13px; border-radius:10px; }
+  .sol-chip .sc-name{ font-family:var(--sans); font-size:13.2px; color:var(--ink); font-weight:500; line-height:1.28; }
+  .sol-chip .sc-tag2{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; text-transform:uppercase; }
+
+  /* story */
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:21px; color:var(--ink); max-width:740px; margin:16px 0 18px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  /* impact stats */
+  .impact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1040px; }
+  .impact-card{ padding:22px 18px; }
+  .impact-val{ font-family:var(--serif); font-weight:700; font-size:30px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .impact-lab{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em; margin-top:8px; text-transform:uppercase; line-height:1.4; }
+  .impact-footnote{ margin-top:22px; font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.6; max-width:840px; font-style:italic; }
+
+  /* pain/response (reused) */
+  .pr-wrap{ margin-top:3.5vh; display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1160px; }
+  .pr-col-label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+  .pr-card{ padding:18px 20px; }
+  .pr-item{ display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); }
+  .pr-item:last-child{ border-bottom:none; }
+  .pr-item .tag{ font-family:var(--mono); font-size:10px; font-weight:600; flex:none; width:24px; padding-top:2px; }
+  .pr-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.46; }
+  .outcome-strip{ grid-column:1 / -1; display:flex; align-items:center; gap:20px; padding:18px 22px; }
+  .outcome-strip .big{ font-family:var(--serif); font-weight:700; font-size:36px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .outcome-strip .cap{ font-family:var(--sans); font-size:12.5px; color:var(--body); max-width:480px; line-height:1.4; }
+
+  #s13{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:56px auto 80px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--coral); color:var(--coral); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #s0{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:760px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--coral); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--coral); white-space:nowrap; }
+  .cycle-word .stop{ color:var(--ink); }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  @media (max-width:1000px){
+    .narr-grid, .prod-grid{ grid-template-columns:1fr 1fr; }
+    .sol-grid{ grid-template-columns:repeat(2,1fr); }
+    .impact-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .live-grid, .pr-wrap{ grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .side-panel{ position:static; transform:none; width:100%; margin-top:22px; }
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  @media print{
+    @page{ size:297mm 167mm; margin:0; }                       /* landscape 16:9, no browser header/footer */
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }  /* keep the dark theme + colors */
+    html,body{ overflow:visible !important; background:var(--bg) !important; }
+    .chrome,.arrow,.dots,.progress,.counter,.wordmark,.toolbar,.scroll-cue{ display:none !important; }
+    .ambient{ display:none !important; }
+    .deck{ height:auto !important; }
+    .slide{ position:relative !important; inset:auto !important; opacity:1 !important; transform:none !important;
+            width:100%; height:167mm; padding:13mm 18mm; overflow:hidden;
+            background:linear-gradient(180deg, var(--card), var(--bg)) !important;
+            page-break-after:always; break-inside:avoid; }
+    .slide:last-child{ page-break-after:auto; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .flag-oval{ animation:none !important; opacity:1 !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; animation:none !important; }
+    .cycle-sizer{ display:none !important; }
+    .bubble{ opacity:1 !important; }
+    .bubble .cursor{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- 0 — COVER -->
+  <section class="slide" id="s0">
+    <div class="cover-orb-wrap"><div class="orb" id="orbCover"></div></div>
+    <div class="cover-copy">
+      <div class="cover-tag">ZENTALLIO &nbsp;·&nbsp; SECTOR 02 OF 10 &nbsp;·&nbsp; CASUAL DINING</div>
+      <h1 class="display">The AI that runs<br><span class="cycle-wrap" id="cycleWrap"></span></h1>
+      <p class="lede">An executive briefing on how Iris — Zentallio's AI decision agent — runs the floor plan, the coursing, the servers and every split bill, table by table.</p>
+      <div class="tagline-strip">8 FORMATS &nbsp;·&nbsp; 17 AI SOLUTIONS &nbsp;·&nbsp; L1 ZEN RULES → L2 ZEN MODELS → L3 ASK IRIS</div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div> USE ← → OR CLICK TO ADVANCE</div>
+  </section>
+
+  <!-- 1 — THE FLOOR, LIVE -->
+  <section class="slide" id="s1">
+    <div class="eyebrow"><span class="dot"></span>THE CASUAL DINING REALITY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">In casual dining,<br>the turn is the P&amp;L.</h1>
+    <p class="lede">Table turn time is the number that decides a Saturday. Iris seats, fires and paces against it rather than hoping.</p>
+    <div class="board card">
+      <div class="board-item"><div class="board-label">Covers / night</div><div class="board-val amber" data-count="284">0</div></div>
+      <div class="board-item"><div class="board-label">Table turn</div><div class="board-val teal" data-count="68" data-suffix="m">0m</div></div>
+      <div class="board-item"><div class="board-label">Course accuracy</div><div class="board-val amber" data-count="97.2" data-suffix="%" data-decimals="1">0%</div></div>
+      <div class="board-item"><div class="board-label">Iris</div><div class="board-val watching"><span class="live-dot"></span>Watching</div></div>
+    </div>
+  </section>
+
+  <!-- 2 — FULL TABLES ARE A SYSTEM -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE CASUAL DINING STORY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Full tables are a system,<br>not luck.</h1>
+    <p class="lede">Casual dining wins on turns and dies on friction: slow coursing, split-bill chaos, comps nobody can explain.</p>
+    <div class="narr-grid">
+      <div class="narr-card card"><div class="n-tag">The dining room</div><p>A thousand signals a night — seating, firing, comps, voids — and <b>most of them are lost by morning</b>.</p></div>
+      <div class="narr-card card"><div class="n-tag">Coursing</div><p>Starters, mains and desserts fired to arrive together <b>for the table</b> — not for the ticket.</p></div>
+      <div class="narr-card card"><div class="n-tag">Attribution</div><p>Every comp and void is attributed, and Iris names <b>which section is drifting</b> before the guests feel it.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 — SIX LIVE PRODUCTS -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><span class="dot" style="background:var(--mint)"></span>THE PLATFORM</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Six live products.<br>One data spine.</h1>
+    <p class="lede">One data spine — from the till to the ledger. Everything below reads from, and writes back to, the same floor.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--teal)"></div><div class="prod-name">Balanced Scorecard</div><div class="prod-desc">FINANCE · L2</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--mint)"></div><div class="prod-name">Point of Sale</div><div class="prod-desc">LIVE TILL · IRIS UPSELL</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Numerus</div><div class="prod-desc">CFO · BALANCED LEDGER</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--teal)"></div><div class="prod-name">Nexus</div><div class="prod-desc">SUPPLY CHAIN</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--mint)"></div><div class="prod-name">Motus</div><div class="prod-desc">OPERATIONS</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--amber)"></div><div class="prod-name">Manus</div><div class="prod-desc">WORKFORCE</div></div>
+    </div>
+  </section>
+
+  <!-- 3b -- POINT OF SALE -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--mint)"></span>THE SCREEN YOUR STAFF ACTUALLY RUN</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Point of Sale</h1>
+    <p class="lede">Orders, modifiers, stock depleting as you sell &mdash; and Iris upselling every ticket without adding a second to the queue.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--mint)"></span><p><span class="fi-name">Order, course and settle on one screen.</span> Server takes the order, courses it to the kitchen and splits the bill without switching terminals.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--mint)"></span><p><span class="fi-name">Stock depletes as you sell.</span> Every modifier rung up moves inventory in the same second &mdash; no end-of-night reconciliation.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Iris prompts the server, too.</span> A course upgrade or add-on surfaces on the till, timed to what's already on the table.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">284</div><div class="sl">Covers / night through this till</div></div>
+      <div class="stat-chip card"><div class="sv">1</div><div class="sl">Screen, order to settlement</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(111,217,143,.4); margin-top:20px;">LIVE TILL &middot; IRIS UPSELL</div>
+  </section>
+
+  <!-- 3c -- BALANCED SCORECARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE WHOLE BUSINESS ON ONE BOARD</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Balanced Scorecard</h1>
+    <p class="lede">Covers, turn time, comps and course accuracy &mdash; live, with Iris naming the section where the evening actually slipped.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Four perspectives, one board.</span> Financial, customer, operational and learning &mdash; every number live, not compiled next week.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Every module feeds it.</span> Floor plan, kitchen, workforce and supply chain all post into the same view.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Iris names the cause.</span> Not just the number that moved &mdash; the section, the shift and the server behind it.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">68m</div><div class="sl">Table turn, live</div></div>
+      <div class="stat-chip card"><div class="sv">97.2%</div><div class="sl">Course accuracy</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(53,202,220,.4); margin-top:20px;">FINANCE &middot; L2</div>
+  </section>
+
+  <!-- 3d -- NUMERUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>ONE LEDGER. AND IT TIES.</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Numerus</h1>
+    <p class="lede">P&amp;L, balance sheet, cash and close on a single balanced ledger &mdash; a month-end that is a review rather than a rebuild.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Sub-ledgers that reconcile.</span> AR, AP and inventory tie out automatically &mdash; not chased down at close.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Comps and voids carry attribution.</span> Every one posts with the server, section and reason attached to the entry.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Ask Iris for any number.</span> Any site, any period &mdash; answered in the conversation, not a week after month-end.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">1</div><div class="sl">Balanced ledger, till to close</div></div>
+      <div class="stat-chip card"><div class="sv">&minus;18%</div><div class="sl">Comp &amp; void leakage*</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(255,138,92,.4); margin-top:20px;">CFO &middot; LEDGER</div>
+  </section>
+
+  <!-- 3e -- NEXUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE CHAIN, PLANNED END TO END</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Nexus</h1>
+    <p class="lede">Forecast to prep plan to purchase order to the cold-chain van &mdash; eighteen modules, one supply chain.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">The cover forecast drives the order.</span> Expected covers by hour become prep quantities and purchase orders, not a manager's guess.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Vendor pricing, centralized.</span> Cost and lead times tracked across the group rather than negotiated site by site.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Cold chain included.</span> The van is part of the plan &mdash; eighteen modules from forecast to delivery.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">18</div><div class="sl">Modules, forecast to van</div></div>
+      <div class="stat-chip card"><div class="sv">By hour</div><div class="sl">Cover forecast into prep</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(53,202,220,.4); margin-top:20px;">SUPPLY CHAIN</div>
+  </section>
+
+  <!-- 3f -- MOTUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>THE EXCEPTIONS, NOT THE NOISE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Motus</h1>
+    <p class="lede">The operations layer &mdash; surfacing exceptions and incidents across the estate, and leaving the rest alone.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Course timing, tracked per table.</span> Time between courses rolls up by section, shift and site.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--amber)"></span><p><span class="fi-name">Surfaces what needs a human.</span> Not a report on every site &mdash; the sections that actually slipped tonight.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Feeds Zen Rules and Zen Models.</span> The operational data Iris's other two layers run on comes from here.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">68m</div><div class="sl">Table turn, estate-wide</div></div>
+      <div class="stat-chip card"><div class="sv">Exceptions</div><div class="sl">Surfaced, not every row</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--amber); border-color:rgba(255,138,92,.4); margin-top:20px;">OPERATIONS</div>
+  </section>
+
+  <!-- 3g -- MANUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE PEOPLE PLAN, AND WHAT IT REALLY COSTS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Manus</h1>
+    <p class="lede">Rostering built from the forecast &mdash; attendance, payroll, working-time compliance, and the retention risk hiding behind the labour ratio.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Rosters follow the cover forecast.</span> Section coverage is built from expected covers by hour, not from last Saturday's rota.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Compliance is a guardrail.</span> Working-time rules and breaks are enforced in the roster, not audited after payroll.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Retention risk, surfaced early.</span> The pattern behind the labour ratio &mdash; before a good server hands in notice.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">+0.6</div><div class="sl">Table turns per service*</div></div>
+      <div class="stat-chip card"><div class="sv">By hour</div><div class="sl">Rostered to the forecast</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(53,202,220,.4); margin-top:20px;">WORKFORCE</div>
+  </section>
+
+  <!-- SECTION L1 -- IRIS, THE RULES LAYER (intro) -->
+  <section class="slide">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--teal); border-color:rgba(53,202,220,.5)">L1</span><div class="module-tag">Iris &middot; Intelligence layer 01</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris enforces the rules.</h1>
+    <p class="lede">Deterministic thresholds under the hood <span class="tech-note">(the &ldquo;Zen Rules&rdquo; layer)</span> &mdash; catch a known problem the instant it crosses a line. Split billing and open tabs run on this layer.</p>
+    <div class="side-panel">
+      <div class="alert-card card">
+        <div class="alert-head"><div class="alert-time">TONIGHT &middot; 21:07</div><div class="alert-live"><span class="live-dot"></span>LIVE ALERT</div></div>
+        <div class="alert-title">High-spend tab flagged</div>
+        <p class="alert-body">Table 14 &mdash; running tab has crossed the configured threshold. Surfaced to the duty manager while the table is still seated, not at settlement.</p>
+        <div class="alert-tags"><span class="alert-tag amber">IRIS &middot; L1</span><span class="alert-tag">TABLE 14</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 1/2 -- Split Bill -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">01 / 02</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Split Bill &mdash; By Item or Equally</h1>
+        <p class="solution-desc">A table's bill can be split any way the guests choose &mdash; equally per head, by individual items ordered, or a custom combination. No mental arithmetic for staff.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Equal split &mdash; total divided by number of guests, each paying their share by card or cash.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Item-by-item &mdash; each guest selects their own items and pays exactly what they ordered.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Multi-tender per split &mdash; Guest A pays cash, Guest B taps card, on the same bill.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Service charge distributed proportionally across splits &mdash; no manual calculation.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(53,202,220,.4)">RULE ENGINE &middot; L1</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">3 ways</div><div class="sl">Equal, by item, custom</div></div>
+          <div class="stat-chip card"><div class="sv">At bill</div><div class="sl">Split before payment starts</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;What percentage of our tables use split billing on weekends?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Chinese &middot; BBQ &amp; grill &middot; Korean BBQ &middot; Italian &middot; Thai &amp; Asian</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 2/2 -- Open Tab Management -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">02 / 02</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Open Tab Management</h1>
+        <p class="solution-desc">A tab opened when guests are seated stays open until they ask for the bill. Staff add items at any time without re-opening an order.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Tab is created automatically when a table is assigned &mdash; no separate step.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Additional orders join the running tab &mdash; no new order, no duplication.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A high-spend tab approaching a configurable threshold is flagged for manager awareness.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Tabs transfer between tables or to the bar, and accept partial payment mid-service.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--teal); border-color:rgba(53,202,220,.4)">RULE ENGINE &middot; ANOMALY</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">At seating</div><div class="sl">Tab opens automatically</div></div>
+          <div class="stat-chip card"><div class="sv">Live</div><div class="sl">Updates on every item</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;What is the average tab value on Saturday night vs Sunday lunch?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; BBQ &amp; grill &middot; Korean BBQ &middot; Seafood &middot; Lebanese &middot; Turkish</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L2 -- IRIS, THE FORECASTING LAYER (intro) -->
+  <section class="slide" data-chart="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--mint); border-color:rgba(111,217,143,.5)">L2</span><div class="module-tag">Iris &middot; Intelligence layer 02</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris predicts the turn.</h1>
+    <p class="lede">Forecasting and regression under the hood <span class="tech-note">(the &ldquo;Zen Models&rdquo; layer)</span> &mdash; predicts table availability, covers and no-shows before the service starts. Four solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="chart-card card">
+        <div class="chart-title">Covers by Service Hour &mdash; Forecast vs Actual</div>
+        <div class="chart-legend"><span><i style="background:var(--mint)"></i>Forecast</span><span><i style="background:var(--coral)"></i>Actual</span></div>
+        <svg viewBox="0 0 380 140" width="100%" height="140"><g id="barChart"></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 1/4 -- Table Management & Floor Plan -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">01 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Table Management &amp; Floor Plan</h1>
+        <p class="solution-desc">A live digital floor plan showing every table's status &mdash; occupied, free, reserved, or being cleared. The host always knows where to seat the next guest without checking physically.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Drag-and-drop floor map matches the actual layout, updating as orders are placed and bills paid.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>The turn predictor estimates when each occupied table frees up &mdash; availability seen 15 minutes ahead.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Colour-coded at a glance: free, occupied, reserved, cleaning &mdash; on any device.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Indoor, terrace and private dining on one screen; tables merge for large parties and split for separate bills.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(111,217,143,.4)">REGRESSION &middot; FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">15 min</div><div class="sl">Availability, seen ahead</div></div>
+          <div class="stat-chip card"><div class="sv">68m</div><div class="sl">Average table turn</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;What is the average table turn time on Friday dinner service?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Pakistani/desi &middot; Chinese &middot; BBQ &amp; grill &middot; Seafood &middot; Italian</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 2/4 -- Server Assignment & Multi-Course Coursing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">02 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Server Assignment &amp; Multi-Course Coursing</h1>
+        <p class="solution-desc">Tables assigned to specific servers. Orders coursed to the kitchen in sequence &mdash; starter, main, dessert &mdash; the kitchen receives each course only when the previous one is cleared.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every table is assigned to a named server &mdash; sales, tips and performance tracked per server.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Starter fires at order time; the main fires when staff course it. The kitchen never gets ahead.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>The KDS shows course number and sequence &mdash; no confusion between tables' starters and mains.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The scorer tracks AOV, upsell rate and tip % per server &mdash; coaching opportunities without bias.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(111,217,143,.4)">SCORING &middot; REGRESSION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">97.2%</div><div class="sl">Course accuracy</div></div>
+          <div class="stat-chip card"><div class="sv">Per table</div><div class="sl">Course timing logged</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;Which server had the highest average order value this week?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Pakistani/desi &middot; Seafood &middot; Italian &middot; Lebanese &middot; Indian</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 3/4 -- Reservation & Waitlist Management -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">03 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Reservation &amp; Waitlist Management</h1>
+        <p class="solution-desc">Phone and walk-in reservations captured in one system &mdash; with deposit tracking, no-show flags, and a live waitlist for busy periods. The host is always in control.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Bookings taken by phone or online &mdash; date, time, covers, special requests and contact recorded.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>The no-show predictor scores each reservation 0&ndash;100, allowing an intelligent overbooking buffer.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Deposits are linked to the booking for large parties and peak nights, then deducted at billing.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The cover forecast by hour lets the kitchen plan prep quantities in advance.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(111,217,143,.4)">CLASSIFIER &middot; FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">0&ndash;100</div><div class="sl">No-show risk score</div></div>
+          <div class="stat-chip card"><div class="sv">24h</div><div class="sl">Re-scored before arrival</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;Which day of the week has the highest reservation no-show rate?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Pakistani/desi &middot; Seafood &middot; Italian &middot; Lebanese &middot; Indian</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 4/4 -- Tip Handling & Service Charge -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">04 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Tip Handling &amp; Service Charge</h1>
+        <p class="solution-desc">Tip prompts on the card terminal at checkout &mdash; with staff tip allocation, pooling options, and full reporting. Service charge applied per your policy and distributed correctly.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Configurable tip options appear on the terminal at checkout &mdash; 10%, 15%, 20% or custom.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Cash tips are logged against the server and included in their performance report.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Fixed-percentage service charge is added automatically, with exempt categories excluded.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Tips per server, per shift, per week &mdash; a full audit trail for payroll integration.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--mint); border-color:rgba(111,217,143,.4)">SCORING &middot; REGRESSION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per server</div><div class="sl">Tip rate tracked with AOV</div></div>
+          <div class="stat-chip card"><div class="sv">Audit</div><div class="sl">Trail into payroll</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;What was the average tip percentage by server this month?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Seafood &middot; Italian &middot; Lebanese &middot; Thai &amp; Asian &middot; Sushi</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L3 -- ASK IRIS (live demo intro) -->
+  <section class="slide" data-chat="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--magenta); border-color:rgba(255,79,129,.5)">L3</span><div class="module-tag">Iris &middot; Intelligence layer 03 &mdash; live</div></div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,42px)">Ask Iris</h1>
+    <p class="lede" style="margin-bottom:0">Not a screenshot &mdash; the actual agent. Natural-language answers over the live floor.</p>
+    <div class="live-grid">
+      <div class="chat-card card">
+        <div class="chat-head"><div class="iris-mini"><div class="r1"></div><div class="r2"></div></div><div class="chat-head-title">ASK IRIS &mdash; CASUAL DINING</div></div>
+        <div class="bubble user" id="qBubble" style="opacity:0"></div>
+        <div class="bubble iris" id="aBubble" style="opacity:0"></div>
+      </div>
+      <div class="scorecard-card card">
+        <div class="sc-title">Live Balanced Scorecard</div>
+        <div class="sc-grid">
+          <div class="sc-item flagged"><div class="flag-oval"></div><div class="sc-val" data-count="68" data-suffix="m">0m</div><div class="sc-lab">Table turn</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="284">0</div><div class="sc-lab">Covers / night</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="97.2" data-suffix="%" data-decimals="1">0%</div><div class="sc-lab">Course accuracy</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="0.6" data-prefix="+" data-decimals="1">+0.0</div><div class="sc-lab">Turns per service &#9650;</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 1/1 -- Dietary Preference Profiling AI -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">01 / 01</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Dietary Preference Profiling AI</h1>
+        <p class="solution-desc">The guest, remembered. Dietary restrictions and preferences are held against the guest profile and surfaced to the host and server before they reach the table.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The profile is surfaced at check-in &mdash; before the host or server approaches the table.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Guests are clustered by preference pattern, not by broad demographics.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Recommendations respect the restriction on record rather than relying on the server remembering.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--magenta); border-color:rgba(255,79,129,.4)">RECOMMENDATION &middot; CLUSTERING</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">At check-in</div><div class="sl">Profile surfaced to the host</div></div>
+          <div class="stat-chip card"><div class="sv">Remembered</div><div class="sl">Across every visit</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Iris asks &mdash; &ldquo;How many of our regular guests have a dietary restriction logged?&rdquo;</div></div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Formats &mdash; Indian &middot; Thai &amp; Asian &middot; Lebanese &middot; Sushi &middot; Ethiopian</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CASUAL STACK — four bundles -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>THE CASUAL STACK</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Seventeen solutions,<br>four bundles.</h1>
+    <p class="lede">Every card opens a live guided demo. Seven are detailed in this briefing; the remainder run on the same three layers.</p>
+    <div class="sol-section">
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">At the Counter &mdash; I</div><div class="sc-tag2">WHERE THE ORDER IS TAKEN, AND MADE</div></div>
+        <div class="sol-chip card"><div class="sc-name">At the Counter &mdash; II</div><div class="sc-tag2">AND THE REST OF THE COUNTER</div></div>
+        <div class="sol-chip card"><div class="sc-name">The Guest</div><div class="sc-tag2">THE GUEST, REMEMBERED</div></div>
+        <div class="sol-chip card"><div class="sc-name">Kitchen &amp; Stock</div><div class="sc-tag2">WHAT YOU MAKE &middot; WHAT IT COSTS &middot; WHAT YOU LOSE</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Detailed in this briefing</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Table Management &amp; Floor Plan</div><div class="sc-tag2">L2 &middot; REGRESSION &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Server Assignment &amp; Coursing</div><div class="sc-tag2">L2 &middot; SCORING &middot; REGRESSION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Split Bill &mdash; Item or Equally</div><div class="sc-tag2">L1 &middot; RULE ENGINE</div></div>
+        <div class="sol-chip card"><div class="sc-name">Reservation &amp; Waitlist</div><div class="sc-tag2">L2 &middot; CLASSIFIER &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Open Tab Management</div><div class="sc-tag2">L1 &middot; RULE ENGINE &middot; ANOMALY</div></div>
+        <div class="sol-chip card"><div class="sc-name">Tip Handling &amp; Service Charge</div><div class="sc-tag2">L2 &middot; SCORING &middot; REGRESSION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Dietary Preference Profiling</div><div class="sc-tag2">L3 &middot; RECOMMENDATION &middot; CLUSTERING</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -- PURELY AGENTIC -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>HOW IT'S IMPLEMENTED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Implementation,<br>run by Iris.</h1>
+    <p class="lede">You configure a sector playbook, not a custom project. Iris applies it herself &mdash; agentically, from day one.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Onboarding is agentic.</span> Iris connects the POS, the floor plan and the reservation book directly &mdash; no manual data mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">The playbook applies itself.</span> Sector thresholds go live immediately, then tune from real service data, site by site.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Live in weeks, learning from day one.</span> There's no bespoke build to wait on &mdash; go-live is a configuration, not a project plan.</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -- AGENTIC FIRST LAYER -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>HOW SUPPORT WORKS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Support starts<br>with Iris.</h1>
+    <p class="lede">The first line of support is agentic &mdash; Iris resolves most of it herself. Our engineers pick up from there.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--magenta)"></span><p><span class="fi-name">Layer 1 &mdash; Iris, 24/7.</span> Configuration questions, anomalies and routine issues resolved directly, instantly.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">Layer 2 &mdash; our engineers.</span> Anything Iris can't close escalates automatically to a Zentallio engineer.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--teal)"></span><p><span class="fi-name">No blank tickets.</span> Every escalation arrives with Iris's own diagnosis &mdash; engineers start from an answer.</p></div>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--magenta)"></span>IN PRACTICE &mdash; A SATURDAY SERVICE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Managers watch guests,<br>not tickets.</h1>
+    <p class="story-quote">&ldquo;Coursing runs itself. Managers finally watch guests, not tickets.&rdquo; <span style="font-family:var(--mono); font-style:normal; font-size:11px; color:var(--muted); letter-spacing:.06em; display:block; margin-top:12px;">GENERAL MANAGER &middot; CASUAL DINING GROUP</span></p>
+    <p class="story-body">Zentallio keeps the floor moving: table-turn prediction paces seating, coursing runs itself, every comp and void is attributed, and Iris tells the manager which section is drifting before the guests feel it. Underneath sits the same platform every sector runs &mdash; one data spine from the till to the ledger, three layers of intelligence, and an agent that narrates every screen, flags what needs a human, and acts on the rest.</p>
+  </section>
+
+  <!-- WHAT TO EXPECT -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>WHAT AN OPERATOR CAN EXPECT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">The turn, measured.</h1>
+    <div class="impact-grid">
+      <div class="impact-card card"><div class="impact-val" data-count="0.6" data-prefix="+" data-decimals="1">+0.0</div><div class="impact-lab">Table turns per service</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="9" data-prefix="+" data-suffix="%">+0%</div><div class="impact-lab">Covers per night</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="18" data-prefix="−" data-suffix="%">−0%</div><div class="impact-lab">Comp &amp; void leakage</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="2.1" data-prefix="+" data-suffix="pt" data-decimals="1">+0.0pt</div><div class="impact-lab">Net margin</div></div>
+    </div>
+    <div class="impact-footnote">* Modelled from pilot assumptions &amp; comparable F&amp;B benchmarks &mdash; not yet a deployed-client result. We show real numbers as founding pilots conclude.</div>
+  </section>
+
+  <!-- PAIN / RESPONSE / OUTCOME -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><span class="dot" style="background:var(--amber)"></span>WHERE IT LEAKS, HOW IRIS RESPONDS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Where the dining room<br>actually loses margin.</h1>
+    <div class="pr-wrap">
+      <div>
+        <div class="pr-col-label">Where it leaks</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">01</div><p>Slow coursing &mdash; the kitchen runs ahead of the table and the turn stretches past plan.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">02</div><p>Split-bill chaos at settlement, with staff doing arithmetic while the next party waits.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--amber)">03</div><p>Comps and voids nobody can explain &mdash; and a no-show table nobody backfilled.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-col-label">How Iris responds</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--teal)">L1</div><p>Split rules and tab thresholds fire deterministically &mdash; at bill request, at seating, every time.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--mint)">L2</div><p>Turn prediction paces seating and the no-show score sets the overbooking buffer.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--magenta)">L3</div><p>&ldquo;Which section is drifting tonight?&rdquo; &mdash; answered in seconds, while service is still running.</p></div>
+        </div>
+      </div>
+      <div class="outcome-strip card">
+        <div class="big" data-count="0.6" data-prefix="+" data-decimals="1">+0.0</div>
+        <div class="cap">more table turns per service &mdash; while course accuracy holds at 97.2%.<span class="tech-note">*</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR RAIL -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><span class="dot" style="background:var(--teal)"></span>ONE PLATFORM, TEN SECTORS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Casual Dining is<br>sector two of ten.</h1>
+    <p class="lede">Every Zentallio sector runs the same three-layer intelligence, tuned to how that format actually loses margin.</p>
+    <div class="sector-rail">
+      <span class="sector-chip">01 Quick Service</span>
+      <span class="sector-chip active">02 Casual Dining</span>
+      <span class="sector-chip">03 Fine Dining</span>
+      <span class="sector-chip">04 Café &amp; Bakery</span>
+      <span class="sector-chip">05 Ice Cream &amp; Desserts</span>
+      <span class="sector-chip">06 Beverages &amp; Drinks</span>
+      <span class="sector-chip">07 Health &amp; Wellness</span>
+      <span class="sector-chip">08 Cloud Kitchen</span>
+      <span class="sector-chip">09 Institutional &amp; B2B</span>
+      <span class="sector-chip">10 Niche &amp; Experience</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" id="s13">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">Let's put Iris on<br>your floor.</div>
+    <div class="cta-sub">Book a call with our consultant — a pilot walkthrough on your own dining rooms, your own numbers.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">0327 0000901 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources" style="text-decoration:none"><b>ZENTALLIO</b> &nbsp;/&nbsp; CASUAL DINING &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
+  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">14</span></div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const IRIS_Q = 'Which section is drifting tonight?';
+  const IRIS_A = 'Section B is running 11 minutes over on table turn — the gap is between main and dessert, not in the kitchen. Three tables are sitting cleared but not coursed. Recommended: move a runner to Section B for the 9–10pm block. Same drift resolved this way last Saturday.';
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + (target*eased).toFixed(decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function typeChat(slide){
+    const q = slide.querySelector('#qBubble'); const a = slide.querySelector('#aBubble');
+    if(!q || !a) return;
+    q.style.opacity = 0; a.style.opacity = 0; q.textContent=''; a.innerHTML='';
+    setTimeout(()=>{
+      q.style.opacity = 1; let i=0;
+      const qi = setInterval(()=>{ q.textContent = IRIS_Q.slice(0,i+1); i++; if(i>=IRIS_Q.length){ clearInterval(qi); startAnswer(); } }, 22);
+    }, 300);
+    function startAnswer(){
+      setTimeout(()=>{
+        a.style.opacity = 1; a.innerHTML = '<span class="cursor"></span>'; let j=0;
+        const ai = setInterval(()=>{ a.innerHTML = IRIS_A.slice(0,j+1) + '<span class="cursor"></span>'; j++; if(j>=IRIS_A.length){ clearInterval(ai); a.innerHTML = IRIS_A; } }, 13);
+      }, 400);
+    }
+  }
+
+  function drawBarChart(slide){
+    const g = slide.querySelector('#barChart');
+    if(!g) return;
+    g.innerHTML = '';
+    const forecast = [34, 58, 91, 86, 52];
+    const actual   = [31, 61, 88, 90, 55];
+    const w = 380, h = 140, n = forecast.length, gap = 14, groupW = (w - gap*(n+1)) / n, barW = groupW/2 - 3;
+    const max = 100;
+    for(let i=0;i<n;i++){
+      const gx = gap + i*(groupW+gap);
+      const fh = (forecast[i]/max) * (h-20);
+      const ah = (actual[i]/max) * (h-20);
+      const rf = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rf.setAttribute('x', gx); rf.setAttribute('y', h-fh); rf.setAttribute('width', barW); rf.setAttribute('height', 0);
+      rf.setAttribute('fill', '#6FD98F'); rf.setAttribute('rx', 2); g.appendChild(rf);
+      const ra = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ra.setAttribute('x', gx+barW+4); ra.setAttribute('y', h-ah); ra.setAttribute('width', barW); ra.setAttribute('height', 0);
+      ra.setAttribute('fill', '#FF8A5C'); ra.setAttribute('rx', 2); g.appendChild(ra);
+      requestAnimationFrame(()=>{
+        rf.style.transition = 'height .7s ease, y .7s ease';
+        ra.style.transition = 'height .7s ease .1s, y .7s ease .1s';
+        rf.setAttribute('height', fh); rf.setAttribute('y', h-fh);
+        ra.setAttribute('height', ah); ra.setAttribute('y', h-ah);
+      });
+    }
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+    if(slide.dataset.chat === 'true') typeChat(slide);
+    if(slide.dataset.chart === 'true') drawBarChart(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  buildOrb(document.getElementById('orbCover'), 170);
+  buildOrb(document.getElementById('orbCta'), 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-8vw', y:'-10vh', s:'48vw', c:'var(--coral)'}, {x:'84vw', y:'60vh', s:'52vw', c:'var(--rose)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  // cover cycling phrase
+  const cycleWords = ['the floor.', 'the turn.', 'every course.'];
+  const wrap = document.getElementById('cycleWrap');
+  let widestCh = Math.max(...cycleWords.map(w=>w.length));
+  wrap.style.minWidth = (widestCh*0.62)+'ch';
+  let ci = 0;
+  function showCycleWord(){
+    wrap.innerHTML = '';
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    const w = cycleWords[ci % cycleWords.length];
+    const m = w.match(/^(.*?)([.!?]*)$/);
+    el.textContent = m[1];
+    if(m[2]){ const stop = document.createElement('span'); stop.className='stop'; stop.textContent=m[2]; el.appendChild(stop); }
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+
+  // Ensure every slide's dynamic content (counters, chat bubbles) is already
+  // correct on load -- not just the slide currently on screen. This matters
+  // for PDF export / print, which captures the DOM as-is without clicking
+  // through every slide first. The live animated reveal (count-up, typing)
+  // still plays normally whenever a slide is actually navigated to, via
+  // animateCounters()/typeChat() inside onEnter().
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + target.toFixed(decimals) + suffix;
+    });
+    const q = document.getElementById('qBubble');
+    const a = document.getElementById('aBubble');
+    if(q) q.textContent = IRIS_Q;
+    if(a) a.textContent = IRIS_A;
+  }
+  finalizeStaticContent();
+
+  goTo(0);
+})();
+</script>
+</body>
+</html>

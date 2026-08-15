@@ -179,6 +179,14 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .rthumb.t-article{background:linear-gradient(135deg, rgba(21,242,242,.14), rgba(21,242,242,.02));}
   .rthumb.t-video{background:linear-gradient(135deg, rgba(229,162,75,.16), rgba(229,162,75,.02));}
   .rthumb.t-pdf{background:linear-gradient(135deg, rgba(63,217,164,.14), rgba(63,217,164,.02));}
+  /* deck cards get a mini "cover" thumb instead of a floating mono label.
+     Each deck sets its own accent via inline --acc:R,G,B (default magenta). */
+  .rthumb.t-deck{--acc:255,45,149; background:linear-gradient(135deg, rgba(var(--acc),.20), rgba(var(--acc),.02));}
+  .dthumb{position:absolute;inset:0;padding:20px 22px;display:flex;flex-direction:column;justify-content:flex-end;}
+  .dthumb .dk{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgb(var(--acc));margin-bottom:9px;}
+  .dthumb .dn{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.05;color:var(--ink);letter-spacing:-.01em;}
+  .dorb{position:absolute;right:22px;top:20px;width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(var(--acc),.5);}
+  .dorb::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:rgb(var(--acc));box-shadow:0 0 14px 2px rgba(var(--acc),.6);}
   .rthumb.t-webinar{background:linear-gradient(135deg, rgba(155,123,255,.14), rgba(155,123,255,.02));}
   .rthumb .rmono{
     font-family:var(--mono);font-size:34px;letter-spacing:-.02em;opacity:.25;
@@ -203,6 +211,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .rbadge.video{color:var(--amber);border-color:rgba(229,162,75,.35);background:rgba(229,162,75,.06);}
   .rbadge.pdf{color:var(--mint);border-color:rgba(63,217,164,.35);background:rgba(63,217,164,.06);}
   .rbadge.webinar{color:var(--violet);border-color:rgba(155,123,255,.35);background:rgba(155,123,255,.06);}
+  .rbadge.deck{color:var(--magenta);border-color:rgba(255,45,149,.35);background:rgba(255,45,149,.06);}
   .rsector{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);}
   .rcard h3{font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.32;}
   .rcard p.rex{font-size:13px;color:var(--ink-1);line-height:1.55;flex:1;}
@@ -363,12 +372,13 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   <div class="nav-row">
     <a href="/" class="nav-brand"><span class="nav-z">Z</span>Zentallio</a>
     <div class="nav-links">
-      <a href="/food/food-beverage-solutions">Product</a>
-      <a href="/fashion/sector-solutions">Sectors</a>
+      <a href="/food-beverage">Food &amp; Beverage</a>
+      <a href="/fashion">Fashion Retail</a>
+      <a href="/meet-iris">Meet Iris</a>
       <a href="/resources" class="active">Resources</a>
-      <a href="/about">Company</a>
+      <a href="/contact">Contact</a>
     </div>
-    <a href="/contact" data-book="walkthrough" class="nav-cta">Book a demo</a>
+    <a href="/contact" data-book="walkthrough" class="nav-cta">Book a walkthrough</a>
   </div>
 </nav>
 
@@ -394,23 +404,23 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
       <span>— curated from what operators like you read first</span>
     </div>
     <div class="ip-row">
-      <a class="ip-card" href="/resources/zen-rules-zen-models-ask-iris">
+      <a class="ip-card" href="/resources/quick-service-street-food">
+        <div class="ip-tag">Deck</div>
+        <h3>Quick Service &amp; Street Food — Executive Briefing</h3>
+        <p>How Iris runs the counter, kiosk, drive-through and every aggregator, minute by minute — the six live products and the AI solutions behind them, as a walk-through deck.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> The fastest way to see the whole platform working in one sector</div>
+      </a>
+      <a class="ip-card" href="/resources/why-pos-data-alone-cant-tell-you-whats-happening">
         <div class="ip-tag">Article</div>
-        <h3>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</h3>
-        <p>Why Iris isn't one big model — and why splitting deterministic rules, forecasting models, and plain-language query into three layers is what makes it trustworthy.</p>
-        <div class="ip-why"><b>Why Iris picked this:</b> The most useful first read for anyone new to the product</div>
+        <h3>Why POS data alone can't tell you what's happening</h3>
+        <p>Every system tells a partial truth. Why the register, the schedule, and the ledger only reveal the real story once they're read together — not one report at a time.</p>
+        <div class="ip-why"><b>Why Iris picked this:</b> The clearest primer on how Iris turns scattered signals into one decision</div>
       </a>
       <a class="ip-card" href="/resources/why-cogs-drifts-before-anyone-notices">
         <div class="ip-tag">Article</div>
         <h3>Why COGS drifts before anyone notices</h3>
         <p>How portion drift on a few high-volume items quietly moves margin for weeks before it shows up on a P&amp;L — and why the fix is usually smaller than a price hike.</p>
         <div class="ip-why"><b>Why Iris picked this:</b> The most common question we get from multi-outlet operators</div>
-      </a>
-      <a class="ip-card" href="/resources/balanced-scorecard-for-multi-outlet-fb">
-        <div class="ip-tag">Whitepaper</div>
-        <h3>The Balanced Scorecard for multi-outlet F&amp;B operators</h3>
-        <p>A framework for reading Financial, Customer, Operational, and AI-Learning signals as one story instead of four disconnected reports.</p>
-        <div class="ip-why"><b>Why Iris picked this:</b> Pairs directly with the live scorecard on the product page</div>
       </a>
     </div>
   </div>
@@ -420,10 +430,11 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
 <div class="filters">
   <div class="wrap filter-row">
     <button class="ftab active" data-filter="all">All resources</button>
+    <button class="ftab" data-filter="deck"><span class="dot" style="color:var(--magenta)"></span>Decks</button>
     <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
     <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
     <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
-    <span class="fcount"><span id="fcountNum">13</span> results</span>
+    <span class="fcount"><span id="fcountNum">16</span> results</span>
   </div>
 </div>
 
@@ -432,13 +443,43 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   <div class="wrap">
     <div class="rgrid" id="rgrid">
 
-      <a class="rcard" data-type="article" href="/resources/zen-rules-zen-models-ask-iris">
-        <div class="rthumb t-article"><span class="rmono">L1·L2·L3</span></div>
+      <a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
+        <div class="rthumb t-deck" style="--acc:255,45,149"><span class="dorb"></span><div class="dthumb"><span class="dk">Sector 01 / 10</span><span class="dn">Quick&nbsp;Service &amp; Street&nbsp;Food</span></div></div>
         <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge article">Article</span><span class="rsector">Product</span></div>
-          <h3>Zen Rules, Zen Models, Ask Iris — the three layers of Iris, explained</h3>
-          <p class="rex">Why Iris isn't one big model — and why three layers, each doing one job well, is what makes it trustworthy on a live floor.</p>
-          <div class="rfoot-row"><span>7 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Quick Service</span></div>
+          <h3>Quick Service &amp; Street Food — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: how Iris runs the counter, kiosk, drive-through and every aggregator minute by minute — six live products and the AI solutions behind them.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/casual-dining">
+        <div class="rthumb t-deck" style="--acc:229,162,75"><span class="dorb"></span><div class="dthumb"><span class="dk">Sector 02 / 10</span><span class="dn">Casual&nbsp;Dining</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Casual Dining</span></div>
+          <h3>Casual Dining — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: how Iris runs the floor plan, coursing, servers and every split bill — table by table — pacing a full-service dining room against table-turn time.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/fine-dining">
+        <div class="rthumb t-deck" style="--acc:155,123,255"><span class="dorb"></span><div class="dthumb"><span class="dk">Sector 03 / 10</span><span class="dn">Fine&nbsp;Dining &amp; Premium</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Fine Dining</span></div>
+          <h3>Fine Dining &amp; Premium — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: service at the pass, a cellar that depletes as it pours, and menu engineering that protects the margin on every cover — fine-dining operations, narrated by Iris.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/cafe-bakery">
+        <div class="rthumb t-deck" style="--acc:63,217,164"><span class="dorb"></span><div class="dthumb"><span class="dk">Sector 04 / 10</span><span class="dn">Café, Coffee &amp; Bakery</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Café &amp; Bakery</span></div>
+          <h3>Café, Coffee &amp; Bakery — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: label at the bar, modifiers that hold, a display case that counts itself down, and a production plan built from what actually sold — narrated by Iris.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
 
@@ -512,13 +553,13 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="pdf" href="/resources/numerus-cfo-ledger-platform">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
+      <a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
+        <div class="rthumb t-deck" style="--acc:21,242,242"><span class="dorb"></span><div class="dthumb"><span class="dk">Product · CFO Ledger</span><span class="dn">Numerus</span></div></div>
         <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Numerus</span></div>
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
           <h3>Numerus — The CFO Ledger Platform</h3>
           <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
 
@@ -562,42 +603,6 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-    </div>
-  </div>
-</section>
-
-<!-- ===== CUSTOMER STORIES (mint) ===== -->
-<section class="stories">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Built for operators like <em>these</em></h2>
-      <span class="sub">Case studies coming soon</span>
-    </div>
-    <div class="story-row">
-      <div class="story-card">
-        <div class="story-logo">Steak Away</div>
-        <div class="story-tag">F&amp;B · QSR</div>
-        <p>Portion-level COGS visibility across every grill station, watched continuously instead of at month-end close.</p>
-        <div class="story-stat">Full case study <b>coming soon</b></div>
-      </div>
-      <div class="story-card">
-        <div class="story-logo">Dagwood</div>
-        <div class="story-tag">F&amp;B · Casual dining</div>
-        <p>Delivery-time alerts routed straight to shift leads instead of sitting in an end-of-day report nobody opened.</p>
-        <div class="story-stat">Full case study <b>coming soon</b></div>
-      </div>
-      <div class="story-card">
-        <div class="story-logo">Sweet Crème</div>
-        <div class="story-tag">F&amp;B · Bakery-café</div>
-        <p>Ask Iris replaces a weekly spreadsheet request to the finance team with a question anyone on shift can ask directly.</p>
-        <div class="story-stat">Full case study <b>coming soon</b></div>
-      </div>
-      <div class="story-card">
-        <div class="story-logo">NY212</div>
-        <div class="story-tag">F&amp;B · Multi-format</div>
-        <p>One scorecard across formats that used to report on separate spreadsheets with separate totals.</p>
-        <div class="story-stat">Full case study <b>coming soon</b></div>
-      </div>
     </div>
   </div>
 </section>

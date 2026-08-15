@@ -19,6 +19,19 @@
   function validEmail(e) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((e || "").trim());
   }
+  // Server-tracked lead id, persisted so Iris remembers the visitor across visits.
+  function getLeadId() {
+    try {
+      return localStorage.getItem("zentallio_lead") || null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function setLeadId(id) {
+    try {
+      if (id) localStorage.setItem("zentallio_lead", id);
+    } catch (e) {}
+  }
   function partsInTz(iso, tz) {
     var d = new Date(iso),
       p = {};
@@ -236,11 +249,12 @@
         var res = await api("/api/chat", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ messages: state.chat, state: state }),
+          body: JSON.stringify({ messages: state.chat, state: state, leadId: getLeadId() }),
         });
         typing.remove();
         addMsg(log, "bot", res.reply || "…");
         state.chat.push({ role: "assistant", content: res.reply || "" });
+        if (res.leadId) setLeadId(res.leadId); // server-tracked lead id, kept across visits
         if (res.state) Object.assign(state, res.state);
         if (res.booking && res.booking.ok) success(res.booking);
       } catch (err) {

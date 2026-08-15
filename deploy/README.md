@@ -82,6 +82,22 @@ CALCOM_API_KEY=cal_live_...
 GOOGLE_SHEET_ID=1am5C51B_lfQIWp1aGdhYCxXpXobhD2GAn_1IVYStHdU
 GOOGLE_SERVICE_ACCOUNT_EMAIL=...@....iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+
+# Radar CRM (Frappe CRM at pm.lucrumerp.com) — Iris pushes qualified leads into
+# the CRM Lead pipeline. Without the key/secret this is a safe no-op (logs only).
+# Create an API key/secret in Radar: User menu -> Settings -> API Access.
+RADAR_URL=https://pm.lucrumerp.com
+RADAR_API_KEY=...
+RADAR_API_SECRET=...
+RADAR_LEAD_DOCTYPE=CRM Lead
+RADAR_LEAD_SOURCE=Website
+# Primary owner for Iris leads — a real Radar User (email). Must exist in Radar
+# or the owner is skipped. Create an "Iris" user in Radar first, then set it here.
+RADAR_LEAD_OWNER=iris@lucrumerp.com
+
+# Handoff alert (optional). A Slack incoming-webhook URL (or any endpoint that
+# accepts {"text": "..."}). If unset, the Radar lead + timeline brief is the alert.
+HANDOFF_WEBHOOK_URL=
 ```
 
 No separate email service is needed — Cal.com emails both parties. Full
