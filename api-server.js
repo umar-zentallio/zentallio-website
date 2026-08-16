@@ -40,6 +40,7 @@ const ROUTES = {
   "/api/book": require("./api/book"),
   "/api/availability": require("./api/availability"),
   "/api/lead": require("./api/lead"),
+  "/api/subscribe": require("./api/subscribe"),
 };
 
 /* ---- Vercel-compatible response helpers ---- */

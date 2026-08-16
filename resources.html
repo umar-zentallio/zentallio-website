@@ -331,8 +331,12 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .nl-form input::placeholder{color:var(--ink-2);}
   .nl-form button{
     font-family:var(--mono);font-size:13px;font-weight:600;background:var(--teal);
-    color:#00201f;border:none;border-radius:9px;padding:0 20px;cursor:pointer;white-space:nowrap;
+    color:#00201f;border:none;border-radius:9px;padding:0 20px;cursor:pointer;white-space:nowrap;transition:opacity .18s;
   }
+  .nl-form button:disabled{opacity:.55;cursor:default;}
+  .nl-msg{flex-basis:100%;margin:12px 0 0;font-family:var(--mono);font-size:12.5px;line-height:1.5;}
+  .nl-msg.ok{color:var(--teal);}
+  .nl-msg.err{color:#e0708f;}
 
   /* ---------- FOOTER ---------- */
   .site-footer{border-top:1px solid var(--line);padding:56px 0 30px;background:var(--bg-1);}
@@ -724,10 +728,11 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   <div class="wrap">
     <div class="nl-card">
       <h2>New resources land here first — before the blog even knows about them.</h2>
-      <form class="nl-form" onsubmit="return false;">
-        <input type="email" placeholder="you@company.com" required>
-        <button type="submit">Notify me</button>
+      <form class="nl-form" id="nlForm" novalidate>
+        <input type="email" id="nlEmail" placeholder="you@company.com" autocomplete="email" required>
+        <button type="submit" id="nlBtn">Notify me</button>
       </form>
+      <p class="nl-msg" id="nlMsg" hidden></p>
     </div>
   </div>
 </section>
@@ -805,6 +810,57 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
       });
       countEl.textContent = visible;
     });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('nlForm');
+  if (!form) return;
+  var input = document.getElementById('nlEmail');
+  var btn = document.getElementById('nlBtn');
+  var msg = document.getElementById('nlMsg');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function show(text, kind){
+    msg.textContent = text;
+    msg.className = 'nl-msg ' + kind;
+    msg.hidden = false;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = (input.value || '').trim().toLowerCase();
+    if (!EMAIL_RE.test(email)){
+      show('Please enter a valid email address.', 'err');
+      input.focus();
+      return;
+    }
+    btn.disabled = true;
+    var label = btn.textContent;
+    btn.textContent = 'Sending…';
+    msg.hidden = true;
+
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    }).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return { ok: r.ok, j: j }; }); })
+      .then(function(res){
+        if (res.ok && res.j && res.j.ok){
+          form.hidden = true;
+          show("You're on the list — new resources will land in your inbox first.", 'ok');
+        } else {
+          btn.disabled = false;
+          btn.textContent = label;
+          show("Something went wrong — please try again in a moment.", 'err');
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        btn.textContent = label;
+        show("Couldn't reach the server — please try again.", 'err');
+      });
   });
 })();
 </script>
