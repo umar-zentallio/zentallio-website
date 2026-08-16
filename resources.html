@@ -145,6 +145,19 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .ip-why{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px;}
   .ip-why b{color:var(--ink-1);font-weight:500;}
 
+  /* ---------- SECTOR DECKS ---------- */
+  .decks-section{padding:56px 0 8px;}
+  .ds-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .ds-head h2{font-family:var(--serif);font-weight:500;font-size:20px;}
+  .ds-head span{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);letter-spacing:.04em;}
+  .ds-group{margin-top:30px;}
+  .ds-glabel{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-1);}
+  .ds-glabel .ds-dot{width:8px;height:8px;border-radius:50%;background:var(--gc,var(--teal));box-shadow:0 0 10px var(--gc,var(--teal));flex:none;}
+  .ds-glabel em{font-style:normal;color:var(--ink-2);letter-spacing:.04em;}
+  .ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:900px){.ds-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.ds-grid{grid-template-columns:1fr;}}
+
   /* ---------- FILTER TABS ---------- */
   .filters{
     position:sticky;top:68px;z-index:40;
@@ -426,24 +439,19 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- ===== FILTERS ===== -->
-<div class="filters">
-  <div class="wrap filter-row">
-    <button class="ftab active" data-filter="all">All resources</button>
-    <button class="ftab" data-filter="deck"><span class="dot" style="color:var(--magenta)"></span>Decks</button>
-    <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
-    <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
-    <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
-    <span class="fcount"><span id="fcountNum">22</span> results</span>
-  </div>
-</div>
-
-<!-- ===== GRID ===== -->
-<section class="rgrid-section">
+<!-- ===== SECTOR DECKS ===== -->
+<section class="decks-section">
   <div class="wrap">
-    <div class="rgrid" id="rgrid">
+    <div class="ds-head">
+      <h2>Sector decks</h2>
+      <span>&mdash; interactive executive briefings, one per sector, narrated by Iris</span>
+    </div>
 
-      <a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
+    <div class="ds-group">
+      <div class="ds-glabel"><span class="ds-dot" style="--gc:var(--teal)"></span>Food &amp; Beverage <em>&middot; 10 sectors</em></div>
+      <div class="ds-grid">
+
+<a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
         <div class="rthumb t-deck" style="--acc:255,45,149"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Quick&nbsp;Service &amp; Street&nbsp;Food</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Quick Service</span></div>
@@ -453,7 +461,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/casual-dining">
+<a class="rcard" data-type="deck" href="/resources/casual-dining">
         <div class="rthumb t-deck" style="--acc:229,162,75"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Casual&nbsp;Dining</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Casual Dining</span></div>
@@ -463,7 +471,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/fine-dining">
+<a class="rcard" data-type="deck" href="/resources/fine-dining">
         <div class="rthumb t-deck" style="--acc:155,123,255"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Fine&nbsp;Dining &amp; Premium</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Fine Dining</span></div>
@@ -473,7 +481,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/cafe-bakery">
+<a class="rcard" data-type="deck" href="/resources/cafe-bakery">
         <div class="rthumb t-deck" style="--acc:63,217,164"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Café, Coffee &amp; Bakery</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Café &amp; Bakery</span></div>
@@ -483,7 +491,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/ice-cream-desserts">
+<a class="rcard" data-type="deck" href="/resources/ice-cream-desserts">
         <div class="rthumb t-deck" style="--acc:56,189,248"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Ice Cream, Desserts &amp; Sweets</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Ice Cream &amp; Desserts</span></div>
@@ -493,7 +501,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/beverages-drinks">
+<a class="rcard" data-type="deck" href="/resources/beverages-drinks">
         <div class="rthumb t-deck" style="--acc:251,113,133"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Beverages &amp; Drinks</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Beverages &amp; Drinks</span></div>
@@ -503,7 +511,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/health-wellness">
+<a class="rcard" data-type="deck" href="/resources/health-wellness">
         <div class="rthumb t-deck" style="--acc:132,204,22"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Health, Wellness &amp; Specialty Diets</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Health &amp; Wellness</span></div>
@@ -513,7 +521,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/cloud-kitchen">
+<a class="rcard" data-type="deck" href="/resources/cloud-kitchen">
         <div class="rthumb t-deck" style="--acc:129,140,248"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Cloud Kitchen &amp; Delivery-Only</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Cloud Kitchen</span></div>
@@ -523,7 +531,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/institutional-b2b">
+<a class="rcard" data-type="deck" href="/resources/institutional-b2b">
         <div class="rthumb t-deck" style="--acc:234,179,8"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Institutional &amp; B2B Food Service</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Institutional &amp; B2B</span></div>
@@ -533,7 +541,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/niche-experience">
+<a class="rcard" data-type="deck" href="/resources/niche-experience">
         <div class="rthumb t-deck" style="--acc:251,146,60"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Niche &amp; Experience Concepts</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Niche &amp; Experience</span></div>
@@ -542,6 +550,44 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
           <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
+
+      </div>
+    </div>
+
+    <div class="ds-group">
+      <div class="ds-glabel"><span class="ds-dot" style="--gc:var(--magenta)"></span>Platform <em>&middot; 1</em></div>
+      <div class="ds-grid">
+
+<a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
+        <div class="rthumb t-deck" style="--acc:21,242,242"><span class="dorb"></span><div class="dthumb"><span class="dk">Product · CFO Ledger</span><span class="dn">Numerus</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
+          <h3>Numerus — The CFO Ledger Platform</h3>
+          <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTERS ===== -->
+<div class="filters">
+  <div class="wrap filter-row">
+    <button class="ftab active" data-filter="all">All resources</button>
+    <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
+    <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
+    <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
+    <span class="fcount"><span id="fcountNum">11</span> results</span>
+  </div>
+</div>
+
+<!-- ===== GRID ===== -->
+<section class="rgrid-section">
+  <div class="wrap">
+    <div class="rgrid" id="rgrid">
 
       <a class="rcard" data-type="article" href="/resources/why-cogs-drifts-before-anyone-notices">
         <div class="rthumb t-article"><span class="rmono">L1</span></div>
@@ -610,16 +656,6 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
           <h3>POS — Point-of-Sale Integration Layer</h3>
           <p class="rex">One connector standard across every POS you already run, streaming real-time transaction data into everything else Iris does.</p>
           <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
-        <div class="rthumb t-deck" style="--acc:21,242,242"><span class="dorb"></span><div class="dthumb"><span class="dk">Product · CFO Ledger</span><span class="dn">Numerus</span></div></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
-          <h3>Numerus — The CFO Ledger Platform</h3>
-          <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
-          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
 
