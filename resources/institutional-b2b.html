@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zentallio — Institutional &amp; B2B Food Service — Executive Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* INSTITUTIONAL & B2B FOOD SERVICE — steel-blue hero. NOTE: accent not supplied by the
+       source page. Chosen to read as contractual/institutional; L1 moved to cyan so the two
+       cool hues stay separable. Swap --steel + rgba(94,143,208, ...). */
+    --bg:#05080F; --bg2:#0A0A12; --card:#0E1017; --card-hi:#141721;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --steel:#5E8FD0; --steel-deep:#3D6BA8; --rose:#E0708F; --cyan:#3FCBC4; --honey:#E3B45F;
+    --azure:var(--cyan); --violet:var(--steel); --leaf:var(--steel); --copper:var(--steel); --citrus:var(--honey); --pistachio:var(--steel); --tan:var(--steel); --gold:var(--steel); --coral:var(--steel);
+    /* legacy role aliases — keep every existing reference valid */
+    --amber:var(--steel); --magenta:var(--rose); --teal:var(--cyan); --mint:var(--honey);
+    --ink:#F4F7FB; --body:#BCC3CF; --muted:#767F92;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .deck::after{ content:""; position:fixed; inset:0; pointer-events:none; z-index:5; background:radial-gradient(130% 120% at 50% 38%, transparent 58%, rgba(0,0,0,.34)); }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(110px); opacity:.18;
+         -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
+         mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%); }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.022em; font-optical-sizing:auto; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--coral); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(15px,1.3vw,18px); line-height:1.62; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); color:var(--amber); box-shadow:0 0 12px -1px currentColor; transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; }
+  .wordmark b{ color:var(--coral); font-weight:600; }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:54px; height:54px; border-radius:50%; border:1.5px solid var(--amber); background:rgba(255,255,255,0.07); color:var(--amber); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:22px; box-shadow:0 3px 20px rgba(0,0,0,.45); }
+  .arrow:hover{ background:var(--amber); color:var(--bg); border-color:var(--amber); transform:translateY(-50%) scale(1.06); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(224,112,143,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinRev{ to{ transform:translate(-50%,-50%) rotate(-360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:16px; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 26px 50px -34px rgba(0,0,0,.75); }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  /* sector rail */
+  .sector-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; max-width:920px; }
+  .sector-chip{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sector-chip.active{ color:var(--amber); border-color:rgba(94,143,208,.5); background:rgba(94,143,208,.06); }
+
+  /* live board (cover / reality) */
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:820px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.watching{ font-family:var(--mono); font-size:15px; color:var(--mint); display:flex; align-items:center; gap:8px; }
+
+  /* narrative 3-card grid */
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  /* six products grid */
+  .prod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.03em; }
+
+  /* module badge (shared) */
+  .module-badge{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .module-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .layer-chip{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:5px 10px; border-radius:6px; border:1.5px solid; font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.03em; }
+  .module-badge2{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+
+  /* individual solution slides — modern detail layout, no rings */
+  .sol-eyebrow-row{ display:flex; align-items:center; justify-content:space-between; max-width:1180px; margin-bottom:6px; }
+  .sol-index{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
+  .solution-hero2{ display:grid; grid-template-columns:1.5fr 1fr; gap:5vw; margin-top:3vh; max-width:1180px; align-items:start; }
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-desc{ font-family:var(--sans); font-size:15.5px; color:var(--body); line-height:1.5; max-width:520px; margin:0; }
+  .how-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; max-width:520px; }
+  .how-item{ display:flex; gap:12px; }
+  .how-num{ font-family:var(--mono); font-size:10px; color:var(--amber); flex:none; width:20px; padding-top:2px; }
+  .how-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.48; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+  .stat-stack{ display:flex; flex-direction:column; gap:12px; margin-top:2px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+  .stat-row{ display:flex; gap:10px; }
+  .stat-row .stat-chip{ flex:1; padding:13px 15px; }
+  .stat-row .stat-chip .sv{ font-size:19px; }
+  .stat-row .stat-chip .sl{ font-size:8px; }
+  .tech-note{ color:var(--muted); font-size:.92em; }
+
+  @media (max-width:760px){ .solution-hero2{ grid-template-columns:1fr; } }
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:560px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:14.5px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .side-panel{ position:absolute; right:7.5vw; top:50%; transform:translateY(-50%); width:min(36vw, 440px); }
+
+  .alert-card{ padding:20px 22px; }
+  .alert-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .alert-time{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .alert-live{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; color:var(--mint); letter-spacing:.08em; }
+  .alert-title{ font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink); margin:0 0 6px 0; }
+  .alert-body{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.5; margin:0 0 14px 0; }
+  .alert-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .alert-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); }
+  .alert-tag.amber{ color:var(--amber); border-color:rgba(94,143,208,.4); }
+
+  .chart-card{ padding:20px 22px; }
+  .chart-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+  .chart-legend{ display:flex; gap:16px; margin-bottom:12px; }
+  .chart-legend span{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--muted); }
+  .chart-legend i{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+  .live-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:3.5vh; max-width:1180px; }
+  .chat-card{ padding:22px; height:300px; display:flex; flex-direction:column; }
+  .chat-head{ display:flex; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .chat-head .iris-mini{ position:relative; width:19px; height:19px; }
+  .chat-head .iris-mini .r1{ position:absolute; inset:0; border-radius:50%; border:1.5px solid var(--magenta); }
+  .chat-head .iris-mini .r2{ position:absolute; inset:5px; border-radius:50%; background:var(--magenta); }
+  .chat-head-title{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .bubble{ border-radius:12px; padding:12px 14px; font-family:var(--sans); font-size:14.5px; line-height:1.48; margin-bottom:11px; max-width:90%; }
+  .bubble.user{ background:var(--card-hi); border:1px solid var(--line); color:var(--ink); align-self:flex-end; margin-left:auto; }
+  .bubble.iris{ background:rgba(224,112,143,0.06); border:1px solid rgba(224,112,143,0.28); color:var(--body); }
+  .bubble.iris .cursor{ display:inline-block; width:6px; height:12px; background:var(--magenta); margin-left:2px; animation:pulse .9s ease-in-out infinite; vertical-align:middle; }
+  .scorecard-card{ padding:22px; height:300px; }
+  .sc-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:14px; text-transform:uppercase; }
+  .sc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .sc-item{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:13px; position:relative; }
+  .sc-val{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .sc-lab{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.06em; margin-top:4px; text-transform:uppercase; }
+  .flag-oval{ position:absolute; border:1.5px dashed var(--magenta); border-radius:50%; top:6px; left:8px; width:68px; height:32px; opacity:0; }
+  .sc-item.flagged .flag-oval{ animation:flagIn .6s ease .3s forwards, pulse 2.2s ease-in-out 1s infinite; }
+  @keyframes flagIn{ from{ opacity:0; transform:scale(.85);} to{ opacity:1; transform:scale(1);} }
+
+  /* solution stack grid */
+  .sol-section{ margin-top:2.6vh; }
+  .sol-section + .sol-section{ margin-top:1.6vh; }
+  .sol-section-label{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+  .sol-section-desc{ font-family:var(--sans); font-size:11.5px; color:var(--body); opacity:.72; margin:-5px 0 9px 0; max-width:640px; line-height:1.4; }
+  .sol-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; max-width:1180px; }
+  .sol-chip{ padding:11px 13px; border-radius:10px; }
+  .sol-chip .sc-name{ font-family:var(--sans); font-size:13.2px; color:var(--ink); font-weight:500; line-height:1.28; }
+  .sol-chip .sc-tag2{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; text-transform:uppercase; }
+
+  /* story */
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:21px; color:var(--ink); max-width:740px; margin:16px 0 18px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  /* impact stats */
+  .impact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1040px; }
+  .impact-card{ padding:22px 18px; }
+  .impact-val{ font-family:var(--serif); font-weight:700; font-size:30px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .impact-lab{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em; margin-top:8px; text-transform:uppercase; line-height:1.4; }
+  .impact-footnote{ margin-top:22px; font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.6; max-width:840px; font-style:italic; }
+
+  /* pain/response (reused) */
+  .pr-wrap{ margin-top:3.5vh; display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1160px; }
+  .pr-col-label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+  .pr-card{ padding:18px 20px; }
+  .pr-item{ display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); }
+  .pr-item:last-child{ border-bottom:none; }
+  .pr-item .tag{ font-family:var(--mono); font-size:10px; font-weight:600; flex:none; width:24px; padding-top:2px; }
+  .pr-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.46; }
+  .outcome-strip{ grid-column:1 / -1; display:flex; align-items:center; gap:20px; padding:18px 22px; }
+  .outcome-strip .big{ font-family:var(--serif); font-weight:700; font-size:36px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .outcome-strip .cap{ font-family:var(--sans); font-size:12.5px; color:var(--body); max-width:480px; line-height:1.4; }
+
+  #s13{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:56px auto 80px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--coral); color:var(--coral); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #s0{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:760px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--coral); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--steel); white-space:nowrap; }
+  .cycle-sizer{ visibility:hidden; display:inline-block; font-style:italic; font-weight:500; white-space:nowrap; }
+  .cycle-word .stop{ color:var(--ink); }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  @media (max-width:1000px){
+    .narr-grid, .prod-grid{ grid-template-columns:1fr 1fr; }
+    .sol-grid{ grid-template-columns:repeat(2,1fr); }
+    .impact-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .live-grid, .pr-wrap{ grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .side-panel{ position:static; transform:none; width:100%; margin-top:22px; }
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  @media print{
+    @page{ size:297mm 167mm; margin:0; }                       /* landscape 16:9, no browser header/footer */
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }  /* keep the dark theme + colors */
+    html,body{ overflow:visible !important; background:var(--bg) !important; }
+    .chrome,.arrow,.dots,.progress,.counter,.wordmark,.toolbar,.scroll-cue{ display:none !important; }
+    .ambient{ display:none !important; } .deck::after{ display:none !important; }
+    .deck{ height:auto !important; }
+    .slide{ position:relative !important; inset:auto !important; opacity:1 !important; transform:none !important;
+            width:100%; height:167mm; padding:13mm 18mm; overflow:hidden;
+            background:linear-gradient(180deg, var(--card), var(--bg)) !important;
+            page-break-after:always; break-inside:avoid; }
+    .slide:last-child{ page-break-after:auto; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .flag-oval{ animation:none !important; opacity:1 !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; animation:none !important; }
+    .cycle-sizer{ display:none !important; }
+    .bubble{ opacity:1 !important; }
+    .bubble .cursor{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- 0 — COVER -->
+  <section class="slide" id="s0">
+    <div class="cover-orb-wrap"><div class="orb" id="orbCover"></div></div>
+    <div class="cover-copy">
+      <div class="cover-tag">ZENTALLIO &nbsp;·&nbsp; SECTOR 09 OF 10 &nbsp;·&nbsp; INSTITUTIONAL &amp; B2B FOOD SERVICE</div>
+      <h1 class="display">The AI that runs<br><span class="cycle-wrap" id="cycleWrap"></span></h1>
+      <p class="lede">Headcount-accurate billing, voucher and subsidy logic built in, per-site performance on one screen, and a group close that takes days, not weeks — 16 institutional solutions, narrated by Iris.</p>
+      <div class="tagline-strip">16 AI SOLUTIONS &nbsp;·&nbsp; L1 ZEN RULES → L2 ZEN MODELS → L3 ASK IRIS</div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div> USE ← → OR CLICK TO ADVANCE</div>
+  </section>
+
+  <!-- 1 — SCALE HAS MEANT BLINDNESS -->
+  <section class="slide" id="s1">
+    <div class="eyebrow"><span class="dot"></span>THE INSTITUTIONAL REALITY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Scale here has<br>meant blindness.</h1>
+    <p class="lede">Corporate cafeterias, hospitals, campuses: thousands of meals, subsidy rules, headcount billing, forty sites on forty spreadsheets.</p>
+    <div class="narr-grid" style="grid-template-columns:repeat(4,1fr); margin-top:4.5vh;">
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Cost per meal</b> &mdash; the number the contract was won on, measured per site.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Participation</b> &mdash; how many of the eligible population actually turned up.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Compliance</b> &mdash; nutrition standards and food safety, evidenced rather than asserted.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Contract margin</b> &mdash; what each agreement earns against the model it was bid on.</p></div>
+    </div>
+    <div class="impact-footnote" style="margin-top:20px;">Live tiles pending &mdash; the four metrics above are the ones the sector board carries.</div>
+  </section>
+
+  <!-- 2 — THE STORY CARDS -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>THE INSTITUTIONAL &amp; B2B FOOD SERVICE STORY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Feeding institutions<br>without losing the plot.</h1>
+    <p class="lede">Zentallio consolidates it &mdash; so forty sites stop being forty spreadsheets and become one board.</p>
+    <div class="narr-grid">
+      <div class="narr-card card"><div class="n-tag">The headcount</div><p><b>Headcount-accurate billing</b> &mdash; what the client is invoiced matches who was actually fed, defensibly.</p></div>
+      <div class="narr-card card"><div class="n-tag">The entitlement</div><p><b>Voucher and subsidy logic built in</b>, so who eats free, who pays partial and who pays full is a rule rather than a judgement.</p></div>
+      <div class="narr-card card"><div class="n-tag">The group</div><p><b>Per-site performance on one screen</b>, and a group close that takes days, not weeks.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 — SIX LIVE PRODUCTS -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><span class="dot" style="background:var(--honey)"></span>SIX LIVE PRODUCTS &middot; RUNNING RIGHT NOW</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Every site<br>on one board.</h1>
+    <p class="lede">Cost per meal, participation, compliance and contract margin — live, with Iris naming the site drifting from the model you bid.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--cyan)"></div><div class="prod-name">Balanced Scorecard</div><div class="prod-desc">FINANCE · L2</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--honey)"></div><div class="prod-name">Point of Sale</div><div class="prod-desc">LIVE TILL · IRIS UPSELL</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--steel)"></div><div class="prod-name">Numerus</div><div class="prod-desc">CFO · BALANCED LEDGER</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--cyan)"></div><div class="prod-name">Nexus</div><div class="prod-desc">SUPPLY CHAIN</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--honey)"></div><div class="prod-name">Motus</div><div class="prod-desc">OPERATIONS</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--steel)"></div><div class="prod-name">Manus</div><div class="prod-desc">WORKFORCE</div></div>
+    </div>
+  </section>
+
+  <!-- 3b -- POINT OF SALE -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--honey)"></span>THE TILL THAT KNOWS ENTITLEMENT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Point of Sale</h1>
+    <p class="lede">A serving line where the price depends on who is standing at it &mdash; entitlement, subsidy and cost centre resolved at the moment of service, without slowing a lunch rush of thousands.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--honey)"></span><p><span class="fi-name">Identity resolves the price.</span> Badge, card or app determines entitlement and subsidy tier before the tray reaches the till.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--honey)"></span><p><span class="fi-name">Every meal carries its cost centre.</span> Department, contract and site attach at the line, so recharge never needs reconstructing.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Built for a lunch peak.</span> Thousands of covers inside one hour means throughput is a design constraint, not a nice-to-have.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">At the line</div><div class="sl">Entitlement resolved</div></div>
+      <div class="stat-chip card"><div class="sv">Per meal</div><div class="sl">Cost centre attached</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4); margin-top:20px;">LIVE TILL &middot; IRIS UPSELL</div>
+  </section>
+
+  <!-- 3c -- BALANCED SCORECARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>DRIFTING FROM THE MODEL YOU BID</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Balanced Scorecard</h1>
+    <p class="lede">Cost per meal, participation, compliance and contract margin on one live board &mdash; with Iris naming the site drifting from the model you bid.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Per site and per contract.</span> Forty sites resolve into one comparable view rather than forty differently-built spreadsheets.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Measured against the bid.</span> The tender model is held in the system, so drift is measured against the promise rather than against last month.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Iris names the site.</span> Not that cost per meal rose &mdash; which site, which driver, and how far from the bid model it now sits.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">Per contract</div><div class="sl">Margin, not blended</div></div>
+      <div class="stat-chip card"><div class="sv">vs the bid</div><div class="sl">Drift measured against it</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4); margin-top:20px;">FINANCE &middot; L2</div>
+  </section>
+
+  <!-- 3d -- NUMERUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--steel)"></span>A GROUP CLOSE IN DAYS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Numerus</h1>
+    <p class="lede">P&amp;L, balance sheet, cash and close on a single balanced ledger across every site and every contract &mdash; a group close that is a review rather than a rebuild.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--steel)"></span><p><span class="fi-name">Consolidation is automatic.</span> Site ledgers roll into a group position without a month of manual mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--steel)"></span><p><span class="fi-name">Client billing posts itself.</span> Invoices raised against contract terms flow into receivables already coded to the right account.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Ask Iris for any number.</span> Any site, any contract, any period &mdash; answered in the conversation, not a week after close.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">Days</div><div class="sl">Group close, not weeks</div></div>
+      <div class="stat-chip card"><div class="sv">Automatic</div><div class="sl">Site to group consolidation</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--steel); border-color:rgba(94,143,208,.4); margin-top:20px;">CFO &middot; BALANCED LEDGER</div>
+  </section>
+
+  <!-- 3e -- NEXUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>CENTRAL KITCHEN TO EVERY SITE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Nexus</h1>
+    <p class="lede">Demand-planned replenishment from central production out to every site &mdash; with tendered supplier agreements, contracted pricing and compliance carried through the whole chain.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Central kitchen and site demand as one plan.</span> Production and distribution are planned together rather than each site ordering alone.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Contracted pricing enforced.</span> A tendered rate is what gets paid, and off-contract purchasing is visible rather than absorbed.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Supplier compliance travels with the goods.</span> Certification and audit status are attached to the supplier, not filed separately.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">One plan</div><div class="sl">Central kitchen and sites</div></div>
+      <div class="stat-chip card"><div class="sv">Enforced</div><div class="sl">Contracted supplier pricing</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4); margin-top:20px;">SUPPLY CHAIN</div>
+  </section>
+
+  <!-- 3f -- MOTUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--steel)"></span>THE SAME STANDARD, FORTY TIMES</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Motus</h1>
+    <p class="lede">Digital checklists, shift routines and standard operating procedures across every site &mdash; completion tracked live, exceptions escalated, evidence generated as a by-product.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--steel)"></span><p><span class="fi-name">HACCP routines, signed off.</span> Temperature checks and safety routines are completed in the system, producing audit evidence automatically.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--steel)"></span><p><span class="fi-name">One standard across the estate.</span> A new site inherits the current procedure set rather than a copy of whatever the last one was doing.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Exceptions escalate themselves.</span> The routine that didn't complete surfaces to a human; the rest stays quiet.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">By-product</div><div class="sl">Audit evidence, not a project</div></div>
+      <div class="stat-chip card"><div class="sv">One standard</div><div class="sl">Inherited by every site</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--steel); border-color:rgba(94,143,208,.4); margin-top:20px;">OPERATIONS</div>
+  </section>
+
+  <!-- 3g -- MANUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>LABOUR IS THE CONTRACT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Manus</h1>
+    <p class="lede">Rostering, attendance and labour percentage measured against forecast demand &mdash; in a sector where labour is usually the largest line in the bid model.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Rostered to forecast participation.</span> Site cover is built from expected covers rather than from an establishment figure set at mobilisation.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Measured against the bid model.</span> Labour is compared to what the tender assumed, so drift is visible while the contract can still be managed.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Compliance is a guardrail.</span> Working-time rules and site-specific agreements are enforced in the roster, not audited afterwards.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">vs the bid</div><div class="sl">Labour measured against model</div></div>
+      <div class="stat-chip card"><div class="sv">Before</div><div class="sl">The shift, not after it</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4); margin-top:20px;">WORKFORCE</div>
+  </section>
+
+  <!-- SECTION L1 -- ZEN RULES (intro) -->
+  <section class="slide">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--cyan); border-color:rgba(63,203,196,.5)">L1</span><div class="module-tag">Iris &middot; Intelligence layer 01</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris enforces the rules.</h1>
+    <p class="lede">Deterministic logic under the hood <span class="tech-note">(the &ldquo;Zen Rules&rdquo; layer)</span> &mdash; contracts, entitlements and safety evidence. In institutional food service these are not preferences: they are the agreement you signed and the inspection you will face. Four solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="alert-card card">
+        <div class="alert-head"><div class="alert-time">TODAY &middot; 12:38</div><div class="alert-live"><span class="live-dot"></span>LIVE ALERT</div></div>
+        <div class="alert-title">Entitlement rule conflict at Site 12</div>
+        <p class="alert-body">A department transfer left 40 staff mapped to two subsidy tiers at once. Meals are being served at the lower rate. Flagged before the billing run, not after the client queries it.</p>
+        <div class="alert-tags"><span class="alert-tag amber">IRIS &middot; L1</span><span class="alert-tag">SITE 12</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 1/4 -- Contract Management & Client Billing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">01 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Contract Management &amp; Client Billing</h1>
+        <p class="solution-desc">The agreement itself, held as executable rules rather than as a PDF in a folder &mdash; so what gets invoiced is what was signed, every cycle, without interpretation.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Contract terms are configured as rules &mdash; management fee, cost-plus, fixed price, minimum guarantee, indexation &mdash; and the billing run executes them.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Indexation and price reviews fire on schedule, so an uplift is never missed because nobody diarised it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Each invoice is traceable to the meals, headcounts and terms behind it, which is what settles a client query in one call.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Contract expiry, renewal windows and break clauses are surfaced ahead of time rather than discovered at renewal.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Variations are versioned, so the terms in force on any past date can be reconstructed exactly.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Executable</div><div class="sl">Terms as rules, not a PDF</div></div>
+          <div class="stat-chip card"><div class="sv">Traceable</div><div class="sl">Invoice to the meals behind it</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The terms. How the billable number is derived is Headcount Billing; the invoice run itself is Corporate Account Invoicing.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 2/4 -- Subsidy, Entitlement & Free Meal Rules -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">02 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Subsidy, Entitlement &amp; Free Meal Rules</h1>
+        <p class="solution-desc">Who eats free, who pays a subsidised rate and who pays full &mdash; determined by rule rather than by the judgement of whoever is on the till at the time.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Entitlement is derived from role, department, shift, site or scheme membership, and resolved automatically at the point of service.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Free-meal eligibility &mdash; free school meals, clinical diets, night-shift provision &mdash; is applied without the recipient having to identify themselves publicly.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Daily and periodic caps are enforced, so an allowance cannot be spent twice or drifted past unnoticed.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Conflicting entitlements resolve by a defined precedence rather than by whichever rule the system happened to check first.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Every entitlement decision is logged, which is what makes a subsidy claim or a client audit answerable.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">By rule</div><div class="sl">Not by judgement at the till</div></div>
+          <div class="stat-chip card"><div class="sv">Logged</div><div class="sl">Every entitlement decision</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The entitlement rules. Applying subsidy and vouchers in the transaction is the Subsidised Meal &amp; Voucher Engine.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 3/4 -- Food Safety, HACCP & Audit Evidence -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">03 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Food Safety, HACCP &amp; Audit Evidence</h1>
+        <p class="solution-desc">Feeding hospitals and schools means the audit is not an event, it is a permanent condition. Evidence is generated as a by-product of doing the work rather than assembled before an inspection.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Critical control points are monitored continuously, with temperature and holding records logged automatically rather than on a clipboard.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A breach raises immediately with the batch and the site named, while the food is still recoverable.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Corrective actions are recorded against the incident that triggered them, which is the part most audits actually fail on.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The audit pack is generated on demand for any site and any period &mdash; a lookup rather than a fortnight of preparation.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Staff training and certification currency are held against the roster, so an unqualified person is never scheduled to a controlled task.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">On demand</div><div class="sl">Audit pack, any site or period</div></div>
+          <div class="stat-chip card"><div class="sv">Continuous</div><div class="sl">Control points monitored</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; The platform &middot; &ldquo;And the rest of the platform.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 4/4 -- Integration Hub -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">04 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Integration Hub</h1>
+        <p class="solution-desc">In this sector the integrations are the client's systems, not yours &mdash; HR and payroll for entitlement, the client's ERP for invoicing, and access control for headcount. All configured per contract.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Client HR and payroll feeds drive entitlement, so a leaver stops eating on subsidy the day they leave rather than a month later.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Invoices post into the client's procurement or ERP system in the format that client requires, rather than as a PDF someone rekeys.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Access control and badge systems supply an independent headcount signal to corroborate what the till saw.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Tax and reporting rules are configured per market, which is why a new country or public-sector framework takes days.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Every connection is health-checked continuously &mdash; a stale HR feed silently corrupting entitlement is exactly the failure this catches.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--cyan); border-color:rgba(63,203,196,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per contract</div><div class="sl">Client systems, configured</div></div>
+          <div class="stat-chip card"><div class="sv">Watched</div><div class="sl">A stale HR feed, caught</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; The platform &middot; &ldquo;And the rest of the platform.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L2 -- ZEN MODELS (intro) -->
+  <section class="slide" data-chart="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--honey); border-color:rgba(227,180,95,.5)">L2</span><div class="module-tag">Iris &middot; Intelligence layer 02</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris predicts the headcount.</h1>
+    <p class="lede">Forecasting, regression, optimisation and anomaly models under the hood <span class="tech-note">(the &ldquo;Zen Models&rdquo; layer)</span> &mdash; because almost every question in this sector reduces to one: how many people will actually eat, and what does that cost. Twelve solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="chart-card card">
+        <div class="chart-title">Covers by Site &mdash; Forecast vs Actual</div>
+        <div class="chart-legend"><span><i style="background:var(--honey)"></i>Forecast</span><span><i style="background:var(--steel)"></i>Actual</span></div>
+        <svg viewBox="0 0 380 140" width="100%" height="140"><g id="barChart"></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 1/12 -- Demand Forecast per Institution AI -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">01 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Demand Forecast per Institution AI</h1>
+        <p class="solution-desc">The baseline model for a site &mdash; how many of an eligible population actually turn up, learned per institution, because a hospital, a campus and a corporate office behave nothing alike.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Participation rate is modelled per site rather than assumed from an estate average that fits nobody.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Institution-specific rhythms are learned &mdash; term dates, ward rotas, shift patterns, hybrid-working days, exam weeks.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A new site inherits a forecast from comparable institutions until it has enough history of its own.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Forecast accuracy is tracked per site, so a persistently wrong site is corrected rather than quietly over-catered.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The same forecast feeds production, procurement and rostering, so the three cannot disagree.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST &middot; REGRESSION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per site</div><div class="sl">Not an estate average</div></div>
+          <div class="stat-chip card"><div class="sv">Tracked</div><div class="sl">Accuracy, site by site</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The baseline model. Four solutions here work on headcount &mdash; this one sets the expectation.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 2/12 -- No-Show & Headcount Adjuster AI -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">02 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">No-Show &amp; Headcount Adjuster AI</h1>
+        <p class="solution-desc">The same-day correction. Booked is not served &mdash; and the gap between them, applied late enough to be accurate and early enough to matter, is where over-production is prevented.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Expected no-show is predicted per site and per service, so the production number is adjusted rather than the booking taken at face value.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Same-day signals &mdash; badge-ins, weather, calendar events, ward occupancy &mdash; revise the number while the kitchen can still act on it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>The adjustment is applied at a cut-off tuned per site, late enough to be accurate and early enough to change the cook.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Systematic over-booking by a department is surfaced as a pattern, which is a conversation with the client rather than a kitchen problem.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Actual versus booked is retained per service, which is the evidence behind any billing discussion about headcount.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">REGRESSION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Same day</div><div class="sl">Correction, not a booking</div></div>
+          <div class="stat-chip card"><div class="sv">Per site</div><div class="sl">Cut-off tuned</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The same-day correction. Production planning is Headcount Forecasting &amp; Waste Reduction.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 3/12 -- Headcount Forecasting & Waste Reduction -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">03 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Headcount Forecasting &amp; Waste Reduction</h1>
+        <p class="solution-desc">The production side of headcount &mdash; turning an expected number of diners into how much of each dish to actually cook, and closing the loop with what came back uneaten.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Forecast covers become batch quantities per dish, accounting for take-up split across a cycle menu rather than one flat number.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Batch cooking is staged through service, so the last hour is not served from food cooked for the first.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Plate waste and counter waste are recorded separately, because over-production and over-portioning need different fixes.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Waste by dish and service flows back into the forecast, correcting a repeatedly over-produced dish rather than repeating it.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Waste is costed and shown against the contract's food-cost model, which is what makes it a commercial conversation.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per dish</div><div class="sl">Batch quantities, staged</div></div>
+          <div class="stat-chip card"><div class="sv">Separated</div><div class="sl">Plate waste vs counter waste</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The production side. The commercial side is Headcount Billing.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 4/12 -- Headcount Billing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">04 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Headcount Billing</h1>
+        <p class="solution-desc">The commercial side of the same number. What the client is invoiced for depends on how headcount is defined in the contract &mdash; and that definition is where most disputes in this sector actually start.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The billable headcount is derived exactly as the contract defines it &mdash; served, booked, eligible or attended &mdash; not as whichever number is easiest to produce.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Minimum guarantees and volume bands are applied automatically, including the shortfall charge when a site under-delivers.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Every billed figure is traceable to the transactions behind it, which turns a client dispute into a lookup.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>An independent signal &mdash; badge or access data &mdash; corroborates the till count where the contract requires it.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Variance between forecast, served and billed headcount is monitored, since a persistent gap is either a pricing problem or a data one.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST &middot; REGRESSION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">As defined</div><div class="sl">By the contract, not convenience</div></div>
+          <div class="stat-chip card"><div class="sv">Traceable</div><div class="sl">Billed figure to transactions</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Deriving the billable number. The terms are Contract Management; the invoice run is Corporate Account Invoicing.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 5/12 -- Corporate Account Invoicing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">05 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Corporate Account Invoicing</h1>
+        <p class="solution-desc">The invoice run itself &mdash; consolidated across sites, split by cost centre, and checked for the anomalies that would otherwise turn into a query, a credit note and a delayed payment.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Charges consolidate across every site on an account, then split by department and cost centre as the client requires.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Anomaly detection reviews the run before it goes out &mdash; a site billing double last month's figure is caught internally, not by the client.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Credit notes and adjustments carry a reason code and an audit trail rather than appearing as unexplained corrections.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Ageing and disputes are tracked per account, so a query held up by one line item is visible rather than silently unpaid.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Each invoice arrives with its own backing detail, which is what removes the fortnight of email that usually follows.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">ANOMALY</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Before it sends</div><div class="sl">Run checked for anomalies</div></div>
+          <div class="stat-chip card"><div class="sv">Per cost centre</div><div class="sl">Split as the client needs</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The invoice run. The billable number is Headcount Billing; the terms are Contract Management.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 6/12 -- Subsidised Meal & Voucher Engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">06 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Subsidised Meal &amp; Voucher Engine</h1>
+        <p class="solution-desc">The transaction where entitlement becomes a price. Subsidy applied, voucher redeemed, employer share and employee share separated &mdash; in the second it takes to serve a tray.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Subsidy is applied at the point of service, with the employer share and the diner share separated on the same transaction.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Vouchers and allowances redeem by badge, QR or app, and a spent allowance simply cannot be spent again.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Classification handles the ambiguous cases &mdash; a contractor, a visitor, a transferred employee &mdash; rather than defaulting everyone to full price or free.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The employer-funded portion accrues per department, so recharge is computable from the first day of a period.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Anomalous redemption patterns are flagged, since a shared badge is the most common leak in a subsidised scheme.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">CLASSIFIER</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Separated</div><div class="sl">Employer share vs diner share</div></div>
+          <div class="stat-chip card"><div class="sv">Flagged</div><div class="sl">Shared-badge redemption</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The transaction. The underlying eligibility is Subsidy, Entitlement &amp; Free Meal Rules.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 7/12 -- Event Catering Order Sheet -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">07 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Event Catering Order Sheet</h1>
+        <p class="solution-desc">Hospitality and event orders captured properly &mdash; the part of an institutional contract with the best margin and the worst record-keeping, usually run on email and a shared calendar.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Requests are captured with room, headcount, timing, dietary needs, service style and the cost centre to bill.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Confirmed events enter the production and staffing plan rather than sitting in a mailbox until the morning of.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Late changes and cancellations follow contract cut-offs, so a room cancelled two hours out is charged as the agreement says.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Event demand is forecast from history, so recurring board meetings and term-time patterns are anticipated rather than reacted to.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Event margin is reported separately from core catering, because the two behave completely differently.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Into the plan</div><div class="sl">Not into a mailbox</div></div>
+          <div class="stat-chip card"><div class="sv">Separate</div><div class="sl">Event margin reported apart</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; &ldquo;Where the order is taken, and made.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 8/12 -- Menu Cycles, Nutrition Standards & Compliance -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">08 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Menu Cycles, Nutrition Standards &amp; Compliance</h1>
+        <p class="solution-desc">Cycle menus that satisfy a nutrition standard, a budget and a client specification at the same time &mdash; validated before publication rather than defended after an inspection.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Multi-week cycle menus are built with variety rules, so the same dish does not reappear in a way diners notice and resent.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Nutrition standards are validated at menu level before publication &mdash; school standards, hospital diet codes, corporate wellness targets.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Cost per meal is computed for the cycle as a whole, so a menu that breaches the contract's food-cost model is caught in planning.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Therapeutic and texture-modified diets are held as first-class variants rather than as an exception handled off-system.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Compliance evidence for the published cycle is generated automatically, ready for a client or regulator to review.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">L2 ZEN MODELS</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Before publish</div><div class="sl">Standards validated</div></div>
+          <div class="stat-chip card"><div class="sv">Per cycle</div><div class="sl">Cost per meal computed</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The menu specification. Executing it across sites is Multi-Site Standards &amp; Central Kitchen Supply.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 9/12 -- Multi-Site Standards & Central Kitchen Supply -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">09 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Multi-Site Standards &amp; Central Kitchen Supply</h1>
+        <p class="solution-desc">Making the same standard happen in forty kitchens &mdash; what is produced centrally, what is finished on site, and where execution is quietly diverging from the specification.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The make-or-buy split is optimised per dish and per site, balancing central production capacity against distribution cost.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Central production is scheduled against aggregated site demand rather than against each site ordering independently.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Anomaly detection surfaces sites drifting from the standard &mdash; portion, cost or method &mdash; before it shows up in an audit or a client complaint.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>A new site inherits the current standard on day one rather than after a mobilisation cycle of local improvisation.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Local exceptions require sign-off and are reviewed, so genuine variation is recorded and drift is not.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">OPTIMISATION &middot; ANOMALY DETECTION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Optimised</div><div class="sl">Make-or-buy, per dish and site</div></div>
+          <div class="stat-chip card"><div class="sv">Day one</div><div class="sl">New site inherits the standard</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Execution across sites. The menu specification itself is Menu Cycles &amp; Nutrition Standards.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 10/12 -- Procurement, Tender & Supplier Compliance -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">10 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Procurement, Tender &amp; Supplier Compliance</h1>
+        <p class="solution-desc">Buying at the price you tendered, from suppliers who still hold the certifications they were awarded on &mdash; with off-contract spend visible rather than absorbed into food cost.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Tendered prices are held as the expected cost, and any invoice above the agreed rate is flagged rather than paid quietly.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Off-contract and maverick purchasing is surfaced per site, which is usually where a food-cost model first breaks.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Supplier certifications, insurance and audit status are tracked with expiry dates, and a lapse blocks new orders.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Volume commitments and rebate thresholds are projected, so a rebate is earned deliberately rather than missed by a margin.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Price movements on tendered lines are forecast, so a contract renegotiation is prepared for rather than reacted to.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Flagged</div><div class="sl">Invoices above tendered rate</div></div>
+          <div class="stat-chip card"><div class="sv">Blocked</div><div class="sl">Orders on lapsed certification</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; The platform &middot; &ldquo;And the rest of the platform.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 11/12 -- Multi-Location Consolidated Reporting -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">11 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Multi-Location Consolidated Reporting</h1>
+        <p class="solution-desc">Your own view of the estate &mdash; forty sites made comparable, with the outliers surfaced rather than buried in an average that describes none of them.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every site reports on the same definitions, so cost per meal at one site genuinely means the same as at another.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Anomaly detection surfaces the handful of sites that need attention rather than producing a forty-page pack nobody reads.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Like-for-like comparison accounts for site type and size, so a hospital is not benchmarked against a corporate office.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Roll-ups follow the operating structure &mdash; region, sector, contract &mdash; without a separate reporting build for each.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The same numbers feed the group close, so operational reporting and finance never disagree about what happened.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">ANOMALY</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Comparable</div><div class="sl">Same definitions, every site</div></div>
+          <div class="stat-chip card"><div class="sv">Outliers</div><div class="sl">Surfaced, not averaged away</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Your internal view. What the client sees is Client Reporting, SLAs &amp; Satisfaction.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 12/12 -- Client Reporting, SLAs & Satisfaction -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">12 / 12</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Client Reporting, SLAs &amp; Satisfaction</h1>
+        <p class="solution-desc">The client-facing half &mdash; the SLA pack, the satisfaction data and the evidence that goes into a retender. Contracts in this sector are lost at review meetings, not at the serving counter.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The client's own KPIs and SLA definitions are configured per contract, so the pack answers their questions rather than yours.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>SLA breaches are visible as they accrue, with time to remedy before they become a penalty or a review-meeting ambush.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Diner satisfaction is captured at the site and segmented by population, so a problem is located rather than generalised.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The review pack is generated rather than assembled, which is days of account-management time returned every month.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Retender evidence accumulates continuously, so a renewal is argued from a record rather than from the last quarter's memory.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">SEGMENTATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Generated</div><div class="sl">Review pack, not assembled</div></div>
+          <div class="stat-chip card"><div class="sv">As they accrue</div><div class="sl">SLA breaches, with time to fix</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The client-facing view. Your internal one is Multi-Location Consolidated Reporting.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L3 -- ASK IRIS (live demo) -->
+  <section class="slide" data-chat="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--rose); border-color:rgba(224,112,143,.5)">L3</span><div class="module-tag">Iris &middot; Intelligence layer 03 &mdash; live</div></div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,42px)">Ask Iris</h1>
+    <p class="lede" style="margin-bottom:0">Not a screenshot &mdash; the actual agent. No solution in this sector is filed under L3, because none needs to be: Iris queries all sixteen, across every site and every contract, in plain language.</p>
+    <div class="live-grid">
+      <div class="chat-card card">
+        <div class="chat-head"><div class="iris-mini"><div class="r1"></div><div class="r2"></div></div><div class="chat-head-title">ASK IRIS &mdash; INSTITUTIONAL &amp; B2B FOOD SERVICE</div></div>
+        <div class="bubble user" id="qBubble" style="opacity:0"></div>
+        <div class="bubble iris" id="aBubble" style="opacity:0"></div>
+      </div>
+      <div class="scorecard-card card">
+        <div class="sc-title">Live Balanced Scorecard</div>
+        <div class="sc-grid">
+          <div class="sc-item flagged"><div class="flag-oval" style="width:96px"></div><div class="sc-val" style="font-size:17px">Cost / meal</div><div class="sc-lab">vs the bid model</div></div>
+          <div class="sc-item"><div class="sc-val" style="font-size:17px">Take-up</div><div class="sc-lab">Participation, per site</div></div>
+          <div class="sc-item"><div class="sc-val" style="font-size:17px">Compliance</div><div class="sc-lab">Evidenced, not asserted</div></div>
+          <div class="sc-item"><div class="sc-val" style="font-size:17px">Margin</div><div class="sc-lab">Per contract</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE INSTITUTIONAL STACK -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>EVERY SOLUTION &middot; INSTITUTIONAL &amp; B2B FOOD SERVICE</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Pick one. It opens<br>the real screen.</h1>
+    <p class="lede" style="margin-top:12px">Sixteen solutions. Every card opens a live guided demo.</p>
+    <div class="sol-section">
+      <div class="sol-section-label">The serving line &mdash; where the order is taken, and made</div>
+      <div class="sol-section-desc">Entitlement, events and the same-day headcount correction &mdash; the surfaces staff touch every service.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Corporate Account Invoicing</div><div class="sc-tag2">L2 &middot; ANOMALY</div></div>
+        <div class="sol-chip card"><div class="sc-name">Event Catering Order Sheet</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Subsidised Meal &amp; Voucher Engine</div><div class="sc-tag2">L2 &middot; CLASSIFIER</div></div>
+        <div class="sol-chip card"><div class="sc-name">No-Show &amp; Headcount Adjuster AI</div><div class="sc-tag2">L2 &middot; REGRESSION</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Kitchen &amp; stock &mdash; what you make, what it costs, what you lose</div>
+      <div class="sol-section-desc">Recipes, live stock, yield and waste &mdash; the number that decides food cost, while you can still change it.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Menu Cycles &amp; Nutrition Standards</div><div class="sc-tag2">L2 &middot; ZEN MODELS</div></div>
+        <div class="sol-chip card"><div class="sc-name">Headcount Forecasting &amp; Waste</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Multi-Site Standards &amp; Central Supply</div><div class="sc-tag2">L2 &middot; OPTIMISATION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Headcount Billing</div><div class="sc-tag2">L2 &middot; FORECAST &middot; REGRESSION</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">The contract &mdash; the platform underneath</div>
+      <div class="sol-section-desc">The agreement, the entitlement and the estate view that makes forty sites comparable.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Multi-Location Consolidated Reporting</div><div class="sc-tag2">L2 &middot; ANOMALY</div></div>
+        <div class="sol-chip card"><div class="sc-name">Demand Forecast per Institution AI</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Contract Management &amp; Client Billing</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+        <div class="sol-chip card"><div class="sc-name">Subsidy, Entitlement &amp; Free Meal Rules</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">The platform &mdash; and the rest of the platform</div>
+      <div class="sol-section-desc">Payments, reporting and the ledger that closes as a review rather than a rebuild.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Procurement, Tender &amp; Supplier Compliance</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Client Reporting, SLAs &amp; Satisfaction</div><div class="sc-tag2">L2 &middot; SEGMENTATION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Integration Hub</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+        <div class="sol-chip card"><div class="sc-name">Food Safety, HACCP &amp; Audit Evidence</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW IT'S IMPLEMENTED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Implementation,<br>run by Iris.</h1>
+    <p class="lede">You configure a sector playbook, not a custom project. Iris applies it herself &mdash; agentically, from day one.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Onboarding is agentic.</span> Iris connects the tills, the client's HR feed and the procurement system directly &mdash; no manual data mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Mobilisation is configuration.</span> A newly won site inherits the estate standard and its contract terms on day one, rather than improvising for a quarter.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">A new framework takes days.</span> Tax, reporting and public-sector rules are configured per market rather than coded per customer.</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW SUPPORT WORKS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Support starts<br>with Iris.</h1>
+    <p class="lede">The first line of support is agentic &mdash; Iris resolves most of it herself. Our engineers pick up from there.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Layer 1 &mdash; Iris, 24/7.</span> Configuration questions, anomalies and routine issues resolved directly, instantly.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">Layer 2 &mdash; our engineers.</span> Anything Iris can't close escalates automatically to a Zentallio engineer.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--cyan)"></span><p><span class="fi-name">No blank tickets.</span> Every escalation arrives with Iris's own diagnosis &mdash; engineers start from an answer.</p></div>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>IN PRACTICE &mdash; FORTY SITES, ONE BOARD</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Feeding institutions<br>without losing the plot.</h1>
+    <p class="story-quote">&ldquo;Corporate cafeterias, hospitals, campuses: thousands of meals, subsidy rules, headcount billing, forty sites on forty spreadsheets. Scale here has historically meant blindness.&rdquo;</p>
+    <p class="story-body">Zentallio consolidates it: headcount-accurate billing, voucher and subsidy logic built in, per-site performance on one screen, and a group close that takes days, not weeks. Underneath sits the same platform every sector runs &mdash; one data spine from the till to the ledger, three layers of intelligence, and an agent that narrates every screen, flags what needs a human, and acts on the rest.</p>
+  </section>
+
+  <!-- WHAT TO EXPECT — qualitative, metrics pending -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><span class="dot" style="background:var(--steel)"></span>WHAT AN OPERATOR CAN EXPECT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Measured against<br>the model you bid.</h1>
+    <div class="impact-grid">
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Cost per meal,<br>held to the bid</div><div class="impact-lab">Not discovered at contract review</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Participation<br>measured</div><div class="impact-lab">Per site, not assumed estate-wide</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Compliance<br>evidenced</div><div class="impact-lab">Generated, not assembled for audit</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Contract margin,<br>per agreement</div><div class="impact-lab">Not one blended estate number</div></div>
+    </div>
+    <div class="impact-footnote">Modelled outcome figures for this sector were not included in the source page. When supplied they replace these four cards and carry the standard disclaimer: modelled from pilot assumptions &amp; comparable F&amp;B benchmarks &mdash; not yet a deployed-client result.</div>
+  </section>
+
+  <!-- PAIN / RESPONSE / OUTCOME -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><span class="dot" style="background:var(--steel)"></span>WHERE IT LEAKS, HOW IRIS RESPONDS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Where the contract<br>quietly stops working.</h1>
+    <div class="pr-wrap">
+      <div>
+        <div class="pr-col-label">Where it leaks</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--steel)">01</div><p>Headcount billed on a number nobody can trace, so every invoice is a negotiation.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--steel)">02</div><p>Subsidy applied by judgement at the till, and an entitlement rule nobody has read since mobilisation.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--steel)">03</div><p>One site drifting from the bid model for two quarters, invisible inside an estate average.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-col-label">How Iris responds</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--cyan)">L1</div><p>Contract terms, entitlement and HACCP evidence are executed as rules, not interpreted per site.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--honey)">L2</div><p>Headcount is forecast, corrected same-day, costed and billed &mdash; four models on one number.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--rose)">L3</div><p>&ldquo;Which site is drifting from the model we bid?&rdquo; &mdash; answered across every site and contract in one question.</p></div>
+        </div>
+      </div>
+      <div class="outcome-strip card">
+        <div class="big" style="font-size:26px; line-height:1.2">Days,<br>not weeks</div>
+        <div class="cap">a group close across forty sites &mdash; because every site reports on the same definitions into the same ledger.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR RAIL -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><span class="dot" style="background:var(--cyan)"></span>ONE PLATFORM, TEN SECTORS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Institutional &amp; B2B is<br>sector nine of ten.</h1>
+    <p class="lede">Every Zentallio sector runs the same three-layer intelligence, tuned to how that format actually loses margin.</p>
+    <div class="sector-rail">
+      <span class="sector-chip">01 Quick Service</span>
+      <span class="sector-chip">02 Casual Dining</span>
+      <span class="sector-chip">03 Fine Dining</span>
+      <span class="sector-chip">04 Café &amp; Bakery</span>
+      <span class="sector-chip">05 Ice Cream &amp; Desserts</span>
+      <span class="sector-chip">06 Beverages &amp; Drinks</span>
+      <span class="sector-chip">07 Health &amp; Wellness</span>
+      <span class="sector-chip">08 Cloud Kitchen</span>
+      <span class="sector-chip active">09 Institutional &amp; B2B</span>
+      <span class="sector-chip">10 Niche &amp; Experience</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" id="s13">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">Let's put Iris<br>across your estate.</div>
+    <div class="cta-sub">Book a call with our consultant — a pilot walkthrough on your own sites, your own contracts.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">+92 327 000 0901 &nbsp;·&nbsp; +1 929 419 2694 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources" style="text-decoration:none"><b>ZENTALLIO</b> &nbsp;/&nbsp; INSTITUTIONAL &amp; B2B FOOD SERVICE &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
+  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">14</span></div>
+</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const IRIS_Q = 'Which site is drifting from the model we bid?';
+  const IRIS_A = 'Site 12. Cost per meal is 14% above the bid model and has been for two quarters \u2014 hidden because the estate average is on plan. The driver is participation, not food cost: hybrid working dropped attendance 22% but the roster never moved, so labour per meal carries it. The contract has a minimum guarantee you are not currently invoicing against.';
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  // Thousands separators: the template's toFixed() renders 1840 rather than 1,840.
+  function fmtNum(v, decimals){
+    return v.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + fmtNum(target*eased, decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + fmtNum(target, decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function typeChat(slide){
+    const q = slide.querySelector('#qBubble'); const a = slide.querySelector('#aBubble');
+    if(!q || !a) return;
+    q.style.opacity = 0; a.style.opacity = 0; q.textContent=''; a.innerHTML='';
+    setTimeout(()=>{
+      q.style.opacity = 1; let i=0;
+      const qi = setInterval(()=>{ q.textContent = IRIS_Q.slice(0,i+1); i++; if(i>=IRIS_Q.length){ clearInterval(qi); startAnswer(); } }, 22);
+    }, 300);
+    function startAnswer(){
+      setTimeout(()=>{
+        a.style.opacity = 1; a.innerHTML = '<span class="cursor"></span>'; let j=0;
+        const ai = setInterval(()=>{ a.innerHTML = IRIS_A.slice(0,j+1) + '<span class="cursor"></span>'; j++; if(j>=IRIS_A.length){ clearInterval(ai); a.innerHTML = IRIS_A; } }, 13);
+      }, 400);
+    }
+  }
+
+  function drawBarChart(slide){
+    const g = slide.querySelector('#barChart');
+    if(!g) return;
+    g.innerHTML = '';
+    const forecast = [78, 55, 91, 63, 84];
+    const actual   = [74, 58, 86, 49, 81];
+    const w = 380, h = 140, n = forecast.length, gap = 14, groupW = (w - gap*(n+1)) / n, barW = groupW/2 - 3;
+    const max = 100;
+    for(let i=0;i<n;i++){
+      const gx = gap + i*(groupW+gap);
+      const fh = (forecast[i]/max) * (h-20);
+      const ah = (actual[i]/max) * (h-20);
+      const rf = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rf.setAttribute('x', gx); rf.setAttribute('y', h-fh); rf.setAttribute('width', barW); rf.setAttribute('height', 0);
+      rf.setAttribute('fill', '#E3B45F'); rf.setAttribute('rx', 2); g.appendChild(rf);
+      const ra = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ra.setAttribute('x', gx+barW+4); ra.setAttribute('y', h-ah); ra.setAttribute('width', barW); ra.setAttribute('height', 0);
+      ra.setAttribute('fill', '#5E8FD0'); ra.setAttribute('rx', 2); g.appendChild(ra);
+      requestAnimationFrame(()=>{
+        rf.style.transition = 'height .7s ease, y .7s ease';
+        ra.style.transition = 'height .7s ease .1s, y .7s ease .1s';
+        rf.setAttribute('height', fh); rf.setAttribute('y', h-fh);
+        ra.setAttribute('height', ah); ra.setAttribute('y', h-ah);
+      });
+    }
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+    if(slide.dataset.chat === 'true') typeChat(slide);
+    if(slide.dataset.chart === 'true') drawBarChart(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  buildOrb(document.getElementById('orbCover'), 170);
+  buildOrb(document.getElementById('orbCta'), 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-12vw', y:'-16vh', s:'46vw', c:'var(--steel)'}, {x:'84vw', y:'60vh', s:'52vw', c:'var(--rose)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  // cover cycling phrase
+  const cycleWords = ['forty sites.', 'every headcount.', 'the contract.'];
+  const wrap = document.getElementById('cycleWrap');
+  // A hidden static copy of the longest phrase gives the wrapper a real width.
+  // The old `ch`-based minWidth guess clipped any phrase longer than ~13 chars.
+  const sizer = document.createElement('span');
+  sizer.className = 'cycle-sizer';
+  sizer.textContent = cycleWords.reduce((a,b)=> b.length > a.length ? b : a, '');
+  wrap.appendChild(sizer);
+  let ci = 0;
+  function showCycleWord(){
+    wrap.querySelectorAll('.cycle-word').forEach(n=> n.remove());
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    const w = cycleWords[ci % cycleWords.length];
+    const m = w.match(/^(.*?)([.!?]*)$/);
+    el.textContent = m[1];
+    if(m[2]){ const stop = document.createElement('span'); stop.className='stop'; stop.textContent=m[2]; el.appendChild(stop); }
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+
+  // Ensure every slide's dynamic content (counters, chat bubbles) is already
+  // correct on load -- not just the slide currently on screen. This matters
+  // for PDF export / print, which captures the DOM as-is without clicking
+  // through every slide first. The live animated reveal (count-up, typing)
+  // still plays normally whenever a slide is actually navigated to, via
+  // animateCounters()/typeChat() inside onEnter().
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + fmtNum(target, decimals) + suffix;
+    });
+    const q = document.getElementById('qBubble');
+    const a = document.getElementById('aBubble');
+    if(q) q.textContent = IRIS_Q;
+    if(a) a.textContent = IRIS_A;
+  }
+  finalizeStaticContent();
+
+  goTo(0);
+})();
+</script>
+</body>
+</html>
