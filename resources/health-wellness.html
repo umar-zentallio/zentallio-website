@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zentallio — Health, Wellness &amp; Specialty Diets — Executive Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* HEALTH, WELLNESS & SPECIALTY DIETS — leaf-green hero. NOTE: accent not supplied by the
+       source page. Adjacent to sector 05 pistachio but more saturated and truer green.
+       To swap, change --leaf and the rgba(99,194,103, ...) literals below. */
+    --bg:#05080F; --bg2:#0A0A12; --card:#0E1017; --card-hi:#141721;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --leaf:#63C267; --leaf-deep:#3F9A45; --rose:#E0708F; --azure:#6FB2E8; --honey:#E3B45F;
+    --copper:var(--leaf); --citrus:var(--honey); --pistachio:var(--leaf); --tan:var(--leaf); --gold:var(--leaf); --coral:var(--leaf);
+    /* legacy role aliases — keep every existing reference valid */
+    --amber:var(--leaf); --magenta:var(--rose); --teal:var(--azure); --mint:var(--honey);
+    --ink:#F4F7FB; --body:#BCC3CF; --muted:#767F92;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .deck::after{ content:""; position:fixed; inset:0; pointer-events:none; z-index:5; background:radial-gradient(130% 120% at 50% 38%, transparent 58%, rgba(0,0,0,.34)); }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(110px); opacity:.14;
+         -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
+         mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%); }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.022em; font-optical-sizing:auto; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--coral); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(15px,1.3vw,18px); line-height:1.62; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); color:var(--amber); box-shadow:0 0 12px -1px currentColor; transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; }
+  .wordmark b{ color:var(--coral); font-weight:600; }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:54px; height:54px; border-radius:50%; border:1.5px solid var(--amber); background:rgba(255,255,255,0.07); color:var(--amber); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:22px; box-shadow:0 3px 20px rgba(0,0,0,.45); }
+  .arrow:hover{ background:var(--amber); color:var(--bg); border-color:var(--amber); transform:translateY(-50%) scale(1.06); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(224,112,143,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinRev{ to{ transform:translate(-50%,-50%) rotate(-360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:16px; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 26px 50px -34px rgba(0,0,0,.75); }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  /* sector rail */
+  .sector-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; max-width:920px; }
+  .sector-chip{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sector-chip.active{ color:var(--amber); border-color:rgba(99,194,103,.5); background:rgba(99,194,103,.06); }
+
+  /* live board (cover / reality) */
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:820px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.watching{ font-family:var(--mono); font-size:15px; color:var(--mint); display:flex; align-items:center; gap:8px; }
+
+  /* narrative 3-card grid */
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  /* six products grid */
+  .prod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.03em; }
+
+  /* module badge (shared) */
+  .module-badge{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .module-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .layer-chip{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:5px 10px; border-radius:6px; border:1.5px solid; font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.03em; }
+  .module-badge2{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+
+  /* individual solution slides — modern detail layout, no rings */
+  .sol-eyebrow-row{ display:flex; align-items:center; justify-content:space-between; max-width:1180px; margin-bottom:6px; }
+  .sol-index{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
+  .solution-hero2{ display:grid; grid-template-columns:1.5fr 1fr; gap:5vw; margin-top:3vh; max-width:1180px; align-items:start; }
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-desc{ font-family:var(--sans); font-size:15.5px; color:var(--body); line-height:1.5; max-width:520px; margin:0; }
+  .how-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; max-width:520px; }
+  .how-item{ display:flex; gap:12px; }
+  .how-num{ font-family:var(--mono); font-size:10px; color:var(--amber); flex:none; width:20px; padding-top:2px; }
+  .how-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.48; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+  .stat-stack{ display:flex; flex-direction:column; gap:12px; margin-top:2px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+  .stat-row{ display:flex; gap:10px; }
+  .stat-row .stat-chip{ flex:1; padding:13px 15px; }
+  .stat-row .stat-chip .sv{ font-size:19px; }
+  .stat-row .stat-chip .sl{ font-size:8px; }
+  .tech-note{ color:var(--muted); font-size:.92em; }
+
+  @media (max-width:760px){ .solution-hero2{ grid-template-columns:1fr; } }
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:560px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:14.5px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .side-panel{ position:absolute; right:7.5vw; top:50%; transform:translateY(-50%); width:min(36vw, 440px); }
+
+  .alert-card{ padding:20px 22px; }
+  .alert-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .alert-time{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .alert-live{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; color:var(--mint); letter-spacing:.08em; }
+  .alert-title{ font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink); margin:0 0 6px 0; }
+  .alert-body{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.5; margin:0 0 14px 0; }
+  .alert-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .alert-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); }
+  .alert-tag.amber{ color:var(--amber); border-color:rgba(99,194,103,.4); }
+
+  .chart-card{ padding:20px 22px; }
+  .chart-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+  .chart-legend{ display:flex; gap:16px; margin-bottom:12px; }
+  .chart-legend span{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--muted); }
+  .chart-legend i{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+  .live-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:3.5vh; max-width:1180px; }
+  .chat-card{ padding:22px; height:300px; display:flex; flex-direction:column; }
+  .chat-head{ display:flex; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .chat-head .iris-mini{ position:relative; width:19px; height:19px; }
+  .chat-head .iris-mini .r1{ position:absolute; inset:0; border-radius:50%; border:1.5px solid var(--magenta); }
+  .chat-head .iris-mini .r2{ position:absolute; inset:5px; border-radius:50%; background:var(--magenta); }
+  .chat-head-title{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .bubble{ border-radius:12px; padding:12px 14px; font-family:var(--sans); font-size:14.5px; line-height:1.48; margin-bottom:11px; max-width:90%; }
+  .bubble.user{ background:var(--card-hi); border:1px solid var(--line); color:var(--ink); align-self:flex-end; margin-left:auto; }
+  .bubble.iris{ background:rgba(224,112,143,0.06); border:1px solid rgba(224,112,143,0.28); color:var(--body); }
+  .bubble.iris .cursor{ display:inline-block; width:6px; height:12px; background:var(--magenta); margin-left:2px; animation:pulse .9s ease-in-out infinite; vertical-align:middle; }
+  .scorecard-card{ padding:22px; height:300px; }
+  .sc-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:14px; text-transform:uppercase; }
+  .sc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .sc-item{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:13px; position:relative; }
+  .sc-val{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .sc-lab{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.06em; margin-top:4px; text-transform:uppercase; }
+  .flag-oval{ position:absolute; border:1.5px dashed var(--magenta); border-radius:50%; top:6px; left:8px; width:68px; height:32px; opacity:0; }
+  .sc-item.flagged .flag-oval{ animation:flagIn .6s ease .3s forwards, pulse 2.2s ease-in-out 1s infinite; }
+  @keyframes flagIn{ from{ opacity:0; transform:scale(.85);} to{ opacity:1; transform:scale(1);} }
+
+  /* solution stack grid */
+  .sol-section{ margin-top:2.6vh; }
+  .sol-section + .sol-section{ margin-top:1.6vh; }
+  .sol-section-label{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+  .sol-section-desc{ font-family:var(--sans); font-size:11.5px; color:var(--body); opacity:.72; margin:-5px 0 9px 0; max-width:640px; line-height:1.4; }
+  .sol-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; max-width:1180px; }
+  .sol-chip{ padding:11px 13px; border-radius:10px; }
+  .sol-chip .sc-name{ font-family:var(--sans); font-size:13.2px; color:var(--ink); font-weight:500; line-height:1.28; }
+  .sol-chip .sc-tag2{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; text-transform:uppercase; }
+
+  /* story */
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:21px; color:var(--ink); max-width:740px; margin:16px 0 18px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  /* impact stats */
+  .impact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1040px; }
+  .impact-card{ padding:22px 18px; }
+  .impact-val{ font-family:var(--serif); font-weight:700; font-size:30px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .impact-lab{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em; margin-top:8px; text-transform:uppercase; line-height:1.4; }
+  .impact-footnote{ margin-top:22px; font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.6; max-width:840px; font-style:italic; }
+
+  /* pain/response (reused) */
+  .pr-wrap{ margin-top:3.5vh; display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1160px; }
+  .pr-col-label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+  .pr-card{ padding:18px 20px; }
+  .pr-item{ display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); }
+  .pr-item:last-child{ border-bottom:none; }
+  .pr-item .tag{ font-family:var(--mono); font-size:10px; font-weight:600; flex:none; width:24px; padding-top:2px; }
+  .pr-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.46; }
+  .outcome-strip{ grid-column:1 / -1; display:flex; align-items:center; gap:20px; padding:18px 22px; }
+  .outcome-strip .big{ font-family:var(--serif); font-weight:700; font-size:36px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .outcome-strip .cap{ font-family:var(--sans); font-size:12.5px; color:var(--body); max-width:480px; line-height:1.4; }
+
+  #s13{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:56px auto 80px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--coral); color:var(--coral); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #s0{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:760px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--coral); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--leaf); white-space:nowrap; }
+  .cycle-sizer{ visibility:hidden; display:inline-block; font-style:italic; font-weight:500; white-space:nowrap; }
+  .cycle-word .stop{ color:var(--ink); }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  @media (max-width:1000px){
+    .narr-grid, .prod-grid{ grid-template-columns:1fr 1fr; }
+    .sol-grid{ grid-template-columns:repeat(2,1fr); }
+    .impact-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .live-grid, .pr-wrap{ grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .side-panel{ position:static; transform:none; width:100%; margin-top:22px; }
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  @media print{
+    @page{ size:297mm 167mm; margin:0; }                       /* landscape 16:9, no browser header/footer */
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }  /* keep the dark theme + colors */
+    html,body{ overflow:visible !important; background:var(--bg) !important; }
+    .chrome,.arrow,.dots,.progress,.counter,.wordmark,.toolbar,.scroll-cue{ display:none !important; }
+    .ambient{ display:none !important; } .deck::after{ display:none !important; }
+    .deck{ height:auto !important; }
+    .slide{ position:relative !important; inset:auto !important; opacity:1 !important; transform:none !important;
+            width:100%; height:167mm; padding:13mm 18mm; overflow:hidden;
+            background:linear-gradient(180deg, var(--card), var(--bg)) !important;
+            page-break-after:always; break-inside:avoid; }
+    .slide:last-child{ page-break-after:auto; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .flag-oval{ animation:none !important; opacity:1 !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; animation:none !important; }
+    .cycle-sizer{ display:none !important; }
+    .bubble{ opacity:1 !important; }
+    .bubble .cursor{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- 0 — COVER -->
+  <section class="slide" id="s0">
+    <div class="cover-orb-wrap"><div class="orb" id="orbCover"></div></div>
+    <div class="cover-copy">
+      <div class="cover-tag">ZENTALLIO &nbsp;·&nbsp; SECTOR 07 OF 10 &nbsp;·&nbsp; HEALTH, WELLNESS &amp; SPECIALTY DIETS</div>
+      <h1 class="display">The AI that runs<br><span class="cycle-wrap" id="cycleWrap"></span></h1>
+      <p class="lede">Farm-to-table traceability on every bowl, labels generated from the actual recipe, and subscriptions billed and retained — 17 wellness solutions, narrated by Iris.</p>
+      <div class="tagline-strip">17 AI SOLUTIONS &nbsp;·&nbsp; L1 ZEN RULES → L2 ZEN MODELS → L3 ASK IRIS</div>
+    </div>
+    <div class="scroll-cue"><div class="line"></div> USE ← → OR CLICK TO ADVANCE</div>
+  </section>
+
+  <!-- 1 — THE PROMISE -->
+  <section class="slide" id="s1">
+    <div class="eyebrow"><span class="dot"></span>THE WELLNESS REALITY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Trust is the product.</h1>
+    <p class="lede">Health-first customers read every label &mdash; and one allergen mistake or broken macro promise ends the relationship. Compliance by spreadsheet cannot keep that promise at scale.</p>
+    <div class="narr-grid" style="grid-template-columns:repeat(4,1fr); margin-top:4.5vh;">
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Macro accuracy</b> &mdash; whether the number on the menu matches the bowl that was built.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Allergen control</b> &mdash; the flag, the prep station and the label agreeing every time.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Subscriber contribution</b> &mdash; what a meal plan actually earns after fulfilment.</p></div>
+      <div class="narr-card card"><div class="n-tag">On the board</div><p><b>Traceability</b> &mdash; the lot behind every ingredient, retrievable in seconds.</p></div>
+    </div>
+    <div class="impact-footnote" style="margin-top:20px;">Live tiles pending &mdash; the four metrics above are the ones the sector board carries.</div>
+  </section>
+
+  <!-- 2 — THE STORY CARDS -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>THE HEALTH, WELLNESS &amp; SPECIALTY DIETS STORY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Zentallio makes<br>trust automatic.</h1>
+    <p class="lede">Every claim on the menu is generated from the recipe that was actually built &mdash; not from a spreadsheet someone updated last quarter.</p>
+    <div class="narr-grid">
+      <div class="narr-card card"><div class="n-tag">The label</div><p>Labels generated from <b>the actual recipe</b>, so the allergen line and the macro line come from the same source as the cost.</p></div>
+      <div class="narr-card card"><div class="n-tag">The chain</div><p><b>Farm-to-table traceability</b> on every bowl &mdash; the lot behind an ingredient retrievable while it still matters.</p></div>
+      <div class="narr-card card"><div class="n-tag">The plan</div><p>Subscriptions <b>billed and retained</b>, and waste tracked to the ingredient rather than to a category.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 — SIX LIVE PRODUCTS -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><span class="dot" style="background:var(--honey)"></span>SIX LIVE PRODUCTS &middot; RUNNING RIGHT NOW</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Every claim<br>on one board.</h1>
+    <p class="lede">Macro accuracy, allergen control, subscriber contribution and traceability — live, with Iris naming the claim that can no longer be substantiated.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--azure)"></div><div class="prod-name">Balanced Scorecard</div><div class="prod-desc">FINANCE · L2</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--honey)"></div><div class="prod-name">Point of Sale</div><div class="prod-desc">LIVE TILL · IRIS UPSELL</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--leaf)"></div><div class="prod-name">Numerus</div><div class="prod-desc">CFO · BALANCED LEDGER</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--azure)"></div><div class="prod-name">Nexus</div><div class="prod-desc">SUPPLY CHAIN</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--honey)"></div><div class="prod-name">Motus</div><div class="prod-desc">OPERATIONS</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--leaf)"></div><div class="prod-name">Manus</div><div class="prod-desc">WORKFORCE</div></div>
+    </div>
+  </section>
+
+  <!-- 3b -- POINT OF SALE -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--honey)"></span>WHERE THE CLAIM IS MADE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Point of Sale</h1>
+    <p class="lede">Builds, substitutions, subscriptions and any tender on one screen &mdash; with allergen and macro data attached to the line rather than printed on a sheet by the till.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--honey)"></span><p><span class="fi-name">The build carries its own numbers.</span> Swap the grain and the macros, the allergens and the price all move with it, in front of the guest.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--honey)"></span><p><span class="fi-name">Allergen conflicts are blocked, not warned.</span> A build that contradicts a declared allergy cannot be rung through.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Iris upsells against a goal.</span> The add-on suggested is one that fits the guest's stated target, not the highest-margin item on the list.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">100%</div><div class="sl">Allergen label accuracy*</div></div>
+      <div class="stat-chip card"><div class="sv">4.9&#9733;</div><div class="sl">Customer trust rating*</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4); margin-top:20px;">LIVE TILL &middot; IRIS UPSELL</div>
+  </section>
+
+  <!-- 3c -- BALANCED SCORECARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>THE CLAIM THAT NO LONGER HOLDS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Balanced Scorecard</h1>
+    <p class="lede">Macro accuracy, allergen control, subscriber contribution and traceability on one live board &mdash; with Iris naming the claim that can no longer be substantiated.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Every module feeds one board.</span> Recipes, sourcing, subscriptions and labour all post into the same view.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Claims are monitored, not assumed.</span> When a substitution breaks a published macro, the claim is flagged rather than quietly served.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Iris names the claim.</span> Not that accuracy fell &mdash; which dish, which substitution, which supplier change caused it.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">+27%</div><div class="sl">Subscription retention*</div></div>
+      <div class="stat-chip card"><div class="sv">&minus;22%</div><div class="sl">Prep waste*</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">FINANCE &middot; L2</div>
+  </section>
+
+  <!-- 3d -- NUMERUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--leaf)"></span>ONE BALANCED LEDGER</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Numerus</h1>
+    <p class="lede">P&amp;L, balance sheet, cash and close on a single balanced ledger &mdash; with subscription revenue recognised properly rather than counted when it arrives.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--leaf)"></span><p><span class="fi-name">Deferred revenue handled correctly.</span> A prepaid meal plan is recognised as it is consumed, not booked in full on the day it sells.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--leaf)"></span><p><span class="fi-name">Contribution per subscriber, not just revenue.</span> Fulfilment, packaging and delivery cost sit against the plan that incurred them.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Ask Iris for any number.</span> Any site, any cohort, any period &mdash; answered in the conversation, not a week after close.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">1</div><div class="sl">Ledger, till to close</div></div>
+      <div class="stat-chip card"><div class="sv">Per plan</div><div class="sl">Contribution, not just revenue</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--leaf); border-color:rgba(99,194,103,.4); margin-top:20px;">CFO &middot; BALANCED LEDGER</div>
+  </section>
+
+  <!-- 3e -- NEXUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>FARM TO TABLE, ON THE RECORD</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Nexus</h1>
+    <p class="lede">Demand-planned replenishment with provenance attached &mdash; every delivery carrying its lot, its certification and its expiry into the same chain the kitchen depletes from.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Provenance travels with the goods.</span> Lot, farm and certification are captured at receipt rather than filed separately from the stock.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Certification expiry is tracked.</span> An organic claim whose certificate lapses is caught before it reaches a menu.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Feeds the prep forecast.</span> Ordering runs off the same demand model the kitchen preps against, so neither can drift from the other.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">Per lot</div><div class="sl">Provenance at receipt</div></div>
+      <div class="stat-chip card"><div class="sv">Before</div><div class="sl">Certification lapse caught</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">SUPPLY CHAIN</div>
+  </section>
+
+  <!-- 3f -- MOTUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--leaf)"></span>SOPS, EXECUTED AND TRACKED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Motus</h1>
+    <p class="lede">Digital checklists, prep routines and standard operating procedures across every kitchen &mdash; completion tracked live, exceptions escalated.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--leaf)"></span><p><span class="fi-name">Cross-contact routines, signed off.</span> Station changeover and utensil separation are completed in the system, not assumed to have happened.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--leaf)"></span><p><span class="fi-name">Prep quantities tracked against plan.</span> What was prepped against what was forecast rolls up by kitchen and by day.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Exceptions escalate themselves.</span> The routine that didn't complete surfaces to a human; the rest stays quiet.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">Live</div><div class="sl">Completion, not a paper log</div></div>
+      <div class="stat-chip card"><div class="sv">Exceptions</div><div class="sl">Surfaced, not every row</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--leaf); border-color:rgba(99,194,103,.4); margin-top:20px;">OPERATIONS</div>
+  </section>
+
+  <!-- 3g -- MANUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>THE RIGHT PEOPLE, AT THE RIGHT HOUR</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Manus</h1>
+    <p class="lede">Rostering, attendance and labour percentage measured against forecast demand. Iris flags the overstaffed lulls and the understaffed peaks before the shift, not after.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Prep labour follows the plan.</span> Meal-plan volume is known days ahead, so the prep shift is staffed to a number rather than a guess.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Allergen training tracked with the roster.</span> Who is qualified to run the allergen-free station is held against the person, not in a folder.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Flagged before the shift.</span> An overstaffed lull or an understaffed peak is caught while the roster can still change.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">Days ahead</div><div class="sl">Meal-plan volume known</div></div>
+      <div class="stat-chip card"><div class="sv">Before</div><div class="sl">The shift, not after it</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">WORKFORCE</div>
+  </section>
+
+  <!-- SECTION L1 -- ZEN RULES (intro) -->
+  <section class="slide">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--azure); border-color:rgba(111,178,232,.5)">L1</span><div class="module-tag">Iris &middot; Intelligence layer 01</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris enforces the rules.</h1>
+    <p class="lede">Deterministic logic under the hood <span class="tech-note">(the &ldquo;Zen Rules&rdquo; layer)</span> &mdash; the layer that carries the sector's whole promise. Allergens, labelling and traceability cannot be probabilistic. Six solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="alert-card card">
+        <div class="alert-head"><div class="alert-time">TODAY &middot; 11:06</div><div class="alert-live"><span class="live-dot"></span>LIVE ALERT</div></div>
+        <div class="alert-title">Substitution breaks a published claim</div>
+        <p class="alert-body">The tahini supplier changed lot &mdash; the new one is produced on a line handling sesame and peanut. Three bowls currently labelled nut-free are affected. Publishing blocked until the label is regenerated.</p>
+        <div class="alert-tags"><span class="alert-tag amber">IRIS &middot; L1</span><span class="alert-tag">3 MENU ITEMS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 1/6 -- Allergen & Dietary Flag per Item -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">01 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Allergen &amp; Dietary Flag per Item</h1>
+        <p class="solution-desc">The data layer beneath every claim &mdash; allergens and dietary attributes held per item, propagating up through sub-recipes so the flag on the menu comes from the ingredient, not from memory.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every ingredient carries its allergen set and its dietary attributes &mdash; vegan, halal, gluten-free, keto &mdash; as structured data rather than as a note.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Flags propagate automatically through every sub-recipe, so a change to a base sauce updates every dish built on it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Publishing is blocked if any ingredient is untagged &mdash; an unknown is treated as a risk, not as an absence.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>&ldquo;May contain&rdquo; is distinguished from &ldquo;contains&rdquo;, because conflating them is how trust is lost in both directions.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The same flag set drives the menu, the app, the printed label and the answer a server gives at the counter.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">RULE ENGINE &middot; CLASSIFIER</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">100%</div><div class="sl">Allergen label accuracy*</div></div>
+          <div class="stat-chip card"><div class="sv">Blocked</div><div class="sl">Publish, if anything untagged</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The data layer. Enforcement on the floor is a separate solution &mdash; see Allergen Enforcement &amp; Cross-Contact Control.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 2/6 -- Allergen Enforcement & Cross-Contact Control -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">02 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Allergen Enforcement &amp; Cross-Contact Control</h1>
+        <p class="solution-desc">The operational half of the promise. Knowing an allergen is present is not the same as preventing it reaching a plate &mdash; this is the layer that governs the station, the utensil and the order.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>A build that contradicts a declared allergy is blocked at the till, not warned about after it is rung.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Allergen-free orders route to a designated station with its own boards, utensils and sequence.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Changeover routines are required and recorded between conflicting builds, so cross-contact control is evidenced rather than assumed.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Only staff with current allergen training can release an allergen-free order, checked against the roster.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Every allergen order carries an audit trail from build to handover &mdash; the record you need on the one day it is asked for.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Blocked</div><div class="sl">Not warned, at the till</div></div>
+          <div class="stat-chip card"><div class="sv">Build to handover</div><div class="sl">Audit trail per order</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The enforcement layer. The underlying flags come from Allergen &amp; Dietary Flag per Item.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 3/6 -- Nutrition Compliance & Menu Labelling -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">03 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Nutrition Compliance &amp; Menu Labelling</h1>
+        <p class="solution-desc">Labels generated from the actual recipe, formatted to the rules of the market you are trading in &mdash; so a published claim is one you can still substantiate a year later.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The label is generated from the recipe the kitchen builds from, so the printed claim and the actual dish cannot diverge.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Format and mandatory fields are configured per market, because labelling law is not the same in two countries.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Every published claim is versioned with its date and its source recipe &mdash; substantiation is a lookup, not an archaeology project.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>A recipe change re-flags every label built on it, and the old version cannot silently remain in circulation.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Marketing claims are held to the same source as the label, so the website and the packaging never disagree.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Versioned</div><div class="sl">Every published claim</div></div>
+          <div class="stat-chip card"><div class="sv">Per market</div><div class="sl">Label format configured</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;The kitchen, accounted for.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 4/6 -- Ingredient Traceability -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">04 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Ingredient Traceability</h1>
+        <p class="solution-desc">Trace in both directions inside your own operation &mdash; from a lot to every dish it reached, and from a dish back to every lot in it. The question a recall asks, answered in seconds.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every prep batch records the lots it consumed, so the chain from delivery to plate is continuous rather than inferred.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Forward trace answers &ldquo;where did this lot go&rdquo; &mdash; every batch, dish, site and order it touched.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Backward trace answers &ldquo;what is in this bowl&rdquo; down to the lot, which is the question a customer complaint actually poses.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>A withdrawal is scoped precisely, so a recall costs one lot rather than an entire product line.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Transfers between kitchens and sites carry lot identity, so traceability survives a product moving.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">RULE ENGINE</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Both ways</div><div class="sl">Lot to dish, dish to lot</div></div>
+          <div class="stat-chip card"><div class="sv">One lot</div><div class="sl">Recall scope, not a line</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Internal trace. Supplier-side provenance is a separate solution &mdash; see Ingredient Sourcing, Batch &amp; Traceability.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 5/6 -- Ingredient Sourcing, Batch & Traceability -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">05 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Ingredient Sourcing, Batch &amp; Traceability</h1>
+        <p class="solution-desc">The supplier side of the chain &mdash; farm, certification and batch provenance captured at receipt, so &ldquo;farm-to-table&rdquo; is a record rather than a phrase on a wall.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Farm, supplier, lot and harvest or production date are captured at goods-in rather than reconstructed from invoices.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Organic, halal and fair-trade certificates are held against the supplier with their expiry, and a lapse is flagged before it reaches a claim.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>An unapproved substitute supplier cannot be received against a certified line without an explicit override and a reason.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Provenance is available guest-facing, so the story on the menu is backed by the same record the auditor sees.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Supplier performance on quality and certification currency is scored over time, not judged at renewal.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">At goods-in</div><div class="sl">Provenance captured</div></div>
+          <div class="stat-chip card"><div class="sv">Before</div><div class="sl">Certificate lapse flagged</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Supplier-side provenance. Internal lot tracing is Ingredient Traceability.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L1 . 6/6 -- Integration Hub -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1</div><div class="sol-index">06 / 06</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Integration Hub</h1>
+        <p class="solution-desc">Every system the operation depends on, connected and watched: payments and subscription billing, the delivery aggregators, local tax and labelling rules, and the accounting ledger.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Recurring billing and one-off payments settle through the same reconciliation rather than two parallel systems.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>One menu publishes to every aggregator with its allergen and macro data attached, so third-party listings carry the same claims you do.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Tax and labelling rules are configured per market, which is why a new country takes days rather than a release.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Sales, tax, refunds, deferred revenue and settlement post themselves to the accounting system, already coded.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Every connection is health-checked continuously &mdash; when an API degrades, Iris quantifies what is at risk rather than letting a site discover it.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">L1 ZEN RULES</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per market</div><div class="sl">Configured, not coded</div></div>
+          <div class="stat-chip card"><div class="sv">Same claims</div><div class="sl">On every aggregator</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;The kitchen, accounted for.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L2 -- ZEN MODELS (intro) -->
+  <section class="slide" data-chart="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--honey); border-color:rgba(227,180,95,.5)">L2</span><div class="module-tag">Iris &middot; Intelligence layer 02</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris predicts the plan.</h1>
+    <p class="lede">Forecasting, cost and scoring models under the hood <span class="tech-note">(the &ldquo;Zen Models&rdquo; layer)</span> &mdash; prep volume, subscriber churn, macro cost and portion pricing, computed before the week rather than reconciled after it. Seven solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="chart-card card">
+        <div class="chart-title">Prep Volume by Day &mdash; Forecast vs Actual</div>
+        <div class="chart-legend"><span><i style="background:var(--honey)"></i>Forecast</span><span><i style="background:var(--leaf)"></i>Actual</span></div>
+        <svg viewBox="0 0 380 140" width="100%" height="140"><g id="barChart"></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 1/7 -- Macro & Calorie Engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">01 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Macro &amp; Calorie Engine</h1>
+        <p class="solution-desc">The computation underneath every nutritional claim &mdash; macros and calories derived from the recipe with real yields, recomputed the moment an ingredient or a portion changes.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Macros are computed from the recipe and its actual yield, not from a rounded figure typed into a menu once.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Nested sub-recipes roll up automatically, so a change to a dressing recompiles every bowl that carries it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Cooking losses and absorption are modelled, because raw-weight arithmetic overstates what actually reaches the guest.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Cost and macro are computed from the same card, so nutritional engineering and margin engineering never work from different numbers.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>A supplier change that moves a macro beyond tolerance flags the published claim for review before it is served.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">COST ML</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">From recipe</div><div class="sl">Not typed once and left</div></div>
+          <div class="stat-chip card"><div class="sv">Live</div><div class="sl">Recompute on any change</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The engine. Guest-facing presentation is Calorie &amp; Macro Display per Dish.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 2/7 -- Meal Prep Demand Forecaster AI -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">02 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Meal Prep Demand Forecaster AI</h1>
+        <p class="solution-desc">Prep volume forecast per component rather than per dish &mdash; because in a build-your-own operation the unit that runs out is a grain, a protein or a dressing, not a menu item.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Demand is forecast at component level, which is the level the kitchen actually preps and the level that runs out.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Committed subscription volume is known days ahead and separated from walk-in demand, so only the uncertain half is estimated.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Component shelf life bounds the batch, so the plan never prescribes prepping more than can be sold before it expires.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Waste by component and day flows back into the forecast, correcting a repeatedly over-prepped item rather than repeating it.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The same forecast drives ordering and the prep roster, so stock, labour and plan cannot contradict each other.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">&minus;22%</div><div class="sl">Prep waste*</div></div>
+          <div class="stat-chip card"><div class="sv">Per component</div><div class="sl">Not per menu item</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;And the rest of the kitchen.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 3/7 -- Meal Plan Subscriptions & Unit Economics -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">03 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Meal Plan Subscriptions &amp; Unit Economics</h1>
+        <p class="solution-desc">What a subscriber is actually worth &mdash; contribution after fulfilment, cohort retention curves, and the churn risk that shows up in behaviour weeks before it shows up in a cancellation.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Contribution is computed after food, packaging, delivery and discount, because revenue per subscriber is not the number that matters.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Cohorts are tracked by join month and plan type, so a retention problem is located rather than averaged away.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Skips, pauses and downgrades are read as churn signals, since they precede cancellation far more often than a complaint does.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Payback period per acquisition channel is measured, so growth spend follows the cohorts that actually stay.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Iris proposes the intervention with the highest modelled return for an at-risk cohort, while the habit is still recoverable.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">FORECAST &middot; SEGMENTATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">+27%</div><div class="sl">Subscription retention*</div></div>
+          <div class="stat-chip card"><div class="sv">Contribution</div><div class="sl">Not revenue per subscriber</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The economics. Billing mechanics are Subscription Meal Plan Billing.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 4/7 -- Subscription Meal Plan Billing -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">04 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Subscription Meal Plan Billing</h1>
+        <p class="solution-desc">The mechanics of recurring revenue &mdash; cycles, pauses, skips, proration and failed payments handled so that a card expiring never becomes a cancelled customer.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Plans bill on their own cycle with proration handled correctly when a guest upgrades, downgrades or changes mid-period.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Pauses, skips and holiday freezes are first-class actions rather than cancellations a guest has to be talked out of.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A failed payment enters an intelligent retry sequence timed to when it is most likely to succeed, not a fixed daily retry.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Involuntary churn is separated from voluntary, because an expired card and a disappointed customer need different responses.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Deferred revenue is recognised as meals are consumed, so the ledger reflects delivery rather than collection.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">CLASSIFIER</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Retry</div><div class="sl">Timed, not fixed daily</div></div>
+          <div class="stat-chip card"><div class="sv">Separated</div><div class="sl">Involuntary vs voluntary churn</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The billing mechanics. Cohort economics are Meal Plan Subscriptions &amp; Unit Economics.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 5/7 -- Build-Your-Own Pricing & Portion Logic -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">05 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Build-Your-Own Pricing &amp; Portion Logic</h1>
+        <p class="solution-desc">Build-your-own is where margin quietly disappears. Portion spec, price tiers and premium components are governed so a bowl priced as a bowl does not leave as a banquet.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Base price, tiered add-ons and premium components resolve deterministically, so the same build costs the same everywhere.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Portion spec per component is enforced at the line, and served weight is compared to spec rather than eyeballed.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Weight-based pricing is supported where the format calls for it, with the scale reporting straight into the line.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Margin floors are enforced per build, so a combination of cheap base and three premium proteins cannot price below cost.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Component cost moves feed pricing tiers, so a protein that doubles in price does not stay in the base tier by inertia.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">DYNAMIC PRICING</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Per build</div><div class="sl">Margin floor enforced</div></div>
+          <div class="stat-chip card"><div class="sv">To spec</div><div class="sl">Portion, not eyeballed</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The pricing layer. The guest build experience is Build-Your-Own Bowl / Plate Engine.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 6/7 -- Organic / Batch Inventory Tracking -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">06 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Organic / Batch Inventory Tracking</h1>
+        <p class="solution-desc">Certified stock kept separable from conventional through the whole operation &mdash; because an organic claim survives only as long as the two are never quietly mixed.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Certified and conventional stock are held as distinct inventory even where the ingredient is nominally the same.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A recipe requiring certified input cannot deplete conventional stock without an explicit, recorded override.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Batches rotate first-expiry-first-out with expiry alerts raised before product has to be written off.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Suppliers are scored on certification currency, delivery quality and substitution frequency rather than judged at renewal.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Certified stock cover is projected against forecast demand, so a shortage is visible before it forces an uncertified substitution.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">SCORING</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Separable</div><div class="sl">Certified vs conventional</div></div>
+          <div class="stat-chip card"><div class="sv">FEFO</div><div class="sl">Batch rotation, enforced</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;What you make. What it costs. What you lose.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 7/7 -- Omni-Channel -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2</div><div class="sol-index">07 / 07</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Omni-Channel</h1>
+        <p class="solution-desc">Counter, app, web, subscription and the aggregators on one order book &mdash; with the same allergen and macro data travelling to every channel, because a third-party listing carries your claim too.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every source writes into the same queue, so the kitchen works one sequenced list rather than a screen per channel.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Allergen and macro data publish with the menu everywhere &mdash; an aggregator listing without them is a liability with your name on it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Subscription fulfilment enters the same production plan as walk-in demand rather than running as a parallel operation.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>A component running out removes affected builds from every channel in the same second.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Each channel settles into the same ledger with its commission and packaging cost attached, giving true margin by channel.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--honey); border-color:rgba(227,180,95,.4)">QUEUE ML</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">1</div><div class="sl">Order book, every channel</div></div>
+          <div class="stat-chip card"><div class="sv">Everywhere</div><div class="sl">Same allergen &amp; macro data</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;What you make. What it costs. What you lose.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION L3 -- ASK IRIS (live demo intro) -->
+  <section class="slide" data-chat="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--rose); border-color:rgba(224,112,143,.5)">L3</span><div class="module-tag">Iris &middot; Intelligence layer 03 &mdash; live</div></div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,42px)">Ask Iris</h1>
+    <p class="lede" style="margin-bottom:0">Not a screenshot &mdash; the actual agent. Natural-language answers over the live kitchen. Four solutions run on this layer.</p>
+    <div class="live-grid">
+      <div class="chat-card card">
+        <div class="chat-head"><div class="iris-mini"><div class="r1"></div><div class="r2"></div></div><div class="chat-head-title">ASK IRIS &mdash; HEALTH, WELLNESS &amp; SPECIALTY DIETS</div></div>
+        <div class="bubble user" id="qBubble" style="opacity:0"></div>
+        <div class="bubble iris" id="aBubble" style="opacity:0"></div>
+      </div>
+      <div class="scorecard-card card">
+        <div class="sc-title">Live Balanced Scorecard</div>
+        <div class="sc-grid">
+          <div class="sc-item flagged"><div class="flag-oval"></div><div class="sc-val" data-count="100" data-suffix="%">0%</div><div class="sc-lab">Allergen label accuracy</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="27" data-prefix="+" data-suffix="%">+0%</div><div class="sc-lab">Subscription retention</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="22" data-prefix="−" data-suffix="%">−0%</div><div class="sc-lab">Prep waste</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="4.9" data-suffix="★" data-decimals="1">0★</div><div class="sc-lab">Customer trust rating &#9650;</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 1/4 -- Build-Your-Own Bowl / Plate Engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">01 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Build-Your-Own Bowl / Plate Engine</h1>
+        <p class="solution-desc">The guest-facing build &mdash; base, protein, toppings, dressing &mdash; with macros, allergens and price updating live as the bowl is assembled, on the counter screen or in the app.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every choice updates the running macro, allergen and price picture immediately, so the guest decides with the numbers in front of them.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Clustering surfaces the combinations guests actually build as one-tap presets, which is what keeps a build queue moving at lunch.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>A declared allergy filters the builder itself, so an unsafe component is never offered rather than merely flagged.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>The saved build becomes a reorderable favourite, which is what turns a build-your-own guest into a repeat one.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The same engine drives counter, app and subscription selection, so a bowl means the same thing on every surface.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--rose); border-color:rgba(224,112,143,.4)">CLUSTERING</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Live</div><div class="sl">Macros as you build</div></div>
+          <div class="stat-chip card"><div class="sv">Filtered</div><div class="sl">Unsafe never offered</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The guest experience. Pricing and portion rules are Build-Your-Own Pricing &amp; Portion Logic.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 2/4 -- Nutritional AI Recommender -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">02 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Nutritional AI Recommender</h1>
+        <p class="solution-desc">Recommendations scored against the guest's own stated goal rather than against margin &mdash; which in this sector is the only kind of suggestion that survives contact with the customer.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Suggestions are scored against the guest's declared target &mdash; protein, calorie ceiling, macro split &mdash; not against what the operator wants to move.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Restrictions are hard constraints in the model, so a recommendation can never contradict a declared allergy or diet.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>The remaining budget for the day shapes the suggestion, so an evening recommendation accounts for what was already eaten.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Suggestions explain themselves in one line, because a health-first guest wants the reason as much as the recommendation.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The model learns from what is actually accepted, retiring suggestions that consistently do not land.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--rose); border-color:rgba(224,112,143,.4)">RECOMMENDATION &middot; SCORING</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">To goal</div><div class="sl">Scored, not to margin</div></div>
+          <div class="stat-chip card"><div class="sv">Hard</div><div class="sl">Restrictions, not preferences</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Kitchen &amp; stock &middot; &ldquo;And the rest of the kitchen.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 3/4 -- Calorie & Macro Display per Dish -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">03 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Calorie &amp; Macro Display per Dish</h1>
+        <p class="solution-desc">How the numbers are presented to the guest &mdash; on the menu, the screen, the app and the label &mdash; adapted to what that guest is actually tracking rather than shown as one undifferentiated block.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every dish shows its calorie and macro breakdown wherever it appears, from the counter board to the delivery listing.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>The display adapts to what the guest tracks &mdash; a macro-counting guest and a calorie-counting guest do not need the same emphasis.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Substitutions restate the numbers immediately, so a swapped base never leaves a stale figure on screen.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Portion context is shown honestly &mdash; per serving as built, not per 100g where that flatters the dish.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The figures come from the same engine as the label and the cost card, so no surface can disagree with another.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--rose); border-color:rgba(224,112,143,.4)">RECOMMENDATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Every surface</div><div class="sl">Menu, app, label, listing</div></div>
+          <div class="stat-chip card"><div class="sv">As built</div><div class="sl">Not per 100g</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">The presentation. The computation is the Macro &amp; Calorie Engine.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 . 4/4 -- Loyalty, Goals & Guest Wellness Profile -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L3</div><div class="sol-index">04 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Loyalty, Goals &amp; Guest Wellness Profile</h1>
+        <p class="solution-desc">One profile carrying restrictions, goals and history &mdash; so recognition means the operation already knows what this guest can eat and what they are working towards.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Allergies, intolerances and dietary choices are recorded once and enforced everywhere, on every channel, on every visit.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>The guest's goal is part of the profile, so loyalty rewards progress rather than only spend.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Points, plans and streaks share one wallet and one balance across counter, app and subscription.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Iris picks the reward with the highest modelled redemption for that guest, weighted toward what fits their goal.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Health data is treated as sensitive by default, with consent and retention handled as a first-class concern rather than an afterthought.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--rose); border-color:rgba(224,112,143,.4)">RECOMMENDATION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Once</div><div class="sl">Recorded, enforced everywhere</div></div>
+          <div class="stat-chip card"><div class="sv">Progress</div><div class="sl">Rewarded, not only spend</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; The guest &middot; &ldquo;The guest, remembered.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WELLNESS STACK -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>EVERY SOLUTION &middot; HEALTH, WELLNESS &amp; SPECIALTY DIETS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Pick one. It opens<br>the real screen.</h1>
+    <p class="lede" style="margin-top:12px">Seventeen solutions. Every card opens a live guided demo.</p>
+    <div class="sol-section">
+      <div class="sol-section-label">The guest &mdash; the guest, remembered</div>
+      <div class="sol-section-desc">Recognition, loyalty and every channel they reach you on &mdash; one profile, one balance, one order book.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Build-Your-Own Bowl / Plate Engine</div><div class="sc-tag2">L3 &middot; CLUSTERING</div></div>
+        <div class="sol-chip card"><div class="sc-name">Subscription Meal Plan Billing</div><div class="sc-tag2">L2 &middot; CLASSIFIER</div></div>
+        <div class="sol-chip card"><div class="sc-name">Meal Plan Subs &amp; Unit Economics</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Loyalty, Goals &amp; Wellness Profile</div><div class="sc-tag2">L3 &middot; RECOMMENDATION</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Kitchen &amp; stock &mdash; what you make, what it costs, what you lose</div>
+      <div class="sol-section-desc">Recipes, live stock, yield and waste &mdash; the number that decides food cost, while you can still change it.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Omni-Channel</div><div class="sc-tag2">L2 &middot; QUEUE ML</div></div>
+        <div class="sol-chip card"><div class="sc-name">Allergen &amp; Dietary Flag per Item</div><div class="sc-tag2">L1 &middot; RULE ENGINE</div></div>
+        <div class="sol-chip card"><div class="sc-name">Calorie &amp; Macro Display per Dish</div><div class="sc-tag2">L3 &middot; RECOMMENDATION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Organic / Batch Inventory Tracking</div><div class="sc-tag2">L2 &middot; SCORING</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Kitchen &amp; stock &mdash; and the rest of the kitchen</div>
+      <div class="sol-section-desc">Costing, traceability and the variance that quietly moves margin, measured where it happens.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Nutritional AI Recommender</div><div class="sc-tag2">L3 &middot; RECOMMENDATION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Meal Prep Demand Forecaster AI</div><div class="sc-tag2">L2 &middot; FORECAST</div></div>
+        <div class="sol-chip card"><div class="sc-name">Ingredient Traceability</div><div class="sc-tag2">L1 &middot; RULE ENGINE</div></div>
+        <div class="sol-chip card"><div class="sc-name">Macro &amp; Calorie Engine</div><div class="sc-tag2">L2 &middot; COST ML</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Kitchen &amp; stock &mdash; the kitchen, accounted for</div>
+      <div class="sol-section-desc">Production, transfers and stock that reconciles without a weekly count.</div>
+      <div class="sol-grid" style="grid-template-columns:repeat(5,1fr)">
+        <div class="sol-chip card"><div class="sc-name">Allergen Enforcement &amp; Cross-Contact</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+        <div class="sol-chip card"><div class="sc-name">BYO Pricing &amp; Portion Logic</div><div class="sc-tag2">L2 &middot; DYNAMIC PRICING</div></div>
+        <div class="sol-chip card"><div class="sc-name">Sourcing, Batch &amp; Traceability</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+        <div class="sol-chip card"><div class="sc-name">Nutrition Compliance &amp; Labelling</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+        <div class="sol-chip card"><div class="sc-name">Integration Hub</div><div class="sc-tag2">L1 &middot; ZEN RULES</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW IT'S IMPLEMENTED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Implementation,<br>run by Iris.</h1>
+    <p class="lede">You configure a sector playbook, not a custom project. Iris applies it herself &mdash; agentically, from day one.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Onboarding is agentic.</span> Iris connects the till, the recipe book, the label printer and every supplier feed directly &mdash; no manual data mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Allergen data is validated on entry.</span> The playbook will not go live with untagged ingredients, because a partial allergen set is worse than none.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">A new market takes days.</span> Labelling and tax rules are configured per market rather than coded per customer.</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW SUPPORT WORKS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Support starts<br>with Iris.</h1>
+    <p class="lede">The first line of support is agentic &mdash; Iris resolves most of it herself. Our engineers pick up from there.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Layer 1 &mdash; Iris, 24/7.</span> Configuration questions, anomalies and routine issues resolved directly, instantly.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Layer 2 &mdash; our engineers.</span> Anything Iris can't close escalates automatically to a Zentallio engineer.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">No blank tickets.</span> Every escalation arrives with Iris's own diagnosis &mdash; engineers start from an answer.</p></div>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>IN PRACTICE &mdash; ONE LABEL, ONE LOT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Trust is the product.</h1>
+    <p class="story-quote">&ldquo;Health-first customers read every label &mdash; and one allergen mistake or broken macro promise ends the relationship. Compliance by spreadsheet cannot keep that promise at scale.&rdquo;</p>
+    <p class="story-body">Zentallio makes trust automatic: farm-to-table traceability on every bowl, labels generated from the actual recipe, subscriptions billed and retained, waste tracked to the ingredient. Underneath sits the same platform every sector runs &mdash; one data spine from the till to the ledger, three layers of intelligence, and an agent that narrates every screen, flags what needs a human, and acts on the rest.</p>
+  </section>
+
+  <!-- WHAT TO EXPECT -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><span class="dot" style="background:var(--leaf)"></span>WHAT AN OPERATOR CAN EXPECT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Every claim, substantiated.</h1>
+    <div class="impact-grid">
+      <div class="impact-card card"><div class="impact-val" data-count="100" data-suffix="%">0%</div><div class="impact-lab">Allergen label accuracy</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="27" data-prefix="+" data-suffix="%">+0%</div><div class="impact-lab">Subscription retention</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="22" data-prefix="−" data-suffix="%">−0%</div><div class="impact-lab">Prep waste</div></div>
+      <div class="impact-card card"><div class="impact-val" data-count="4.9" data-suffix="★" data-decimals="1">0★</div><div class="impact-lab">Customer trust rating</div></div>
+    </div>
+    <div class="impact-footnote">* Modelled from pilot assumptions &amp; comparable F&amp;B benchmarks &mdash; not yet a deployed-client result. We show real numbers as founding pilots conclude.</div>
+  </section>
+
+  <!-- PAIN / RESPONSE / OUTCOME -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><span class="dot" style="background:var(--leaf)"></span>WHERE IT LEAKS, HOW IRIS RESPONDS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Where the promise<br>actually breaks.</h1>
+    <div class="pr-wrap">
+      <div>
+        <div class="pr-col-label">Where it breaks</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--leaf)">01</div><p>A supplier substitution changes an allergen profile, and the label keeps saying what it said last month.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--leaf)">02</div><p>Build-your-own portions drift, so the published macro and the served bowl quietly stop matching.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--leaf)">03</div><p>Subscribers lapse for reasons nobody sees until the cancellation arrives.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-col-label">How Iris responds</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--azure)">L1</div><p>Flags propagate, publishing is blocked on untagged ingredients, and cross-contact control is enforced rather than advised.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--honey)">L2</div><p>Macros recompute from the recipe, portions are held to spec, and prep is forecast per component.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--rose)">L3</div><p>&ldquo;Which claim can no longer be substantiated?&rdquo; &mdash; answered from the same recipe the kitchen builds from.</p></div>
+        </div>
+      </div>
+      <div class="outcome-strip card">
+        <div class="big" data-count="100" data-suffix="%">0%</div>
+        <div class="cap">allergen label accuracy &mdash; because the label is generated from the recipe, not maintained alongside it.<span class="tech-note">*</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR RAIL -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>ONE PLATFORM, TEN SECTORS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Health &amp; Wellness is<br>sector seven of ten.</h1>
+    <p class="lede">Every Zentallio sector runs the same three-layer intelligence, tuned to how that format actually loses margin.</p>
+    <div class="sector-rail">
+      <span class="sector-chip">01 Quick Service</span>
+      <span class="sector-chip">02 Casual Dining</span>
+      <span class="sector-chip">03 Fine Dining</span>
+      <span class="sector-chip">04 Café &amp; Bakery</span>
+      <span class="sector-chip">05 Ice Cream &amp; Desserts</span>
+      <span class="sector-chip">06 Beverages &amp; Drinks</span>
+      <span class="sector-chip active">07 Health &amp; Wellness</span>
+      <span class="sector-chip">08 Cloud Kitchen</span>
+      <span class="sector-chip">09 Institutional &amp; B2B</span>
+      <span class="sector-chip">10 Niche &amp; Experience</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" id="s13">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">Let's make your<br>claims automatic.</div>
+    <div class="cta-sub">Book a call with our consultant — a pilot walkthrough on your own menu, your own numbers.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">+92 327 000 0901 &nbsp;·&nbsp; +1 929 419 2694 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources" style="text-decoration:none"><b>ZENTALLIO</b> &nbsp;/&nbsp; HEALTH, WELLNESS &amp; SPECIALTY DIETS &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
+  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">14</span></div>
+</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const IRIS_Q = 'Which claim can no longer be substantiated?';
+  const IRIS_A = 'The nut-free label on three bowls. Your tahini supplier shipped a new lot on the 9th from a line that also handles sesame and peanut \u2014 the certificate covers organic, not allergen segregation. The bowls are still safe to sell as-is; the claim is not. I have blocked republishing and drafted the corrected label.';
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  // Thousands separators: the template's toFixed() renders 1840 rather than 1,840.
+  function fmtNum(v, decimals){
+    return v.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + fmtNum(target*eased, decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + fmtNum(target, decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function typeChat(slide){
+    const q = slide.querySelector('#qBubble'); const a = slide.querySelector('#aBubble');
+    if(!q || !a) return;
+    q.style.opacity = 0; a.style.opacity = 0; q.textContent=''; a.innerHTML='';
+    setTimeout(()=>{
+      q.style.opacity = 1; let i=0;
+      const qi = setInterval(()=>{ q.textContent = IRIS_Q.slice(0,i+1); i++; if(i>=IRIS_Q.length){ clearInterval(qi); startAnswer(); } }, 22);
+    }, 300);
+    function startAnswer(){
+      setTimeout(()=>{
+        a.style.opacity = 1; a.innerHTML = '<span class="cursor"></span>'; let j=0;
+        const ai = setInterval(()=>{ a.innerHTML = IRIS_A.slice(0,j+1) + '<span class="cursor"></span>'; j++; if(j>=IRIS_A.length){ clearInterval(ai); a.innerHTML = IRIS_A; } }, 13);
+      }, 400);
+    }
+  }
+
+  function drawBarChart(slide){
+    const g = slide.querySelector('#barChart');
+    if(!g) return;
+    g.innerHTML = '';
+    const forecast = [64, 71, 58, 83, 96];
+    const actual   = [61, 74, 55, 79, 92];
+    const w = 380, h = 140, n = forecast.length, gap = 14, groupW = (w - gap*(n+1)) / n, barW = groupW/2 - 3;
+    const max = 100;
+    for(let i=0;i<n;i++){
+      const gx = gap + i*(groupW+gap);
+      const fh = (forecast[i]/max) * (h-20);
+      const ah = (actual[i]/max) * (h-20);
+      const rf = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rf.setAttribute('x', gx); rf.setAttribute('y', h-fh); rf.setAttribute('width', barW); rf.setAttribute('height', 0);
+      rf.setAttribute('fill', '#E3B45F'); rf.setAttribute('rx', 2); g.appendChild(rf);
+      const ra = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ra.setAttribute('x', gx+barW+4); ra.setAttribute('y', h-ah); ra.setAttribute('width', barW); ra.setAttribute('height', 0);
+      ra.setAttribute('fill', '#63C267'); ra.setAttribute('rx', 2); g.appendChild(ra);
+      requestAnimationFrame(()=>{
+        rf.style.transition = 'height .7s ease, y .7s ease';
+        ra.style.transition = 'height .7s ease .1s, y .7s ease .1s';
+        rf.setAttribute('height', fh); rf.setAttribute('y', h-fh);
+        ra.setAttribute('height', ah); ra.setAttribute('y', h-ah);
+      });
+    }
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+    if(slide.dataset.chat === 'true') typeChat(slide);
+    if(slide.dataset.chart === 'true') drawBarChart(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  buildOrb(document.getElementById('orbCover'), 170);
+  buildOrb(document.getElementById('orbCta'), 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-12vw', y:'-16vh', s:'46vw', c:'var(--leaf)'}, {x:'84vw', y:'60vh', s:'52vw', c:'var(--rose)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  // cover cycling phrase
+  const cycleWords = ['the label.', 'the macro.', 'every claim.'];
+  const wrap = document.getElementById('cycleWrap');
+  // A hidden static copy of the longest phrase gives the wrapper a real width.
+  // The old `ch`-based minWidth guess clipped any phrase longer than ~13 chars.
+  const sizer = document.createElement('span');
+  sizer.className = 'cycle-sizer';
+  sizer.textContent = cycleWords.reduce((a,b)=> b.length > a.length ? b : a, '');
+  wrap.appendChild(sizer);
+  let ci = 0;
+  function showCycleWord(){
+    wrap.querySelectorAll('.cycle-word').forEach(n=> n.remove());
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    const w = cycleWords[ci % cycleWords.length];
+    const m = w.match(/^(.*?)([.!?]*)$/);
+    el.textContent = m[1];
+    if(m[2]){ const stop = document.createElement('span'); stop.className='stop'; stop.textContent=m[2]; el.appendChild(stop); }
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+
+  // Ensure every slide's dynamic content (counters, chat bubbles) is already
+  // correct on load -- not just the slide currently on screen. This matters
+  // for PDF export / print, which captures the DOM as-is without clicking
+  // through every slide first. The live animated reveal (count-up, typing)
+  // still plays normally whenever a slide is actually navigated to, via
+  // animateCounters()/typeChat() inside onEnter().
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + fmtNum(target, decimals) + suffix;
+    });
+    const q = document.getElementById('qBubble');
+    const a = document.getElementById('aBubble');
+    if(q) q.textContent = IRIS_Q;
+    if(a) a.textContent = IRIS_A;
+  }
+  finalizeStaticContent();
+
+  goTo(0);
+})();
+</script>
+</body>
+</html>
