@@ -145,6 +145,19 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .ip-why{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px;}
   .ip-why b{color:var(--ink-1);font-weight:500;}
 
+  /* ---------- SECTOR DECKS ---------- */
+  .decks-section{padding:56px 0 8px;}
+  .ds-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .ds-head h2{font-family:var(--serif);font-weight:500;font-size:20px;}
+  .ds-head span{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);letter-spacing:.04em;}
+  .ds-group{margin-top:30px;}
+  .ds-glabel{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-1);}
+  .ds-glabel .ds-dot{width:8px;height:8px;border-radius:50%;background:var(--gc,var(--teal));box-shadow:0 0 10px var(--gc,var(--teal));flex:none;}
+  .ds-glabel em{font-style:normal;color:var(--ink-2);letter-spacing:.04em;}
+  .ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:900px){.ds-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.ds-grid{grid-template-columns:1fr;}}
+
   /* ---------- FILTER TABS ---------- */
   .filters{
     position:sticky;top:68px;z-index:40;
@@ -318,8 +331,12 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .nl-form input::placeholder{color:var(--ink-2);}
   .nl-form button{
     font-family:var(--mono);font-size:13px;font-weight:600;background:var(--teal);
-    color:#00201f;border:none;border-radius:9px;padding:0 20px;cursor:pointer;white-space:nowrap;
+    color:#00201f;border:none;border-radius:9px;padding:0 20px;cursor:pointer;white-space:nowrap;transition:opacity .18s;
   }
+  .nl-form button:disabled{opacity:.55;cursor:default;}
+  .nl-msg{flex-basis:100%;margin:12px 0 0;font-family:var(--mono);font-size:12.5px;line-height:1.5;}
+  .nl-msg.ok{color:var(--teal);}
+  .nl-msg.err{color:#e0708f;}
 
   /* ---------- FOOTER ---------- */
   .site-footer{border-top:1px solid var(--line);padding:56px 0 30px;background:var(--bg-1);}
@@ -426,24 +443,19 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- ===== FILTERS ===== -->
-<div class="filters">
-  <div class="wrap filter-row">
-    <button class="ftab active" data-filter="all">All resources</button>
-    <button class="ftab" data-filter="deck"><span class="dot" style="color:var(--magenta)"></span>Decks</button>
-    <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
-    <button class="ftab" data-filter="pdf"><span class="dot" style="color:var(--mint)"></span>Whitepapers &amp; PDFs</button>
-    <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
-    <span class="fcount"><span id="fcountNum">19</span> results</span>
-  </div>
-</div>
-
-<!-- ===== GRID ===== -->
-<section class="rgrid-section">
+<!-- ===== SECTOR DECKS ===== -->
+<section class="decks-section">
   <div class="wrap">
-    <div class="rgrid" id="rgrid">
+    <div class="ds-head">
+      <h2>Decks</h2>
+      <span>&mdash; interactive executive briefings by sector, and the Zentallio Cognita products behind them</span>
+    </div>
 
-      <a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
+    <div class="ds-group">
+      <div class="ds-glabel"><span class="ds-dot" style="--gc:var(--teal)"></span>Food &amp; Beverage <em>&middot; 10 sectors</em></div>
+      <div class="ds-grid">
+
+<a class="rcard" data-type="deck" href="/resources/quick-service-street-food">
         <div class="rthumb t-deck" style="--acc:255,45,149"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Quick&nbsp;Service &amp; Street&nbsp;Food</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Quick Service</span></div>
@@ -453,7 +465,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/casual-dining">
+<a class="rcard" data-type="deck" href="/resources/casual-dining">
         <div class="rthumb t-deck" style="--acc:229,162,75"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Casual&nbsp;Dining</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Casual Dining</span></div>
@@ -463,7 +475,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/fine-dining">
+<a class="rcard" data-type="deck" href="/resources/fine-dining">
         <div class="rthumb t-deck" style="--acc:155,123,255"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Fine&nbsp;Dining &amp; Premium</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Fine Dining</span></div>
@@ -473,7 +485,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/cafe-bakery">
+<a class="rcard" data-type="deck" href="/resources/cafe-bakery">
         <div class="rthumb t-deck" style="--acc:63,217,164"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Café, Coffee &amp; Bakery</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Café &amp; Bakery</span></div>
@@ -483,7 +495,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/ice-cream-desserts">
+<a class="rcard" data-type="deck" href="/resources/ice-cream-desserts">
         <div class="rthumb t-deck" style="--acc:56,189,248"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Ice Cream, Desserts &amp; Sweets</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Ice Cream &amp; Desserts</span></div>
@@ -493,7 +505,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/beverages-drinks">
+<a class="rcard" data-type="deck" href="/resources/beverages-drinks">
         <div class="rthumb t-deck" style="--acc:251,113,133"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Beverages &amp; Drinks</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Beverages &amp; Drinks</span></div>
@@ -503,7 +515,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="deck" href="/resources/health-wellness">
+<a class="rcard" data-type="deck" href="/resources/health-wellness">
         <div class="rthumb t-deck" style="--acc:132,204,22"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Health, Wellness &amp; Specialty Diets</span></div></div>
         <div class="rbody">
           <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Health &amp; Wellness</span></div>
@@ -512,6 +524,150 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
           <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         </div>
       </a>
+
+<a class="rcard" data-type="deck" href="/resources/cloud-kitchen">
+        <div class="rthumb t-deck" style="--acc:129,140,248"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Cloud Kitchen &amp; Delivery-Only</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Cloud Kitchen</span></div>
+          <h3>Cloud Kitchen &amp; Delivery-Only — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: multi-brand routing on one line, surge predicted before it forms, per-brand P&amp;L nightly, and aggregators reconciled — narrated by Iris.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+<a class="rcard" data-type="deck" href="/resources/institutional-b2b">
+        <div class="rthumb t-deck" style="--acc:234,179,8"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Institutional &amp; B2B Food Service</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Institutional &amp; B2B</span></div>
+          <h3>Institutional &amp; B2B Food Service — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: headcount-accurate billing, voucher and subsidy logic built in, per-site performance on one screen, and group contracts reconciled — narrated by Iris.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+<a class="rcard" data-type="deck" href="/resources/niche-experience">
+        <div class="rthumb t-deck" style="--acc:251,146,60"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Niche &amp; Experience Concepts</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Niche &amp; Experience</span></div>
+          <h3>Niche &amp; Experience Concepts — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: menus, shifts and billing shaped to the concept, launch in days, and one system that follows the brand from pop-up to permanent — narrated by Iris.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      </div>
+    </div>
+
+    <div class="ds-group">
+      <div class="ds-glabel"><span class="ds-dot" style="--gc:var(--violet)"></span>Fashion Retail <em>&middot; 7 of 9 sectors</em></div>
+      <div class="ds-grid">
+
+      <a class="rcard" data-type="deck" href="/resources/apparel-rtw">
+        <div class="rthumb t-deck" style="--acc:214,190,140"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Apparel &amp; Ready-to-Wear</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Apparel &amp; RTW</span></div>
+          <h3>Apparel &amp; Ready-to-Wear — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: sell-through by style, size-curve health and weeks-of-cover across every door — Iris reads the floor and moves stock before the season decides for you.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/ethnic-bridal-couture">
+        <div class="rthumb t-deck" style="--acc:232,107,255"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Ethnic, Bridal &amp; Couture</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Ethnic &amp; Bridal</span></div>
+          <h3>Ethnic, Bridal &amp; Couture — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: a couture order is a deposit, a measurement, a promise date and months of instalments — how Iris tracks atelier load, promise-date risk and deposit exposure so no bridal deadline breaks.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/kids-teens">
+        <div class="rthumb t-deck" style="--acc:79,184,240"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Kidswear &amp; Teen</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Kids &amp; Teens</span></div>
+          <h3>Kidswear &amp; Teen — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: age-band sell-through, school-season readiness and repeat-family rate — how Iris sizes the back-to-school surge and keeps the age curve stocked before it sells out.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/sportswear">
+        <div class="rthumb t-deck" style="--acc:198,240,74"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Sportswear &amp; Activewear</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Sportswear</span></div>
+          <h3>Sportswear &amp; Activewear — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: drop sell-out rate, brand-partner sell-through and full-price ratio — how Iris times launch windows and protects full-price margin across every drop.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/footwear">
+        <div class="rthumb t-deck" style="--acc:79,201,176"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Footwear &amp; Accessories</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Footwear</span></div>
+          <h3>Footwear &amp; Accessories — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: size-run completeness, pairs per hour and full-price sell-through by door — how Iris keeps the size run whole so no customer hears “not in your size.”</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/cosmetics">
+        <div class="rthumb t-deck" style="--acc:224,112,143"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Cosmetics &amp; Beauty</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Cosmetics &amp; Beauty</span></div>
+          <h3>Cosmetics &amp; Beauty — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: repeat-purchase rate, shade availability, expiry exposure and counter productivity — how Iris keeps every shade in stock and moves product before its clock runs out.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      <a class="rcard" data-type="deck" href="/resources/fabric-textiles">
+        <div class="rthumb t-deck" style="--acc:229,137,90"><span class="dorb"></span><div class="dthumb"><span class="dk">Executive Briefing</span><span class="dn">Fabric &amp; Textile</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Fabric &amp; Textile</span></div>
+          <h3>Fabric &amp; Textile — Executive Briefing</h3>
+          <p class="rex">A walk-through deck: metre-level sell-through, cut wastage and roll ageing — by branch and by cutting table. Because fabric is sold by the metre and lost by the centimetre, and nobody writes the yield down.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      </div>
+    </div>
+
+    <div class="ds-group">
+      <div class="ds-glabel"><span class="ds-dot" style="--gc:var(--magenta)"></span>Zentallio Cognita <em>&middot; the products behind Iris</em></div>
+      <div class="ds-grid">
+
+<a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
+        <div class="rthumb t-deck" style="--acc:21,242,242"><span class="dorb"></span><div class="dthumb"><span class="dk">Product · CFO Ledger</span><span class="dn">Numerus</span></div></div>
+        <div class="rbody">
+          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
+          <h3>Numerus — The CFO Ledger Platform</h3>
+          <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
+          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        </div>
+      </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTERS ===== -->
+<div class="filters">
+  <div class="wrap filter-row">
+    <button class="ftab active" data-filter="all">All resources</button>
+    <button class="ftab" data-filter="article"><span class="dot" style="color:var(--teal)"></span>Articles</button>
+    <button class="ftab" data-filter="video"><span class="dot" style="color:var(--amber)"></span>Demo videos</button>
+    <span class="fcount"><span id="fcountNum">5</span> results</span>
+  </div>
+</div>
+
+<!-- ===== GRID ===== -->
+<section class="rgrid-section">
+  <div class="wrap">
+    <div class="rgrid" id="rgrid">
 
       <a class="rcard" data-type="article" href="/resources/why-cogs-drifts-before-anyone-notices">
         <div class="rthumb t-article"><span class="rmono">L1</span></div>
@@ -553,76 +709,6 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
         </div>
       </a>
 
-      <a class="rcard" data-type="pdf" href="/resources/balanced-scorecard-for-multi-outlet-fb">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Whitepaper</span><span class="rsector">Strategy &amp; Ops</span></div>
-          <h3>The Balanced Scorecard for multi-outlet F&amp;B operators</h3>
-          <p class="rex">A framework for reading Financial, Customer, Operational, and AI-Learning signals as one story instead of four disconnected reports.</p>
-          <div class="rfoot-row"><span>18 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="pdf" href="/resources/buyers-guide-evaluating-an-ai-decision-platform">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Whitepaper</span><span class="rsector">Buyer's Guide</span></div>
-          <h3>Buyer's guide: evaluating an AI Decision Platform</h3>
-          <p class="rex">The architecture, data, usability, and commercial questions that separate a platform that holds up in production from one that only holds up in a demo.</p>
-          <div class="rfoot-row"><span>15 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="pdf" href="/resources/pos-point-of-sale-integration">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">POS</span></div>
-          <h3>POS — Point-of-Sale Integration Layer</h3>
-          <p class="rex">One connector standard across every POS you already run, streaming real-time transaction data into everything else Iris does.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="deck" href="/resources/numerus-cfo-ledger-platform">
-        <div class="rthumb t-deck" style="--acc:21,242,242"><span class="dorb"></span><div class="dthumb"><span class="dk">Product · CFO Ledger</span><span class="dn">Numerus</span></div></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge deck">Deck</span><span class="rsector">Numerus</span></div>
-          <h3>Numerus — The CFO Ledger Platform</h3>
-          <p class="rex">One continuously reconciled ledger — trial balance, P&amp;L, balance sheet, and cash flow, all tied to the same transactions, all the time.</p>
-          <div class="rfoot-row"><span>Interactive deck</span><span class="rlink">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="pdf" href="/resources/nexus-integration-connectivity-hub">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Nexus</span></div>
-          <h3>Nexus — The Integration &amp; Connectivity Hub</h3>
-          <p class="rex">Every source system — POS, delivery, suppliers, payroll — on one shared timeline, so a cross-system question has one place to be answered.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="pdf" href="/resources/manus-workforce-operations-management">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Manus</span></div>
-          <h3>Manus — Workforce &amp; Operations Management</h3>
-          <p class="rex">Scheduling that treats labor as a lever connected to food cost and compliance — not a standalone staffing exercise.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
-      <a class="rcard" data-type="pdf" href="/resources/motus-supply-chain-inventory-movement">
-        <div class="rthumb t-pdf"><span class="rmono">PDF</span></div>
-        <div class="rbody">
-          <div class="rmeta-row"><span class="rbadge pdf">Pitch Deck</span><span class="rsector">Motus</span></div>
-          <h3>Motus — Supply Chain &amp; Inventory Movement</h3>
-          <p class="rex">Inventory tracked from receiving to plate — so a food-cost variance traces back to an actual event, not a shrug at month-end.</p>
-          <div class="rfoot-row"><span>8 min read</span><span class="rlink">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        </div>
-      </a>
-
       <a class="rcard" data-type="video" href="/resources/Zentallio-COGS-Tour-with-Audio.mp4">
         <div class="rthumb t-video"><div class="playbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--ink-0)"><path d="M8 5v14l11-7z"/></svg></div><span class="duration-chip">1:30</span></div>
         <div class="rbody">
@@ -642,10 +728,11 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   <div class="wrap">
     <div class="nl-card">
       <h2>New resources land here first — before the blog even knows about them.</h2>
-      <form class="nl-form" onsubmit="return false;">
-        <input type="email" placeholder="you@company.com" required>
-        <button type="submit">Notify me</button>
+      <form class="nl-form" id="nlForm" novalidate>
+        <input type="email" id="nlEmail" placeholder="you@company.com" autocomplete="email" required>
+        <button type="submit" id="nlBtn">Notify me</button>
       </form>
+      <p class="nl-msg" id="nlMsg" hidden></p>
     </div>
   </div>
 </section>
@@ -723,6 +810,57 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
       });
       countEl.textContent = visible;
     });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('nlForm');
+  if (!form) return;
+  var input = document.getElementById('nlEmail');
+  var btn = document.getElementById('nlBtn');
+  var msg = document.getElementById('nlMsg');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function show(text, kind){
+    msg.textContent = text;
+    msg.className = 'nl-msg ' + kind;
+    msg.hidden = false;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = (input.value || '').trim().toLowerCase();
+    if (!EMAIL_RE.test(email)){
+      show('Please enter a valid email address.', 'err');
+      input.focus();
+      return;
+    }
+    btn.disabled = true;
+    var label = btn.textContent;
+    btn.textContent = 'Sending…';
+    msg.hidden = true;
+
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    }).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return { ok: r.ok, j: j }; }); })
+      .then(function(res){
+        if (res.ok && res.j && res.j.ok){
+          form.hidden = true;
+          show("You're on the list — new resources will land in your inbox first.", 'ok');
+        } else {
+          btn.disabled = false;
+          btn.textContent = label;
+          show("Something went wrong — please try again in a moment.", 'err');
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        btn.textContent = label;
+        show("Couldn't reach the server — please try again.", 'err');
+      });
   });
 })();
 </script>

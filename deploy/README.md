@@ -98,7 +98,40 @@ RADAR_LEAD_OWNER=iris@lucrumerp.com
 # Handoff alert (optional). A Slack incoming-webhook URL (or any endpoint that
 # accepts {"text": "..."}). If unset, the Radar lead + timeline brief is the alert.
 HANDOFF_WEBHOOK_URL=
+
+# Newsletter (api/subscribe.js -> lib/radar-newsletter.js). The "Notify me"
+# form on /resources drops emails into a Radar Email Group. Reuses the three
+# RADAR_* creds above; only the target group differs. Without the key/secret
+# this is a safe no-op — the signup is accepted and logged (returns pending),
+# so the visitor never sees an error even before Radar is wired.
+# Create the group in Radar first: Email > Email Group > New, title it exactly
+# to match this value.
+RADAR_EMAIL_GROUP=Zentallio Resources
 ```
+
+### Newsletter sending (AWS SES behind Radar)
+
+`api/subscribe.js` only maintains the subscriber **list** in Radar — it never
+sends mail. Radar (Frappe) sends the actual campaigns, and AWS SES is Radar's
+outbound SMTP relay. One-time setup, all on the Radar/AWS side (no website
+change):
+
+1. **AWS SES** — verify the sending domain (e.g. `zentallio.com`), publish the
+   DKIM + SPF DNS records SES gives you, and request production access (moves
+   the account out of the sandbox so it can mail non-verified recipients).
+   Create **SMTP credentials** in SES (IAM SMTP user) — this yields an SMTP
+   username + password distinct from your AWS keys.
+2. **Radar** — Settings > Email > **Email Account** (or Email Domain): add an
+   outgoing account using the SES SMTP host for your region
+   (`email-smtp.<region>.amazonaws.com`), port 587 (STARTTLS), and the SES SMTP
+   username/password. Set a verified From address on the verified domain.
+3. **Radar Email Group** — create the group named in `RADAR_EMAIL_GROUP`
+   (default "Zentallio Resources"). New website signups land here as
+   `Email Group Member` rows. Send campaigns via Email > **Newsletter**, target
+   this group; Radar relays through SES.
+
+Keep the SES SMTP password only in Radar's Email Account settings — it never
+belongs in `api.env` or in the website repo.
 
 No separate email service is needed — Cal.com emails both parties. Full
 step-by-step (Cal.com account, calendar connect, event type, keys) is in

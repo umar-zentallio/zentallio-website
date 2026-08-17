@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zentallio — Apparel &amp; Ready-to-Wear — Executive Briefing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* FASHION RETAIL 01 — APPAREL & READY-TO-WEAR. Champagne hero. NOTE: accent not supplied
+       by the source page. New product line, so the F&B hue map does not constrain it; Iris
+       stays rose across both lines. Swap --champagne + rgba(214,190,140, ...). */
+    --bg:#05080F; --bg2:#0A0A12; --card:#0E1017; --card-hi:#141721;
+    --line: rgba(255,255,255,0.08); --line-hi: rgba(255,255,255,0.16);
+    --champagne:#D6BE8C; --champagne-deep:#A8935F; --rose:#E0708F; --azure:#6FB2E8; --sage:#7FC9A0;
+    --indigo:var(--azure); --cyan:var(--azure); --honey:var(--sage); --turquoise:var(--champagne); --steel:var(--champagne); --violet:var(--champagne); --leaf:var(--champagne); --copper:var(--champagne); --citrus:var(--sage); --pistachio:var(--champagne); --tan:var(--champagne); --gold:var(--champagne); --coral:var(--champagne);
+    /* legacy role aliases — keep every existing reference valid */
+    --amber:var(--champagne); --magenta:var(--rose); --teal:var(--azure); --mint:var(--sage);
+    --ink:#F4F7FB; --body:#BCC3CF; --muted:#767F92;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--ink); font-family:var(--sans); overflow:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
+  ::selection{ background:var(--magenta); color:#fff; }
+  .deck{ position:relative; width:100vw; height:100vh; }
+  .deck::after{ content:""; position:fixed; inset:0; pointer-events:none; z-index:5; background:radial-gradient(130% 120% at 50% 38%, transparent 58%, rgba(0,0,0,.34)); }
+  .ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .glow{ position:absolute; border-radius:50%; filter:blur(130px); opacity:.11;
+         -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
+         mask-image:radial-gradient(circle at 50% 50%, #000 25%, transparent 72%); }
+
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding: 5vh 7.5vw; opacity:0; transform:scale(.97); transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none; z-index:1;
+  }
+  .slide.active{ opacity:1; transform:scale(1); pointer-events:auto; z-index:2; }
+
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin:0 0 14px 0; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  h1.display{ font-family:var(--serif); font-weight:600; color:var(--ink); margin:0; font-size:clamp(30px, 4vw, 56px); line-height:1.1; letter-spacing:-.022em; font-optical-sizing:auto; }
+  h1.display em{ font-style:italic; font-weight:500; color:var(--coral); }
+  .lede{ font-family:var(--sans); font-weight:400; color:var(--body); font-size:clamp(15px,1.3vw,18px); line-height:1.62; max-width:620px; margin:16px 0 0 0; }
+
+  .chrome{ position:fixed; inset:0; z-index:10; pointer-events:none; }
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--amber); color:var(--amber); box-shadow:0 0 12px -1px currentColor; transition:width .5s ease; }
+  .wordmark{ position:absolute; top:24px; left:7.5vw; font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; color:var(--muted); pointer-events:auto; }
+  .wordmark b{ color:var(--coral); font-weight:600; }
+  .counter{ position:absolute; bottom:26px; right:7.5vw; font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em; }
+  .counter .cur{ color:var(--ink); }
+  .dots{ position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:7px; pointer-events:auto; max-width:56vw; flex-wrap:wrap; justify-content:center; }
+  .dots button{ width:6px; height:6px; border-radius:50%; border:none; background:var(--line-hi); cursor:pointer; padding:0; transition:all .35s ease; }
+  .dots button.active{ background:var(--amber); width:16px; border-radius:4px; }
+  .arrow{ position:absolute; top:50%; transform:translateY(-50%); width:54px; height:54px; border-radius:50%; border:1.5px solid var(--amber); background:rgba(255,255,255,0.07); color:var(--amber); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto; transition:all .2s ease; font-family:var(--sans); font-size:22px; box-shadow:0 3px 20px rgba(0,0,0,.45); }
+  .arrow:hover{ background:var(--amber); color:var(--bg); border-color:var(--amber); transform:translateY(-50%) scale(1.06); }
+  .arrow.prev{ left:20px; } .arrow.next{ right:20px; }
+  .toolbar{ position:absolute; top:22px; right:7.5vw; display:flex; align-items:center; gap:14px; pointer-events:auto; }
+  .hint{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.04em; opacity:.85; }
+  .pdf-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--ink); background:transparent; border:1px solid var(--line-hi); border-radius:999px; padding:6px 13px; cursor:pointer; transition:all .2s ease; }
+  .pdf-btn:hover{ border-color:var(--amber); color:var(--amber); }
+
+  .orb{ position:relative; width:1px; height:1px; }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--teal); top:50%; left:50%; }
+  .ring.magenta{ border-color:var(--magenta); }
+  .ring.core{ background:var(--magenta); border:none; box-shadow:0 0 18px 2px rgba(224,112,143,.55); }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  @keyframes spinRev{ to{ transform:translate(-50%,-50%) rotate(-360deg); } }
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+  @keyframes breathe{ 0%,100%{ transform:translate(-50%,-50%) scale(1); } 50%{ transform:translate(-50%,-50%) scale(1.06); } }
+  @keyframes fadeSwap{ 0%{opacity:0; transform:translateY(4px);} 10%{opacity:1; transform:translateY(0);} 90%{opacity:1;} 100%{opacity:0; transform:translateY(-4px);} }
+
+  .card{ background:linear-gradient(180deg, var(--card-hi), var(--card)); border:1px solid var(--line); border-radius:16px; box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 26px 50px -34px rgba(0,0,0,.75); }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--mint); animation:pulse 1.6s ease-in-out infinite; display:inline-block; }
+
+  /* sector rail */
+  .sector-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-top:26px; max-width:920px; }
+  .sector-chip{ font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 11px; }
+  .sector-chip.active{ color:var(--amber); border-color:rgba(214,190,140,.5); background:rgba(214,190,140,.06); }
+
+  /* live board (cover / reality) */
+  .board{ display:flex; gap:0; margin-top:5vh; max-width:820px; }
+  .board-item{ flex:1; padding:20px 22px; border-right:1px solid var(--line); }
+  .board-item:last-child{ border-right:none; }
+  .board-label{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+  .board-val{ font-family:var(--serif); font-weight:600; font-size:30px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .board-val.amber{ color:var(--amber); } .board-val.teal{ color:var(--teal); }
+  .board-val.watching{ font-family:var(--mono); font-size:15px; color:var(--mint); display:flex; align-items:center; gap:8px; }
+
+  /* narrative 3-card grid */
+  .narr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:5vh; max-width:1180px; }
+  .narr-card{ padding:20px 22px; }
+  .narr-card .n-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; margin-bottom:12px; text-transform:uppercase; }
+  .narr-card p{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.5; margin:0; }
+  .narr-card p b{ color:var(--ink); font-weight:600; }
+
+  /* six products grid */
+  .prod-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:5vh; max-width:1180px; }
+  .prod-card{ padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
+  .prod-dot{ width:9px; height:9px; border-radius:3px; margin-bottom:4px; }
+  .prod-name{ font-family:var(--serif); font-weight:600; font-size:16.5px; color:var(--ink); }
+  .prod-desc{ font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.03em; }
+
+  /* module badge (shared) */
+  .module-badge{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+  .module-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; }
+  .layer-chip{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:5px 10px; border-radius:6px; border:1.5px solid; font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.03em; }
+  .module-badge2{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+
+  /* individual solution slides — modern detail layout, no rings */
+  .sol-eyebrow-row{ display:flex; align-items:center; justify-content:space-between; max-width:1180px; margin-bottom:6px; }
+  .sol-index{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.08em; }
+  .solution-hero2{ display:grid; grid-template-columns:1.5fr 1fr; gap:5vw; margin-top:3vh; max-width:1180px; align-items:start; }
+  .solution-name{ font-size:clamp(26px,3.4vw,42px) !important; margin:0 0 12px 0 !important; }
+  .solution-desc{ font-family:var(--sans); font-size:15.5px; color:var(--body); line-height:1.5; max-width:520px; margin:0; }
+  .how-list{ margin-top:18px; display:flex; flex-direction:column; gap:9px; max-width:520px; }
+  .how-item{ display:flex; gap:12px; }
+  .how-num{ font-family:var(--mono); font-size:10px; color:var(--amber); flex:none; width:20px; padding-top:2px; }
+  .how-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.48; }
+  .solution-tagpill{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; border:1px solid; border-radius:6px; padding:6px 12px; }
+  .stat-stack{ display:flex; flex-direction:column; gap:12px; margin-top:2px; }
+  .stat-chip{ padding:18px 20px; }
+  .stat-chip .sv{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .stat-chip .sl{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.05em; margin-top:7px; text-transform:uppercase; line-height:1.4; }
+  .stat-row{ display:flex; gap:10px; }
+  .stat-row .stat-chip{ flex:1; padding:13px 15px; }
+  .stat-row .stat-chip .sv{ font-size:19px; }
+  .stat-row .stat-chip .sl{ font-size:8px; }
+  .tech-note{ color:var(--muted); font-size:.92em; }
+
+  @media (max-width:760px){ .solution-hero2{ grid-template-columns:1fr; } }
+  .feature-list{ margin-top:22px; display:flex; flex-direction:column; gap:2px; max-width:560px; }
+  .feature-item{ display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--line); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .feature-item.show{ opacity:1; transform:translateY(0); }
+  .feature-item:last-child{ border-bottom:none; }
+  .feature-item .fi-dot{ width:6px; height:6px; border-radius:50%; margin-top:6px; flex:none; }
+  .feature-item p{ margin:0; font-family:var(--sans); font-size:14.5px; color:var(--body); line-height:1.48; }
+  .feature-item .fi-name{ color:var(--ink); font-weight:600; }
+
+  .side-panel{ position:absolute; right:7.5vw; top:50%; transform:translateY(-50%); width:min(36vw, 440px); }
+
+  .alert-card{ padding:20px 22px; }
+  .alert-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .alert-time{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .alert-live{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10px; color:var(--mint); letter-spacing:.08em; }
+  .alert-title{ font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink); margin:0 0 6px 0; }
+  .alert-body{ font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.5; margin:0 0 14px 0; }
+  .alert-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .alert-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; border:1px solid var(--line); border-radius:999px; padding:5px 10px; color:var(--muted); }
+  .alert-tag.amber{ color:var(--amber); border-color:rgba(214,190,140,.4); }
+
+  .chart-card{ padding:20px 22px; }
+  .chart-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; }
+  .chart-legend{ display:flex; gap:16px; margin-bottom:12px; }
+  .chart-legend span{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9.5px; color:var(--muted); }
+  .chart-legend i{ width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+  .live-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:3.5vh; max-width:1180px; }
+  .chat-card{ padding:22px; height:300px; display:flex; flex-direction:column; }
+  .chat-head{ display:flex; align-items:center; gap:10px; padding-bottom:13px; border-bottom:1px solid var(--line); margin-bottom:14px; }
+  .chat-head .iris-mini{ position:relative; width:19px; height:19px; }
+  .chat-head .iris-mini .r1{ position:absolute; inset:0; border-radius:50%; border:1.5px solid var(--magenta); }
+  .chat-head .iris-mini .r2{ position:absolute; inset:5px; border-radius:50%; background:var(--magenta); }
+  .chat-head-title{ font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .bubble{ border-radius:12px; padding:12px 14px; font-family:var(--sans); font-size:14.5px; line-height:1.48; margin-bottom:11px; max-width:90%; }
+  .bubble.user{ background:var(--card-hi); border:1px solid var(--line); color:var(--ink); align-self:flex-end; margin-left:auto; }
+  .bubble.iris{ background:rgba(224,112,143,0.06); border:1px solid rgba(224,112,143,0.28); color:var(--body); }
+  .bubble.iris .cursor{ display:inline-block; width:6px; height:12px; background:var(--magenta); margin-left:2px; animation:pulse .9s ease-in-out infinite; vertical-align:middle; }
+  .scorecard-card{ padding:22px; height:300px; }
+  .sc-title{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.1em; margin-bottom:14px; text-transform:uppercase; }
+  .sc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .sc-item{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:13px; position:relative; }
+  .sc-val{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .sc-lab{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.06em; margin-top:4px; text-transform:uppercase; }
+  .flag-oval{ position:absolute; border:1.5px dashed var(--magenta); border-radius:50%; top:6px; left:8px; width:68px; height:32px; opacity:0; }
+  .sc-item.flagged .flag-oval{ animation:flagIn .6s ease .3s forwards, pulse 2.2s ease-in-out 1s infinite; }
+  @keyframes flagIn{ from{ opacity:0; transform:scale(.85);} to{ opacity:1; transform:scale(1);} }
+
+  /* solution stack grid */
+  .sol-section{ margin-top:2.6vh; }
+  .sol-section + .sol-section{ margin-top:1.6vh; }
+  .sol-section-label{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+  .sol-section-desc{ font-family:var(--sans); font-size:11.5px; color:var(--body); opacity:.72; margin:-5px 0 9px 0; max-width:640px; line-height:1.4; }
+  .sol-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; max-width:1180px; }
+  .sol-chip{ padding:11px 13px; border-radius:10px; }
+  .sol-chip .sc-name{ font-family:var(--sans); font-size:13.2px; color:var(--ink); font-weight:500; line-height:1.28; }
+  .sol-chip .sc-tag2{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; text-transform:uppercase; }
+
+  /* story */
+  .story-quote{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:21px; color:var(--ink); max-width:740px; margin:16px 0 18px 0; line-height:1.3; }
+  .story-body{ font-family:var(--sans); font-size:15px; color:var(--body); line-height:1.6; max-width:740px; }
+
+  /* impact stats */
+  .impact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:5vh; max-width:1040px; }
+  .impact-card{ padding:22px 18px; }
+  .impact-val{ font-family:var(--serif); font-weight:700; font-size:30px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .impact-lab{ font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em; margin-top:8px; text-transform:uppercase; line-height:1.4; }
+  .impact-footnote{ margin-top:22px; font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.6; max-width:840px; font-style:italic; }
+
+  /* pain/response (reused) */
+  .pr-wrap{ margin-top:3.5vh; display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:1160px; }
+  .pr-col-label{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+  .pr-card{ padding:18px 20px; }
+  .pr-item{ display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); }
+  .pr-item:last-child{ border-bottom:none; }
+  .pr-item .tag{ font-family:var(--mono); font-size:10px; font-weight:600; flex:none; width:24px; padding-top:2px; }
+  .pr-item p{ margin:0; font-family:var(--sans); font-size:14px; color:var(--body); line-height:1.46; }
+  .outcome-strip{ grid-column:1 / -1; display:flex; align-items:center; gap:20px; padding:18px 22px; }
+  .outcome-strip .big{ font-family:var(--serif); font-weight:700; font-size:36px; color:var(--amber); font-variant-numeric:tabular-nums; }
+  .outcome-strip .cap{ font-family:var(--sans); font-size:12.5px; color:var(--body); max-width:480px; line-height:1.4; }
+
+  #s13{ align-items:center; text-align:center; }
+  .cover-orb-static{ margin:56px auto 80px auto; position:relative; width:1px; height:1px; }
+  .cta-head{ font-family:var(--serif); font-weight:600; font-size:clamp(28px,3.8vw,48px); color:var(--ink); margin:0 auto; max-width:760px; }
+  .cta-sub{ font-family:var(--sans); font-size:13.5px; color:var(--body); margin-top:13px; }
+  .cta-pill{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:999px; border:1px solid var(--coral); color:var(--coral); font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+  .cta-contact{ margin-top:20px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:.03em; }
+
+  #s0{ align-items:flex-start; }
+  .cover-orb-wrap{ position:absolute; right:8vw; top:46%; transform:translateY(-50%); }
+  .cover-copy{ max-width:760px; }
+  .cover-tag{ font-family:var(--mono); font-size:12px; color:var(--coral); letter-spacing:.26em; margin-bottom:20px; }
+  .cycle-wrap{ display:inline-block; position:relative; height:1.1em; overflow:hidden; vertical-align:bottom; min-width:6ch; }
+  .cycle-word{ position:absolute; left:0; top:0; opacity:0; font-style:italic; font-weight:500; color:var(--champagne); white-space:nowrap; }
+  .cycle-sizer{ visibility:hidden; display:inline-block; font-style:italic; font-weight:500; white-space:nowrap; }
+  .cycle-word .stop{ color:var(--ink); }
+  .cycle-word.on{ animation:fadeSwap 2.6s ease forwards; }
+  .tagline-strip{ margin-top:22px; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; }
+  .scroll-cue{ position:absolute; bottom:72px; left:7.5vw; font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.14em; display:flex; align-items:center; gap:10px; }
+  .scroll-cue .line{ width:24px; height:1px; background:var(--muted); }
+
+  /* ===== EDITORIAL COVER (Fashion Retail title page) ===== */
+  .slide.cover-ed{ align-items:center; justify-content:center; text-align:center; }
+  .ed-wrap{ max-width:940px; margin:0 auto; }
+  .ed-top-rule{ width:180px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent); margin:0 auto 30px auto; }
+  .ed-eyebrow{ font-family:var(--mono); font-size:10px; letter-spacing:.38em; color:var(--champagne); text-transform:uppercase; margin-bottom:34px; }
+  .ed-display{ font-family:var(--serif); font-weight:500; font-size:clamp(32px,5vw,70px); line-height:1.08; letter-spacing:-.015em; color:var(--ink); margin:0; }
+  .ed-display em{ font-style:italic; font-weight:500; color:var(--champagne); }
+  .ed-rule{ width:92px; height:1px; background:linear-gradient(90deg,transparent,var(--champagne),transparent); margin:38px auto 34px auto; }
+  .ed-sub{ font-family:var(--sans); font-weight:400; font-size:clamp(13px,1.15vw,16px); color:var(--body); line-height:1.65; max-width:620px; margin:0 auto; }
+  .ed-foot{ margin-top:46px; font-family:var(--mono); font-size:9px; letter-spacing:.26em; color:var(--muted); text-transform:uppercase; }
+  .ed-cue{ position:absolute; bottom:66px; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:.2em; }
+  @media print{ .ed-cue{ display:none !important; } }
+
+  /* ===== AUTHORED SCREEN COMPONENTS (Fashion Retail) ===== */
+  .screen{ margin-top:2.4vh; border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg,var(--card-hi),var(--card)); overflow:hidden; max-width:1180px; }
+  .screen-bar{ display:flex; align-items:center; gap:12px; padding:11px 18px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.015); }
+  .screen-crumb{ font-family:var(--mono); font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .screen-crumb b{ color:var(--ink); font-weight:600; }
+  .screen-live{ margin-left:auto; display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9px; color:var(--sage); letter-spacing:.1em; }
+  .screen-body{ padding:16px 18px 18px 18px; }
+
+  .tile-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
+  .tile{ background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .tile .tv{ font-family:var(--serif); font-weight:700; font-size:23px; color:var(--champagne); font-variant-numeric:tabular-nums; line-height:1.1; }
+  .tile .tl{ font-family:var(--sans); font-size:11px; color:var(--body); margin-top:5px; }
+  .tile .ts{ font-family:var(--mono); font-size:8.5px; color:var(--muted); letter-spacing:.05em; margin-top:3px; text-transform:uppercase; }
+
+  .dtable{ width:100%; border-collapse:collapse; font-family:var(--sans); font-size:12px; }
+  .dtable th{ font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; text-align:left; padding:0 10px 7px 0; font-weight:400; border-bottom:1px solid var(--line); }
+  .dtable td{ padding:8px 10px 8px 0; color:var(--body); border-bottom:1px solid rgba(255,255,255,.045); font-variant-numeric:tabular-nums; }
+  .dtable tr:last-child td{ border-bottom:none; }
+  .dtable td.k{ color:var(--ink); }
+  .dtable td.dim{ color:var(--muted); }
+  .pill{ font-family:var(--mono); font-size:8.5px; letter-spacing:.06em; padding:3px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); text-transform:uppercase; display:inline-block; }
+  .pill.ok{ color:var(--sage); border-color:rgba(127,201,160,.4); }
+  .pill.warn{ color:var(--champagne); border-color:rgba(214,190,140,.45); }
+  .pill.bad{ color:var(--rose); border-color:rgba(224,112,143,.45); }
+
+  .split2{ display:grid; grid-template-columns:1.45fr 1fr; gap:18px; align-items:start; }
+  .panel-h{ font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:9px; }
+
+  .meter{ margin-bottom:9px; }
+  .meter-top{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:9.5px; color:var(--body); margin-bottom:4px; }
+  .meter-top b{ color:var(--ink); font-weight:600; }
+  .meter-bar{ height:6px; border-radius:3px; background:rgba(255,255,255,.06); position:relative; overflow:hidden; }
+  .meter-bar i{ position:absolute; left:0; top:0; bottom:0; border-radius:3px; background:var(--sage); }
+  .meter-bar i.low{ background:var(--rose); }
+  .meter-bar i.mid{ background:var(--champagne); }
+
+  .rulegrid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .rulecell{ background:var(--bg2); border:1px solid var(--line); border-radius:9px; padding:10px 12px; }
+  .rulecell .rn{ font-family:var(--sans); font-size:10.5px; color:var(--muted); }
+  .rulecell .rv{ font-family:var(--mono); font-size:13px; color:var(--ink); margin-top:4px; font-variant-numeric:tabular-nums; }
+  .rulecell .rv em{ font-style:normal; color:var(--muted); font-size:11px; }
+
+  .callout{ margin-top:13px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; color:var(--champagne); text-transform:uppercase; }
+  .iris-box{ margin-top:9px; border-left:2px solid var(--rose); padding:2px 0 2px 14px; }
+  .iris-box .ib-h{ font-family:var(--mono); font-size:9px; letter-spacing:.1em; color:var(--rose); text-transform:uppercase; margin-bottom:6px; }
+  .iris-box p{ margin:0; font-family:var(--sans); font-size:12.5px; color:var(--body); line-height:1.5; }
+  .act-row{ display:flex; gap:9px; margin-top:13px; flex-wrap:wrap; }
+  .act{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; padding:7px 14px; border-radius:7px; border:1px solid var(--line-hi); color:var(--body); }
+  .act.primary{ border-color:var(--champagne); color:var(--champagne); }
+
+  .lens-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:4vh; max-width:1180px; }
+  .lens{ padding:18px 18px 16px 18px; }
+  .lens .lh{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .lens .ln{ font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; }
+  .lens .lv{ font-family:var(--serif); font-weight:700; font-size:31px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .lens .ld{ font-family:var(--sans); font-size:11.5px; color:var(--body); margin-top:6px; line-height:1.4; }
+  .lens .lsub{ font-family:var(--mono); font-size:9px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--line); letter-spacing:.04em; }
+
+  .pos-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; max-width:1180px; margin-top:3vh; }
+  .pos-chip{ padding:10px 12px; border-radius:9px; }
+  .pos-chip .pn{ font-family:var(--sans); font-size:11.5px; color:var(--ink); }
+  @media (max-width:1000px){ .tile-row,.lens-grid,.pos-grid{ grid-template-columns:1fr 1fr; } .split2{ grid-template-columns:1fr; } }
+
+  @media (max-width:1000px){
+    .narr-grid, .prod-grid{ grid-template-columns:1fr 1fr; }
+    .sol-grid{ grid-template-columns:repeat(2,1fr); }
+    .impact-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:760px){
+    .live-grid, .pr-wrap{ grid-template-columns:1fr; display:flex; flex-direction:column; }
+    .side-panel{ position:static; transform:none; width:100%; margin-top:22px; }
+    .arrow{ display:none; }
+    .board{ flex-wrap:wrap; }
+    .board-item{ flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  @media print{
+    @page{ size:297mm 167mm; margin:0; }                       /* landscape 16:9, no browser header/footer */
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }  /* keep the dark theme + colors */
+    html,body{ overflow:visible !important; background:var(--bg) !important; }
+    .chrome,.arrow,.dots,.progress,.counter,.wordmark,.toolbar,.scroll-cue{ display:none !important; }
+    .ambient{ display:none !important; } .deck::after{ display:none !important; }
+    .deck{ height:auto !important; }
+    .slide{ position:relative !important; inset:auto !important; opacity:1 !important; transform:none !important;
+            width:100%; height:167mm; padding:13mm 18mm; overflow:hidden;
+            background:linear-gradient(180deg, var(--card), var(--bg)) !important;
+            page-break-after:always; break-inside:avoid; }
+    .slide:last-child{ page-break-after:auto; }
+    .feature-item{ opacity:1 !important; transform:none !important; }
+    .flag-oval{ animation:none !important; opacity:1 !important; }
+    .cycle-word{ position:static !important; opacity:1 !important; display:block; animation:none !important; }
+    .cycle-sizer{ display:none !important; }
+    .bubble{ opacity:1 !important; }
+    .bubble .cursor{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" id="ambient"></div>
+<div class="deck" id="deck">
+
+  <!-- 0 — COVER (editorial title page) -->
+  <section class="slide cover-ed" id="s0">
+    <div class="ed-wrap">
+      <div class="ed-top-rule"></div>
+      <div class="ed-eyebrow">Zentallio &nbsp;·&nbsp; Fashion Retail &nbsp;·&nbsp; Apparel &amp; Ready-to-Wear</div>
+      <h1 class="ed-display">A season is won<br>in <em>sizes</em>, not in styles.</h1>
+      <div class="ed-rule"></div>
+      <p class="ed-sub">Sell-through by style, size-curve health and weeks-of-cover — every door, one board, every day the season is still yours to change.</p>
+      <div class="ed-foot">An executive briefing</div>
+    </div>
+    <div class="ed-cue">← → to advance</div>
+  </section>
+
+  <!-- 1 — THE LIVE BREAK -->
+  <section class="slide" id="s1">
+    <div class="eyebrow"><span class="dot"></span>THE APPAREL REALITY &middot; RIGHT NOW</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Style AW-4412 is breaking<br>on M and L in six stores.</h1>
+    <p class="lede">Not at the end of the season. Not in next week's report. At 09:14 this morning, in six of twenty-two doors &mdash; while there is still something to do about it.</p>
+    <div class="narr-grid" style="grid-template-columns:repeat(4,1fr); margin-top:4.5vh;">
+      <div class="narr-card card"><div class="n-tag">The signal</div><p><b>Six doors</b> below reorder point on two sizes &mdash; detected by rule, not by a buyer noticing.</p></div>
+      <div class="narr-card card"><div class="n-tag">The cause</div><p><b>Allocation, not demand.</b> The four fastest doors took the first drop and were never topped up.</p></div>
+      <div class="narr-card card"><div class="n-tag">The move</div><p><b>84 units</b> from the three slowest doors &mdash; holds full price eleven more days.</p></div>
+      <div class="narr-card card"><div class="n-tag">The alternative</div><p><b>4.2 points</b> of margin, given away in a markdown that did not need to happen.</p></div>
+    </div>
+  </section>
+
+  <!-- 2 — THE BOARD, FOUR LENSES -->
+  <section class="slide" id="s2">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>THE BOARD &middot; FOUR LENSES, LIVE &middot; LUMIÈRE MODE &middot; 180 STORES</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Every door<br>on one board.</h1>
+    <div class="lens-grid">
+      <div class="lens card">
+        <div class="lh"><div class="ln">Financial</div><span class="pill ok">on plan</span></div>
+        <div class="lv">52.4%</div>
+        <div class="ld">Gross margin · season-to-date</div>
+        <div class="lsub">MARKDOWN RATE 11.2%</div>
+      </div>
+      <div class="lens card">
+        <div class="lh"><div class="ln">Customer</div><span class="pill ok">&#9650; 3 pts</span></div>
+        <div class="lv">38%</div>
+        <div class="ld">Repeat purchase rate</div>
+        <div class="lsub">CONVERSION 24.6%</div>
+      </div>
+      <div class="lens card">
+        <div class="lh"><div class="ln">Operational</div><span class="pill ok">at target</span></div>
+        <div class="lv">71.4%</div>
+        <div class="ld">Full-price sell-through</div>
+        <div class="lsub">SIZE-CURVE HEALTH 88%</div>
+      </div>
+      <div class="lens card">
+        <div class="lh"><div class="ln">AI-Learning</div><span class="pill ok">&#9650; improving</span></div>
+        <div class="lv">92.8%</div>
+        <div class="ld">Demand forecast accuracy</div>
+        <div class="lsub">MODELS LIVE 9</div>
+      </div>
+    </div>
+    <div class="impact-footnote" style="margin-top:22px;">LIVE · ILLUSTRATIVE DATA &mdash; Lumière Mode is a demonstration brand, not a deployed client.</div>
+  </section>
+
+  <!-- 3 — THE THREE LAYERS, ON ONE BOARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>THE SAME BOARD, THREE LAYERS DEEP</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Rules fire. Models predict.<br>Iris explains.</h1>
+    <div class="split2" style="margin-top:3vh; max-width:1180px; grid-template-columns:1fr 1fr;">
+      <div>
+        <div class="panel-h" style="color:var(--azure)">L1 &middot; Zen Rules &mdash; deterministic thresholds</div>
+        <table class="dtable">
+          <tr><th>Rule</th><th>Threshold</th><th>Now</th><th>State</th></tr>
+          <tr><td class="k">Gross margin · season-to-date</td><td class="dim">&ge; 48%</td><td>52.4%</td><td><span class="pill ok">clear</span></td></tr>
+          <tr><td class="k">Repeat purchase rate</td><td class="dim">&ge; 35%</td><td>38%</td><td><span class="pill ok">clear</span></td></tr>
+          <tr><td class="k">Full-price sell-through</td><td class="dim">&ge; 67%</td><td>71.4%</td><td><span class="pill ok">clear</span></td></tr>
+          <tr><td class="k">Demand forecast accuracy</td><td class="dim">&ge; 89%</td><td>92.8%</td><td><span class="pill ok">clear</span></td></tr>
+        </table>
+        <div class="panel-h" style="color:var(--sage); margin-top:20px;">L2 &middot; Zen Models &mdash; what is predicted</div>
+        <table class="dtable">
+          <tr><th>Model</th><th>Predicts</th><th>Accuracy</th></tr>
+          <tr><td class="k">Size-curve drift</td><td class="dim">break risk by size</td><td>93.4%</td></tr>
+          <tr><td class="k">Sell-through</td><td class="dim">8-week curve by style</td><td>91.8%</td></tr>
+          <tr><td class="k">Markdown timing</td><td class="dim">first-cut date</td><td>90.2%</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="panel-h" style="color:var(--rose)">L3 &middot; Ask Iris &mdash; the same board, in words</div>
+        <div class="chat-card card" style="height:auto; padding:20px;">
+          <div class="bubble user" style="opacity:1">What just moved?</div>
+          <div class="bubble iris" style="opacity:1">Size break detected on 2 sizes, 6 doors — rule fired at 09:14.</div>
+          <div class="bubble user" style="opacity:1">Why, and what do I do?</div>
+          <div class="bubble iris" style="opacity:1">Move 84 units from the three slowest doors — holds full price 11 more days.</div>
+        </div>
+        <p class="story-body" style="margin-top:16px; max-width:none;">One board, read three ways. The rule states the fact, the model states the risk, and Iris states the move &mdash; with the trade-off priced. Nobody has to assemble the three themselves.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 — SIX LIVE PRODUCTS -->
+  <section class="slide" id="s3">
+    <div class="eyebrow"><span class="dot" style="background:var(--sage)"></span>SIX LIVE PRODUCTS &middot; RUNNING RIGHT NOW</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Pick one. It opens<br>the real screen.</h1>
+    <p class="lede">Sell-through by style, size-curve health and weeks-of-cover — every door on one board.</p>
+    <div class="prod-grid">
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--azure)"></div><div class="prod-name">Balanced Scorecard</div><div class="prod-desc">FOUR LENSES, LIVE</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--sage)"></div><div class="prod-name">Point of Sale</div><div class="prod-desc">LIVE TILL, IRIS UPSELL</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--champagne)"></div><div class="prod-name">Numerus · CFO</div><div class="prod-desc">BALANCED, NOT ESTIMATED</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--azure)"></div><div class="prod-name">Nexus · Supply Chain</div><div class="prod-desc">FORECAST, PROCUREMENT, LOGISTICS</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--sage)"></div><div class="prod-name">Motus · Operations</div><div class="prod-desc">STANDARDS, ASSETS, ENERGY</div></div>
+      <div class="prod-card card"><div class="prod-dot" style="background:var(--champagne)"></div><div class="prod-name">Manus · Workforce</div><div class="prod-desc">ROSTER, PAYROLL, COMPLIANCE</div></div>
+    </div>
+  </section>
+
+  <!-- 4b -- POINT OF SALE -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--sage)"></span>LIVE TILL, IRIS UPSELL</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Point of Sale</h1>
+    <p class="lede">The till a sales associate runs all day &mdash; and the twelve core capabilities every Zentallio retail sector ships with, identically.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--sage)"></span><p><span class="fi-name">Size and style live at the till.</span> An associate can see cover across every door, so a lost sale becomes a transfer rather than a shrug.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--sage)"></span><p><span class="fi-name">Returns and exchanges are one flow.</span> Apparel returns at volume, and an exchange that fails to find the right size is a customer lost twice.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Iris upsells against the size curve.</span> The recommendation favours what is actually in stock in that customer's size, not what the planogram wishes were.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">24.6%</div><div class="sl">Conversion, live</div></div>
+      <div class="stat-chip card"><div class="sv">12</div><div class="sl">Core POS solutions, standard</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--sage); border-color:rgba(127,201,160,.4); margin-top:20px;">LIVE TILL &middot; IRIS UPSELL</div>
+  </section>
+
+  <!-- 4c -- BALANCED SCORECARD -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>FOUR LENSES, LIVE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Balanced Scorecard</h1>
+    <p class="lede">Financial, customer, operational and AI-learning on one live board &mdash; with Iris naming the style that just broke and the move that holds its price.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">The fourth lens is the platform itself.</span> Forecast accuracy and models live are reported alongside margin, because a board that cannot audit its own AI is asking for trust it has not earned.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Every door, one definition.</span> 180 stores report the same measures, so a comparison is real rather than approximate.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Iris names the style.</span> Not that sell-through dipped &mdash; which style, which sizes, which doors, and what the move is worth.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">52.4%</div><div class="sl">Gross margin, season-to-date</div></div>
+      <div class="stat-chip card"><div class="sv">92.8%</div><div class="sl">Demand forecast accuracy</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">FINANCE &middot; L2</div>
+  </section>
+
+  <!-- 4d -- NUMERUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--champagne)"></span>BALANCED, NOT ESTIMATED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Numerus · CFO</h1>
+    <p class="lede">Trial balance, P&amp;L, balance sheet and cash flow on a ledger that ties out to the penny &mdash; with season inventory valued as it actually sits, not as it was bought.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--champagne)"></span><p><span class="fi-name">Inventory valued by age and cover.</span> Season-old stock at four weeks of cover is not worth what it cost, and the ledger says so before the auditor does.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--champagne)"></span><p><span class="fi-name">Markdown provision is computed, not guessed.</span> The markdown-timing model feeds the provision, so the number has a basis.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Ask Iris for any number.</span> Any door, any style, any period &mdash; answered in the conversation rather than a week after close.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">11.2%</div><div class="sl">Markdown rate, live</div></div>
+      <div class="stat-chip card"><div class="sv">1</div><div class="sl">Ledger, till to close</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--champagne); border-color:rgba(214,190,140,.4); margin-top:20px;">CFO &middot; BALANCED LEDGER</div>
+  </section>
+
+  <!-- 4e -- NEXUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>FORECAST, PROCUREMENT, LOGISTICS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Nexus · Supply Chain</h1>
+    <p class="lede">Forecast to buy to allocation to the door &mdash; with the size curve carried through the whole chain rather than collapsed into a single unit count.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">The buy is made in sizes.</span> A style bought on the wrong curve cannot be rescued by allocation, so the curve is decided at the buy.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Lead time is part of the decision.</span> Whether a break can be reordered or only reallocated changes the recommendation entirely.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Feeds allocation directly.</span> Receipts post into the allocation engine, so the nightly run works from what actually landed.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">By size</div><div class="sl">Curve carried end to end</div></div>
+      <div class="stat-chip card"><div class="sv">22</div><div class="sl">Doors in tonight's run</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">SUPPLY CHAIN</div>
+  </section>
+
+  <!-- 4f -- MOTUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--champagne)"></span>STANDARDS, ASSETS, ENERGY</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Motus · Operations</h1>
+    <p class="lede">Store standards, visual merchandising compliance, assets and energy across 180 doors &mdash; completion tracked live, exceptions escalated.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--champagne)"></span><p><span class="fi-name">Visual merchandising, evidenced.</span> A window set is completed with a photo against the guideline, not assumed from a distance.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--champagne)"></span><p><span class="fi-name">Transfers are an operational routine.</span> A nightly allocation run only works if the sending door actually picks and ships it.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Exceptions escalate themselves.</span> The routine that didn't complete surfaces to a human; the rest stays quiet.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">180</div><div class="sl">Stores, one standard</div></div>
+      <div class="stat-chip card"><div class="sv">Exceptions</div><div class="sl">Surfaced, not every row</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--champagne); border-color:rgba(214,190,140,.4); margin-top:20px;">OPERATIONS</div>
+  </section>
+
+  <!-- 4g -- MANUS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>ROSTER, PAYROLL, COMPLIANCE</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Manus · Workforce</h1>
+    <p class="lede">Rostering, attendance, payroll and working-time compliance measured against forecast footfall &mdash; because in apparel, conversion is a staffing decision.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Staffed to conversion, not to footfall.</span> A door converting at 24.6% is limited by fitting-room service far more often than by traffic.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Peak weekends planned from the forecast.</span> Launch weekends and markdown events are demand events, and the roster treats them as such.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Flagged before the shift.</span> An understaffed Saturday is caught while the roster can still change.</p></div>
+    </div>
+    <div class="flagship-stats" style="margin-top:22px; max-width:640px;">
+      <div class="stat-chip card"><div class="sv">24.6%</div><div class="sl">Conversion, live</div></div>
+      <div class="stat-chip card"><div class="sv">Before</div><div class="sl">The shift, not after it</div></div>
+    </div>
+    <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4); margin-top:20px;">WORKFORCE</div>
+  </section>
+
+  <!-- SOLUTIONS OVERVIEW -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>EVERY SOLUTION &middot; APPAREL &amp; READY-TO-WEAR</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Every solution,<br>on the real screen.</h1>
+    <p class="lede">Grouped by what they act on. Pick one and it runs.</p>
+    <div class="sol-section">
+      <div class="sol-section-label">On the floor &middot; 2 solutions &mdash; where stock sits, moves and sells</div>
+      <div class="sol-section-desc">Thresholds that fire on the shift the breach happens &mdash; no model lag, no waiting for a report.</div>
+      <div class="sol-grid" style="grid-template-columns:repeat(2,1fr); max-width:600px;">
+        <div class="sol-chip card"><div class="sc-name">Allocation &amp; replenishment rules</div><div class="sc-tag2">L1 &middot; ZEN RULES &middot; ROUTING</div></div>
+        <div class="sol-chip card"><div class="sc-name">Core vs fashion mix control</div><div class="sc-tag2">L1 &middot; DISTRIBUTION</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Planning &amp; margin &middot; 4 solutions &mdash; what is modelled before it lands</div>
+      <div class="sol-section-desc">Modelled early enough to act on, with the cause named and the move costed.</div>
+      <div class="sol-grid">
+        <div class="sol-chip card"><div class="sc-name">Size-curve break detection</div><div class="sc-tag2">L2 &middot; SIGNAL GRID</div></div>
+        <div class="sol-chip card"><div class="sc-name">Style sell-through forecast</div><div class="sc-tag2">L2 &middot; MODEL TRACE</div></div>
+        <div class="sol-chip card"><div class="sc-name">Markdown timing engine</div><div class="sc-tag2">L2 &middot; DISTRIBUTION</div></div>
+        <div class="sol-chip card"><div class="sc-name">Fitting-room conversion</div><div class="sc-tag2">L2 &middot; DISTRIBUTION</div></div>
+      </div>
+    </div>
+    <div class="impact-footnote" style="margin-top:26px;">Plus 12 core POS solutions, standard across every Zentallio retail sector &mdash; detailed later in this briefing.</div>
+  </section>
+
+  <!-- L1 INTRO -->
+  <section class="slide">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--azure); border-color:rgba(111,178,232,.5)">L1</span><div class="module-tag">Iris &middot; Intelligence layer 01</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris enforces the rules.</h1>
+    <p class="lede">Thresholds that fire on the shift the breach happens <span class="tech-note">(the &ldquo;Zen Rules&rdquo; layer)</span> &mdash; no model lag, no waiting for a report. Two solutions run on this layer, and both of them move stock.</p>
+    <div class="side-panel">
+      <div class="alert-card card">
+        <div class="alert-head"><div class="alert-time">TODAY &middot; 09:14</div><div class="alert-live"><span class="live-dot"></span>RULE FIRED</div></div>
+        <div class="alert-title">Size break · AW-4412</div>
+        <p class="alert-body">M and L below reorder point in 6 of 22 doors. Detected at the threshold, not at the weekly review &mdash; which is the difference between a transfer and a markdown.</p>
+        <div class="alert-tags"><span class="alert-tag amber">IRIS &middot; L1</span><span class="alert-tag">6 DOORS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTHORED SCREEN — ALLOCATION & REPLENISHMENT RULES -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1 &middot; Zen Rules</div><div class="sol-index">01 / 02</div></div>
+    <h1 class="display" style="font-size:clamp(24px,2.9vw,36px); margin:6px 0 0 0;">Allocation &amp; replenishment rules</h1>
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="screen-crumb">Allocation / <b>Allocation &amp; replenishment rules</b> &nbsp;·&nbsp; Lumière Mode</div>
+        <div class="screen-live"><span class="live-dot"></span>LIVE · ILLUSTRATIVE DATA</div>
+      </div>
+      <div class="screen-body">
+        <div class="tile-row">
+          <div class="tile"><div class="tv">142</div><div class="tl">moves proposed</div><div class="ts">tonight 02:00</div></div>
+          <div class="tile"><div class="tv">1,880</div><div class="tl">units</div><div class="ts">across 22 doors</div></div>
+          <div class="tile"><div class="tv">86%</div><div class="tl">accepted</div><div class="ts">last 30 runs</div></div>
+          <div class="tile"><div class="tv">1</div><div class="tl">held for review</div><div class="ts">breaks S at sender</div></div>
+        </div>
+        <div class="split2">
+          <div>
+            <div class="panel-h">Tonight's run &mdash; top moves</div>
+            <table class="dtable">
+              <tr><th>From</th><th>To</th><th>Units</th><th>Reason</th><th>State</th></tr>
+              <tr><td class="k">Lille Grand Place</td><td class="k">Paris Rue Cler</td><td>38</td><td class="dim">conv 2.1×</td><td><span class="pill ok">queued</span></td></tr>
+              <tr><td class="k">Nantes Atlantis</td><td class="k">Lyon Part-Dieu</td><td>26</td><td class="dim">conv 1.8×</td><td><span class="pill ok">queued</span></td></tr>
+              <tr><td class="k">Rennes Colombia</td><td class="k">Bordeaux Centre</td><td>20</td><td class="dim">breaks S</td><td><span class="pill bad">review</span></td></tr>
+              <tr><td class="k">Toulouse Capitole</td><td class="k">Lille Grand Place</td><td>31</td><td class="dim">conv 1.6×</td><td><span class="pill ok">queued</span></td></tr>
+              <tr><td class="dim">Other 138 moves</td><td class="dim">—</td><td>1,765</td><td class="dim">—</td><td><span class="pill ok">queued</span></td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="panel-h" style="color:var(--azure)">Rule state &middot; L1 Zen Rules</div>
+            <div class="rulegrid">
+              <div class="rulecell"><div class="rn">Min cover per door</div><div class="rv">2.4 <em>/ 2.0 weeks</em></div></div>
+              <div class="rulecell"><div class="rn">Run integrity at sender</div><div class="rv">141 <em>/ 142</em></div></div>
+              <div class="rulecell"><div class="rn">Max moves per door / night</div><div class="rv">6 <em>/ 8</em></div></div>
+              <div class="rulecell"><div class="rn">Transfer cost ceiling</div><div class="rv">€1.90 <em>/ €2.50</em></div></div>
+            </div>
+            <div class="callout">One move held — it would break S at the sender</div>
+          </div>
+        </div>
+        <div class="iris-box">
+          <div class="ib-h">Iris · what to do</div>
+          <p>The run is weighted by conversion, not depth &mdash; Lille holds the units but Paris sells M and L twice as fast. One move is held back because it would open an S gap at Rennes to close an M gap at Bordeaux; that trade is not worth making.</p>
+        </div>
+        <div class="act-row">
+          <span class="act primary">Release 141 moves</span>
+          <span class="act">Open the held move</span>
+          <span class="act">Hold until 06:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE VS FASHION MIX CONTROL -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L1 &middot; Zen Rules</div><div class="sol-index">02 / 02</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Core vs fashion mix control</h1>
+        <p class="solution-desc">Two businesses share one shop floor. Core replenishes forever on a predictable curve; fashion has one life and no second chance. The rules that govern them cannot be the same rules.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Every style is classified core or fashion, and the classification decides which replenishment logic it obeys.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Core lines hold a continuous cover target; fashion lines run to a sell-through curve with a planned end.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Floor-space and allocation share between the two is governed as a rule, so a strong fashion drop cannot quietly starve the core basics that carry the margin.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Drift in the mix is surfaced per door, because a store that has become 70% fashion is a different business from the one that was planned.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>Markdown exposure is computed on the fashion portion only, which is the number that actually threatens the season.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--azure); border-color:rgba(111,178,232,.4)">L1 &middot; DISTRIBUTION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">Two logics</div><div class="sl">One shop floor</div></div>
+          <div class="stat-chip card"><div class="sv">Per door</div><div class="sl">Mix drift surfaced</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; On the floor &middot; &ldquo;Where stock sits, moves and sells.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 INTRO -->
+  <section class="slide" data-chart="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--sage); border-color:rgba(127,201,160,.5)">L2</span><div class="module-tag">Iris &middot; Intelligence layer 02</div></div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">How Iris predicts the season.</h1>
+    <p class="lede">What is modelled before it lands <span class="tech-note">(the &ldquo;Zen Models&rdquo; layer)</span> &mdash; modelled early enough to act on, with the cause named and the move costed. Four solutions run on this layer.</p>
+    <div class="side-panel">
+      <div class="chart-card card">
+        <div class="chart-title">Sell-through by week &mdash; Forecast vs Actual</div>
+        <div class="chart-legend"><span><i style="background:var(--sage)"></i>Forecast</span><span><i style="background:var(--champagne)"></i>Actual</span></div>
+        <svg viewBox="0 0 380 140" width="100%" height="140"><g id="barChart"></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTHORED SCREEN — SIZE-CURVE BREAK DETECTION -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2 &middot; Zen Models</div><div class="sol-index">01 / 04</div></div>
+    <h1 class="display" style="font-size:clamp(24px,2.9vw,36px); margin:6px 0 0 0;">Size-curve break detection</h1>
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="screen-crumb">Assortment / <b>Size-curve break detection</b> &nbsp;·&nbsp; Lumière Mode</div>
+        <div class="screen-live"><span class="live-dot"></span>LIVE · ILLUSTRATIVE DATA</div>
+      </div>
+      <div class="screen-body">
+        <div class="tile-row">
+          <div class="tile"><div class="tv">6 / 22</div><div class="tl">doors breaking</div><div class="ts">M and L</div></div>
+          <div class="tile"><div class="tv">84</div><div class="tl">units to move</div><div class="ts">3 slow doors</div></div>
+          <div class="tile"><div class="tv">11 d</div><div class="tl">full-price runway</div><div class="ts">if moved today</div></div>
+          <div class="tile"><div class="tv">4.2 pts</div><div class="tl">margin at risk</div><div class="ts">if markdown</div></div>
+        </div>
+        <div class="split2">
+          <div>
+            <div class="panel-h">Where AW-4412 is breaking</div>
+            <table class="dtable">
+              <tr><th>Door</th><th>M</th><th>L</th><th>Cover</th><th>Status</th></tr>
+              <tr><td class="k">Paris Rue Cler</td><td>0</td><td>2</td><td>1d</td><td><span class="pill bad">gone</span></td></tr>
+              <tr><td class="k">Lyon Part-Dieu</td><td>1</td><td>3</td><td>2d</td><td><span class="pill bad">critical</span></td></tr>
+              <tr><td class="k">Bordeaux Centre</td><td>2</td><td>4</td><td>3d</td><td><span class="pill warn">thin</span></td></tr>
+              <tr><td class="k">Lille Grand Place</td><td>3</td><td>5</td><td>4d</td><td><span class="pill warn">thin</span></td></tr>
+              <tr><td class="dim">Other 18 doors</td><td>14</td><td>19</td><td>11d</td><td><span class="pill ok">healthy</span></td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="panel-h" style="color:var(--sage)">Cover by size &middot; group &mdash; reorder point 20</div>
+            <div class="meter"><div class="meter-top"><span>XS</span><b>18 / 20</b></div><div class="meter-bar"><i style="width:90%"></i></div></div>
+            <div class="meter"><div class="meter-top"><span>S</span><b>14 / 20</b></div><div class="meter-bar"><i class="mid" style="width:70%"></i></div></div>
+            <div class="meter"><div class="meter-top"><span>M</span><b>3 / 20</b></div><div class="meter-bar"><i class="low" style="width:15%"></i></div></div>
+            <div class="meter"><div class="meter-top"><span>L</span><b>4 / 20</b></div><div class="meter-bar"><i class="low" style="width:20%"></i></div></div>
+            <div class="meter"><div class="meter-top"><span>XL</span><b>16 / 20</b></div><div class="meter-bar"><i style="width:80%"></i></div></div>
+            <div class="meter"><div class="meter-top"><span>XXL</span><b>19 / 20</b></div><div class="meter-bar"><i style="width:95%"></i></div></div>
+            <div class="callout">M and L below reorder point in 6 doors</div>
+          </div>
+        </div>
+        <div class="iris-box">
+          <div class="ib-h">Iris · what to do</div>
+          <p>The break is not spread &mdash; it concentrates in the four doors that took the first allocation, which sold through fastest and were never topped up. That pattern says allocation, not demand. Moving 84 units from the three slowest doors holds full price 11 more days; markdown instead costs 4.2 points.</p>
+        </div>
+        <div class="act-row">
+          <span class="act primary">Approve the 84-unit move</span>
+          <span class="act">Show the 4 doors</span>
+          <span class="act">Re-run allocation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 2/4 -- Style sell-through forecast -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2 &middot; Zen Models</div><div class="sol-index">02 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Style sell-through forecast</h1>
+        <p class="solution-desc">An eight-week curve per style, projected from its first days on the floor &mdash; so a style is known to be ahead or behind its curve while both are still recoverable positions.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>The curve is projected per style and per door from early sell-through, comparable styles and the season's shape.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A style running ahead of curve is a reorder or a transfer decision; one running behind is a markdown clock starting.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>The model trace is inspectable &mdash; which comparable styles, which signals, how much each contributed &mdash; because a buyer will not act on a number they cannot interrogate.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Forecast accuracy is reported on the board itself, currently 91.8%, so confidence in the number is calibrated rather than assumed.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The curve feeds allocation, markdown timing and the inventory provision, so all three work from one projection.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--sage); border-color:rgba(127,201,160,.4)">L2 &middot; MODEL TRACE</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">91.8%</div><div class="sl">Model accuracy, 8-week curve</div></div>
+          <div class="stat-chip card"><div class="sv">Inspectable</div><div class="sl">The trace, not just the number</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Planning &amp; margin &middot; &ldquo;What is modelled before it lands.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 3/4 -- Markdown timing engine -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2 &middot; Zen Models</div><div class="sol-index">03 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Markdown timing engine</h1>
+        <p class="solution-desc">The first cut is the expensive one. Predicting when to take it &mdash; and how deep &mdash; is worth more than any subsequent decision in the season, because everything after it is recovery.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>A first-cut date is predicted per style, currently at 90.2% accuracy, rather than fixed to a calendar week the whole estate shares.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>Depth is modelled against remaining cover and residual demand, so the cut is deep enough to clear and no deeper.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Transfer is always evaluated first &mdash; on AW-4412, moving 84 units holds full price 11 more days against 4.2 points of margin lost to a cut.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Markdown is planned per door, since a style dead in Paris may still be full-price in Toulouse.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The engine feeds the accounting provision directly, so the markdown number in the ledger is the same one the buyer is working to.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--sage); border-color:rgba(127,201,160,.4)">L2 &middot; DISTRIBUTION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">90.2%</div><div class="sl">First-cut date accuracy</div></div>
+          <div class="stat-chip card"><div class="sv">11.2%</div><div class="sl">Markdown rate, live</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Planning &amp; margin &middot; &ldquo;What is modelled before it lands.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L2 . 4/4 -- Fitting-room conversion -->
+  <section class="slide">
+    <div class="sol-eyebrow-row"><div class="module-tag">Iris &middot; L2 &middot; Zen Models</div><div class="sol-index">04 / 04</div></div>
+    <div class="solution-hero2">
+      <div class="solution-copy">
+        <h1 class="display solution-name">Fitting-room conversion</h1>
+        <p class="solution-desc">The fitting room is where apparel is actually sold or lost. A garment tried and not bought is the strongest signal in the store &mdash; and in most estates, the least recorded.</p>
+        <div class="how-list">
+          <div class="how-item"><span class="how-num">01</span><p>Try-on to purchase is measured per style and per size, which separates a fit problem from a demand problem.</p></div>
+          <div class="how-item"><span class="how-num">02</span><p>A style that is tried often and bought rarely is a garment issue, not an allocation one &mdash; and no amount of transferring fixes it.</p></div>
+          <div class="how-item"><span class="how-num">03</span><p>Requests for a size that was not on the floor are captured, which is the demand a stock report structurally cannot see.</p></div>
+          <div class="how-item"><span class="how-num">04</span><p>Conversion by door is read against staffing, since fitting-room service is a labour decision more than a merchandising one.</p></div>
+          <div class="how-item"><span class="how-num">05</span><p>The signal feeds back into the buy, so a fit failure is corrected in the next order rather than repeated at scale.</p></div>
+        </div>
+        <div class="solution-tagpill" style="color:var(--sage); border-color:rgba(127,201,160,.4)">L2 &middot; DISTRIBUTION</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-row">
+          <div class="stat-chip card"><div class="sv">24.6%</div><div class="sl">Store conversion, live</div></div>
+          <div class="stat-chip card"><div class="sv">Per size</div><div class="sl">Try-on to purchase</div></div>
+        </div>
+        <div class="stat-chip card"><div class="sl" style="margin-top:0">Group &mdash; Planning &amp; margin &middot; &ldquo;What is modelled before it lands.&rdquo;</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L3 — ASK IRIS -->
+  <section class="slide" data-chat="true">
+    <div class="module-badge2"><span class="layer-chip" style="color:var(--rose); border-color:rgba(224,112,143,.5)">L3</span><div class="module-tag">Iris &middot; Intelligence layer 03 &mdash; live</div></div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,42px)">Ask Iris</h1>
+    <p class="lede" style="margin-bottom:0">Not a screenshot &mdash; the actual agent, reading the same board the rules and models write to.</p>
+    <div class="live-grid">
+      <div class="chat-card card">
+        <div class="chat-head"><div class="iris-mini"><div class="r1"></div><div class="r2"></div></div><div class="chat-head-title">ASK IRIS &mdash; APPAREL &amp; READY-TO-WEAR</div></div>
+        <div class="bubble user" id="qBubble" style="opacity:0"></div>
+        <div class="bubble iris" id="aBubble" style="opacity:0"></div>
+      </div>
+      <div class="scorecard-card card">
+        <div class="sc-title">Live Balanced Scorecard</div>
+        <div class="sc-grid">
+          <div class="sc-item flagged"><div class="flag-oval"></div><div class="sc-val" data-count="71.4" data-suffix="%" data-decimals="1">0%</div><div class="sc-lab">Full-price sell-through</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="52.4" data-suffix="%" data-decimals="1">0%</div><div class="sc-lab">Gross margin STD</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="38" data-suffix="%">0%</div><div class="sc-lab">Repeat purchase</div></div>
+          <div class="sc-item"><div class="sc-val" data-count="92.8" data-suffix="%" data-decimals="1">0%</div><div class="sc-lab">Forecast accuracy &#9650;</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 CORE POS SOLUTIONS -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--sage)"></span>STANDARD ACROSS ALL NINE RETAIL SECTORS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Twelve core POS solutions,<br>in every sector.</h1>
+    <p class="lede">The sector solutions sit on top of these. They are not an upsell and they are not configured per customer &mdash; every Zentallio retail deployment ships with all twelve.</p>
+    <div class="pos-grid">
+      <div class="pos-chip card"><div class="pn">Checkout</div></div>
+      <div class="pos-chip card"><div class="pn">Returns &amp; exchange</div></div>
+      <div class="pos-chip card"><div class="pn">Store credit</div></div>
+      <div class="pos-chip card"><div class="pn">Tender &amp; reconciliation</div></div>
+      <div class="pos-chip card"><div class="pn">Tax</div></div>
+      <div class="pos-chip card"><div class="pn">Discount governance</div></div>
+      <div class="pos-chip card"><div class="pn">Customer capture</div></div>
+      <div class="pos-chip card"><div class="pn">Loyalty</div></div>
+      <div class="pos-chip card"><div class="pn">Offline resilience</div></div>
+      <div class="pos-chip card"><div class="pn">Cash management</div></div>
+      <div class="pos-chip card"><div class="pn">Shift close</div></div>
+      <div class="pos-chip card"><div class="pn">Audit trail</div></div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW IT'S IMPLEMENTED</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Implementation,<br>run by Iris.</h1>
+    <p class="lede">You configure a sector playbook, not a custom project. Iris applies it herself &mdash; agentically, from day one.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Onboarding is agentic.</span> Iris connects the till, the product hierarchy and the size curve directly &mdash; no manual data mapping.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Rules go live before the models do.</span> L1 thresholds work from day one; the L2 models earn their accuracy over the first season and report it on the board.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Live in weeks, learning from day one.</span> Go-live is a configuration, not a project plan.</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="slide">
+    <div class="eyebrow"><span class="dot" style="background:var(--rose)"></span>HOW SUPPORT WORKS</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Support starts<br>with Iris.</h1>
+    <p class="lede">The first line of support is agentic &mdash; Iris resolves most of it herself. Our engineers pick up from there.</p>
+    <div class="feature-list" data-stagger style="max-width:640px;">
+      <div class="feature-item"><span class="fi-dot" style="background:var(--rose)"></span><p><span class="fi-name">Layer 1 &mdash; Iris, 24/7.</span> Configuration questions, anomalies and routine issues resolved directly, instantly.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">Layer 2 &mdash; our engineers.</span> Anything Iris can't close escalates automatically to a Zentallio engineer.</p></div>
+      <div class="feature-item"><span class="fi-dot" style="background:var(--azure)"></span><p><span class="fi-name">No blank tickets.</span> Every escalation arrives with Iris's own diagnosis &mdash; engineers start from an answer.</p></div>
+    </div>
+  </section>
+
+  <!-- WHAT AN OPERATOR CAN EXPECT — qualitative -->
+  <section class="slide" id="s9">
+    <div class="eyebrow"><span class="dot" style="background:var(--champagne)"></span>WHAT AN OPERATOR CAN EXPECT</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">Transfer before markdown.</h1>
+    <div class="impact-grid">
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Breaks caught<br>on the shift</div><div class="impact-lab">Not in next week's report</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Cause named,<br>not just flagged</div><div class="impact-lab">Allocation vs demand, separated</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">The move,<br>costed</div><div class="impact-lab">Days of runway against margin points</div></div>
+      <div class="impact-card card"><div class="impact-val" style="font-size:19px; line-height:1.3">Forecast accuracy<br>on the board</div><div class="impact-lab">The AI audits itself in public</div></div>
+    </div>
+    <div class="impact-footnote">Modelled outcome figures for this sector were not included in the source page. When supplied they replace these four cards and carry the standard disclaimer: modelled from pilot assumptions &amp; comparable benchmarks &mdash; not yet a deployed-client result. All screen data shown in this briefing is labelled live &amp; illustrative.</div>
+  </section>
+
+  <!-- PAIN / RESPONSE -->
+  <section class="slide" id="s10">
+    <div class="eyebrow"><span class="dot" style="background:var(--champagne)"></span>WHERE IT LEAKS, HOW IRIS RESPONDS</div>
+    <h1 class="display" style="font-size:clamp(26px,3.2vw,40px)">Where the season<br>gives away its margin.</h1>
+    <div class="pr-wrap">
+      <div>
+        <div class="pr-col-label">Where it leaks</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--champagne)">01</div><p>The fastest doors take the first drop, sell through, and are never topped up &mdash; so the best sellers break first.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--champagne)">02</div><p>A break read as demand rather than allocation, answered with a markdown that was never necessary.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--champagne)">03</div><p>A first cut taken on a calendar week the whole estate shares, regardless of what each style is doing.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-col-label">How Iris responds</div>
+        <div class="pr-card card">
+          <div class="pr-item"><div class="tag" style="color:var(--azure)">L1</div><p>Thresholds fire on the shift the breach happens, and a move that would break a size at the sender is held for review.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--sage)">L2</div><p>Size-curve drift, sell-through and first-cut date are modelled at 90–93% accuracy, reported on the board.</p></div>
+          <div class="pr-item"><div class="tag" style="color:var(--rose)">L3</div><p>&ldquo;Why, and what do I do?&rdquo; &mdash; answered with the cause, the move and what the alternative costs.</p></div>
+        </div>
+      </div>
+      <div class="outcome-strip card">
+        <div class="big">11 days</div>
+        <div class="cap">of full price held on AW-4412 by moving 84 units &mdash; against 4.2 points of margin given away by cutting instead.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE PLATFORM, TWO LINES -->
+  <section class="slide" id="s12">
+    <div class="eyebrow"><span class="dot" style="background:var(--azure)"></span>ONE PLATFORM, TWO LINES</div>
+    <h1 class="display" style="font-size:clamp(28px,3.6vw,46px)">The same spine,<br>a different floor.</h1>
+    <p class="lede">Apparel &amp; Ready-to-Wear is the first of nine Fashion Retail sectors. The layers, the six products and Iris herself are the same ones running across ten Food &amp; Beverage sectors.</p>
+    <div class="sol-section" style="margin-top:3vh;">
+      <div class="sol-section-label">Fashion Retail &mdash; 9 sectors</div>
+      <div class="sol-grid" style="grid-template-columns:repeat(3,1fr); max-width:840px;">
+        <div class="sol-chip card" style="border-color:rgba(214,190,140,.5); background:rgba(214,190,140,.06)"><div class="sc-name">Apparel &amp; Ready-to-Wear</div><div class="sc-tag2">THIS BRIEFING</div></div>
+        <div class="sol-chip card" style="border-style:dashed; opacity:.55"><div class="sc-name">+ 8 further sectors</div><div class="sc-tag2">SAME THREE LAYERS</div></div>
+        <div class="sol-chip card" style="border-style:dashed; opacity:.55"><div class="sc-name">12 core POS solutions</div><div class="sc-tag2">STANDARD IN ALL NINE</div></div>
+      </div>
+    </div>
+    <div class="sol-section">
+      <div class="sol-section-label">Food &amp; Beverage &mdash; 10 sectors, 149 solutions</div>
+      <div class="sector-rail" style="margin-top:4px;">
+        <span class="sector-chip">01 Quick Service</span>
+        <span class="sector-chip">02 Casual Dining</span>
+        <span class="sector-chip">03 Fine Dining</span>
+        <span class="sector-chip">04 Café &amp; Bakery</span>
+        <span class="sector-chip">05 Ice Cream &amp; Desserts</span>
+        <span class="sector-chip">06 Beverages &amp; Drinks</span>
+        <span class="sector-chip">07 Health &amp; Wellness</span>
+        <span class="sector-chip">08 Cloud Kitchen</span>
+        <span class="sector-chip">09 Institutional &amp; B2B</span>
+        <span class="sector-chip">10 Niche &amp; Experience</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="slide" id="s13">
+    <div class="cover-orb-static"><div class="orb" id="orbCta"></div></div>
+    <div class="cta-head">Let's put Iris<br>on your floor.</div>
+    <div class="cta-sub">Book a call with our consultant — a pilot walkthrough on your own doors, your own season.</div>
+    <div class="cta-pill">INFO@ZENTALLIO.COM</div>
+    <div class="cta-contact">+92 327 000 0901 &nbsp;·&nbsp; +1 929 419 2694 &nbsp;·&nbsp; zentallio.com &nbsp;·&nbsp; 142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</div>
+  </section>
+
+</div>
+
+<div class="chrome">
+  <div class="progress" id="progress"></div>
+  <a class="wordmark" href="/resources" style="text-decoration:none"><b>ZENTALLIO</b> &nbsp;/&nbsp; APPAREL &amp; READY-TO-WEAR &nbsp;·&nbsp; ← RESOURCES</a>
+  <div class="toolbar">
+    <div class="hint">← →  NAVIGATE&nbsp;&nbsp;·&nbsp;&nbsp;F  FULLSCREEN</div>
+    <button class="pdf-btn" id="pdfBtn">⭳ DOWNLOAD PDF</button>
+  </div>
+  <button class="arrow prev" id="prevBtn" aria-label="Previous">&#8592;</button>
+  <button class="arrow next" id="nextBtn" aria-label="Next">&#8594;</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="cur" id="curNum">01</span> / <span id="totNum">14</span></div>
+</div>
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const IRIS_Q = 'Why, and what do I do?';
+  const IRIS_A = 'AW-4412 is breaking on M and L in 6 of 22 doors \u2014 the rule fired at 09:14. It is not spread: it concentrates in the four doors that took the first allocation, sold through fastest and were never topped up. That pattern says allocation, not demand. Move 84 units from the three slowest doors and you hold full price 11 more days; markdown instead costs 4.2 points.';
+
+  const dotsWrap = document.getElementById('dots');
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    if(i===0) b.classList.add('active');
+    b.addEventListener('click', ()=> goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  document.getElementById('totNum').textContent = String(total).padStart(2,'0');
+
+  // Thousands separators: the template's toFixed() renders 1840 rather than 1,840.
+  function fmtNum(v, decimals){
+    return v.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
+
+  function animateCounters(slide){
+    slide.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const dur = 1000; const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = prefix + fmtNum(target*eased, decimals) + suffix;
+        if(p<1) requestAnimationFrame(tick); else el.textContent = prefix + fmtNum(target, decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function revealStagger(slide){
+    const items = slide.querySelectorAll('.feature-item');
+    items.forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=> r.classList.add('show'), 120 + i*150); });
+  }
+
+  function typeChat(slide){
+    const q = slide.querySelector('#qBubble'); const a = slide.querySelector('#aBubble');
+    if(!q || !a) return;
+    q.style.opacity = 0; a.style.opacity = 0; q.textContent=''; a.innerHTML='';
+    setTimeout(()=>{
+      q.style.opacity = 1; let i=0;
+      const qi = setInterval(()=>{ q.textContent = IRIS_Q.slice(0,i+1); i++; if(i>=IRIS_Q.length){ clearInterval(qi); startAnswer(); } }, 22);
+    }, 300);
+    function startAnswer(){
+      setTimeout(()=>{
+        a.style.opacity = 1; a.innerHTML = '<span class="cursor"></span>'; let j=0;
+        const ai = setInterval(()=>{ a.innerHTML = IRIS_A.slice(0,j+1) + '<span class="cursor"></span>'; j++; if(j>=IRIS_A.length){ clearInterval(ai); a.innerHTML = IRIS_A; } }, 13);
+      }, 400);
+    }
+  }
+
+  function drawBarChart(slide){
+    const g = slide.querySelector('#barChart');
+    if(!g) return;
+    g.innerHTML = '';
+    const forecast = [88, 74, 61, 44, 31];
+    const actual   = [92, 78, 57, 39, 26];
+    const w = 380, h = 140, n = forecast.length, gap = 14, groupW = (w - gap*(n+1)) / n, barW = groupW/2 - 3;
+    const max = 100;
+    for(let i=0;i<n;i++){
+      const gx = gap + i*(groupW+gap);
+      const fh = (forecast[i]/max) * (h-20);
+      const ah = (actual[i]/max) * (h-20);
+      const rf = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rf.setAttribute('x', gx); rf.setAttribute('y', h-fh); rf.setAttribute('width', barW); rf.setAttribute('height', 0);
+      rf.setAttribute('fill', '#7FC9A0'); rf.setAttribute('rx', 2); g.appendChild(rf);
+      const ra = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ra.setAttribute('x', gx+barW+4); ra.setAttribute('y', h-ah); ra.setAttribute('width', barW); ra.setAttribute('height', 0);
+      ra.setAttribute('fill', '#D6BE8C'); ra.setAttribute('rx', 2); g.appendChild(ra);
+      requestAnimationFrame(()=>{
+        rf.style.transition = 'height .7s ease, y .7s ease';
+        ra.style.transition = 'height .7s ease .1s, y .7s ease .1s';
+        rf.setAttribute('height', fh); rf.setAttribute('y', h-fh);
+        ra.setAttribute('height', ah); ra.setAttribute('y', h-ah);
+      });
+    }
+  }
+
+  function onEnter(i){
+    const slide = slides[i];
+    animateCounters(slide);
+    if(slide.querySelector('.feature-item')) revealStagger(slide);
+    if(slide.dataset.chat === 'true') typeChat(slide);
+    if(slide.dataset.chart === 'true') drawBarChart(slide);
+  }
+
+  function goTo(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,k)=> s.classList.toggle('active', k===idx));
+    dots.forEach((d,k)=> d.classList.toggle('active', k===idx));
+    document.getElementById('progress').style.width = ((idx+1)/total*100)+'%';
+    document.getElementById('curNum').textContent = String(idx+1).padStart(2,'0');
+    onEnter(idx);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', ()=> goTo(idx+1));
+  document.getElementById('prevBtn').addEventListener('click', ()=> goTo(idx-1));
+  document.getElementById('pdfBtn').addEventListener('click', ()=> window.print());
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); goTo(idx+1); }
+    else if(e.key==='ArrowLeft'){ goTo(idx-1); }
+    else if(e.key.toLowerCase()==='f'){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+      else document.exitFullscreen();
+    } else if(e.key.toLowerCase()==='p'){ e.preventDefault(); window.print(); }
+  });
+
+  let tX=null;
+  window.addEventListener('touchstart', e=> tX = e.touches[0].clientX);
+  window.addEventListener('touchend', e=>{
+    if(tX===null) return;
+    const dx = e.changedTouches[0].clientX - tX;
+    if(dx > 60) goTo(idx-1); else if(dx < -60) goTo(idx+1);
+    tX = null;
+  });
+
+  function buildOrb(container, size){
+    container.style.width = size+'px'; container.style.height = size+'px';
+    const ring = document.createElement('div'); ring.className='ring magenta';
+    ring.style.width=size+'px'; ring.style.height=size+'px';
+    ring.style.animation = 'breathe 3.6s ease-in-out infinite';
+    container.appendChild(ring);
+    const core = document.createElement('div'); core.className='ring core';
+    const cs = size*0.18; core.style.width=cs+'px'; core.style.height=cs+'px';
+    core.style.animation = 'pulse 1.8s ease-in-out infinite';
+    container.appendChild(core);
+  }
+  const _oc = document.getElementById('orbCover'); if(_oc) buildOrb(_oc, 170);
+  const _oa = document.getElementById('orbCta'); if(_oa) buildOrb(_oa, 100);
+
+  const amb = document.getElementById('ambient');
+  [{x:'-12vw', y:'-16vh', s:'46vw', c:'var(--champagne)'}, {x:'84vw', y:'60vh', s:'52vw', c:'var(--rose)'}].forEach(s=>{
+    const g = document.createElement('div'); g.className='glow';
+    g.style.left=s.x; g.style.top=s.y; g.style.width=s.s; g.style.height=s.s; g.style.background=s.c;
+    amb.appendChild(g);
+  });
+
+  // cover cycling phrase
+  const cycleWords = ['the size curve.', 'the season.', 'every door.'];
+  const wrap = document.getElementById('cycleWrap');
+  if(wrap){
+  // A hidden static copy of the longest phrase gives the wrapper a real width.
+  // The old `ch`-based minWidth guess clipped any phrase longer than ~13 chars.
+  const sizer = document.createElement('span');
+  sizer.className = 'cycle-sizer';
+  sizer.textContent = cycleWords.reduce((a,b)=> b.length > a.length ? b : a, '');
+  wrap.appendChild(sizer);
+  let ci = 0;
+  function showCycleWord(){
+    wrap.querySelectorAll('.cycle-word').forEach(n=> n.remove());
+    const el = document.createElement('span');
+    el.className = 'cycle-word on';
+    const w = cycleWords[ci % cycleWords.length];
+    const m = w.match(/^(.*?)([.!?]*)$/);
+    el.textContent = m[1];
+    if(m[2]){ const stop = document.createElement('span'); stop.className='stop'; stop.textContent=m[2]; el.appendChild(stop); }
+    wrap.appendChild(el);
+    ci++;
+  }
+  showCycleWord();
+  setInterval(showCycleWord, 2600);
+  }
+
+  // Ensure every slide's dynamic content (counters, chat bubbles) is already
+  // correct on load -- not just the slide currently on screen. This matters
+  // for PDF export / print, which captures the DOM as-is without clicking
+  // through every slide first. The live animated reveal (count-up, typing)
+  // still plays normally whenever a slide is actually navigated to, via
+  // animateCounters()/typeChat() inside onEnter().
+  function finalizeStaticContent(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const prefix = el.getAttribute('data-prefix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = prefix + fmtNum(target, decimals) + suffix;
+    });
+    const q = document.getElementById('qBubble');
+    const a = document.getElementById('aBubble');
+    if(q) q.textContent = IRIS_Q;
+    if(a) a.textContent = IRIS_A;
+  }
+  finalizeStaticContent();
+
+  goTo(0);
+})();
+</script>
+</body>
+</html>
