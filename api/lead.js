@@ -55,7 +55,7 @@ async function getAccessToken() {
 }
 
 async function appendRow(token, row) {
-  const range = encodeURIComponent(`${SHEET_TAB}!A:F`);
+  const range = encodeURIComponent(`${SHEET_TAB}!A:G`);
   const r = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED`,
     {
@@ -68,14 +68,14 @@ async function appendRow(token, row) {
 }
 
 async function ensureHeader(token) {
-  const range = encodeURIComponent(`${SHEET_TAB}!A1:F1`);
+  const range = encodeURIComponent(`${SHEET_TAB}!A1:G1`);
   const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!r.ok) return;
   const data = await r.json();
   if (!data.values || !data.values.length) {
-    await appendRow(token, ["Timestamp", "Name", "Email", "Company", "Message", "Page"]);
+    await appendRow(token, ["Timestamp", "Name", "Email", "Company", "Message", "Page", "Phone"]);
   }
 }
 
@@ -89,6 +89,7 @@ module.exports = async (req, res) => {
   const name = String(body.name || "").trim();
   const email = String(body.email || "").trim();
   const company = String(body.company || "").trim();
+  const phone = String(body.phone || "").trim();
   const message = String(body.message || "").trim();
 
   if (!name || !message) return res.status(400).json({ error: "missing_fields" });
@@ -97,7 +98,7 @@ module.exports = async (req, res) => {
   try {
     const token = await getAccessToken();
     await ensureHeader(token);
-    await appendRow(token, [new Date().toISOString(), name, email, company, message, req.headers.referer || ""]);
+    await appendRow(token, [new Date().toISOString(), name, email, company, message, req.headers.referer || "", phone]);
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(502).json({ error: "sheet_write_failed" });

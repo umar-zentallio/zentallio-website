@@ -161,7 +161,7 @@ body.menu .menu-nav a:nth-child(1){transition-delay:.06s}body.menu .menu-nav a:n
 .ct-form{position:relative;border:1px solid var(--line);border-radius:18px;padding:clamp(24px,3vw,32px);background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0))}
 .ct-form::after{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,rgba(21,242,242,.4),transparent)}
 .ff{position:relative;margin-bottom:22px;opacity:0;transform:translateY(10px);animation:ffIn .55s cubic-bezier(.16,.84,.44,1) forwards}
-.ff:nth-child(1){animation-delay:.05s}.ff:nth-child(2){animation-delay:.12s}.ff:nth-child(3){animation-delay:.19s}.ff:nth-child(4){animation-delay:.26s}
+.ff:nth-child(1){animation-delay:.05s}.ff:nth-child(2){animation-delay:.12s}.ff:nth-child(3){animation-delay:.19s}.ff:nth-child(4){animation-delay:.26s}.ff:nth-child(5){animation-delay:.33s}
 @keyframes ffIn{to{opacity:1;transform:none}}
 .ff-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line2);padding:20px 2px 9px;color:var(--fg);font-family:var(--sans);font-size:1rem;transition:border-color .3s}
 .ff-input:focus{outline:none}
@@ -266,6 +266,7 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 <div class="ff"><input class="ff-input" id="ctName" type="text" placeholder=" " autocomplete="name"><label class="ff-label" for="ctName">Name</label><span class="ff-line"></span></div>
 <div class="ff"><input class="ff-input" id="ctEmail" type="email" placeholder=" " autocomplete="email"><label class="ff-label" for="ctEmail">Email</label><span class="ff-line"></span></div>
 <div class="ff"><input class="ff-input" id="ctCo" type="text" placeholder=" " autocomplete="organization"><label class="ff-label" for="ctCo">Company</label><span class="ff-line"></span></div>
+<div class="ff"><input class="ff-input" id="ctPhone" type="tel" placeholder=" " autocomplete="tel"><label class="ff-label" for="ctPhone">Contact / Mobile</label><span class="ff-line"></span></div>
 <div class="ff"><textarea class="ff-input" id="ctMsg" placeholder=" "></textarea><label class="ff-label" for="ctMsg">Message</label><span class="ff-line"></span></div>
 <button type="button" class="ct-send" id="ctSend"><span class="cs-txt">Send message</span><span class="cs-ico">→</span></button>
 <div class="ct-note" id="ctNote">We usually reply within one business day.</div>
@@ -288,7 +289,7 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
   var fields=el('ctFields'), thanks=el('ctThanks'), again=el('ctAgain');
   btn.addEventListener('click',function(){
     if(btn.classList.contains('sending'))return;
-    var n=val('ctName'),em=val('ctEmail'),co=val('ctCo'),m=val('ctMsg');
+    var n=val('ctName'),em=val('ctEmail'),co=val('ctCo'),ph=val('ctPhone'),m=val('ctMsg');
     if(!n){flag('ctName');return;}
     if(!m){flag('ctMsg');return;}
     if(txt)txt.textContent='Sending…';
@@ -297,11 +298,11 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
     fetch('/api/lead',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:n,email:em,company:co,message:m})
+      body:JSON.stringify({name:n,email:em,company:co,phone:ph,message:m})
     }).then(function(r){return r.json().then(function(data){return {ok:r.ok,data:data};});}).then(function(res){
       btn.classList.remove('sending');
       if(res.ok){
-        el('ctName').value='';el('ctEmail').value='';el('ctCo').value='';el('ctMsg').value='';
+        el('ctName').value='';el('ctEmail').value='';el('ctCo').value='';el('ctPhone').value='';el('ctMsg').value='';
         if(txt)txt.textContent='Send message';
         if(note){note.classList.remove('ok','err');}
         if(fields)fields.style.display='none';
