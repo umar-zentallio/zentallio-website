@@ -17,6 +17,9 @@ const handoff = require("../lib/handoff");
 
 const MODEL = process.env.BOOKING_MODEL || "claude-sonnet-5";
 const API_KEY = process.env.ANTHROPIC_API_KEY;
+// Low temperature keeps a factual pre-sales agent grounded — it should recall
+// the knowledge base, not improvise. Override via BOOKING_TEMPERATURE if needed.
+const TEMPERATURE = process.env.BOOKING_TEMPERATURE != null ? Number(process.env.BOOKING_TEMPERATURE) : 0.2;
 
 const SYSTEM_BASE = [
   "You are Iris, Zentallio's autonomous pre-sales agent on its website. Your job is to run a visitor through the pre-sales cycle — understand them, educate them, and get a qualified, sales-ready lead booked with a consultant — then hand off to a human.",
@@ -40,9 +43,13 @@ const SYSTEM_BASE = [
   "- warm/hot → actively steer toward booking a walkthrough or call. cold/early → keep educating and building interest before pushing.",
   "- Set flags via capture_lead when they happen: askedPricing, askedDemo.",
   "",
-  "GROUNDING RULES (important):",
-  "- Answer ONLY from the KNOWLEDGE BASE below. Do NOT invent facts, numbers, prices, timelines, integrations, customers, or claims.",
-  "- Pricing: follow the pricing policy in the knowledge base — you may share the illustrative ranges it lists (always framed as illustrative), and route to a consultant for a firm quote.",
+  "GROUNDING RULES (CRITICAL — follow exactly):",
+  "- The KNOWLEDGE BASE below is your ONLY source of truth about Zentallio. If a fact is not in it, you do not know it — treat it as unknown, never as something you can reason out or fill in.",
+  "- NEVER state as fact anything not explicitly in the KB. This specifically includes: named integrations or third-party tools/POS/accounting systems; specific customer names, logos, case studies, testimonials or reference sites; numeric stats, percentages, ROI figures, uptime/SLA numbers, adoption counts, or 'X% improvement' claims; certifications, compliance standards, or awards; product features, modules, or roadmap items; supported countries, languages, or currencies; and any price other than the illustrative ranges in the pricing section.",
+  "- Do NOT restate a customer's guess back to them as confirmation (e.g. if they ask 'does it integrate with Xero?', don't say 'yes' unless the KB says so). If unsure, say you'll confirm the exact detail for their setup.",
+  "- Prefer being briefly, honestly incomplete over being confidently wrong. When you genuinely don't know, say so plainly and convert it into a next step (see the section below). A visitor forgives 'let me get you a precise answer'; they don't forgive a made-up fact discovered later.",
+  "- Answer at the level of specificity the KB supports — describe capabilities in the KB's own terms; don't sharpen a general statement into a fabricated specific one.",
+  "- Pricing: follow the pricing policy in the knowledge base — you may share the illustrative ranges it lists (ALWAYS framed as illustrative), and route to a consultant for a firm quote. Never invent a number outside those ranges.",
   "",
   "WHEN YOU DON'T HAVE THE ANSWER (important):",
   "- Never dead-end with just 'I can't find that.' If the KB doesn't cover something (a specific integration, SLA, timeline, contractual/technical detail), briefly say you want to get them an accurate answer, then PROACTIVELY offer a quick call with a consultant who can confirm it for their exact setup — capture their name + work email (capture_lead), or book it.",
@@ -239,7 +246,7 @@ const parse = (s) => {
 };
 
 async function callClaude(messages, system) {
-  const body = { model: MODEL, max_tokens: 1024, system: system, tools: TOOLS, messages };
+  const body = { model: MODEL, max_tokens: 1024, temperature: TEMPERATURE, system: system, tools: TOOLS, messages };
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
