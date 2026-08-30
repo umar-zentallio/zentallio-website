@@ -34,7 +34,7 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  body{background:var(--bg-0);color:var(--ink-0);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   a{color:var(--teal);}
 
   .progress{position:fixed;top:0;left:0;height:3px;background:var(--amber);z-index:100;width:0%;transition:width .1s linear;box-shadow:0 0 8px var(--amber);}
@@ -45,51 +45,108 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   .back{font-family:var(--mono);font-size:12.5px;color:var(--ink-1);}
   .back:hover{color:var(--ink-0);}
 
+  /* ---------- HERO ---------- */
   .hero{
-    background:radial-gradient(60% 100% at 15% 0%, rgba(229,162,75,0.12), transparent 65%), var(--bg-1);
-    border-bottom:1px solid var(--line);padding:52px 32px 40px;
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(60% 90% at 12% 0%, rgba(229,162,75,0.14), transparent 60%),
+      radial-gradient(50% 80% at 92% 10%, rgba(155,123,255,0.12), transparent 62%),
+      var(--bg-1);
+    border-bottom:1px solid var(--line);padding:56px 32px 46px;
   }
-  .hero-in{max-width:860px;margin:0 auto;}
-  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:8px;}
-  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 6px var(--amber);}
-  h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;max-width:800px;}
-  .meta{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:14px;flex-wrap:wrap;}
+  .hero::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--amber),transparent);
+    opacity:.6;animation:sweep 6s ease-in-out infinite;
+  }
+  @keyframes sweep{0%,100%{opacity:.15;transform:translateX(-30%);}50%{opacity:.7;transform:translateX(30%);}}
+  .hero-in{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:inline-flex;align-items:center;gap:9px;margin-bottom:20px;}
+  .livedot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(229,162,75,.6);animation:pulse 2.2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,162,75,.55);}70%{box-shadow:0 0 0 10px rgba(229,162,75,0);}100%{box-shadow:0 0 0 0 rgba(229,162,75,0);}}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(32px,5vw,52px);line-height:1.08;margin-bottom:20px;letter-spacing:-.015em;max-width:840px;}
+  h1 em{font-style:italic;color:var(--amber);}
+  .hero-sub{font-size:clamp(16px,2vw,19px);color:var(--ink-1);max-width:620px;line-height:1.6;}
+  .meta{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .meta .chip{border:1px solid var(--line);border-radius:999px;padding:4px 12px;}
 
-  /* video player */
-  .videowrap{max-width:860px;margin:36px auto 0;padding:0 32px;}
-  .video-frame{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000;box-shadow:0 24px 60px -24px rgba(0,0,0,.7);}
+  /* ---------- VIDEO ---------- */
+  .videowrap{max-width:900px;margin:36px auto 0;padding:0 32px;}
+  .video-frame{position:relative;border:1px solid rgba(229,162,75,.22);border-radius:16px;overflow:hidden;background:#000;box-shadow:0 30px 70px -28px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.02) inset;}
   .video-frame video{display:block;width:100%;height:auto;}
 
-  .layout{max-width:760px;margin:0 auto;padding:48px 32px 100px;}
+  /* ---------- SIGNAL STRIP ---------- */
+  .strip{max-width:900px;margin:34px auto 0;padding:0 32px;}
+  .strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .stat{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),rgba(10,15,28,.4));border-radius:14px;padding:20px 20px;position:relative;overflow:hidden;}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--sc,var(--teal));opacity:.8;}
+  .stat .sk{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);margin-bottom:9px;}
+  .stat .sv{font-family:var(--serif);font-size:clamp(19px,2.4vw,24px);color:var(--ink-0);line-height:1.2;margin-bottom:6px;}
+  .stat .sd{font-size:12.5px;color:var(--ink-1);line-height:1.5;}
+  @media (max-width:720px){ .strip-grid{grid-template-columns:1fr;} }
 
-  .toc{
-    border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:18px 22px;margin-bottom:40px;
-  }
-  .toc-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px;}
-  .toc a{display:block;font-size:13.5px;color:var(--ink-1);padding:4px 0;border-left:2px solid transparent;padding-left:10px;margin-left:-1px;}
-  .toc a:hover{color:var(--amber);border-left-color:var(--amber);}
-
-  .content p{font-size:16px;color:var(--ink-1);margin-bottom:16px;}
-  .content > p:first-of-type{font-size:18.5px;color:var(--ink-0);line-height:1.65;font-weight:400;}
-  .content h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 16px;color:var(--ink-0);padding-top:6px;scroll-margin-top:90px;}
-  .content ul, .content ol{margin:0 0 16px 22px;color:var(--ink-1);font-size:16px;}
-  .content li{margin-bottom:8px;}
-  .content strong{color:var(--ink-0);}
+  /* ---------- LAYOUT / CONTENT ---------- */
+  .layout{max-width:820px;margin:0 auto;padding:56px 32px 40px;}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .kicker::before{content:'';width:22px;height:1px;background:var(--teal);}
+  .content p{font-size:16.5px;color:var(--ink-1);margin-bottom:16px;}
+  .content > p.lede{font-size:20px;color:var(--ink-0);line-height:1.55;font-weight:400;margin-bottom:20px;}
+  .content h2{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3vw,30px);margin:12px 0 16px;color:var(--ink-0);letter-spacing:-.01em;scroll-margin-top:90px;}
+  .content strong{color:var(--ink-0);font-weight:600;}
   .content em{color:var(--amber);font-style:italic;}
-  .content hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+  .section{padding:40px 0;border-top:1px solid var(--line);}
+  .section:first-child{border-top:none;padding-top:0;}
 
-  .cta{margin-top:52px;padding:26px 28px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  .cta span{font-family:var(--serif);font-size:16px;}
-  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--teal);color:#00201f;padding:10px 18px;border-radius:8px;white-space:nowrap;}
+  /* channels -> board */
+  .flowbox{margin:26px 0 8px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(120% 120% at 50% -10%, rgba(21,242,242,.06), transparent 60%), var(--panel);padding:26px 24px;}
+  .flow-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .pill{font-family:var(--mono);font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink-1);display:inline-flex;align-items:center;gap:7px;}
+  .pill .d{width:6px;height:6px;border-radius:50%;background:var(--pc,var(--teal));}
+  .flow-arrow{display:flex;justify-content:center;color:var(--ink-2);margin:14px 0;font-size:20px;}
+  .board-line{text-align:center;font-family:var(--serif);font-size:17px;color:var(--ink-0);}
+  .board-line b{color:var(--teal);font-weight:500;}
 
-  .related{margin-top:56px;padding-top:36px;border-top:1px solid var(--line);}
+  /* AI layer cards */
+  .layers{display:grid;gap:16px;margin:28px 0 8px;}
+  .layer{position:relative;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--panel),rgba(10,15,28,.35));padding:22px 24px;overflow:hidden;transition:border-color .18s,transform .18s;}
+  .layer:hover{border-color:var(--lc);transform:translateY(-3px);}
+  .layer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lc);}
+  .layer-head{display:flex;align-items:center;gap:13px;margin-bottom:12px;}
+  .layer-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--lc) 16%, transparent);border:1px solid color-mix(in srgb, var(--lc) 40%, transparent);flex-shrink:0;}
+  .layer-ic svg{width:20px;height:20px;stroke:var(--lc);fill:none;stroke-width:1.8;}
+  .layer-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--lc);margin-bottom:3px;}
+  .layer-name{font-family:var(--serif);font-size:19px;color:var(--ink-0);font-weight:500;}
+  .layer p{font-size:14.5px;color:var(--ink-1);margin:0;line-height:1.62;}
+  .layer p strong{color:var(--ink-0);}
+
+  /* pull quote */
+  .pull{margin:34px 0;padding:30px 30px 30px 34px;border-left:3px solid var(--amber);background:linear-gradient(90deg, rgba(229,162,75,.07), transparent);border-radius:0 14px 14px 0;}
+  .pull q{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.6vw,26px);color:var(--ink-0);line-height:1.4;quotes:none;}
+  .pull .pa{display:block;margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+
+  /* resilience callout */
+  .callout{margin:28px 0 8px;border:1px solid rgba(63,217,164,.28);border-radius:16px;background:radial-gradient(120% 120% at 100% 0%, rgba(63,217,164,.08), transparent 60%), var(--panel);padding:24px 26px;display:flex;gap:18px;align-items:flex-start;}
+  .callout-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#04140f;background:var(--mint);padding:5px 11px;border-radius:8px;font-weight:600;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+  .callout p{font-size:15.5px;color:var(--ink-1);margin:0;line-height:1.65;}
+  .callout p strong{color:var(--ink-0);}
+
+  .cta{margin-top:44px;padding:28px 30px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(120% 140% at 0% 0%, rgba(21,242,242,.08), transparent 55%), rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .cta span{font-family:var(--serif);font-size:18px;color:var(--ink-0);}
+  .cta a{font-family:var(--mono);font-size:12.5px;font-weight:600;background:var(--teal);color:#00201f;padding:12px 20px;border-radius:9px;white-space:nowrap;transition:transform .15s,box-shadow .15s;}
+  .cta a:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px var(--teal);}
+
+  .related{margin-top:52px;padding-top:36px;border-top:1px solid var(--line);}
   .related-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px;}
   .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
-  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s;}
-  .related-card:hover{border-color:rgba(255,255,255,0.22);}
+  .related-card{display:block;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:16px 18px;transition:border-color .15s,transform .15s;}
+  .related-card:hover{border-color:rgba(255,255,255,0.22);transform:translateY(-2px);}
   .related-card .rc-type{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-bottom:6px;}
   .related-card .rc-title{font-family:var(--serif);font-size:15px;color:var(--ink-0);line-height:1.35;}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero::after,.livedot{animation:none;}
+  }
 </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -105,11 +162,14 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
 
 <div class="hero">
   <div class="hero-in">
-    <div class="badge-row">
-      <div class="eyebrow">Demo video · Kitchen Display System</div>
+    <div class="eyebrow"><span class="livedot"></span>Demo video · Kitchen Display System · Powered by Iris</div>
+    <h1>The kitchen display that <em>runs the line</em> — not just reflects it.</h1>
+    <p class="hero-sub">A kitchen already produces enough signal to run itself better in real time. Zentallio's KDS is where that intelligence becomes visible — and starts making the call.</p>
+    <div class="meta">
+      <span class="chip">2:50 walkthrough</span>
+      <span class="chip">Food &amp; Beverage</span>
+      <span class="chip">Rules · Models · Iris</span>
     </div>
-    <h1>The Kitchen Display That Runs the Line, Not Just Reflects It</h1>
-    <div class="meta"><span>2:50 walkthrough</span><span>·</span><span>Food &amp; Beverage</span></div>
   </div>
 </div>
 
@@ -122,28 +182,127 @@ src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
   </div>
 </div>
 
-<div class="layout">
-  <div class="toc"><div class="toc-label">On this page</div><a href="#one-board-every-channel">One board, every channel</a>
-<a href="#where-the-intelligence-actually-lives">Where the intelligence actually lives</a>
-<a href="#built-to-keep-running">Built to keep running</a>
-<a href="#built-for-the-kitchen-its-actually-in">Built for the kitchen it's actually in</a></div>
-  <div class="content">
-<p>Most kitchen display systems are a screen. They take a printed ticket, put it in a box on a monitor, and call that digital transformation. The order still routes on habit, the fryer still runs on a lookup table from the menu, and the first anyone hears about a bottleneck is a customer complaint.</p>
-<p>Zentallio's KDS is built on a different premise: a kitchen already produces enough signal — every ticket, every scan, every station's pace — to run itself better in real time. The screen is just where that intelligence becomes visible.</p>
-<h2 id="one-board-every-channel">One board, every channel</h2>
-<p>The Expo board is the first thing a shift lead sees, and it's deliberately unified: marketplace orders, dine-in, drive-thru, and scheduled pickups all resolve onto one wall instead of four separate queues fighting for attention. Every ticket carries its full context — allergy flags, modifiers, rider ETA — so a decision that used to require walking to three different screens now takes one glance.</p>
-<p>Each station — Grill, Fry, Cold, Pass, Drive-Thru — sees only what's relevant to it, with its own equipment status alongside the queue. A grill cook doesn't need to know the drive-thru's bay wait time. A fry cook does need to know the oil temperature and which basket is next, so that's what's on their screen.</p>
-<h2 id="where-the-intelligence-actually-lives">Where the intelligence actually lives</h2>
-<p>Underneath the screens, three layers do the work. <strong>Zen Rules</strong> handle what should never require a judgment call — cold-chain compliance, delivery radius, allergy blocking. <strong>Zen Models</strong> forecast and learn: prep time per item and station (not the menu's static estimate — the number your kitchen actually produces), demand against the day's real signals, and rolling bottleneck detection that catches drift before a customer notices it. <strong>Ask Iris</strong> puts all of it into plain language, so "what's slowing us down tonight" gets an answer instead of a dashboard.</p>
-<p>That middle layer is the one that changes how a kitchen runs day to day. A menu might say loaded fries take four and a half minutes. If this kitchen's fryers, this crew, and tonight's ticket mix actually produce them in seven, every ready-time on every ticket should use seven — not the number printed on a laminated card. When one station starts trending slower than its own baseline, the system says so before it becomes a missed promise time, not after.</p>
-<h2 id="built-to-keep-running">Built to keep running</h2>
-<p>A kitchen doesn't get to pause because the internet did. When the cloud connection drops, Zentallio's KDS keeps taking orders from the POS and floor tablets over the local network, keeps every station in sync, and arms printers as an automatic fallback — nothing waits on a screen that isn't there. Everything queues locally and reconciles the moment the connection returns. It's a small feature on a spec sheet and a very large deal at 7 p.m. on a Friday.</p>
-<h2 id="built-for-the-kitchen-its-actually-in">Built for the kitchen it's actually in</h2>
-<p>None of this replaces judgment — a shift lead can always override a routed ticket, adjust a threshold, or decide Iris should speak up more or less. What it removes is the guesswork: the manual tally at close, the fryer nobody was watching, the ticket that quietly aged past its promise time while everyone was heads-down on the one in front of them.</p>
-<p>The kitchen already knows how it's doing. Zentallio's KDS just makes sure someone's listening.</p>
+<div class="strip">
+  <div class="strip-grid">
+    <div class="stat" style="--sc:var(--teal)">
+      <div class="sk">One board</div>
+      <div class="sv">Every channel, one wall</div>
+      <div class="sd">Marketplace, dine-in, drive-thru and pickup resolve into a single Expo view — not four queues fighting for attention.</div>
+    </div>
+    <div class="stat" style="--sc:var(--violet)">
+      <div class="sk">Real prep times</div>
+      <div class="sv">7:00, not 4:30</div>
+      <div class="sd">Ready-times learned from what your kitchen actually produces — station by station — instead of the number on a laminated card.</div>
+    </div>
+    <div class="stat" style="--sc:var(--mint)">
+      <div class="sk">Never dark</div>
+      <div class="sv">Runs when the internet doesn't</div>
+      <div class="sd">Orders keep flowing on the local network, stations stay in sync, printers arm as an automatic fallback.</div>
+    </div>
   </div>
+</div>
+
+<div class="layout">
+
+  <div class="section">
+    <div class="content">
+      <p class="lede">Most kitchen display systems are just a screen. They take a printed ticket, drop it in a box on a monitor, and call that digital transformation.</p>
+      <p>The order still routes on habit. The fryer still runs on a lookup table from the menu. And the first anyone hears about a bottleneck is a customer complaint. The screen changed; the kitchen didn't.</p>
+      <p>Zentallio's KDS starts from a different premise: <strong>every ticket, every scan, every station's pace is signal</strong> — and a kitchen that reads its own signal can run itself better while the shift is still happening. Iris does the reading. The board is just where that intelligence surfaces, in time to act on it.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="kicker">The board</div>
+    <h2>One board, every channel</h2>
+    <div class="content">
+      <p>The Expo board is the first thing a shift lead sees, and it's deliberately unified. Every ticket carries its full context — allergy flags, modifiers, rider ETA — so a decision that used to mean walking to three screens now takes one glance.</p>
+    </div>
+    <div class="flowbox">
+      <div class="flow-label">Four streams in</div>
+      <div class="chips">
+        <span class="pill" style="--pc:var(--magenta)"><span class="d"></span>Marketplace</span>
+        <span class="pill" style="--pc:var(--teal)"><span class="d"></span>Dine-in</span>
+        <span class="pill" style="--pc:var(--amber)"><span class="d"></span>Drive-thru</span>
+        <span class="pill" style="--pc:var(--violet)"><span class="d"></span>Scheduled pickup</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="board-line">One <b>Expo board</b>, one prioritised line.</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-label">Routed to the stations that own the work</div>
+      <div class="chips">
+        <span class="pill"><span class="d" style="background:var(--amber)"></span>Grill</span>
+        <span class="pill"><span class="d" style="background:var(--teal)"></span>Fry</span>
+        <span class="pill"><span class="d" style="background:var(--mint)"></span>Cold</span>
+        <span class="pill"><span class="d" style="background:var(--violet)"></span>Pass</span>
+        <span class="pill"><span class="d" style="background:var(--magenta)"></span>Drive-thru</span>
+      </div>
+    </div>
+    <div class="content">
+      <p>Each station sees only what's relevant to it, with its own equipment status beside the queue. A grill cook doesn't need the drive-thru's bay wait. A fry cook <em>does</em> need the oil temperature and which basket is next — so that's what's on the screen.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="kicker">The intelligence</div>
+    <h2>Where the intelligence actually lives</h2>
+    <div class="content">
+      <p>Underneath the screens, three layers do the work — deterministic where it must be, predictive where it pays, and conversational where a human needs an answer, not a dashboard.</p>
+    </div>
+    <div class="layers">
+      <div class="layer" style="--lc:var(--teal)">
+        <div class="layer-head">
+          <div class="layer-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.5-3 7-7 9-4-2-7-4.5-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div><div class="layer-tag">Layer 1 · deterministic</div><div class="layer-name">Zen Rules</div></div>
+        </div>
+        <p>The things that should <strong>never</strong> require a judgment call — cold-chain compliance, delivery radius, allergy blocking. They just hold, every ticket, every time.</p>
+      </div>
+      <div class="layer" style="--lc:var(--violet)">
+        <div class="layer-head">
+          <div class="layer-ic"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 15l5-5 4 3 6-7"/><circle cx="9" cy="10" r="1.4" fill="currentColor" stroke="none"/><circle cx="13" cy="13" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+          <div><div class="layer-tag">Layer 2 · predictive</div><div class="layer-name">Zen Models</div></div>
+        </div>
+        <p>Forecast and learn: <strong>prep time per item and station</strong> (the number your kitchen actually produces, not the menu's guess), demand against the day's real signals, and rolling bottleneck detection that catches drift before a customer feels it.</p>
+      </div>
+      <div class="layer" style="--lc:var(--amber)">
+        <div class="layer-head">
+          <div class="layer-ic"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-8 8H7l-4 3V12a8 8 0 018-8h2a8 8 0 018 8z"/><path d="M9 11h6M9 14h4"/></svg></div>
+          <div><div class="layer-tag">Layer 3 · conversational</div><div class="layer-name">Ask Iris</div></div>
+        </div>
+        <p>Puts all of it into plain language. <em>"What's slowing us down tonight?"</em> gets an answer — the station, the item, the fix — instead of a chart to interpret at the pass.</p>
+      </div>
+    </div>
+
+    <div class="pull">
+      <q>The menu says loaded fries take four and a half minutes. Your fryers, your crew, and tonight's ticket mix make them in seven. Every ready-time on every ticket should say seven — not the number on a laminated card.</q>
+      <span class="pa">That middle layer is what changes how a kitchen runs day to day</span>
+    </div>
+
+    <div class="content">
+      <p>When one station starts trending slower than its <em>own</em> baseline, the system says so before it becomes a missed promise time — not in the report the morning after.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="kicker">Resilience</div>
+    <h2>Built to keep running</h2>
+    <div class="callout">
+      <span class="callout-badge">Offline-ready</span>
+      <p>A kitchen doesn't get to pause because the internet did. When the cloud connection drops, the KDS <strong>keeps taking orders</strong> from the POS and floor tablets over the local network, keeps every station in sync, and arms printers as an automatic fallback — nothing waits on a screen that isn't there. Everything queues locally and reconciles the moment the connection returns. A small line on a spec sheet; a very large deal at 7 p.m. on a Friday.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="kicker">Judgment stays yours</div>
+    <h2>Built for the kitchen it's actually in</h2>
+    <div class="content">
+      <p>None of this replaces judgment — a shift lead can always override a routed ticket, adjust a threshold, or decide Iris should speak up more or less. What it removes is the <strong>guesswork</strong>: the manual tally at close, the fryer nobody was watching, the ticket that quietly aged past its promise time while everyone was heads-down on the one in front of them.</p>
+      <p class="lede">The kitchen already knows how it's doing. Zentallio's KDS just makes sure someone's listening.</p>
+    </div>
+  </div>
+
   <div class="cta">
-    <span>Want to see the KDS running on your own line?</span>
+    <span>See the KDS running on your own line.</span>
     <a href="/contact" data-book="walkthrough">Book a demo</a>
   </div>
 
