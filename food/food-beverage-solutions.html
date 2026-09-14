@@ -109,7 +109,19 @@ a{color:inherit;text-decoration:none}
 .fmrow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .fmrow::-webkit-scrollbar{display:none}
 .fmchip{font-size:10.5px;color:var(--muted);border:.5px solid var(--line);background:rgba(255,255,255,.02);border-radius:7px;padding:3px 9px;white-space:nowrap}
-@media(max-width:760px){.secbar .sin{padding:8px 16px 6px}.secbar .fmin{padding:0 16px 8px}.sxrow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.sxrow::-webkit-scrollbar{display:none}.sxpill{font-size:11px;padding:5px 10px}}
+@media(max-width:760px){
+.secbar .sin{display:block;padding:12px 0 11px}
+.secbar .fmin{padding:0 16px 8px}
+.sxlab{display:block;font-size:9.5px;letter-spacing:.26em;padding:0 16px;margin-bottom:10px}
+.sxrow{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;gap:8px;padding:8px 16px 10px;scroll-snap-type:x proximity;scroll-padding-left:16px;
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);
+ mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+.sxrow.sxs{--fl:28px}.sxrow.sxe{--fr:32px}
+.sxrow::-webkit-scrollbar{display:none}
+.sxpill{scroll-snap-align:start;font-size:12.5px;font-weight:600;padding:9px 14px;gap:7px;border-radius:999px}
+.sxpill i{font-size:9px;padding:2px 5px;border-radius:5px}
+}
+@media(max-width:420px){.sxpill{font-size:12px;padding:8px 12px}}
 /* sector banner (image-led, wireframe layout) */
 .sbanner{position:relative;overflow:hidden;border-bottom:.5px solid var(--line);background:#05080F}
 .sb-media{height:min(54vh,600px);min-height:380px;background-size:cover;background-position:center 42%;filter:saturate(1.02)}
@@ -645,9 +657,8 @@ a{color:inherit;text-decoration:none}
 .fdquiet{color:#C3CEDD;font-size:13.5px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.18s}
 .fdquiet:hover{color:#fff}
 .fdquiet .ar{color:var(--sec-hue)}
-.fdscale{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#7E8CA0;margin-top:26px}
-.fdscale .t{color:var(--teal)}.fdscale .a{color:#FF2D95}
 @media(max-width:720px){.fdrail{width:100%}.fdcell{flex:1 1 46%;padding:11px 15px}.sb-vink{background:linear-gradient(180deg,rgba(5,8,15,.30) 0%,rgba(5,8,15,.72) 55%,rgba(5,8,15,.92) 100%)}}
+@media(max-width:560px){.fdcta{gap:14px;margin-top:24px}.fdbtn{width:100%;justify-content:center;padding:15px 20px}.fdquiet{font-size:13px}}
 </style>
 <style id="textfirst">
 /* hero demo */
@@ -1256,72 +1267,63 @@ var VIDBANNER={
   rot:[['the <em>scoop</em>.','Weighed and scooped billing, a topping engine that prices every mix-in, and a display freezer that counts itself down \u2014 12 dessert solutions, narrated by Iris.'],
    ['the <em>freezer</em>.','Every tub tracked by batch and best-before, hardening times respected, and Iris flagging the flavour that will not survive the weekend.'],
    ['<em>peak hour</em>.','Saturday at eight is a different business from Tuesday at three. Production, staffing and the menu all move with the queue, not against it.']],
-  rail:[['Scoops today','1,840'],['Avg ticket','\u20ac6.40'],['Waste','1.9<span class="u">%</span>']],
-  scale:'6 formats \u00b7 12 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Scoops today','1,840'],['Avg ticket','\u20ac6.40'],['Waste','1.9<span class="u">%</span>']]},
  beverage:{embedded:'bv',stack:'beverage',pos:'50% 42%',warm:'#A8E05F',
   eyebrow:'Sector 06 \u00b7 Beverages & Drinks',
   h1lead:'The AI that runs',
   rot:[['the <em>bar</em>.','Drink builder, pour cost, draught yield and every tab reconciled \u2014 17 beverage solutions, narrated by Iris.'],
    ['the <em>pour</em>.','Free-pour drift is invisible until it is 4% of your spirits spend. Iris measures it per bartender, per shift, per bottle.'],
    ['<em>the last hour</em>.','Happy hour, weather and the match calendar move demand more than the menu does \u2014 so the price and the prep move with them.']],
-  rail:[['Drinks / hr','168'],['Pour variance','2.1<span class="u">%</span>'],['Tab recovery','99.4<span class="u">%</span>']],
-  scale:'9 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Drinks / hr','168'],['Pour variance','2.1<span class="u">%</span>'],['Tab recovery','99.4<span class="u">%</span>']]},
  casual:{embedded:'ca',stack:'casual',pos:'50% 46%',warm:'#FF8A5C',
   eyebrow:'Sector 02 \u00b7 Casual Dining',
   h1lead:'The AI that runs',
   rot:[['the <em>floor</em>.','Tables, courses, servers and every split bill reconciled \u2014 17 casual-dining solutions, narrated by Iris.'],
    ['the <em>turn</em>.','Table turn time is the number that decides a Saturday. Iris seats, fires and paces against it rather than hoping.'],
    ['<em>every course</em>.','Starters, mains and desserts fired to arrive together for the table \u2014 not for the ticket.']],
-  rail:[['Covers / night','284'],['Table turn','68<span class="u">m</span>'],['Course accuracy','97.2<span class="u">%</span>']],
-  scale:'8 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Covers / night','284'],['Table turn','68<span class="u">m</span>'],['Course accuracy','97.2<span class="u">%</span>']]},
  health:{embedded:'hl',stack:'health',pos:'50% 44%',warm:'#3FD9A4',
   eyebrow:'Sector 07 \u00b7 Health, Wellness & Specialty Diets',
   h1lead:'The AI that runs',
   rot:[['the <em>bowl</em>.','Macros calculated per build, allergens enforced at the till, and every claim on the menu traceable \u2014 17 wellness solutions, narrated by Iris.'],
    ['<em>every claim</em>.','If the menu says 32g of protein, the platform can show which ingredients made it and which batch they came from.'],
    ['the <em>plan</em>.','Subscription meal plans that stay profitable per subscriber, not just popular.']],
-  rail:[['Bowls / day','486'],['Macro accuracy','99.1<span class="u">%</span>'],['Allergen incidents','0']],
-  scale:'8 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Bowls / day','486'],['Macro accuracy','99.1<span class="u">%</span>'],['Allergen incidents','0']]},
  cloud:{embedded:'ck',stack:'cloud',pos:'50% 46%',warm:'#7B9BFF',
   eyebrow:'Sector 08 \u00b7 Cloud Kitchen & Delivery-Only',
   h1lead:'The AI that runs',
   rot:[['<em>every brand</em>.','Six virtual brands out of one kitchen, each with its own P&L and its own aggregator storefronts \u2014 16 delivery-only solutions, narrated by Iris.'],
    ['the <em>rider gate</em>.','Prep time, rider ETA and pickup are one sequence. Food that waits on a shelf is the whole margin.'],
    ['the <em>commission</em>.','Aggregator commission decides whether a busy kitchen is a profitable one. Iris prices and routes against it, order by order.']],
-  rail:[['Orders / hr','214'],['Prep to pickup','3.1<span class="u">m</span>'],['Brand contribution','21.4<span class="u">%</span>']],
-  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Orders / hr','214'],['Prep to pickup','3.1<span class="u">m</span>'],['Brand contribution','21.4<span class="u">%</span>']]},
  b2b:{embedded:'ib',stack:'b2b',pos:'50% 44%',warm:'#8FB3C7',
   eyebrow:'Sector 09 \u00b7 Institutional & B2B Food Service',
   h1lead:'The AI that runs',
   rot:[['the <em>contract</em>.','Headcount billing, subsidy rules, tender compliance and a client invoice that reconciles first time \u2014 16 institutional solutions, narrated by Iris.'],
    ['<em>every site</em>.','Twelve canteens, four clients, one standard. Cost per meal compared honestly across sites rather than averaged into meaninglessness.'],
    ['the <em>audit</em>.','Nutrition standards, allergen records and food-safety evidence produced on request \u2014 because in this sector the audit is not an event, it is the operating condition.']],
-  rail:[['Meals / day','14,280'],['Cost per meal','\u20ac3.42'],['Invoice accuracy','99.6<span class="u">%</span>']],
-  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Meals / day','14,280'],['Cost per meal','\u20ac3.42'],['Invoice accuracy','99.6<span class="u">%</span>']]},
  niche:{embedded:'ni',stack:'niche',pos:'50% 44%',warm:'#FF9A62',
   eyebrow:'Sector 10 \u00b7 Niche & Experience Concepts',
   h1lead:'The AI that runs',
   rot:[['the <em>experience</em>.','Ticketed seatings, pop-ups, theme nights and concepts that move \u2014 16 experience solutions, narrated by Iris.'],
    ['the <em>pop-up</em>.','A location that exists for six weeks still needs a P&L, a stock count and a way to close the till without internet.'],
    ['<em>every seating</em>.','When the meal is the ticket, no-shows and covers are the same problem \u2014 and both are predictable.']],
-  rail:[['Seatings / wk','42'],['Ticket yield','\u20ac86.40'],['No-show','4.1<span class="u">%</span>']],
-  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Seatings / wk','42'],['Ticket yield','\u20ac86.40'],['No-show','4.1<span class="u">%</span>']]},
  cafe:{embedded:'cf',stack:'cafe',pos:'50% 46%',warm:'#C9A27C',
   eyebrow:'Sector 04 \u00b7 Caf\u00e9, Coffee & Bakery',
   h1lead:'The AI that runs',
   rot:[['the <em>bar</em>.','Label at the bar, modifiers that hold, a display case that counts itself down \u2014 17 caf\u00e9 and bakery solutions, narrated by Iris.'],
    ['the <em>bake</em>.','Yield, recipe cost and tomorrow\u2019s production plan built from what actually sold, not from what was baked last Tuesday.'],
    ['<em>the last hour</em>.','Markdown timed by remaining shelf life rather than the clock \u2014 because going earlier beats going deeper.']],
-  rail:[['Drinks / hr','168'],['Case sell-through','94.2<span class="u">%</span>'],['Waste','2.6<span class="u">%</span>']],
-  scale:'9 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Drinks / hr','168'],['Case sell-through','94.2<span class="u">%</span>'],['Waste','2.6<span class="u">%</span>']]},
  qsr:{embedded:'qs',stack:'quick-service',pos:'50% 14%',
   eyebrow:'Sector 01 \u00b7 Quick Service & Street Food',
   h1lead:'The AI that runs',
   rot:[['the <em>rush</em>.','Kiosk, drive-through, counter and every aggregator on one order book \u2014 sequenced by promise time, not by whoever shouted loudest. 13 quick-service solutions, narrated by Iris.'],
    ['the <em>drive-through</em>.','Lane depth, order-to-window time and the second window measured to the second \u2014 because in QSR the queue <b>is</b> the P&L.'],
    ['<em>every channel</em>.','One menu across kiosk, app, web and five aggregators. An item goes 86 at the counter and disappears everywhere in the same second.']],
-  rail:[['Orders / hr','412'],['Order to window','96<span class="u">s</span>'],['Food cost','30.8<span class="u">%</span>']],
-  scale:'8 formats \u00b7 13 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
+  rail:[['Orders / hr','412'],['Order to window','96<span class="u">s</span>'],['Food cost','30.8<span class="u">%</span>']]},
  fine:{embedded:'fd',stack:'fine-dining',pos:'50% 26%',
   eyebrow:'Sector 03 \u00b7 Fine Dining & Premium',
   h1lead:'The AI that runs',
@@ -1329,8 +1331,7 @@ var VIDBANNER={
    ['every <em>cover</em>.','Covers paced to the kitchen\u2019s real capacity, allergens flagged before the plate leaves the pass, and each seating costed while it is <b>still seated</b>.'],
    ['the <em>cellar</em>.','Every pour depletes the bin, every vintage re-costs as the list moves, and the wine margin holds at <b>71%</b> without touching a single price.']],
 
-  rail:[['Covers','184 <span class="u">/ 210</span>'],['Pass','11<span class="u">m</span> 40<span class="u">s</span>'],['Cellar margin','71.4<span class="u">%</span>']],
-  scale:'4 formats \u00b7 8 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'}
+  rail:[['Covers','184 <span class="u">/ 210</span>'],['Pass','11<span class="u">m</span> 40<span class="u">s</span>'],['Cellar margin','71.4<span class="u">%</span>']]}
 };
 
 function vidSrc(V){var m={'cf':'cafe','qs':'qsr','ca':'casual','fd':'fine','ds':'dessert','bv':'beverage','hl':'health','ck':'cloud','ib':'b2b','ni':'niche'};return 'media/'+(m[V.embedded]||V.embedded)+'.mp4';}
@@ -1353,7 +1354,6 @@ function renderVidBanner(V,m){
    +'</div>'
    +'<div class="fdcta"><button class="fdbtn" onclick="bookCall()">Book a call with our consultant</button>'
     +'<a class="fdquiet" onclick="document.getElementById(\'solutions\').scrollIntoView({behavior:\'smooth\'})">See the '+(V.stack||'full')+' stack <span class="ar">\u2192</span></a></div>'
-   +'<div class="fdscale">'+V.scale+'</div>'
   +'</div>';
  if(window.__fdRot){clearInterval(window.__fdRot);window.__fdRot=null;}
  if(V.rot&&V.rot.length>1){
@@ -1510,11 +1510,23 @@ document.addEventListener('keydown',function(e){
 });
 
 function applySectorTheme(){var s=getSector();var r=document.documentElement.style;r.setProperty('--sec-hue',s.hue);r.setProperty('--sec-glow',s.glow);}
+function sxEdges(){var r=document.getElementById('sxrow');if(!r)return;
+ var max=r.scrollWidth-r.clientWidth;
+ r.classList.toggle('sxs',r.scrollLeft>4);
+ r.classList.toggle('sxe',max>4&&r.scrollLeft<max-4);}
+function sxSync(){var r=document.getElementById('sxrow');if(!r)return;
+ if(!r.__sxb){r.__sxb=1;r.addEventListener('scroll',sxEdges,{passive:true});window.addEventListener('resize',sxEdges);}
+ var on=r.querySelector('.sxpill.on');
+ if(on&&r.scrollWidth>r.clientWidth+4&&typeof on.scrollIntoView==='function'){
+  try{on.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}
+ }
+ sxEdges();setTimeout(sxEdges,420);}
 function renderSectorBar(){
  var sec=getSector();applySectorTheme();
  document.getElementById('sxrow').innerHTML=SECTORS.map(function(s){
   return '<button class="sxpill'+(s.id===curSector?' on':'')+'" title="'+s.name+'" onclick="setSector(\''+s.id+'\')"><i>'+s.num+'</i>'+(s.short||s.name)+'</button>';
  }).join('');
+ sxSync();
  var fl=document.getElementById('fmlab');if(fl)fl.textContent=(sec.name+' · '+sec.formats.length+' BUSINESS TYPES').toUpperCase();
  var fr=document.getElementById('fmrow');if(fr)fr.innerHTML=sec.formats.map(function(f){return '<span class="fmchip">'+f+'</span>';}).join('');
  var cfg=document.getElementById('seccfg');
@@ -5292,7 +5304,7 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 +'.gsg,'
 +'.mbar span,'
 +'.mnote,'
-+'.mtag,'+'.pan h3 .kx,.bbadge,.beye,.bstage-bar span,.dcap .live,.dit .aib,.dm-live,.dside .dg,.fdcell .fk,.htab span,.irischip,.mlink .wnow,.mseclink i,.prdisc,.sb-lockup .lk-live,.sc-flag,.sn span em,.stab span{font-size:10px !important}.sxrow,.herotabs{-webkit-mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%);mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%)}}</style>
++'.mtag,'+'.pan h3 .kx,.bbadge,.beye,.bstage-bar span,.dcap .live,.dit .aib,.dm-live,.dside .dg,.fdcell .fk,.htab span,.irischip,.mlink .wnow,.mseclink i,.prdisc,.sb-lockup .lk-live,.sc-flag,.sn span em,.stab span{font-size:10px !important}.herotabs{-webkit-mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%);mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%)}}</style>
 <link rel="stylesheet" href="/booking.css"><script src="/booking.js" defer></script>
 </body></html>
 
