@@ -658,7 +658,7 @@ a{color:inherit;text-decoration:none}
 .fdquiet:hover{color:#fff}
 .fdquiet .ar{color:var(--sec-hue)}
 @media(max-width:720px){.fdrail{width:100%}.fdcell{flex:1 1 46%;padding:11px 15px}.sb-vink{background:linear-gradient(180deg,rgba(5,8,15,.30) 0%,rgba(5,8,15,.72) 55%,rgba(5,8,15,.92) 100%)}}
-@media(max-width:560px){.fdcta{gap:14px;margin-top:24px}.fdbtn{width:100%;justify-content:center;padding:15px 20px}.fdquiet{font-size:13px}}
+@media(max-width:560px){.fdc{padding-left:clamp(14px,4vw,20px);padding-right:clamp(14px,4vw,20px)}.fdcta{gap:clamp(6px,2.2vw,14px);margin-top:24px;flex-wrap:nowrap;align-items:center}.fdbtn{width:auto;justify-content:center;padding:clamp(9px,2.7vw,14px) clamp(9px,2.9vw,18px);font-size:clamp(9.3px,2.95vw,13px);gap:6px;white-space:nowrap;flex:0 0 auto}.fdquiet{font-size:clamp(8.6px,2.55vw,12.5px);gap:5px;white-space:nowrap;flex:0 0 auto}.fdquiet .ar{font-size:1.05em}}
 </style>
 <style id="textfirst">
 /* hero demo */
@@ -929,7 +929,7 @@ body.dm-open{overflow:hidden}
 
 
 <div class="zh-bar">
-  <a href="/food/food-beverage" class="zh-brand"><span class="zh-bn">Zentallio</span><span class="zh-pill" id="brandPill">Food &amp; Beverage</span></a>
+  <a href="/" class="zh-brand" aria-label="Zentallio home"><span class="zh-bn">Zentallio</span><span class="zh-pill" id="brandPill">Food &amp; Beverage</span></a>
 </div>
 <button class="menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span></button>
 <div class="menu-ov" id="menuOv">
@@ -1345,7 +1345,6 @@ function renderVidBanner(V,m){
   +'<video autoplay muted loop playsinline preload="metadata" poster="'+vidPoster(V)+'" aria-hidden="true"><source src="'+vidSrc(V)+'" type="video/mp4"></video>'
   +'<div class="sb-vink"></div><div class="sb-vvig"></div></div>'
   +'<div class="fdc'+(V.warm?' warm':'')+'">'
-   +'<div class="eyeb">'+V.eyebrow+'</div>'
    +'<h1>'+V.h1lead+'<br><span class="fdrot">'+V.rot.map(function(r,i){return '<span class="ln'+(i===0?' on':'')+'">'+r[0]+'</span>';}).join('')+'</span></h1>'
    +'<p class="fsub fsubrot">'+V.rot.map(function(r,i){return '<span class="sl'+(i===0?' on':'')+'">'+r[1]+'</span>';}).join('')+'</p>'
    +'<div class="fdrail">'
@@ -5251,7 +5250,8 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 .zfoot a{text-decoration:none}
 .zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
 .zfoot-brand{max-width:400px}
-.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em;display:inline-block;text-decoration:none;transition:opacity .2s}
+.zfoot-name:hover{opacity:.75}
 .zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
 .zfoot-contact{margin-top:22px;display:flex;flex-direction:column;gap:9px;font-size:.88rem;line-height:1.55}
 .zfoot-contact a{color:#AEB9CB;width:fit-content;transition:color .2s}
@@ -5274,7 +5274,7 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 </style>
 <div class="zfoot-top">
 <div class="zfoot-brand">
-<div class="zfoot-name">Zentallio</div>
+<a class="zfoot-name" href="/" aria-label="Zentallio home">Zentallio</a>
 <p class="zfoot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail — one agent, Iris, reading every signal and deciding across every floor.</p>
 <div class="zfoot-contact">
 <a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener">142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</a>
