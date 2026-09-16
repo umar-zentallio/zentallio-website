@@ -4869,7 +4869,7 @@ function solHasDemo(kind){return kind==='scorecard'||kind==='order'||kind==='cfo
 function renderGrid(){
  var sec=getSector(),list=SECSOL[sec.id]||[];
  var g=$('#solGrid');if(!g)return;
- $('#solK').textContent=('Every solution · '+sec.name).toUpperCase();
+ var _sk=$('#solK');if(_sk)_sk.textContent=('Every solution · '+sec.name).toUpperCase();
  var cards=[];
  g.innerHTML=groupedCards(list,sec,cards);
  $('#solHint').innerHTML='SHOWING '+list.length+' '+sec.name.toUpperCase()+' SOLUTIONS · EVERY CARD OPENS A <b>LIVE GUIDED DEMO</b> · THE THREE FLAGSHIPS RUN ABOVE';

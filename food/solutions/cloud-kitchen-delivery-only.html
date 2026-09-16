@@ -978,11 +978,6 @@ body.dm-open{overflow:hidden}
 </div></section>
 
 <section class="sec" id="solutions"><div class="wrap wide">
-  <div class="solhead">
-    <div class="k" id="solK">EVERY SOLUTION · CAFÉ &amp; BAKERY</div>
-    <h2 class="solH2">Pick one. It opens the <em>real screen</em>.</h2>
-    <p class="solSub">No call to book, no deck to sit through — the till, the label printer, the scale, the guest’s phone, running on live data and narrated by Iris.</p>
-  </div>
   <div class="solgrid" id="solGrid"></div>
   <div class="solhint mono" id="solHint"></div>
 </div></section>
@@ -4869,7 +4864,7 @@ function solHasDemo(kind){return kind==='scorecard'||kind==='order'||kind==='cfo
 function renderGrid(){
  var sec=getSector(),list=SECSOL[sec.id]||[];
  var g=$('#solGrid');if(!g)return;
- $('#solK').textContent=('Every solution · '+sec.name).toUpperCase();
+ var _sk=$('#solK');if(_sk)_sk.textContent=('Every solution · '+sec.name).toUpperCase();
  var cards=[];
  g.innerHTML=groupedCards(list,sec,cards);
  $('#solHint').innerHTML='SHOWING '+list.length+' '+sec.name.toUpperCase()+' SOLUTIONS · EVERY CARD OPENS A <b>LIVE GUIDED DEMO</b> · THE THREE FLAGSHIPS RUN ABOVE';

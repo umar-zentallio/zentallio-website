@@ -3,8 +3,9 @@
 
 The master page is the single source of truth: edit it, then re-run this script and
 the ten sector pages under food/solutions/ are rebuilt. A generated page differs from
-the master only in the sector it opens on and in its head metadata (title, canonical,
-og:url, og:title, twitter:title) -- the page content itself is copied verbatim.
+the master only in the sector it opens on, in its head metadata (title, canonical,
+og:url, og:title, twitter:title) and in dropping the generic "Pick one. It opens the
+real screen." intro block -- everything else is copied verbatim.
 
     python3 tools/build-sector-pages.py
 """
@@ -43,6 +44,30 @@ def sub_once(text, pattern, repl, what):
     return out
 
 
+def strip_block(text, opening, what):
+    """Remove one balanced <div>...</div> block, starting at `opening`."""
+    i = text.find(opening)
+    if i < 0 or text.find(opening, i + 1) >= 0:
+        sys.exit('expected exactly one %s in the master' % what)
+    depth, j = 0, i
+    tag = re.compile(r'</?div\b', re.I)
+    while True:
+        m = tag.search(text, j)
+        if not m:
+            sys.exit('unbalanced %s in the master' % what)
+        depth += -1 if m.group(0).startswith('</') else 1
+        j = m.end()
+        if depth == 0:
+            j = text.index('>', j) + 1
+            break
+    start = text.rfind('\n', 0, i) + 1        # drop the line's leading indent too
+    while j < len(text) and text[j] in ' \t':
+        j += 1
+    if j < len(text) and text[j] == '\n':
+        j += 1
+    return text[:start] + text[j:]
+
+
 def main():
     master = io.open(MASTER, encoding='utf-8').read()
 
@@ -63,6 +88,8 @@ def main():
         url  = '%s/food/solutions/%s' % (BASE, slug)
         nm   = esc(name)
         page = master.replace("var curSector='cafe';", "var curSector='%s';" % sid)
+        # a dedicated sector page does not need the generic "Pick one..." intro
+        page = strip_block(page, '<div class="solhead">', 'solhead block')
         page = sub_once(page, r'<title>.*?</title>',
                         '<title>Zentallio — %s · Solutions for Food &amp; Beverage</title>' % nm, 'title')
         page = sub_once(page, r'<link rel="canonical" href="[^"]*">',
