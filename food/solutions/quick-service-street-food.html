@@ -792,24 +792,31 @@ body.dm-open{overflow:hidden}
 @media(max-width:430px){.sgrid{grid-template-columns:1fr 1fr;gap:8px}}
 </style>
 <style id="stabs">
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:10px}
-.stab{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;
- border:.5px solid var(--line);background:rgba(255,255,255,.02);border-radius:12px;
- padding:13px 15px;cursor:pointer;transition:.2s cubic-bezier(.2,.7,.3,1);text-align:left;width:100%;
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px}
+.stab{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+ border:.5px solid var(--line);background:rgba(255,255,255,.022);border-radius:13px;
+ padding:15px 17px;cursor:pointer;transition:.2s cubic-bezier(.2,.7,.3,1);text-align:left;width:100%;
  font-family:Inter,sans-serif;opacity:0;animation:stabIn .5s var(--d,0s) forwards}
 @keyframes stabIn{to{opacity:1;transform:none}}
 .stab{transform:translateY(6px)}
+/* accent rail on the left edge marks hover and the open tab */
+.stab::before{content:"";position:absolute;left:0;top:15px;bottom:15px;width:2px;border-radius:0 2px 2px 0;
+ background:var(--sec-hue,#15F2F2);opacity:0;transition:opacity .2s,top .2s,bottom .2s}
+.stab:hover::before{opacity:.6;top:11px;bottom:11px}
 .stab:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--sec-hue) 62%,transparent);
- background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 13%,transparent),transparent);
+ background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 12%,transparent),transparent);
  box-shadow:0 10px 26px -12px color-mix(in srgb,var(--sec-hue) 34%,transparent)}
-.stab b{font-size:13.5px;font-weight:600;color:#D9E1EE;letter-spacing:-.005em;line-height:1.3}
+.stab b{display:block;font-size:14px;font-weight:600;color:#E3EAF5;letter-spacing:-.006em;line-height:1.36;
+ overflow-wrap:anywhere}
 .stab:hover b{color:#fff}
-.stab span{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:var(--subtle)}
+.stab span{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;
+ font-size:9.5px;letter-spacing:.11em;color:var(--subtle);line-height:1.25}
+.stab span::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6;flex-shrink:0}
 .stab:hover span{color:var(--sec-hue)}
-.stab-ai{position:absolute;top:9px;right:10px;font-style:normal;font-family:'JetBrains Mono',monospace;
- font-size:7.5px;letter-spacing:.1em;color:var(--ai);border:.5px solid rgba(255,45,149,.4);border-radius:4px;padding:2px 5px;line-height:1}
-@media(max-width:820px){.sgrid{grid-template-columns:1fr 1fr;gap:8px}}
-@media(max-width:430px){.stab{padding:11px 12px}.stab b{font-size:12.5px}}
+@media(max-width:820px){.sgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}}
+/* one readable column once two would squeeze the longer titles */
+@media(max-width:560px){.sgrid{grid-template-columns:1fr;gap:8px}
+ .stab{padding:13px 15px;gap:6px}.stab b{font-size:13.5px;line-height:1.32}}
 </style>
 <style id="bundles">
 .bhead{display:flex;align-items:flex-start;gap:20px;justify-content:space-between;flex-wrap:wrap;margin:0 0 16px;padding-bottom:15px;border-bottom:.5px solid var(--line)}
@@ -828,6 +835,7 @@ body.dm-open{overflow:hidden}
 .bexp:hover{color:#fff;border-color:var(--sec-hue,#15F2F2)}
 .bframe{width:100%;height:clamp(500px,64vh,760px);border:0;display:block;background:#05080F}
 .stab.on{transform:translateY(-2px);background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 20%,transparent),color-mix(in srgb,var(--sec-hue) 7%,transparent));border-color:color-mix(in srgb,var(--sec-hue) 75%,transparent);box-shadow:0 8px 22px -10px color-mix(in srgb,var(--sec-hue) 30%,transparent)}
+.stab.on::before{opacity:1;top:9px;bottom:9px;width:3px}
 .stab.on b{color:#fff}.stab.on span{color:var(--sec-hue)}
 @media(max-width:820px){.bframe{height:clamp(420px,58vh,560px)}.bsub{display:none}}
 </style>
@@ -836,11 +844,12 @@ body.dm-open{overflow:hidden}
 #solGrid{display:block}
 .sgrp{grid-column:1/-1;display:block;padding-top:clamp(30px,4vw,50px);border-top:.5px solid var(--line);margin-top:clamp(30px,4vw,50px)}
 .sgrp:first-child{border-top:none;padding-top:0;margin-top:0}
-.sgrid{display:flex;flex-wrap:wrap;gap:9px}
-.sgrid .stab{flex:0 1 auto;width:auto;min-width:180px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px}
+.sgrid .stab{width:auto;min-width:0}
 .bstage{margin-top:16px}
 .bframe{height:clamp(560px,72vh,860px)}
-@media(max-width:820px){.sgrid{gap:7px}.sgrid .stab{min-width:calc(50% - 4px);flex:1 1 calc(50% - 4px)}.bframe{height:clamp(430px,60vh,580px)}}
+@media(max-width:820px){.sgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}.bframe{height:clamp(430px,60vh,580px)}}
+@media(max-width:560px){.sgrid{grid-template-columns:1fr;gap:8px}}
 </style>
 <style id="bundlehdr">
 /* the header itself is the divider: a hue rule that fades out */
@@ -904,6 +913,14 @@ body.dm-open{overflow:hidden}
 @media(max-width:900px){.sf-in{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.sf-in{grid-template-columns:1fr}}
 </style>
+<style id="sectorpage">
+/* dedicated sector pages: the sector bar above already names the sector, so the
+   product showcase gets air above it and the solutions list starts much sooner */
+body.sectorpage #showcase{padding-top:clamp(38px,4.2vw,64px)}
+body.sectorpage #solutions{padding-top:6px}
+body.sectorpage #solGrid .sgrp:first-child{padding-top:0!important}
+@media(max-width:820px){body.sectorpage #showcase{padding-top:clamp(26px,5vw,40px)}}
+</style>
 <meta name="description" content="Open any solution and watch it run: the till, the label printer, the scale, the guest&#39;s phone. 149 live solutions across quick service, casual dining, café, cloud kitchen and six more sectors.">
 <link rel="canonical" href="https://zentallio.com/food/solutions/quick-service-street-food">
 <meta name="theme-color" content="#070C18">
@@ -922,7 +939,7 @@ body.dm-open{overflow:hidden}
 <meta name="twitter:description" content="Open any solution and watch it run: the till, the label printer, the scale, the guest&#39;s phone. 149 live solutions across quick service, casual dining, café, cloud kitchen and six more sectors.">
 <meta name="twitter:image" content="https://zentallio.com/og-image.png">
 </head>
-<body>
+<body class="sectorpage">
 
 
 
@@ -958,10 +975,9 @@ body.dm-open{overflow:hidden}
 
 <section class="sec" id="showcase"><div class="wrap wide">
   <div class="herohead">
-    <div><div class="heroEye">SIX LIVE PRODUCTS · RUNNING RIGHT NOW</div>
+    <div>
     <h2 class="heroH2" id="heroH2">The whole business on <em>one board</em>.</h2>
     <p class="heroSubline" id="heroSubline">Financial, customer, operational and learning — every number live, with Iris naming the cause behind the one that moved.</p></div>
-    <span class="herobadge"><i></i>LIVE · ILLUSTRATIVE DATA</span>
   </div>
   <div class="herotabs" id="heroTabs">
     <button class="htab on" data-demo="scorecard" onclick="heroShow('scorecard')"><b>Balanced Scorecard</b><span>Finance · L2</span></button>
@@ -4892,6 +4908,8 @@ var BUNDLE_TAG=[
   ['And the rest of the platform.','Payments, reporting and the ledger that closes as a review rather than a rebuild.'],
   ['The platform, proven.','Audit evidence, standards and the record that answers a question in seconds.']]
 ];
+/* one merged bundle instead of one per four solutions (sector pages set this) */
+var MERGE_BUNDLES=true;
 var SOLGROUPS=[['AT THE COUNTER',''],['THE GUEST',''],['KITCHEN & STOCK',''],['THE PLATFORM','']];
 /* match on the TITLE only — descriptions mention "counter" and "order" constantly */
 var G_GUEST=/loyal|reward|rfm|voucher|promo|feedback|nps|social|omni|channel|subscription|membership|crm|guest|recognit|personalis|suggestion|reservation|waitlist|no-show|community|drink pass|meal plan|retention|churn|wellness profile|selling agent/i;
@@ -4908,9 +4926,12 @@ function groupedCards(list,sec,leadCards){
  var tagged=list.map(function(s,i){return {s:s,i:i,g:groupOf(s)};});
  tagged.sort(function(a,b){return a.g-b.g;});
  var CH=4, chunks=[];
- for(var k=0;k<tagged.length;k+=CH) chunks.push(tagged.slice(k,k+CH));
- if(chunks.length>1 && chunks[chunks.length-1].length<2){
-  var last=chunks.pop(); chunks[chunks.length-1]=chunks[chunks.length-1].concat(last);
+ if(MERGE_BUNDLES){ chunks=[tagged]; }
+ else {
+  for(var k=0;k<tagged.length;k+=CH) chunks.push(tagged.slice(k,k+CH));
+  if(chunks.length>1 && chunks[chunks.length-1].length<2){
+   var last=chunks.pop(); chunks[chunks.length-1]=chunks[chunks.length-1].concat(last);
+  }
  }
  BUNDLES=[];
  var out='', n=0, used={};
@@ -4921,18 +4942,25 @@ function groupedCards(list,sec,leadCards){
   var dom=0,best=-1; Object.keys(counts).forEach(function(k2){ if(counts[k2]>best){best=counts[k2];dom=+k2;} });
   used[dom]=(used[dom]||0)+1;
   var vs=BUNDLE_TAG[dom], v=vs[Math.min(used[dom]-1,vs.length-1)];
-  var head=v[0], sub=v[1];
+  var head=v[0], sub=v[1], eyeb=SOLGROUPS[dom][0]+' \u00b7 '+ch.length+' SOLUTIONS';
+
+  if(MERGE_BUNDLES){
+   var gs=[]; ch.forEach(function(x){if(gs.indexOf(x.g)<0)gs.push(x.g);}); gs.sort();
+   var nm=gs.map(function(g){return SOLGROUPS[g][0].toLowerCase();});
+   var jn=nm.length>1?nm.slice(0,-1).join(', ')+' and '+nm[nm.length-1]:(nm[0]||'');
+   head='Every solution, one screen at a time.';
+   sub=jn.charAt(0).toUpperCase()+jn.slice(1)+' \u2014 every card opens the real screen, running on live data and narrated by Iris.';
+  }
   var bid='b'+ci;
   BUNDLES.push({id:bid,items:ch.map(function(x){return x.i;})});
   var tabs=ch.map(function(x,ti){
    var name=(x.s.t||'').split(' \u2014 ')[0];
-   var isAI=/Recommendation|Memory|Dynamic Pricing|Anomaly|LLM|Agent/.test(x.s.a||'');
    var layer=(x.s.a||'L1 Rules').split(' \u00b7 ')[0];
-   return '<button class="stab'+(ti===0?' on':'')+'" data-b="'+bid+'" data-sec="'+x.i+'" data-title="'+name.replace(/"/g,'&quot;')+'" onclick="bundleShow(\''+bid+'\','+x.i+')">'
-    +(isAI?'<i class="stab-ai">AI</i>':'')+'<b>'+name+'</b><span>'+layer+'</span></button>';
+   return '<button class="stab'+(ti===0?' on':'')+'" data-b="'+bid+'" data-sec="'+x.i+'" data-title="'+name.replace(/"/g,'&quot;')+'" onclick="bundleTab(\''+bid+'\','+x.i+')">'
+    +'<b>'+name+'</b><span>'+layer+'</span></button>';
   }).join('');
   out+='<div class="sgrp" id="grp-'+bid+'">'
-   +'<div class="bhead"><div><div class="beye">'+SOLGROUPS[dom][0]+' \u00b7 '+ch.length+' SOLUTIONS</div>'
+   +'<div class="bhead"><div>'+(MERGE_BUNDLES?'':'<div class="beye">'+eyeb+'</div>')
    +'<h3 class="bh2">'+head+'</h3><p class="bsub">'+sub+'</p></div>'
    +'<span class="bbadge"><i></i>LIVE</span></div>'
    +'<div class="sgrid">'+tabs+'</div>'
@@ -4984,6 +5012,20 @@ function unmountStage(bid){
  delete st.dataset.on;
  st.classList.add('idle');
 }
+/* a tab click should carry the reader down to the stage it just changed --
+   only on a real click, never from the observer that mounts a stage on scroll */
+function bundleTab(bid,idx){
+ bundleShow(bid,idx);
+ var stg=document.getElementById('stage-'+bid); if(!stg)return;
+ var vh=window.innerHeight||document.documentElement.clientHeight||0;
+ var r=stg.getBoundingClientRect();
+ var shown=Math.min(r.bottom,vh)-Math.max(r.top,0);
+ if(shown>=Math.min(r.height,vh)*0.6)return;   /* already on screen, leave the page alone */
+ var top=r.top+(window.pageYOffset||document.documentElement.scrollTop||0)-Math.max(12,vh*0.05);
+ var soft=!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+ try{window.scrollTo({top:top,behavior:soft?'smooth':'auto'});}
+ catch(e){window.scrollTo(0,top);}
+}
 function bundleShow(bid,idx){
  var sec=getSector(), sol=(SECSOL[sec.id]||[])[idx]; if(!sol)return;
  var same=(CURB[bid]===idx);
@@ -5007,10 +5049,8 @@ function bundleShow(bid,idx){
 
 function textCard(s,i,sec){
  var name=(s.t||'').split(' \u2014 ')[0];
- var isAI=/Recommendation|Memory|Dynamic Pricing|Anomaly|LLM|Agent/.test(s.a||'');
  var layer=(s.a||'L1 Rules').split(' \u00b7 ')[0];
  return '<button class="stab" style="--d:'+((i+2)*0.035)+'s" data-sec="'+i+'" data-title="'+name.replace(/"/g,'&quot;')+'">'
-  +(isAI?'<i class="stab-ai">AI</i>':'')
   +'<b>'+name+'</b><span>'+layer+'</span></button>';
 }
 
