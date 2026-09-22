@@ -9,7 +9,7 @@ jaata hai -- single column, kahin overflow nahi.
     python3 tools/build_mobile.py            # sab pages
     python3 tools/build_mobile.py index.html # sirf ek
 """
-import os, re, sys, json, base64, hashlib
+import os, re, sys, json, base64, hashlib, html as htmllib
 from bs4 import BeautifulSoup, NavigableString, Tag, Comment
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -800,6 +800,16 @@ LABELS = {
     'LAYERS': 'How Iris decides', 'STEP': 'How it runs',
 }
 
+def jtext(v):
+    """JS data ki string -> safe HTML text.
+
+    In strings mein kahin kahin pehle se HTML entities hain (desktop unhe
+    seedha innerHTML mein daalta hai), is liye pehle unescape karo warna
+    "click &amp; collect" page par waise hi chhap jaata hai.
+    """
+    return esc(htmllib.unescape(str(v)))
+
+
 def _pretty(name):
     if name in LABELS:
         return LABELS[name]
@@ -815,13 +825,15 @@ def _is_noise(v):
     return (not v or len(v) < 3 or v.startswith('#') or v.startswith('rgba')
             or v.startswith('<') or re.fullmatch(r'[\d.,%+\-]+', v) is not None)
 
-def js_sections(html, page_title):
+def js_sections(html, page_title, skip=frozenset()):
     names = []
     for m in re.finditer(r'\b([A-Z][A-Z_0-9]{3,})\s*=\s*\[', html):
         if m.group(1) not in names:
             names.append(m.group(1))
     out = []
     for nm in names:
+        if nm in skip:
+            continue            # sector explorer ne pehle hi render kar diya
         arr = find_array(html, nm)
         if not isinstance(arr, list) or len(arr) < 2:
             continue
@@ -862,11 +874,11 @@ def js_card(row):
     num = row.get('num') or row.get('no')
     if sub or num:
         parts.append('<span class="m-card-num">%s</span>'
-                     % esc(' · '.join(str(x) for x in (num, sub) if x)))
+                     % jtext(' · '.join(str(x) for x in (num, sub) if x)))
     if title:
-        parts.append('<h3>%s</h3>' % esc(str(title)))
+        parts.append('<h3>%s</h3>' % jtext(title))
     if desc and desc != title:
-        parts.append('<p>%s</p>' % esc(str(desc)))
+        parts.append('<p>%s</p>' % jtext(desc))
     for k, v in row.items():
         kl = k.lower()
         if kl in SKIP_KEYS or kl in TITLE_KEYS or kl in SUB_KEYS or kl in DESC_KEYS:
@@ -880,24 +892,227 @@ def js_card(row):
             if numeric:
                 parts.append('<div class="m-stats">%s</div>' % ''.join(
                     '<div class="m-stat"><b>%s</b><i>%s</i></div>'
-                    % (esc(str(q[0])), esc(str(q[1]))) for q in pairs))
+                    % (jtext(q[0]), jtext(q[1])) for q in pairs))
             else:
                 lab = _pretty(k)
                 parts.append((('<span class="m-kick">%s</span>' % esc(lab)) if lab else '')
                              + '<div class="m-tablewrap"><table>%s</table></div>' % ''.join(
                                  '<tr><td>%s</td><td>%s</td></tr>'
-                                 % (esc(str(q[0])), esc(str(q[1]))) for q in pairs))
+                                 % (jtext(q[0]), jtext(q[1])) for q in pairs))
             continue
         if isinstance(v, list) and v and all(isinstance(x, str) for x in v):
-            items = ''.join('<li>%s</li>' % esc(x) for x in v if x)
+            items = ''.join('<li>%s</li>' % jtext(x) for x in v if x)
             if items:
                 lab = _pretty(k)
                 parts.append(('<span class="m-kick">%s</span>' % esc(lab) if lab else '')
                              + '<ul>%s</ul>' % items)
             continue
         if isinstance(v, str) and not _is_noise(v) and len(v) > 12:
-            parts.append('<p><strong>%s:</strong> %s</p>' % (esc(_pretty(k)), esc(v)))
+            parts.append('<p><strong>%s:</strong> %s</p>' % (jtext(_pretty(k)), jtext(v)))
     return '<div class="m-card">\n%s\n</div>' % '\n'.join(parts) if parts else ''
+
+
+
+
+# ===========================================================================
+#  Sector explorer -- desktop ke selector ka mobile version
+# ===========================================================================
+# Desktop par sector chunne se poora panel badalta hai. Mobile par wahi:
+# upar sticky pills, neeche har sector ka apna panel. Hash (#sector=qsr)
+# desktop ke sath compatible hai, is liye purane links chalte rehte hain.
+FOOD_SLUGS = {
+    'qsr': 'quick-service-street-food', 'casual': 'casual-dining',
+    'fine': 'fine-dining-premium', 'cafe': 'cafe-coffee-bakery',
+    'dessert': 'ice-cream-desserts-sweets', 'beverage': 'beverages-drinks',
+    'health': 'health-wellness-specialty-diets',
+    'cloud': 'cloud-kitchen-delivery-only',
+    'b2b': 'institutional-b2b-food-service', 'niche': 'niche-experience-concepts',
+}
+HERE_LABELS = {
+    'scorecard': 'Balanced Scorecard', 'pos': 'Point of Sale',
+    'oms': 'Order Management', 'numerus': 'Numerus · CFO ledger',
+    'nexus': 'Nexus · Integrations', 'motus': 'Motus · Supply chain',
+    'manus': 'Manus · Workforce', 'kds': 'Kitchen Display',
+}
+
+def _sec_stats(stats):
+    cells = []
+    for st in stats:
+        if not isinstance(st, dict):
+            continue
+        v = str(st.get('v', '')) + str(st.get('u', '') or '')
+        lab = st.get('l') or st.get('lab') or ''
+        if v.strip():
+            cells.append('<div class="m-stat"><b>%s</b><i>%s</i></div>'
+                         % (esc(v), jtext(lab)))
+    return '<div class="m-stats">%s</div>' % ''.join(cells) if cells else ''
+
+def _ul(items, label=''):
+    lis = ''.join('<li>%s</li>' % jtext(x) for x in items if str(x).strip())
+    if not lis:
+        return ''
+    head = '<span class="m-kick">%s</span>' % esc(label) if label else ''
+    return head + '<ul>%s</ul>' % lis
+
+def sector_panel(sec, kind, self_page=False):
+    """Ek sector ka poora content -- desktop par jo kuch us panel mein hai."""
+    out = []
+    num  = sec.get('no') or sec.get('num') or ''
+    name = sec.get('name') or sec.get('pill') or ''
+    if num:
+        out.append('<span class="m-kick">%s</span>' % jtext(num))
+    if name:
+        out.append('<h3>%s</h3>' % jtext(name))
+
+    lede = sec.get('lede') or sec.get('sub')
+    if lede:
+        out.append('<p class="m-lede">%s</p>' % jtext(lede))
+
+    # brand / outlet (food)
+    bits = [sec.get('brand'), sec.get('outlet'), sec.get('noun')]
+    bits = [str(b) for b in bits if b and str(b).strip()]
+    if bits and not lede:
+        out.append('<p class="m-muted">%s</p>' % jtext(' · '.join(bits)))
+
+    if isinstance(sec.get('stats'), list):
+        out.append(_sec_stats(sec['stats']))
+
+    if sec.get('iris'):
+        # iris field mein pehle se <b> markup hota hai -- usay rehne do
+        iris = re.sub(r'<(?!/?(b|strong|em|i)\b)[^>]*>', '', str(sec['iris']))
+        out.append('<div class="m-iris"><span class="m-iris-who">Iris</span>'
+                   '<p>%s</p></div>' % iris)
+
+    if isinstance(sec.get('formats'), list):
+        out.append(_ul(sec['formats'], 'Formats covered'))
+
+    # rot: rotating headlines -> cards
+    if isinstance(sec.get('rot'), list):
+        cards = []
+        for r in sec['rot']:
+            if not isinstance(r, dict):
+                continue
+            title = ' '.join(str(r.get(k, '')) for k in ('a', 'b')).strip()
+            body = ' '.join(filter(None, [str(r.get('l') or ''), str(r.get('p') or '')]))
+            if title or body:
+                cards.append('<div class="m-card"><h4>%s</h4><p>%s</p></div>'
+                             % (esc(title), esc(body.strip())))
+        if cards:
+            out.append('<span class="m-kick">What Iris does here</span>'
+                       '<div class="m-grid">%s</div>' % ''.join(cards))
+
+    # here: product -> is sector mein kya karta hai
+    if isinstance(sec.get('here'), dict):
+        rows = ''.join(
+            '<div class="m-def"><dt>%s</dt><dd>%s</dd></div>'
+            % (jtext(HERE_LABELS.get(k, _pretty(k))), jtext(v))
+            for k, v in sec['here'].items() if str(v).strip())
+        if rows:
+            out.append('<span class="m-kick">What runs here</span>'
+                       '<dl class="m-deflist">%s</dl>' % rows)
+
+    # sol: is sector ki solutions
+    if isinstance(sec.get('sol'), list):
+        cards = []
+        for x in sec['sol']:
+            if not isinstance(x, dict):
+                continue
+            layer = str(x.get('z') or '')
+            cards.append('<div class="m-card">%s<h4>%s</h4><p>%s</p></div>'
+                         % ('<span class="m-card-num">%s</span>' % esc(layer) if layer else '',
+                            jtext(x.get('n') or ''), jtext(x.get('d') or '')))
+        if cards:
+            out.append('<span class="m-kick">Solutions for this sector</span>'
+                       '<div class="m-grid">%s</div>' % ''.join(cards))
+
+    # map: menu mapping (food)
+    if isinstance(sec.get('map'), list) and sec['map']:
+        rows = ''.join('<tr><td>%s</td><td>%s</td></tr>' % (jtext(a), jtext(b))
+                       for a, b in (q[:2] for q in sec['map'] if len(q) >= 2))
+        if rows:
+            out.append('<span class="m-kick">On the menu</span>'
+                       '<div class="m-tablewrap"><table>%s</table></div>' % rows)
+
+    # demo: live scorecard snapshot
+    demo = sec.get('demo')
+    if isinstance(demo, dict):
+        d = []
+        if demo.get('entity'):
+            d.append('<p class="m-muted">%s</p>' % jtext(demo['entity']))
+        if isinstance(demo.get('sc'), list):
+            for q in demo['sc']:
+                if not isinstance(q, dict):
+                    continue
+                val = str(q.get('v', '')) + str(q.get('u', '') or '')
+                d.append('<div class="m-card"><span class="m-card-num">%s</span>'
+                         '<h4>%s</h4><p>%s</p><p class="m-muted">%s %s</p></div>'
+                         % (jtext(q.get('lab') or ''), esc(val),
+                            jtext(q.get('l') or ''),
+                            jtext(q.get('sl') or ''), jtext(q.get('sv') or '')))
+        if d:
+            out.append('<span class="m-kick">Live example</span>' + ''.join(d))
+
+    extras = [('Average check', sec.get('check')), ('Peak hour', sec.get('time'))]
+    extras = [(l, str(v)) for l, v in extras if v and str(v).strip()]
+    if extras:
+        out.append('<div class="m-stats">%s</div>' % ''.join(
+            '<div class="m-stat"><b>%s</b><i>%s</i></div>' % (jtext(v), jtext(l))
+            for l, v in extras))
+
+    # full page link (food ke alag pages hain)
+    if kind == 'food' and sec.get('id') in FOOD_SLUGS and not self_page:
+        out.append('<a class="m-btn m-btn-primary" href="/food/solutions/%s">'
+                   'Open the %s page &rarr;</a>'
+                   % (FOOD_SLUGS[sec['id']], jtext(name)))
+    elif sec.get('cta2'):
+        out.append('<a class="m-btn m-btn-ghost" href="#sector=%s">%s</a>'
+                   % (jtext(sec.get('id', '')), jtext(sec['cta2'])))
+
+    return '\n'.join(x for x in out if x)
+
+
+def sector_explorer(html, rel):
+    """SECTORS ko mobile selector (pills + panels) bana do."""
+    secs = find_array(html, 'SECTORS')
+    if not isinstance(secs, list) or len(secs) < 3:
+        return ''
+    secs = [x for x in secs if isinstance(x, dict) and x.get('id')]
+    # sirf tab jab sector ke paas waqai apna content ho
+    rich = sum(1 for x in secs
+               if isinstance(x.get('formats'), list) or isinstance(x.get('sol'), list))
+    if rich < len(secs) * 0.6:
+        return ''
+    kind = 'food' if rel.startswith('food') else 'fashion'
+
+    # /food/solutions/casual-dining apne hi sector par khule -- pehle par nahi
+    slug = os.path.basename(rel)[:-5]
+    active = 0
+    for i, sec in enumerate(secs):
+        if FOOD_SLUGS.get(str(sec.get('id'))) == slug or str(sec.get('id')) == slug:
+            active = i
+            break
+
+    pills, panels = [], []
+    for i, sec in enumerate(secs):
+        sid = str(sec['id'])
+        label = sec.get('pill') or sec.get('short') or sec.get('name') or sid
+        on = (i == active)
+        pills.append('<button class="m-pill%s" role="tab" aria-selected="%s" '
+                     'data-sector="%s">%s</button>'
+                     % (' is-on' if on else '', 'true' if on else 'false',
+                        esc(sid), esc(str(label))))
+        panels.append('<div class="m-sector-panel%s" id="sector-%s" data-sector="%s"%s>\n%s\n</div>'
+                      % (' is-on' if on else '', esc(sid), esc(sid),
+                         '' if on else ' hidden',
+                         sector_panel(sec, kind,
+                                      FOOD_SLUGS.get(str(sec.get('id'))) == slug)))
+
+    return ('<section class="m-sec m-sector-explorer">\n'
+            '<span class="m-kick">Pick your sector</span>\n'
+            '<h2>%d sectors, one AI &mdash; configured per format.</h2>\n'
+            '<div class="m-pills m-sector-tabs" role="tablist">%s</div>\n'
+            '%s\n</section>'
+            % (len(secs), ''.join(pills), '\n'.join(panels)))
 
 
 # ===========================================================================
@@ -1036,7 +1251,10 @@ def build(rel, verbose=False):
             secs.append('<section class="m-sec m-rev">\n%s\n</section>'
                         % '\n'.join(blocks))
 
-    secs.extend(js_sections(html, title))
+    explorer = sector_explorer(html, rel)
+    if explorer:
+        secs.insert(0, explorer)
+    secs.extend(js_sections(html, title, skip={'SECTORS'} if explorer else set()))
 
     if not secs and not hero_sub:
         return None

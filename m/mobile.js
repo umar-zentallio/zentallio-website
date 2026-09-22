@@ -71,6 +71,54 @@
     });
   }
 
+  /* ---- 4b. Sector selector — desktop ke #sector= hash ke sath compatible -- */
+  var tabs = document.querySelectorAll('.m-sector-tabs .m-pill');
+  if (tabs.length) {
+    var panels = document.querySelectorAll('.m-sector-panel');
+    var bar = document.querySelector('.m-sector-tabs');
+
+    var show = function (id, scroll) {
+      var found = false;
+      panels.forEach(function (p) {
+        var on = p.dataset.sector === id;
+        p.hidden = !on;
+        p.classList.toggle('is-on', on);
+        if (on) found = true;
+      });
+      if (!found) return false;
+      tabs.forEach(function (t) {
+        var on = t.dataset.sector === id;
+        t.classList.toggle('is-on', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (on && bar) {
+          // chuna hua pill hamesha nazar mein rahe
+          var l = t.offsetLeft - (bar.clientWidth - t.offsetWidth) / 2;
+          bar.scrollTo({ left: Math.max(l, 0), behavior: 'smooth' });
+        }
+      });
+      if (scroll && bar) {
+        var top = bar.getBoundingClientRect().bottom + window.scrollY - 8;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+      return true;
+    };
+
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        if (show(t.dataset.sector, false)) {
+          history.replaceState(null, '', '#sector=' + t.dataset.sector);
+        }
+      });
+    });
+
+    var fromHash = function (scroll) {
+      var m = (location.hash || '').match(/sector=([a-z0-9-]+)/i);
+      if (m) show(m[1].toLowerCase(), scroll);
+    };
+    window.addEventListener('hashchange', function () { fromHash(true); });
+    fromHash(false);
+  }
+
   /* ---- 5. Desktop / mobile switch — cookie dono hosts par chalti hai ----- */
   document.addEventListener('click', function (e) {
     var a = e.target.closest('[data-view]');

@@ -60,6 +60,26 @@ Vercel par ek dafa ka setup:
 Agar deploy par ESM error aaye to `middleware.js` ko `middleware.ts` rename kar do.
 `api/*.js` CommonJS hi rehne dena.
 
+## Sector explorer
+
+`food/food-beverage-solutions`, `fashion/sector-solutions` aur dus
+`food/solutions/*` pages ka content poora inline JS (`SECTORS`, `SOLUTIONS`,
+`FLAGSHIP`) mein rehta hai -- static HTML tقریباً khaali hoti hai.
+`tools/jsdata.py` wo arrays parse karta hai aur generator unhein mobile
+selector bana deta hai:
+
+- upar **sticky pills** (har sector ka ek), neeche har sector ka apna panel
+- panel mein wahi sab jo desktop dikhata hai: lede, stats, Iris ka quote,
+  formats, "what Iris does here", "what runs here", sector ki solutions,
+  menu mapping, live example
+- `#sector=<id>` hash desktop ke sath compatible hai -- purane links chalte hain
+- har `/food/solutions/<slug>` page **apne hi sector** par khulta hai
+
+Naya sector ya field JS data mein add karo to `python3 tools/build_mobile.py`
+chala dena kaafi hai -- panel khud ban jayega. Panel ka layout
+`sector_panel()` mein hai, styling `m/mobile.css` ke section 22-23 mein.
+
+
 ## Local testing
 
 `dev-server.py` ab `middleware.js` ko emulate karti hai -- `MOBILE_READY` list
