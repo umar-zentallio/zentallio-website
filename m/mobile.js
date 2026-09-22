@@ -86,6 +86,9 @@
         if (on) found = true;
       });
       if (!found) return false;
+      panels.forEach(function (p) {
+        if (p.hidden) stopBanner(p); else playBanner(p);
+      });
       tabs.forEach(function (t) {
         var on = t.dataset.sector === id;
         t.classList.toggle('is-on', on);
@@ -117,6 +120,49 @@
     };
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
+
+    // khula hua panel sirf tab chale jab wo screen par ho -- warna page khulte
+    // hi ek clip bekaar download hota hai
+    var first = document.querySelector('.m-sector-panel:not([hidden])');
+    if (first && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (e, obs) {
+        e.forEach(function (en) {
+          var p = document.querySelector('.m-sector-panel:not([hidden])');
+          if (en.isIntersecting) playBanner(p); else stopBanner(p);
+        });
+      }, { threshold: 0.15 }).observe(first.parentNode);
+    } else if (first) {
+      playBanner(first);
+    }
+  }
+
+  /* ---- 4c. Banner clips — sirf khula hua panel apna video load kare ------ */
+  var slowNet = (navigator.connection &&
+                 (navigator.connection.saveData ||
+                  /^(slow-)?2g$/.test(navigator.connection.effectiveType || '')));
+  var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function playBanner(panel) {
+    if (!panel) return;
+    var v = panel.querySelector('.m-banner-vid');
+    if (!v) return;
+    // poster pehle -- kuch to foran nazar aaye
+    if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
+    if (slowNet || noMotion) return;             // poster hi kaafi hai
+    if (!v.src && v.dataset.src) v.src = v.dataset.src;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // autoplay block ho to poster rahega
+  }
+
+  function stopBanner(panel) {
+    if (!panel) return;
+    var v = panel.querySelector('.m-banner-vid');
+    if (!v) return;
+    try {
+      v.pause();
+      // src hata do -- warna 10 clips background mein buffer karte rehte hain
+      if (v.src) { v.removeAttribute('src'); v.load(); }
+    } catch (e) {}
   }
 
   /* ---- 5. Desktop / mobile switch — cookie dono hosts par chalti hai ----- */

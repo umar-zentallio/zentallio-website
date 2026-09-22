@@ -801,13 +801,13 @@ LABELS = {
 }
 
 def jtext(v):
-    """JS data ki string -> safe HTML text.
+    """JS data ki string -> safe HTML.
 
-    In strings mein kahin kahin pehle se HTML entities hain (desktop unhe
-    seedha innerHTML mein daalta hai), is liye pehle unescape karo warna
-    "click &amp; collect" page par waise hi chhap jaata hai.
+    Do cheezein sambhalta hai: pehle se encoded entities ("click &amp;
+    collect") aur jaan-boojh kar rakha hua inline markup ("<b>68 sold</b>").
+    Dono JS data mein aam hain kyunki desktop unhe innerHTML mein daalta hai.
     """
-    return esc(htmllib.unescape(str(v)))
+    return keep_inline(v)
 
 
 def _pretty(name):
@@ -935,6 +935,139 @@ HERE_LABELS = {
     'manus': 'Manus · Workforce', 'kds': 'Kitchen Display',
 }
 
+def js_object(html, name):
+    """`name = { ... }` object literal parse karo (arrays ke liye find_array hai)."""
+    m = re.search(r'\b' + re.escape(name) + r'\s*=\s*\{', html)
+    if not m:
+        return None
+    try:
+        from jsdata import parse_literal
+        val, _ = parse_literal(html, m.end() - 1)
+        return val if isinstance(val, dict) else None
+    except Exception:
+        return None
+
+
+FOOD_VID = {'cf': 'cafe', 'qs': 'qsr', 'ca': 'casual', 'fd': 'fine', 'ds': 'dessert',
+            'bv': 'beverage', 'hl': 'health', 'ck': 'cloud', 'ib': 'b2b', 'ni': 'niche'}
+POSTER_W = 900          # 390px slot @2x -- 1920px poster phone par bekaar hai
+
+
+def mobile_poster(src_rel):
+    """Banner poster ko phone ke naap par le aao; m/assets mein rakho."""
+    src = os.path.join(ROOT, src_rel.lstrip('/'))
+    if not os.path.isfile(src):
+        return None
+    name = 'poster-' + hashlib.sha1(src_rel.encode()).hexdigest()[:10] + '.jpg'
+    dst = os.path.join(ASSETS, name)
+    if not os.path.exists(dst):
+        os.makedirs(ASSETS, exist_ok=True)
+        try:
+            from PIL import Image
+            with Image.open(src) as im:
+                im = im.convert('RGB')
+                if im.width > POSTER_W:
+                    im = im.resize((POSTER_W, round(im.height * POSTER_W / im.width)),
+                                   Image.LANCZOS)
+                im.save(dst, 'JPEG', quality=80, optimize=True, progressive=True)
+        except Exception:
+            import shutil
+            shutil.copyfile(src, dst)
+    return '/m/assets/' + name
+
+
+def sector_video(sec, kind, html, active):
+    """Desktop banner ka clip. preload=none -- sirf active panel ka video
+    load hota hai, baqi sirf poster dikhate hain (19 clips = 17 MB)."""
+    vid = poster = None
+    if kind == 'fashion':
+        vids = js_object(html, 'VIDEOS') or {}
+        v = vids.get(sec.get('vid')) or vids.get('retail')
+        if isinstance(v, dict) and v.get('src'):
+            vid = '/fashion/' + str(v['src']).lstrip('/')
+            poster = '/fashion/' + str(v.get('poster', '')).lstrip('/')
+    else:
+        vb = js_object(html, 'VIDBANNER') or {}
+        b = vb.get(str(sec.get('id')))
+        if isinstance(b, dict) and b.get('embedded'):
+            stem = FOOD_VID.get(b['embedded'], b['embedded'])
+            vid = '/food/media/%s.mp4' % stem
+            poster = '/food/media/%s.jpg' % stem
+    if not vid or not os.path.isfile(os.path.join(ROOT, vid.lstrip('/'))):
+        return ''
+    small = mobile_poster(poster) if poster else None
+    # Sirf khule hue panel ka poster foran load ho. Baqi data-poster mein --
+    # warna ek page par 10 posters (~500 KB) bekaar download ho jaate hain.
+    pat = ''
+    if small:
+        pat = (' poster="%s"' % esc(small)) if active else (' data-poster="%s"' % esc(small))
+    return ('<div class="m-banner">'
+            '<video class="m-banner-vid" muted loop playsinline preload="none"%s '
+            'data-src="%s" aria-hidden="true" tabindex="-1"></video>'
+            '<span class="m-banner-grad"></span>'
+            '</div>'
+            % (pat, esc(vid)))
+
+
+def food_banner_text(sec, html):
+    """VIDBANNER ka eyebrow / headline / rail -- ye desktop par banner par
+    likha hota hai aur ab tak mobile par nahi aa raha tha."""
+    vb = js_object(html, 'VIDBANNER') or {}
+    b = vb.get(str(sec.get('id')))
+    if not isinstance(b, dict):
+        return ''
+    out = []
+    if b.get('eyebrow'):
+        out.append('<span class="m-kick">%s</span>' % jtext(b['eyebrow']))
+    rot = b.get('rot') if isinstance(b.get('rot'), list) else []
+    lead = str(b.get('h1lead') or '').strip()
+    for r in rot:
+        if not isinstance(r, list) or not r:
+            continue
+        head = keep_inline(str(r[0]))
+        body = keep_inline(str(r[1])) if len(r) > 1 else ''
+        out.append('<div class="m-card"><h4>%s %s</h4>%s</div>'
+                   % (jtext(lead), head, '<p>%s</p>' % body if body else ''))
+    if len(out) > 1:
+        out.insert(1, '<div class="m-grid">')
+        out.append('</div>')
+    rail = b.get('rail') if isinstance(b.get('rail'), list) else []
+    cells = ['<div class="m-stat"><b>%s</b><i>%s</i></div>'
+             % (keep_inline(str(q[1])), jtext(q[0]))
+             for q in rail if isinstance(q, list) and len(q) >= 2]
+    if cells:
+        out.append('<div class="m-stats">%s</div>' % ''.join(cells))
+    return ''.join(out)
+
+
+SAFE_TAG_RX = re.compile(r'</?(?:em|b|strong|i|u|span|br)\b[^<>]*>', re.I)
+
+def keep_inline(v):
+    """Mehfooz inline tags (<em>, <b>, <span class="u">) rakho, baqi sab escape.
+
+    JS data ke kuch fields jaan-boojh kar markup rakhte hain (desktop unhe
+    seedha innerHTML mein daalta hai). Unhe escape kar dena page par
+    "<b>is</b>" chhaap deta hai, aur sab kuch khula chhodna asurakshit hai --
+    is liye sirf safe tags ko aar-paar jaane dete hain.
+    """
+    v = htmllib.unescape(str(v))
+    out, last = [], 0
+    for m in SAFE_TAG_RX.finditer(v):
+        out.append(esc(v[last:m.start()]))
+        tag = m.group(0)
+        name = re.match(r'</?\s*([a-zA-Z]+)', tag).group(1).lower()
+        if tag.startswith('</'):
+            out.append('</%s>' % name)
+        elif name == 'br':
+            out.append('<br>')
+        else:
+            cls = re.search(r'class\s*=\s*["\']([^"\']*)["\']', tag)
+            out.append('<%s%s>' % (name, ' class="%s"' % esc(cls.group(1)) if cls else ''))
+        last = m.end()
+    out.append(esc(v[last:]))
+    return ''.join(out)
+
+
 def _sec_stats(stats):
     cells = []
     for st in stats:
@@ -954,9 +1087,16 @@ def _ul(items, label=''):
     head = '<span class="m-kick">%s</span>' % esc(label) if label else ''
     return head + '<ul>%s</ul>' % lis
 
-def sector_panel(sec, kind, self_page=False):
+def sector_panel(sec, kind, self_page=False, html='', active=False):
     """Ek sector ka poora content -- desktop par jo kuch us panel mein hai."""
     out = []
+    banner = sector_video(sec, kind, html, active)
+    if banner:
+        out.append(banner)
+    if kind == 'food':
+        bt = food_banner_text(sec, html)
+        if bt:
+            out.append(bt)
     num  = sec.get('no') or sec.get('num') or ''
     name = sec.get('name') or sec.get('pill') or ''
     if num:
@@ -979,9 +1119,8 @@ def sector_panel(sec, kind, self_page=False):
 
     if sec.get('iris'):
         # iris field mein pehle se <b> markup hota hai -- usay rehne do
-        iris = re.sub(r'<(?!/?(b|strong|em|i)\b)[^>]*>', '', str(sec['iris']))
         out.append('<div class="m-iris"><span class="m-iris-who">Iris</span>'
-                   '<p>%s</p></div>' % iris)
+                   '<p>%s</p></div>' % keep_inline(sec['iris']))
 
     if isinstance(sec.get('formats'), list):
         out.append(_ul(sec['formats'], 'Formats covered'))
@@ -1105,7 +1244,8 @@ def sector_explorer(html, rel):
                       % (' is-on' if on else '', esc(sid), esc(sid),
                          '' if on else ' hidden',
                          sector_panel(sec, kind,
-                                      FOOD_SLUGS.get(str(sec.get('id'))) == slug)))
+                                      FOOD_SLUGS.get(str(sec.get('id'))) == slug,
+                                      html, on)))
 
     return ('<section class="m-sec m-sector-explorer">\n'
             '<span class="m-kick">Pick your sector</span>\n'

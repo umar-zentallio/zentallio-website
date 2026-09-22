@@ -77,7 +77,27 @@ selector bana deta hai:
 
 Naya sector ya field JS data mein add karo to `python3 tools/build_mobile.py`
 chala dena kaafi hai -- panel khud ban jayega. Panel ka layout
-`sector_panel()` mein hai, styling `m/mobile.css` ke section 22-23 mein.
+`sector_panel()` mein hai, styling `m/mobile.css` ke section 22-24 mein.
+
+### Banner clips
+
+Har panel ke upar wahi video hai jo desktop banner par chalti hai:
+
+- food: `VIDBANNER[sector].embedded` -> `/food/media/<name>.mp4`
+- fashion: `VIDEOS[sector.vid].src` -> `/fashion/assets/<name>.mp4`
+
+Videos **share** hoti hain -- `m/` mein koi copy nahi. 19 clips = 17 MB, is liye
+sab ek saath load nahi hote:
+
+- `preload="none"` -- sirf khula hua panel apna clip load karta hai
+- panel band hote hi `src` hat jaata hai (warna background mein buffer hote rehte hain)
+- poster sirf active panel par `poster=`, baqi `data-poster=` mein (JS activate par set karta hai)
+- posters `m/assets/` mein 900px par dobara banaye jaate hain (1.8 MB -> 960 KB)
+- `prefers-reduced-motion` ya `saveData`/2G par sirf poster, koi clip nahi
+- banner screen par na ho to clip chalta hi nahi (IntersectionObserver)
+
+Naya clip add karna ho to desktop ke `VIDEOS`/`VIDBANNER` mein entry daalo --
+mobile khud utha lega.
 
 
 ## Local testing

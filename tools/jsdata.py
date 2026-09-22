@@ -50,7 +50,8 @@ def parse_literal(src, i=0):
                 raise JSParse('bad array at %d' % i)
     if c in '"\'`':
         return parse_string(src, i)
-    m = re.match(r'-?\d+(\.\d+)?([eE][+-]?\d+)?', src[i:])
+    # JS mein .88 aur +1 bhi valid hain -- inhe bhi handle karo
+    m = re.match(r'[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?', src[i:])
     if m:
         t = m.group(0)
         return (float(t) if ('.' in t or 'e' in t.lower()) else int(t)), i + len(t)

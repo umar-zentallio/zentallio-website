@@ -527,3 +527,44 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(92px + var(--safe-b))}
 .m-tablewrap table{table-layout:fixed}
 .m-tablewrap td{word-break:normal;overflow-wrap:break-word}
 .m-tablewrap td:first-child{width:45%}
+
+/* ---------- 24. Sector banner clip ------------------------------------- */
+/* Desktop ke banner videos. preload="none" hai -- sirf khula hua panel apna
+   clip load karta hai; baqi sab sirf poster dikhate hain. */
+.m-banner{
+  position:relative;
+  margin:0 calc(var(--gut) * -1) 20px;
+  aspect-ratio:16/9;
+  background:var(--bg2);
+  overflow:hidden;
+  isolation:isolate;
+}
+.m-banner-vid{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  background:var(--bg2);
+}
+/* neeche se page ke background mein ghulta gradient -- banner katta hua na lage */
+.m-banner-grad{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(5,8,15,.30) 0%,
+    rgba(5,8,15,0)   34%,
+    rgba(5,8,15,.55) 78%,
+    var(--bg)        100%);
+}
+.m-banner::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+@media (min-width:430px){
+  .m-banner{margin-inline:0;border-radius:var(--rad);}
+  .m-banner::after{border-radius:var(--rad)}
+}
+/* reduced motion: sirf poster, koi chalta hua clip nahi */
+@media (prefers-reduced-motion:reduce){
+  .m-banner-vid{pointer-events:none}
+}
+/* JS data ke units: 96<span class="u">s</span> */
+.m-stat b span,.m-card h4 span{font-size:.72em;opacity:.7;font-weight:400;margin-left:1px}
