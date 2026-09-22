@@ -4,5 +4,11 @@
   "redirects": [
     { "source": "/fashion/Zentallio-Fashion-Sector-Solutions-v7.0.html", "destination": "/fashion/sector-solutions", "permanent": true },
     { "source": "/fashion/Zentallio-Fashion-Sector-Solutions-v7.0", "destination": "/fashion/sector-solutions", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [{ "key": "Vary", "value": "User-Agent" }]
+    }
   ]
 }
