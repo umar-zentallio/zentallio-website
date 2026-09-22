@@ -86,8 +86,9 @@
         if (on) found = true;
       });
       if (!found) return false;
+      stopRot();
       panels.forEach(function (p) {
-        if (p.hidden) stopBanner(p); else playBanner(p);
+        if (p.hidden) { stopBanner(p); } else { playBanner(p); startRot(p); }
       });
       tabs.forEach(function (t) {
         var on = t.dataset.sector === id;
@@ -121,18 +122,22 @@
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
 
-    // khula hua panel sirf tab chale jab wo screen par ho -- warna page khulte
-    // hi ek clip bekaar download hota hai
-    var first = document.querySelector('.m-sector-panel:not([hidden])');
-    if (first && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (e, obs) {
-        e.forEach(function (en) {
-          var p = document.querySelector('.m-sector-panel:not([hidden])');
-          if (en.isIntersecting) playBanner(p); else stopBanner(p);
+    // Banner sirf tab chale jab wo waqai screen par ho. Observer har
+    // .m-banner par lagta hai (section par nahi -- wo itna bada hai ke
+    // threshold kabhi poora nahi hota).
+    if ('IntersectionObserver' in window) {
+      var bio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var panel = en.target.closest('.m-sector-panel');
+          if (!panel || panel.hidden) { stopBanner(panel); return; }
+          if (en.isIntersecting) { playBanner(panel); startRot(panel); }
+          else { stopBanner(panel); stopRot(); }
         });
-      }, { threshold: 0.15 }).observe(first.parentNode);
-    } else if (first) {
-      playBanner(first);
+      }, { threshold: 0.25 });
+      document.querySelectorAll('.m-banner').forEach(function (b) { bio.observe(b); });
+    } else {
+      var f0 = document.querySelector('.m-sector-panel:not([hidden])');
+      if (f0) { playBanner(f0); startRot(f0); }
     }
   }
 
@@ -163,6 +168,37 @@
       // src hata do -- warna 10 clips background mein buffer karte rehte hain
       if (v.src) { v.removeAttribute('src'); v.load(); }
     } catch (e) {}
+  }
+
+  /* ---- 4d. Banner ki rotating headline (desktop jaisa) ------------------ */
+  var rotTimers = [];
+
+  function stopRot() {
+    rotTimers.forEach(clearInterval);
+    rotTimers = [];
+  }
+
+  function startRot(panel) {
+    if (!panel || noMotion) return;
+    var wrap = panel.querySelector('.m-rot');
+    if (!wrap) return;
+    var items = wrap.querySelectorAll('.m-rot-item');
+    var ticks = panel.querySelectorAll('.m-rot-ticks .m-tick');
+    if (items.length < 2) return;
+
+    var i = 0;
+    var paint = function (n) {
+      i = n % items.length;
+      items.forEach(function (el, k) { el.classList.toggle('is-on', k === i); });
+      ticks.forEach(function (el, k) { el.classList.toggle('is-on', k === i); });
+    };
+    ticks.forEach(function (t) {
+      t.addEventListener('click', function () {
+        paint(+t.dataset.r);
+        stopRot();                       // haath se chuna to auto rotate band
+      });
+    });
+    rotTimers.push(setInterval(function () { paint(i + 1); }, 5200));
   }
 
   /* ---- 5. Desktop / mobile switch — cookie dono hosts par chalti hai ----- */

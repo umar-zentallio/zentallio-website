@@ -976,68 +976,111 @@ def mobile_poster(src_rel):
     return '/m/assets/' + name
 
 
-def sector_video(sec, kind, html, active):
-    """Desktop banner ka clip. preload=none -- sirf active panel ka video
-    load hota hai, baqi sirf poster dikhate hain (19 clips = 17 MB)."""
-    vid = poster = None
+def _banner_media(sec, kind, html):
+    """(video, poster, opacity, tint) -- desktop ke banner se."""
     if kind == 'fashion':
         vids = js_object(html, 'VIDEOS') or {}
         v = vids.get(sec.get('vid')) or vids.get('retail')
         if isinstance(v, dict) and v.get('src'):
-            vid = '/fashion/' + str(v['src']).lstrip('/')
-            poster = '/fashion/' + str(v.get('poster', '')).lstrip('/')
+            return ('/fashion/' + str(v['src']).lstrip('/'),
+                    '/fashion/' + str(v.get('poster', '')).lstrip('/'),
+                    v.get('op', 1), sec.get('ac'))
     else:
         vb = js_object(html, 'VIDBANNER') or {}
         b = vb.get(str(sec.get('id')))
         if isinstance(b, dict) and b.get('embedded'):
             stem = FOOD_VID.get(b['embedded'], b['embedded'])
-            vid = '/food/media/%s.mp4' % stem
-            poster = '/food/media/%s.jpg' % stem
+            return ('/food/media/%s.mp4' % stem, '/food/media/%s.jpg' % stem,
+                    1, b.get('warm') or sec.get('hue'))
+    return (None, None, 1, None)
+
+
+def _banner_copy(sec, kind, html):
+    """Wahi content jo desktop video ke UPAR dikhata hai:
+    eyebrow, rotating headline + subline, stats rail, CTA."""
+    rot, stats, cta, eyebrow = [], [], '', ''
+
+    if kind == 'fashion':
+        for r in (sec.get('rot') or []):
+            if not isinstance(r, dict):
+                continue
+            head = ' '.join(x for x in (r.get('a'), r.get('b')) if x).strip()
+            body = r.get('l') or r.get('p') or ''
+            if head or body:
+                rot.append((head, body))
+        for st in (sec.get('stats') or []):
+            if isinstance(st, dict):
+                stats.append((str(st.get('v', '')) + str(st.get('u', '') or ''),
+                              st.get('l') or ''))
+        if sec.get('cta2'):
+            cta = ('<a class="m-btn m-btn-primary" href="#flagship">%s</a>'
+                   % keep_inline(sec['cta2']))
+        if sec.get('no'):
+            eyebrow = 'Sector %s \u00b7 %s' % (sec['no'], sec.get('name', ''))
+    else:
+        vb = js_object(html, 'VIDBANNER') or {}
+        b = vb.get(str(sec.get('id'))) or {}
+        eyebrow = b.get('eyebrow') or ''
+        lead = str(b.get('h1lead') or '').strip()
+        for r in (b.get('rot') or []):
+            if isinstance(r, list) and r:
+                head = (lead + ' ' + str(r[0])).strip() if lead else str(r[0])
+                rot.append((head, str(r[1]) if len(r) > 1 else ''))
+        for q in (b.get('rail') or []):
+            if isinstance(q, list) and len(q) >= 2:
+                stats.append((str(q[1]), str(q[0])))
+        stack = b.get('stack') or 'full'
+        cta = ('<a class="m-btn m-btn-primary" href="/contact">Book a call</a>'
+               '<a class="m-btn m-btn-ghost" href="#solutions">See the %s stack &rarr;</a>'
+               % esc(str(stack)))
+
+    out = []
+    if eyebrow:
+        out.append('<span class="m-kick">%s</span>' % keep_inline(eyebrow))
+    if rot:
+        out.append('<div class="m-rot">%s</div>' % ''.join(
+            '<div class="m-rot-item%s"><h3>%s</h3>%s</div>'
+            % (' is-on' if i == 0 else '', keep_inline(h),
+               '<p>%s</p>' % keep_inline(b) if b else '')
+            for i, (h, b) in enumerate(rot)))
+        if len(rot) > 1:
+            out.append('<div class="m-rot-ticks">%s</div>' % ''.join(
+                '<button class="m-tick%s" data-r="%d" type="button" '
+                'aria-label="Angle %d"></button>' % (' is-on' if i == 0 else '', i, i + 1)
+                for i in range(len(rot))))
+    if stats:
+        out.append('<div class="m-stats m-banner-stats">%s</div>' % ''.join(
+            '<div class="m-stat"><b>%s</b><i>%s</i></div>'
+            % (keep_inline(v), keep_inline(l)) for v, l in stats))
+    if cta:
+        out.append('<div class="m-btns">%s</div>' % cta)
+    return ''.join(out)
+
+
+def sector_banner(sec, kind, html, active):
+    """Video background + uske upar content -- desktop banner jaisa.
+
+    preload="none": sirf khula hua panel apna clip load karta hai
+    (19 clips = 17 MB, sab ek saath load karna mobile par zulm hai).
+    """
+    vid, poster, op, tint = _banner_media(sec, kind, html)
+    copy = _banner_copy(sec, kind, html)
     if not vid or not os.path.isfile(os.path.join(ROOT, vid.lstrip('/'))):
-        return ''
+        return ('<div class="m-banner m-banner--flat">'
+                '<div class="m-banner-copy">%s</div></div>' % copy) if copy else ''
+
     small = mobile_poster(poster) if poster else None
-    # Sirf khule hue panel ka poster foran load ho. Baqi data-poster mein --
-    # warna ek page par 10 posters (~500 KB) bekaar download ho jaate hain.
     pat = ''
     if small:
         pat = (' poster="%s"' % esc(small)) if active else (' data-poster="%s"' % esc(small))
-    return ('<div class="m-banner">'
+    style = 'style="--vop:%s%s"' % (op, ('; --sec-tint:%s' % tint) if tint else '')
+    return ('<div class="m-banner" %s>'
             '<video class="m-banner-vid" muted loop playsinline preload="none"%s '
             'data-src="%s" aria-hidden="true" tabindex="-1"></video>'
-            '<span class="m-banner-grad"></span>'
-            '</div>'
-            % (pat, esc(vid)))
-
-
-def food_banner_text(sec, html):
-    """VIDBANNER ka eyebrow / headline / rail -- ye desktop par banner par
-    likha hota hai aur ab tak mobile par nahi aa raha tha."""
-    vb = js_object(html, 'VIDBANNER') or {}
-    b = vb.get(str(sec.get('id')))
-    if not isinstance(b, dict):
-        return ''
-    out = []
-    if b.get('eyebrow'):
-        out.append('<span class="m-kick">%s</span>' % jtext(b['eyebrow']))
-    rot = b.get('rot') if isinstance(b.get('rot'), list) else []
-    lead = str(b.get('h1lead') or '').strip()
-    for r in rot:
-        if not isinstance(r, list) or not r:
-            continue
-        head = keep_inline(str(r[0]))
-        body = keep_inline(str(r[1])) if len(r) > 1 else ''
-        out.append('<div class="m-card"><h4>%s %s</h4>%s</div>'
-                   % (jtext(lead), head, '<p>%s</p>' % body if body else ''))
-    if len(out) > 1:
-        out.insert(1, '<div class="m-grid">')
-        out.append('</div>')
-    rail = b.get('rail') if isinstance(b.get('rail'), list) else []
-    cells = ['<div class="m-stat"><b>%s</b><i>%s</i></div>'
-             % (keep_inline(str(q[1])), jtext(q[0]))
-             for q in rail if isinstance(q, list) and len(q) >= 2]
-    if cells:
-        out.append('<div class="m-stats">%s</div>' % ''.join(cells))
-    return ''.join(out)
+            '<span class="m-banner-ink"></span>'
+            '<span class="m-banner-vig"></span>'
+            '<div class="m-banner-copy">%s</div>'
+            '</div>' % (style, pat, esc(vid), copy))
 
 
 SAFE_TAG_RX = re.compile(r'</?(?:em|b|strong|i|u|span|br)\b[^<>]*>', re.I)
@@ -1090,19 +1133,18 @@ def _ul(items, label=''):
 def sector_panel(sec, kind, self_page=False, html='', active=False):
     """Ek sector ka poora content -- desktop par jo kuch us panel mein hai."""
     out = []
-    banner = sector_video(sec, kind, html, active)
+    banner = sector_banner(sec, kind, html, active)
     if banner:
         out.append(banner)
-    if kind == 'food':
-        bt = food_banner_text(sec, html)
-        if bt:
-            out.append(bt)
     num  = sec.get('no') or sec.get('num') or ''
     name = sec.get('name') or sec.get('pill') or ''
-    if num:
-        out.append('<span class="m-kick">%s</span>' % jtext(num))
-    if name:
-        out.append('<h3>%s</h3>' % jtext(name))
+    # Banner apna eyebrow "Sector 01 · <name>" khud dikhata hai -- yahan
+    # dobara likhna sirf repetition hai.
+    if 'm-kick' not in banner:
+        if num:
+            out.append('<span class="m-kick">%s</span>' % jtext(num))
+        if name:
+            out.append('<h3>%s</h3>' % jtext(name))
 
     lede = sec.get('lede') or sec.get('sub')
     if lede:
@@ -1114,8 +1156,8 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
     if bits and not lede:
         out.append('<p class="m-muted">%s</p>' % jtext(' · '.join(bits)))
 
-    if isinstance(sec.get('stats'), list):
-        out.append(_sec_stats(sec['stats']))
+    if isinstance(sec.get('stats'), list) and kind != 'fashion':
+        out.append(_sec_stats(sec['stats']))   # fashion ka rail banner par hai
 
     if sec.get('iris'):
         # iris field mein pehle se <b> markup hota hai -- usay rehne do
@@ -1126,7 +1168,7 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
         out.append(_ul(sec['formats'], 'Formats covered'))
 
     # rot: rotating headlines -> cards
-    if isinstance(sec.get('rot'), list):
+    if isinstance(sec.get('rot'), list) and kind != 'fashion':
         cards = []
         for r in sec['rot']:
             if not isinstance(r, dict):

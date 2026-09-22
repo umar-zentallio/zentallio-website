@@ -475,18 +475,31 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(92px + var(--safe-b))}
 /* ---------- 22. Sector explorer (desktop ke selector ka mobile version) -- */
 .m-sector-explorer{padding-bottom:clamp(30px,7vw,46px)}
 .m-sector-tabs{
-  position:sticky;top:var(--head-h);z-index:50;
-  margin:0 calc(var(--gut) * -1) 20px;
-  padding:10px var(--gut);
-  background:rgba(5,8,15,.92);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
+  position:sticky;
+  /* header ke theek neeche chipke -- safe-area ko bhi shumaar karo */
+  top:calc(var(--head-h) + var(--safe-t));
+  z-index:50;
+  margin:18px calc(var(--gut) * -1) 22px;
+  padding:11px var(--gut) 12px;
+  background:rgba(5,8,15,.94);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-block:1px solid var(--line);
+}
+/* stick hone par halka saya -- warna banner ke upar tairta hua lagta hai */
+.m-sector-tabs::after{
+  content:'';position:absolute;left:0;right:0;top:100%;height:14px;
+  background:linear-gradient(180deg,rgba(5,8,15,.45),transparent);
+  pointer-events:none;
 }
 .m-sector-tabs .m-pill{
   appearance:none;font:inherit;cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
-.m-sector-panel{animation:m-fade .28s ease}
+.m-sector-panel{opacity:1;animation:m-panel-in .28s ease both}
+@keyframes m-panel-in{
+  from{transform:translateY(7px)}
+  to  {transform:none}
+}
 .m-sector-panel[hidden]{display:none}
 @keyframes m-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .m-sector-panel h3{font-family:var(--serif);font-weight:400;
@@ -528,43 +541,122 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(92px + var(--safe-b))}
 .m-tablewrap td{word-break:normal;overflow-wrap:break-word}
 .m-tablewrap td:first-child{width:45%}
 
-/* ---------- 24. Sector banner clip ------------------------------------- */
-/* Desktop ke banner videos. preload="none" hai -- sirf khula hua panel apna
-   clip load karta hai; baqi sab sirf poster dikhate hain. */
+/* ---------- 24. Sector banner -- video background + upar content -------- */
+/* Desktop jaisa: clip peeche chalti hai, headline/stats/CTA uske upar.
+   Scrim laazmi hai -- warna chalti hui video par text parha nahi jaata. */
 .m-banner{
   position:relative;
-  margin:0 calc(var(--gut) * -1) 20px;
-  aspect-ratio:16/9;
+  margin:0 calc(var(--gut) * -1) 24px;
+  min-height:clamp(480px,82svh,680px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;isolation:isolate;
   background:var(--bg2);
-  overflow:hidden;
-  isolation:isolate;
 }
 .m-banner-vid{
+  position:absolute;inset:0;z-index:0;
   width:100%;height:100%;
-  object-fit:cover;
-  display:block;
-  background:var(--bg2);
+  object-fit:cover;object-position:50% 28%;
+  /* desktop ki --vop kahin kahin .73 tak jaati hai -- phone ki chhoti aur
+     aksar dhoop mein dekhi jaane wali screen par itni halki video gayab
+     ho jaati hai, is liye farsh .88 rakha hai */
+  opacity:max(var(--vop,1),.88);
 }
-/* neeche se page ke background mein ghulta gradient -- banner katta hua na lage */
-.m-banner-grad{
-  position:absolute;inset:0;pointer-events:none;
+/* brand tint -- sector ka apna rang */
+.m-banner-ink{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--sec-tint,transparent);
+  opacity:.08;mix-blend-mode:overlay;
+}
+/* scrim: upar halka, neeche page ke background mein ghul jaata hai */
+/* Scrim sirf wahan gehra hai jahan text baithta hai. Upar ka aadha hissa
+   tقریباً saaf rehta hai taake video waqai nazar aaye. */
+.m-banner-vig{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
   background:linear-gradient(180deg,
-    rgba(5,8,15,.30) 0%,
-    rgba(5,8,15,0)   34%,
-    rgba(5,8,15,.55) 78%,
+    rgba(5,8,15,.32) 0%,
+    rgba(5,8,15,.04) 15%,
+    rgba(5,8,15,.05) 40%,      /* yahan tak video saaf */
+    rgba(5,8,15,.52) 55%,      /* yahan se text zone shuru */
+    rgba(5,8,15,.86) 70%,
+    rgba(5,8,15,.96) 87%,
     var(--bg)        100%);
 }
-.m-banner::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  box-shadow:inset 0 0 0 1px var(--line);
+.m-banner-copy{
+  position:relative;z-index:3;
+  padding:0 var(--gut) clamp(22px,6vw,34px);
+  width:100%;
 }
+.m-banner-copy > .m-kick{
+  color:#fff;opacity:.9;
+  text-shadow:0 1px 8px rgba(0,0,0,.85);
+}
+.m-banner-copy > *:last-child{margin-bottom:0}
+.m-banner--flat{min-height:0;background:transparent}
+.m-banner--flat .m-banner-copy{padding-inline:0}
+
+/* rotating headline -- desktop par ye badalti rehti hai */
+.m-rot{position:relative}
+/* Base par opacity 1 -- animation sirf polish hai, uske bharose text ki
+   visibility nahi chhodi ja sakti (warna animation atak jaye to headline
+   ghayab ho jaata hai). 'both' final state pakka rakhta hai, aur keyframe
+   kabhi 0 tak nahi jaata. */
+.m-rot-item{display:none;opacity:1}
+.m-rot-item.is-on{display:block;animation:m-rot-in .38s ease both}
+/* Sirf transform animate hota hai. Opacity ko haath nahi lagate --
+   headline kabhi adhi-phiki nazar nahi aani chahiye, chahe animation
+   kisi wajah se beech mein ruk jaye. */
+@keyframes m-rot-in{
+  from{transform:translateY(9px)}
+  to  {transform:none}
+}
+.m-rot-item h3{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.6rem,7.4vw,2.3rem);line-height:1.12;
+  color:#fff;margin:0 0 10px;
+  text-shadow:0 2px 10px rgba(0,0,0,.72), 0 1px 30px rgba(0,0,0,.5);
+}
+.m-rot-item h3 em{font-style:italic;color:var(--ac)}
+.m-rot-item p{
+  color:rgba(238,241,248,.9);font-size:.95rem;line-height:1.58;margin:0;
+  text-shadow:0 1px 8px rgba(0,0,0,.8), 0 1px 22px rgba(0,0,0,.55);
+}
+.m-rot-ticks{display:flex;gap:7px;margin:16px 0 0}
+.m-tick{
+  appearance:none;border:0;padding:0;cursor:pointer;
+  width:26px;height:26px;position:relative;background:transparent;
+  -webkit-tap-highlight-color:transparent;
+}
+.m-tick::after{
+  content:'';position:absolute;left:0;top:11px;
+  width:22px;height:2px;border-radius:2px;
+  background:rgba(255,255,255,.28);transition:background .25s;
+}
+.m-tick.is-on::after{background:var(--ac)}
+
+/* banner ke stats -- glassy, video ke upar parhe jaate hain */
+.m-banner-stats{margin:20px 0 18px}
+.m-banner-stats .m-stat{
+  background:rgba(5,8,15,.42);
+  border-color:rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.m-banner-stats .m-stat b{color:#fff}
+.m-banner-stats .m-stat i{color:rgba(174,185,203,.95)}
+.m-banner .m-btns{margin-top:2px}
+
 @media (min-width:430px){
-  .m-banner{margin-inline:0;border-radius:var(--rad);}
-  .m-banner::after{border-radius:var(--rad)}
+  .m-banner{margin-inline:0;border-radius:var(--rad)}
 }
-/* reduced motion: sirf poster, koi chalta hua clip nahi */
+/* landscape phone: banner poori screen na khaye */
+@media (orientation:landscape) and (max-height:520px){
+  .m-banner{min-height:340px}
+}
+/* reduced motion / data saver: sirf poster */
 @media (prefers-reduced-motion:reduce){
-  .m-banner-vid{pointer-events:none}
+  .m-rot-item.is-on,.m-sector-panel{animation:none;opacity:1;transform:none}
 }
+
 /* JS data ke units: 96<span class="u">s</span> */
-.m-stat b span,.m-card h4 span{font-size:.72em;opacity:.7;font-weight:400;margin-left:1px}
+.m-stat b span,.m-card h4 span,.m-rot-item h3 span.u{
+  font-size:.72em;opacity:.7;font-weight:400;margin-left:1px;
+}

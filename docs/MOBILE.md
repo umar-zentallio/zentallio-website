@@ -79,9 +79,21 @@ Naya sector ya field JS data mein add karo to `python3 tools/build_mobile.py`
 chala dena kaafi hai -- panel khud ban jayega. Panel ka layout
 `sector_panel()` mein hai, styling `m/mobile.css` ke section 22-24 mein.
 
-### Banner clips
+### Banner (video background + upar content)
 
-Har panel ke upar wahi video hai jo desktop banner par chalti hai:
+Har panel ke upar desktop jaisa banner hai -- video peeche chalti hai aur
+content uske upar:
+
+- eyebrow (`Sector 01 · Quick Service & Street Food`)
+- **rotating headline + subline** (desktop par ye badalti rehti hain; mobile par
+  bhi 5.2s par, aur tick dots se manually bhi chun sakte hain)
+- stats rail (glassy tiles -- video par parhne ke liye)
+- CTA buttons
+
+Scrim (`.m-banner-vig`) laazmi hai -- chalti hui video par text warna parha
+nahi jaata. Sector ka apna rang `--sec-tint` se aata hai.
+
+Video source:
 
 - food: `VIDBANNER[sector].embedded` -> `/food/media/<name>.mp4`
 - fashion: `VIDEOS[sector.vid].src` -> `/fashion/assets/<name>.mp4`
@@ -94,7 +106,9 @@ sab ek saath load nahi hote:
 - poster sirf active panel par `poster=`, baqi `data-poster=` mein (JS activate par set karta hai)
 - posters `m/assets/` mein 900px par dobara banaye jaate hain (1.8 MB -> 960 KB)
 - `prefers-reduced-motion` ya `saveData`/2G par sirf poster, koi clip nahi
-- banner screen par na ho to clip chalta hi nahi (IntersectionObserver)
+- banner screen par na ho to clip chalta hi nahi aur rotation bhi ruk jaati hai
+  (IntersectionObserver har `.m-banner` par lagta hai -- section par nahi, wo
+  itna bada hai ke threshold kabhi poora nahi hota)
 
 Naya clip add karna ho to desktop ke `VIDEOS`/`VIDBANNER` mein entry daalo --
 mobile khud utha lega.
