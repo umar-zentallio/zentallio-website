@@ -34,7 +34,7 @@
   --rad:16px;
   --rad-sm:11px;
   --tap:46px;              /* minimum touch target */
-  --head-h:58px;
+  --head-h:60px;
 
   --safe-l:env(safe-area-inset-left,0px);
   --safe-r:env(safe-area-inset-right,0px);
@@ -165,23 +165,39 @@ hr{border:0;border-top:1px solid var(--line);margin:30px 0}
   -webkit-backdrop-filter:saturate(150%) blur(14px);
   border-bottom:1px solid var(--line);
 }
+/* Brand ka wahi treatment jo home page par hai -- serif + chalti hui
+   shine gradient. (desktop: .znav-brand / tools/unify_nav.py) */
 .m-brand{
-  font-weight:600;font-size:1.06rem;color:var(--ink);letter-spacing:.01em;
-  display:inline-flex;align-items:center;min-height:var(--tap);
+  font-family:var(--serif);
+  font-weight:500;font-size:1.3rem;letter-spacing:-.01em;
+  display:inline-flex;align-items:center;min-height:var(--tap);line-height:1;
+  background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);
+  background-size:280% auto;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:m-brandShine 7s linear infinite;
 }
+@keyframes m-brandShine{
+  0%{background-position:130% center}
+  100%{background-position:-30% center}
+}
+/* Circular bordered button -- home page ke .menu-btn jaisa */
 .m-burger{
-  appearance:none;border:0;background:transparent;padding:0;
-  width:var(--tap);height:var(--tap);
-  display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;
-  cursor:pointer;margin-right:-8px;
+  appearance:none;padding:0;cursor:pointer;
+  width:44px;height:44px;flex:0 0 44px;
+  border:1px solid var(--line2);border-radius:50%;
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  transition:border-color .25s,background .25s;
+  -webkit-tap-highlight-color:transparent;
 }
-.m-burger span{display:block;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .28s,opacity .2s,width .28s}
-.m-burger span:nth-child(1){width:22px}
-.m-burger span:nth-child(2){width:16px}
-.m-burger span:nth-child(3){width:22px}
-body.menu-open .m-burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:22px}
+.m-burger span{display:block;width:16px;height:1.5px;background:var(--ink);
+  transition:transform .3s,opacity .3s}
+body.menu-open .m-burger{border-color:rgba(255,255,255,.4)}
+body.menu-open .m-burger span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
 body.menu-open .m-burger span:nth-child(2){opacity:0}
-body.menu-open .m-burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:22px}
+body.menu-open .m-burger span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
 
 .m-menu{
   position:fixed;inset:0;z-index:69;
@@ -195,19 +211,35 @@ body.menu-open .m-burger span:nth-child(3){transform:translateY(-6.5px) rotate(-
 }
 body.menu-open .m-menu{transform:translateY(0);visibility:visible}
 body.menu-open{overflow:hidden}
+/* Overlay links: home page ke .menu-nav jaisa -- bade serif links,
+   mono number, aur sector ka rang wala dot. */
+.m-menu-nav{display:flex;flex-direction:column;justify-content:center;flex:1}
 .m-menu a.m-menu-item{
-  display:flex;align-items:center;gap:14px;
+  display:flex;align-items:center;gap:16px;
   min-height:var(--tap);
-  padding:15px 0;
+  padding:clamp(11px,2.4vw,18px) 0;
   border-bottom:1px solid var(--line);
-  color:var(--ink);font-size:1.12rem;font-weight:500;
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(1.9rem,9vw,2.6rem);letter-spacing:-.02em;
+  color:var(--fg2);line-height:1.15;
+  transition:color .3s,padding-left .3s;
 }
+.m-menu a.m-menu-item.m-cur{color:#fff}
 .m-menu a.m-menu-item i{
-  font-family:var(--mono);font-style:normal;font-size:.68rem;color:var(--fg3);letter-spacing:.1em;
-  min-width:22px;
+  font-family:var(--mono);font-style:normal;font-size:.72rem;
+  color:var(--fg3);letter-spacing:.1em;flex:0 0 auto;
 }
-.m-menu-foot{margin-top:auto;padding-top:26px;color:var(--fg3);font-size:.84rem}
-.m-menu-foot a{display:block;margin-top:6px;min-height:var(--tap);display:flex;align-items:center}
+.m-menu a.m-menu-item.m-cur i{color:var(--ink)}
+.m-menu a.m-menu-item span{flex:1 1 auto;min-width:0}
+.m-menu a.m-menu-item b{width:10px;height:10px;border-radius:50%;flex:0 0 10px;margin-left:auto}
+.m-menu a.m-menu-item .m-d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.m-menu a.m-menu-item .m-d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.m-menu a.m-menu-item .m-d-ai{background:var(--pink);box-shadow:0 0 12px var(--pink)}
+.m-menu-foot{
+  margin-top:clamp(24px,5vh,44px);padding-top:0;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;
+  color:var(--fg3);text-transform:uppercase;
+}
 
 /* ---------- 6. Hero ------------------------------------------------------ */
 .m-hero{
@@ -267,6 +299,8 @@ body.menu-open{overflow:hidden}
 /* ---------- 9. Stat chips ------------------------------------------------ */
 .m-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:20px 0}
 /* 3 stats -> teeno ek qatar mein, warna aakhri akela reh jaata hai */
+/* Theek 3 stats -> ek hi qatar mein, warna aakhri akela reh jaata hai.
+   2 ya 4+ ke liye default 2-column theek hai. */
 .m-stats:has(> .m-stat:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
 .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1.1rem}
 .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.6rem;letter-spacing:.06em}
@@ -418,7 +452,13 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(92px + var(--safe-b))}
 /* ---------- 17. Bahut chhoti screens (<=360px) -------------------------- */
 @media (max-width:360px){
   :root{--gut:14px}
-  .m-stats,.m-grid-2{grid-template-columns:1fr}
+  /* 2 column par stat tile ~140px ka rehta hai -- 1 column banane se sirf
+     lambai barhti hai, faida koi nahi. Sirf card grid 1 column hoti hai. */
+  .m-grid-2{grid-template-columns:1fr}
+  .m-stats .m-stat{padding:11px 10px}
+  .m-stats .m-stat b{font-size:1.16rem}
+  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1rem}
+  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.56rem}
 }
 /* ---------- 18. Landscape phone ----------------------------------------- */
 @media (orientation:landscape) and (max-height:460px){

@@ -8,9 +8,12 @@ import os, re, sys
 from bs4 import BeautifulSoup
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Navigation aur footer dono taraf se nikaal dete hain -- warna unke shabd
+# "gum" ginay jaate hain jabke wo sirf doosri jagah chale gaye hain.
 DROP = ['header.top','nav.site-nav','div.menu-ov','footer.zfoot','div.zck',
         '#zckBanner','div.progress','div.nav-row','.m-head','.m-menu','.m-foot',
-        '.m-sticky-cta','.zh-bar','.zmenu','.zmenu-nav','.zhero-nav','.menu-foot']
+        '.m-sticky-cta','.zh-bar','.zmenu','.zmenu-nav','.zhero-nav','.menu-foot',
+        'header.znav','.znav-ov','.znav-spacer']
 N = 8
 
 def words(path):
@@ -33,7 +36,9 @@ def main(rels, verbose=False):
     rows = []
     for rel in rels:
         d = os.path.join(ROOT, rel)
-        m = os.path.join(ROOT, 'm', rel)
+        # mobile root m/home.html hai (m/index.html nahi) -- dekho
+        # tools/build_mobile.py mein wajah
+        m = os.path.join(ROOT, 'm', 'home.html' if rel == 'index.html' else rel)
         if not os.path.exists(m):
             rows.append(('MISS', rel, 0.0, 0.0, 0, 0, [])); continue
         dw, mw = words(d), words(m)

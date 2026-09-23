@@ -114,6 +114,51 @@ Naya clip add karna ho to desktop ke `VIDEOS`/`VIDBANNER` mein entry daalo --
 mobile khud utha lega.
 
 
+## Navbar
+
+Poori website par ek hi navbar hai -- wahi jo home page par hai. Pehle 11
+mukhtalif variants the (`header.top`, `div.zh-bar`, `nav.site-nav`,
+`div.nav-row`, `nav.zmenu-nav` waghera).
+
+```bash
+python3 tools/unify_nav.py            # dry run
+python3 tools/unify_nav.py --apply
+```
+
+Script idempotent hai -- dobara chalane se kuch double nahi hota.
+
+**Classes `znav-` se namespace ki gayi hain.** `.top` aur `.brand` bohat aam
+naam hain: `food/app/*.html` mein `.top` aur `.topbar` un demo screens ka apna
+chrome hain, site navigation nahi. Namespacing ke bagair unka layout toot jaata.
+
+**Kya replace hota hai:** asal site navigation (`header.top` + `.menu-ov`,
+`div.zh-bar`, `nav.zmenu-nav`, `nav.site-nav`, `div.nav-row`).
+**Kya nahi:** `div.top` / `div.topbar` (app demo ka title bar) aur
+`div.ed-top-rule` (sirf ek decorative line).
+
+`div.nav-row` wale article pages ka "Back to Resources" link bacha liya jaata
+hai -- wo navbar ka hissa nahi, is liye alag element ban kar sath rehta hai.
+
+### Spacer
+
+Navbar `position:fixed` hai. Jin pages ka pehla block full-bleed hero hai,
+wahan wo hero ke UPAR tairta hai (home jaisa). Baqi pages ko spacer chahiye,
+warna pehli line navbar ke neeche chali jaati hai.
+
+Ye list **andaze se nahi, browser mein naap kar** bani hai --
+`tools/nav_spacer.json`. Naye page ke baad dobara naapna ho to har page render
+kar ke dekho ke koi asli content `header.znav` ke band ke neeche to nahi.
+
+`food/app/*` ke shells `position:fixed` / `height:100vh` hain -- unke liye
+spacer bekaar hai, is liye unhe `znav-css` ke andar top-inset diya jaata hai.
+
+### Mobile
+
+Mobile shell wahi navbar dohraata hai: serif brand (wahi shine gradient),
+circular bordered hamburger, aur overlay mein wahi 4 links (01-04) apne
+rang ke dots ke sath + email. `shell_header()` in `tools/build_mobile.py`.
+
+
 ## Local testing
 
 `dev-server.py` ab `middleware.js` ko emulate karti hai -- `MOBILE_READY` list
@@ -124,8 +169,18 @@ python3 dev-server.py             # http://localhost:8000
 python3 dev-server.py 8000 --lan  # phone se test karne ke liye LAN par bhi
 ```
 
-Har response par `X-Zentallio-View: mobile|desktop` header aata hai -- DevTools
-ke Network tab mein dekh lo ke kaun sa version mila.
+Har response par `X-Zentallio-View: mobile|desktop` header aata hai, aur
+server har request ko terminal mein `[M]` ya `[D]` se nishaan-zada karta hai:
+
+```
+  [M] "GET /fashion/sector-solutions HTTP/1.1" 200 -
+  [D] "GET /about HTTP/1.1" 200 -
+```
+
+Phone par test karte waqt sab se pehle yahi dekho. `[D]` aa raha ho magar
+mobile chahiye, to do wajhaat mumkin hain: Chrome ka "Desktop site" toggle on
+hai (wo desktop UA bhejta hai), ya `zv=desktop` cookie set hai. Dono ko
+`?view=mobile` override kar deta hai.
 
 ### Teen tareeqe
 
@@ -187,7 +242,28 @@ python3 dev-server.py 8000 --mdot
 Ye jaan-boojh kar hai: localhost, LAN IP, adb reverse aur tunnel URLs ka koi
 `m.` sibling nahi hota, is liye un par redirect karna toot-ta hai.
 
-### Overflow check
+### Overflow audit
 
-`m/mobile.js` localhost par khud overflow check karta hai --
-browser console mein `[overflow] clean ` aana chahiye.
+`m/mobile.js` localhost par ek halka check karta hai (console mein
+`[overflow] clean`), lekin wo sirf **mojooda** state dekhta hai.
+
+Poora audit har state exercise karta hai -- har sector tab, sab accordions
+khol kar, menu khula hua, chaar naapon par (320 / 360 / 414 / landscape):
+
+```bash
+python3 dev-server.py 8010 &
+python3 tools/audit_mobile.py --port 8010
+python3 tools/audit_mobile.py --port 8010 --width 320   # sirf ek naap
+```
+
+Do cheezein pakadta hai:
+
+- **OUT** -- element page ki chaurai se bahar nikal raha hai
+- **CLIP** -- element apne hi box ke andar content kaat raha hai (text cut off)
+
+CLIP check tasdeeq karta hai ke koi **asli child** bahar nikal raha ho --
+warna `.m-hero` ka decorative glow (`::before`, `min(150vw,560px)`) har page
+par jhoota alarm deta hai.
+
+UI badalne ke baad ye chalana zaroori hai: 60 pages x 264 states x 4 naap =
+~1,056 states, chalne mein kuch minute lagte hain.

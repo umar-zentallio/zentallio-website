@@ -287,7 +287,10 @@ class CleanUrlHandler(SimpleHTTPRequestHandler):
         super().end_headers()
 
     def log_message(self, fmt, *a):
-        sys.stderr.write("  %s\n" % (fmt % a))
+        # kaun sa version gaya -- phone par test karte waqt yahi sab se
+        # zyada kaam ka sawal hota hai
+        tag = {"mobile": "[M]", "desktop": "[D]"}.get(getattr(self, "_serve_as", ""), "   ")
+        sys.stderr.write("  %s %s\n" % (tag, fmt % a))
 
 
 def api_is_up():

@@ -69,31 +69,32 @@ TEL_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.4
            '1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35'
            '.03.74-.25 1.02l-2.2 2.2z"/></svg>')
 
-NAV = [('01','Food &amp; Beverage','/food-beverage'),
-       ('02','Fashion Retail','/fashion'),
-       ('03','Meet Iris','/meet-iris'),
-       ('04','Resources','/resources'),
-       ('05','About','/about'),
-       ('06','Contact','/contact')]
+# Home page ka navbar hi poori site ka navbar hai -- mobile bhi wahi
+# 4 links aur wahi dots rakhta hai (tools/unify_nav.py desktop par yehi lagata hai).
+NAV = [('01', 'Food &amp; Beverage', '/food-beverage', 'm-d-fb'),
+       ('02', 'Fashion Retail',      '/fashion',       'm-d-fa'),
+       ('03', 'Meet Iris',           '/meet-iris',     'm-d-ai'),
+       ('04', 'Contact',             '/contact',       '')]
 
-def shell_header():
-    items = '\n'.join(
-        '    <a class="m-menu-item" href="%s"><i>%s</i><span>%s</span></a>' % (h, n, t)
-        for n, t, h in NAV)
+def shell_header(upath='/'):
+    items = []
+    for n, t, h, dot in NAV:
+        cur = ' m-cur' if h == upath else ''
+        b = '<b class="%s"></b>' % dot if dot else ''
+        items.append('    <a class="m-menu-item%s" href="%s"><i>%s</i>'
+                     '<span>%s</span>%s</a>' % (cur, h, n, t, b))
+    items = '\n'.join(items)
     return f'''<header class="m-head">
-  <a class="m-brand" href="/">Zentallio</a>
-  <button class="m-burger" id="mBurger" aria-label="Menu" aria-expanded="false" aria-controls="mMenu">
+  <a class="m-brand" href="/" aria-label="Zentallio home">Zentallio</a>
+  <button class="m-burger" id="mBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mMenu">
     <span></span><span></span><span></span>
   </button>
 </header>
 <div class="m-menu" id="mMenu" aria-hidden="true">
-  <nav>
+  <nav class="m-menu-nav">
 {items}
   </nav>
-  <div class="m-menu-foot">
-    <a href="mailto:info@zentallio.com">info@zentallio.com</a>
-    <a href="tel:+923270000901">+92 327 0000901</a>
-  </div>
+  <div class="m-menu-foot">info@zentallio.com</div>
 </div>'''
 
 def shell_footer(desktop_url):
@@ -1473,7 +1474,7 @@ def build(rel, verbose=False):
 <link rel="stylesheet" href="/m/mobile.css">
 </head>
 <body data-accent="{accent}">
-{shell_header()}
+{shell_header(upath)}
 <main>
 {chr(10).join(hero)}
 {chr(10).join(secs)}
