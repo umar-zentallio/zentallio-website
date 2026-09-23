@@ -1288,5 +1288,12 @@
   goTo(0);
 })();
 </script>
+<style>/* mobile: keep the deck top chrome from colliding (hide keyboard hints, compact wordmark + PDF) */
+@media(max-width:680px){
+  .chrome .hint{display:none!important}
+  .chrome .wordmark{font-size:8.5px!important;letter-spacing:.05em!important;max-width:56vw!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;top:18px!important}
+  .chrome .toolbar{gap:0!important;top:14px!important}
+  .chrome .pdf-btn{font-size:8.5px!important;letter-spacing:.03em!important;padding:5px 9px!important}
+}</style>
 </body>
 </html>
