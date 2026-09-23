@@ -42,6 +42,9 @@ DROP_SEL = [
     'button.menu-btn', 'footer.zfoot', 'div.zck', '#zckBanner', 'div.progress',
     'div.nav-row', 'header.site-header', '.zh-bar', '.zmenu', '.zmenu-nav',
     '.zhero-nav', '.menu-foot',
+    # unify_nav.py ka canonical desktop navbar -- mobile shell iski jagah
+    # leti hai, warna ye page ke content mein chhap jaata hai
+    'header.znav', '.znav-ov', '.znav-spacer',
 ]
 # purely decorative -- inka koi text content nahi hota
 DECOR_RX = re.compile(
