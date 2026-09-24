@@ -59,6 +59,27 @@ KICK_RX = re.compile(r'\b(eyebrow|peyebrow|kick|kicker|ck|label|tag|badge|eb|'
 BLOCK_TAGS = {'p','h1','h2','h3','h4','h5','h6','ul','ol','table','blockquote',
               'pre','figure','img','dl'}
 
+# ------------------------------------------------------------------- GTM
+# Desktop par ye tools/add_gtm.py lagata hai; mobile pages generate hote hain
+# is liye snippet yahin template mein rehta hai -- warna agli build mita deti.
+GTM_ID = 'GTM-KZQGBF9K'
+
+GTM_HEAD = ("<!-- Google Tag Manager -->\n"
+            "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
+            "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
+            "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src="
+            "'https://www.googletagmanager.com/gtm.js?id='+i+dl;"
+            "f.parentNode.insertBefore(j,f);"
+            "})(window,document,'script','dataLayer','" + GTM_ID + "');</script>\n"
+            "<!-- End Google Tag Manager -->")
+
+GTM_BODY = ('<!-- Google Tag Manager (noscript) -->\n'
+            '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id='
+            + GTM_ID + '"\n'
+            'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n'
+            '<!-- End Google Tag Manager (noscript) -->')
+
+
 # ---------------------------------------------------------------- shell
 SOCIALS = [
  ('https://www.linkedin.com/company/zentallioai/','LinkedIn','M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z'),
@@ -1460,6 +1481,7 @@ def build(rel, verbose=False):
 <html lang="en">
 <head>
 <meta charset="utf-8">
+{GTM_HEAD}
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
@@ -1477,6 +1499,7 @@ def build(rel, verbose=False):
 <link rel="stylesheet" href="/m/mobile.css">
 </head>
 <body data-accent="{accent}">
+{GTM_BODY}
 {shell_header(upath)}
 <main>
 {chr(10).join(hero)}
