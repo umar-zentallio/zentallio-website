@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KZQGBF9K');</script>
+<!-- End Google Tag Manager -->
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -14,18 +17,16 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '848592854970724');
 fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=848592854970724&ev=PageView&noscript=1"
-/></noscript>
+<noscript><img height="1" src="https://www.facebook.com/tr?id=848592854970724&amp;ev=PageView&amp;noscript=1" style="display:none" width="1"/></noscript>
 <!-- End Meta Pixel Code -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="zentallio-version" content="pos-demo-4.0">
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="pos-demo-4.0" name="zentallio-version"/>
 <title>Zentallio · Point of Sale — Guided Demo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#070C18;--panel:#0A1020;--panel-2:#0C1322;--raised:#0E1526;--s2:#111A2C;--s3:#16223A;
@@ -390,48 +391,69 @@ h1,h2,h3,h4{margin:0}button{font-family:inherit;cursor:pointer}
 .rcpt-barcode{height:36px;margin:11px auto 6px;width:72%;background:repeating-linear-gradient(90deg,#1c1c1c 0 2px,#fff 2px 4px,#1c1c1c 4px 5px,#fff 5px 9px,#1c1c1c 9px 10px,#fff 10px 13px)}
 @keyframes printout{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
 </style>
+<link href="https://zentallio.com/food/app/pos" rel="canonical"/>
+<link href="https://m.zentallio.com/food/app/pos" media="only screen and (max-width: 640px)" rel="alternate"/>
+
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/food/app/pos">
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZQGBF9K"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><header class="znav">
+<a aria-label="Zentallio home" class="znav-brand" href="/">Zentallio</a>
+<button aria-controls="znavOv" aria-expanded="false" aria-label="Open menu" class="znav-btn" id="znavBtn"><span></span><span></span><span></span></button>
+</header>
+<div aria-hidden="true" class="znav-ov" id="znavOv">
+<nav class="znav-nav">
+<a href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="znav-d-fb"></b></a>
+<a href="/fashion"><i>02</i><span>Fashion Retail</span><b class="znav-d-fa"></b></a>
+<a href="/meet-iris"><i>03</i><span>Meet Iris</span><b class="znav-d-ai"></b></a>
+<a href="/contact"><i>04</i><span>Contact</span></a>
+</nav>
+<div class="znav-foot">info@zentallio.com</div>
+</div>
+
 <div class="wrap">
-  <aside class="rail" id="rail">
-    <div class="brand"><div class="bmark">Z</div><div><div class="bname serif">Zentallio</div><div class="bsub">Point of Sale</div></div></div>
-    <div class="rail-scroll" id="railList"></div>
-    <div class="rfoot">Demo group &middot; <b>Maison Croq</b> &middot; Vienna</div>
-  </aside>
-  <main class="main">
-    <div class="topbar">
-      <button class="btn sm menu-toggle" id="menuToggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-      <div><div class="tb-crumb" id="crumb">Point of Sale</div><div class="tb-title" id="title">Branch setup</div></div>
-      <div class="tb-right">
-        <button class="fs-btn" id="fsBtn" title="Fullscreen" onclick="toggleFS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><span class="nexchip" id="nexchip"><span class="nx"></span>NexNode</span><span class="demo-tag"><span class="d"></span>Demo</span>
-        <span class="shift closed" id="shiftBadge"><span class="d"></span>Shift closed</span>
-        <span class="clock" id="clock">09:58:00</span>
-        <span class="branch-sel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Vienna &mdash; K&auml;rntner</span>
-      </div>
-    </div>
-    <div class="liveribbon" id="liveRibbon">
-      <span class="lr-live"><span class="dot"></span>LIVE</span>
-      <span class="lr-kpi up"><span class="lk">Net today</span><b id="lrSales">€6,842</b></span>
-      <span class="lr-kpi"><span class="lk">Orders</span><b id="lrOrders">214</b></span>
-      <span class="lr-kpi"><span class="lk">Avg check</span><b id="lrAvg">€31.98</b></span>
-      <span class="lr-kpi"><span class="lk">Kitchen</span><b id="lrKitchen">3</b></span>
-      <span class="lr-evt" id="lrEvt"><span class="ed"></span><span id="lrEvtTx"></span></span>
-      <span class="lr-spark" id="lrSpark"></span>
-    </div>
-    <div class="stage" id="stage"></div>
-    <div class="foot">
-      <div class="foot-prog"><div class="f" id="progFill"></div></div>
-      <div class="foot-in">
-        <div class="narr"><div class="nt"><span class="ch" id="nch">SET UP</span><span id="ntitle">Branch setup</span></div><div class="nc" id="ncap"></div></div>
-        <div class="ctrls">
-          <button class="cbtn" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
-          <button class="cbtn play" id="playBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Auto-play</button>
-          <button class="cbtn" id="nextBtn">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-          <span class="counter" id="counter">1 / 40</span>
-        </div>
-      </div>
-    </div>
-  </main>
+<aside class="rail" id="rail">
+<div class="brand"><div class="bmark">Z</div><div><div class="bname serif">Zentallio</div><div class="bsub">Point of Sale</div></div></div>
+<div class="rail-scroll" id="railList"></div>
+<div class="rfoot">Demo group · <b>Maison Croq</b> · Vienna</div>
+</aside>
+<main class="main">
+<div class="topbar">
+<button class="btn sm menu-toggle" id="menuToggle"><svg fill="none" height="16" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" width="16"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div><div class="tb-crumb" id="crumb">Point of Sale</div><div class="tb-title" id="title">Branch setup</div></div>
+<div class="tb-right">
+<button class="fs-btn" id="fsBtn" onclick="toggleFS()" title="Fullscreen"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button><span class="nexchip" id="nexchip"><span class="nx"></span>NexNode</span><span class="demo-tag"><span class="d"></span>Demo</span>
+<span class="shift closed" id="shiftBadge"><span class="d"></span>Shift closed</span>
+<span class="clock" id="clock">09:58:00</span>
+<span class="branch-sel"><svg fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Vienna — Kärntner</span>
+</div>
+</div>
+<div class="liveribbon" id="liveRibbon">
+<span class="lr-live"><span class="dot"></span>LIVE</span>
+<span class="lr-kpi up"><span class="lk">Net today</span><b id="lrSales">€6,842</b></span>
+<span class="lr-kpi"><span class="lk">Orders</span><b id="lrOrders">214</b></span>
+<span class="lr-kpi"><span class="lk">Avg check</span><b id="lrAvg">€31.98</b></span>
+<span class="lr-kpi"><span class="lk">Kitchen</span><b id="lrKitchen">3</b></span>
+<span class="lr-evt" id="lrEvt"><span class="ed"></span><span id="lrEvtTx"></span></span>
+<span class="lr-spark" id="lrSpark"></span>
+</div>
+<div class="stage" id="stage"></div>
+<div class="foot">
+<div class="foot-prog"><div class="f" id="progFill"></div></div>
+<div class="foot-in">
+<div class="narr"><div class="nt"><span class="ch" id="nch">SET UP</span><span id="ntitle">Branch setup</span></div><div class="nc" id="ncap"></div></div>
+<div class="ctrls">
+<button class="cbtn" id="backBtn"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>Back</button>
+<button class="cbtn play" id="playBtn"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Auto-play</button>
+<button class="cbtn" id="nextBtn">Next<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M9 6l6 6-6 6"></path></svg></button>
+<span class="counter" id="counter">1 / 40</span>
+</div>
+</div>
+</div>
+</main>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -665,5 +687,84 @@ renderRail();
 goStep(0);
 updateNex();
 </script>
-<script>window.addEventListener("message",function(e){try{if(e.data&&e.data.zt==="chapter"){var i=STEPS.findIndex(function(s){return s.ch===e.data.ch;});if(i>=0)goStep(i);}}catch(_){}} );</script></body>
+<script>window.addEventListener("message",function(e){try{if(e.data&&e.data.zt==="chapter"){var i=STEPS.findIndex(function(s){return s.ch===e.data.ch;});if(i>=0)goStep(i);}}catch(_){}} );</script><style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
+.znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
+.znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.znav-brand:hover::after{transform:scaleX(1)}
+.znav-brand .dia{width:13px;height:13px;border-radius:3px;background:linear-gradient(135deg,var(--teal),var(--violet));transform:rotate(45deg);animation:znavDia 7s ease-in-out infinite}
+.znav-btn{width:44px;height:44px;border:1px solid var(--line2);border-radius:50%;background:rgba(255,255,255,.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.25s;backdrop-filter:blur(6px)}
+.znav-btn:hover{border-color:rgba(255,255,255,.4)}
+.znav-btn span{display:block;width:16px;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s}
+.znav-btn.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.znav-btn.open span:nth-child(2){opacity:0}
+.znav-btn.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.znav-ov{position:fixed;inset:0;z-index:50;background:rgba(5,8,15,.97);backdrop-filter:blur(14px);display:flex;flex-direction:column;justify-content:center;padding:0 clamp(28px,8vw,130px);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+.znav-ov.open{opacity:1;visibility:visible}
+.znav-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vw,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
+.znav-ov.open .znav-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}
+.znav-ov.open .znav-nav a:nth-child(1){transition-delay:.06s}
+.znav-ov.open .znav-nav a:nth-child(2){transition-delay:.12s}
+.znav-ov.open .znav-nav a:nth-child(3){transition-delay:.18s}
+.znav-ov.open .znav-nav a:nth-child(4){transition-delay:.24s}
+.znav-nav a i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
+.znav-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}
+.znav-nav a .znav-d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.znav-nav a .znav-d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.znav-nav a .znav-d-ai{background:var(--ai);box-shadow:0 0 12px var(--ai)}
+.znav-nav a:hover{color:#fff;padding-left:14px}
+.znav-nav a:hover i{color:var(--ink)}
+.znav-foot{margin-top:clamp(28px,5vh,54px);font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--fg3);text-transform:uppercase}
+.znav{transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease}
+.znav.is-scrolled{background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.9) 52%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+
+@keyframes znavShine{0%{background-position:130% center}100%{background-position:-30% center}}
+@keyframes znavDia{0%,100%{transform:rotate(45deg)}50%{transform:rotate(135deg)}}
+/* --- unify_nav ke apne rules (home par ye classes nahi thin) --- */
+.znav-cur{color:#fff}
+.znav-cur i{color:var(--ink)}
+.znav-back{margin-right:auto;margin-left:clamp(14px,3vw,30px);font-family:var(--mono);
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);
+  text-decoration:none;transition:color .25s;white-space:nowrap}
+.znav-back:hover{color:var(--ink)}
+/* Jo pages pehle fixed header nahi rakhte the, unka content navbar ke neeche
+   na chala jaye -- spacer sirf wahan lagta hai jahan zaroorat hai. */
+.znav-spacer{height:80px;flex:none}
+@media(max-width:640px){.znav{padding:14px 18px}.znav-back{display:none}.znav-spacer{height:68px}}
+@media(prefers-reduced-motion:reduce){.znav-brand{animation:none}}
+
+/* --- page ka apna pinned chrome navbar se na takraye ---------------------
+   Kuch pages apne UI ko viewport se chipka kar rakhte hain (fixed app shell
+   ya top-right par pinned toolbar). Ye rules browser mein naap kar likhe gaye
+   hain -- har page ka shell alag tarah pinned hai, is liye alag ilaaj hai. */
+:root{--znav-h:80px}
+@media(max-width:640px){:root{--znav-h:68px}}
+.znav-spacer{height:var(--znav-h)}
+
+/* resources ke deck pages: .chrome fixed inset:0 hai, uske andar toolbar */
+.znav ~ .chrome{top:var(--znav-h)}
+
+/* food/app/scorecard: .app khud fixed hai */
+.znav ~ .app{top:var(--znav-h)}
+/* food/app/manus|motus|nexus: #app static hai + height:100vh */
+.znav ~ #app{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
+/* food/app/pos: .wrap static hai + height:100vh */
+.znav ~ .wrap{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
+/* Note: .zbook-fab aur .ibtn bottom-anchored hain -- unhe chhedna nahi,
+   warna wo apni jagah se hat jaate hain. */
+</style><script>(function(){
+ var mb=document.getElementById('znavBtn'),mo=document.getElementById('znavOv');
+ if(!mb||!mo)return;
+ function tg(open){
+  mb.classList.toggle('open',open);mo.classList.toggle('open',open);
+  mb.setAttribute('aria-expanded',open?'true':'false');
+  mo.setAttribute('aria-hidden',open?'false':'true');
+  document.body.style.overflow=open?'hidden':'';
+ }
+ mb.addEventListener('click',function(){tg(!mo.classList.contains('open'));});
+ mo.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){tg(false);});});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')tg(false);});
+ var hd=document.querySelector('.znav');
+ if(hd){var onScroll=function(){hd.classList.toggle('is-scrolled',window.scrollY>12);};
+  addEventListener('scroll',onScroll,{passive:true});onScroll();}
+})();</script></body>
 </html>

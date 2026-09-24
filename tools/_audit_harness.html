@@ -1,0 +1,101 @@
+<!doctype html><meta charset="utf-8"><title>audit</title>
+<style>html,body{margin:0}iframe{border:0}</style><div id="out">RUNNING</div>
+<script>
+const PAGES = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+const q = new URLSearchParams(location.search);
+const W = parseInt(q.get('w') || '360', 10), H = parseInt(q.get('h') || '900', 10);
+const res = [];
+
+function scan(d, w, state) {
+  const vw = d.documentElement.clientWidth;
+  const outOfPage = [], clipped = [];
+  d.querySelectorAll('body *').forEach(el => {
+    const cs = w.getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden' || el.closest('[hidden]')) return;
+    const r = el.getBoundingClientRect();
+    if (r.width === 0 && r.height === 0) return;
+    const tag = el.tagName.toLowerCase() +
+                (el.className ? '.' + String(el.className).trim().split(/\s+/)[0] : '');
+
+    // (a) page se bahar nikalta element
+    if (cs.position !== 'fixed') {
+      let a = el.parentElement, inS = false;
+      while (a && a !== d.body) {
+        const ax = w.getComputedStyle(a).overflowX;
+        if (ax === 'auto' || ax === 'scroll') { inS = true; break; }
+        a = a.parentElement;
+      }
+      if (!inS) {
+        const over = Math.max(r.right - vw, -r.left);
+        if (over > 1.5) outOfPage.push({ sel: tag, over: Math.round(over),
+                                         txt: (el.textContent || '').trim().slice(0, 36) });
+      }
+    }
+    // (b) apne hi box ke andar clip hota CONTENT.
+    // scrollWidth akela kaafi nahi -- decorative ::before glow bhi usay barha
+    // deta hai. Is liye tasdeeq karo ke koi ASLI child bahar nikal raha hai.
+    if (cs.overflowX === 'hidden' || cs.overflowX === 'clip') {
+      if (el.scrollWidth > el.clientWidth + 2 && el.clientWidth > 0) {
+        const box = el.getBoundingClientRect();
+        let worst = 0, who = '';
+        el.querySelectorAll('*').forEach(c => {
+          const ccs = w.getComputedStyle(c);
+          if (ccs.display === 'none' || ccs.visibility === 'hidden') return;
+          if (ccs.position === 'absolute' || ccs.position === 'fixed') return;
+          if (!(c.textContent || '').trim() && !/^(img|video|table|svg)$/i.test(c.tagName)) return;
+          const cr = c.getBoundingClientRect();
+          if (cr.width === 0) return;
+          const d2 = Math.max(cr.right - box.right, box.left - cr.left);
+          if (d2 > worst) {
+            worst = d2;
+            who = c.tagName.toLowerCase() +
+                  (c.className ? '.' + String(c.className).trim().split(/\s+/)[0] : '');
+          }
+        });
+        if (worst > 2) {
+          clipped.push({ sel: tag, by: Math.round(worst), child: who,
+                         txt: (el.textContent || '').trim().slice(0, 36) });
+        }
+      }
+    }
+  });
+  return { state, vw, scrollW: d.documentElement.scrollWidth,
+           nOut: outOfPage.length, nClip: clipped.length,
+           out: outOfPage.slice(0, 6), clip: clipped.slice(0, 6) };
+}
+
+(async () => {
+  for (const p of PAGES) {
+    const f = document.createElement('iframe');
+    f.width = W; f.height = H; f.src = p;
+    document.body.appendChild(f);
+    await new Promise(r => { f.onload = r; setTimeout(r, 4000); });
+    await new Promise(r => setTimeout(r, 400));
+    const d = f.contentDocument, w = f.contentWindow;
+    const states = [scan(d, w, 'initial')];
+
+    const burger = d.getElementById('mBurger');
+    if (burger) {
+      burger.click(); await new Promise(r => setTimeout(r, 450));
+      states.push(scan(d, w, 'menu-open'));
+      burger.click(); await new Promise(r => setTimeout(r, 450));
+    }
+
+    for (const t of [...d.querySelectorAll('.m-sector-tabs .m-pill')]) {
+      t.click(); await new Promise(r => setTimeout(r, 240));
+      states.push(scan(d, w, 'tab:' + t.dataset.sector));
+    }
+
+    const accs = [...d.querySelectorAll('details.m-acc')];
+    if (accs.length) {
+      accs.forEach(a => a.open = true);
+      await new Promise(r => setTimeout(r, 350));
+      states.push(scan(d, w, 'accordions-open'));
+    }
+
+    res.push({ page: p, states: states.filter(s => s.nOut || s.nClip || s.scrollW > s.vw + 1) });
+    f.remove();
+  }
+  document.getElementById('out').textContent = 'RESULT:' + JSON.stringify(res);
+})();
+</script>
