@@ -1009,6 +1009,7 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
       <p class="pp">Every screen your team runs — and at each one, the AI names the next move. One live order, end to end.</p>
     </div>
   </div>
+  <div class="zf-swipe" aria-hidden="true">swipe to explore &rarr;</div>
   <div class="zf-hold">
     <div class="zen-flow">
       <div class="zf-chrome">
@@ -3338,5 +3339,11 @@ window.addEventListener('orientationchange',function(){setTimeout(fit,250);});se
 <style>.topscrim{position:fixed;top:0;left:0;right:0;height:68px;z-index:85;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.78) 55%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}.topscrim.on{opacity:1}@media(max-width:820px){.menu-btn{background:rgba(8,13,26,.92);border-color:rgba(255,255,255,.2);box-shadow:0 6px 20px -8px rgba(0,0,0,.7)}}@media(min-width:821px){.topscrim{display:none}}</style>
 <div class="topscrim" id="topscrim" aria-hidden="true"></div>
 <script>(function(){var s=document.getElementById('topscrim');if(!s)return;var t=false;addEventListener('scroll',function(){var on=scrollY>56;if(on!==t){t=on;s.classList.toggle('on',on);}},{passive:true});})();</script>
+<style>/* mobile: clearer swipe affordance for the horizontally-scrollable flow widget */
+.zf-swipe{display:none}
+@media(max-width:820px){
+  .zf-swipe{display:block;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal,#15F2F2);opacity:.78;margin:0 0 12px}
+  .zf-hold{-webkit-mask-image:linear-gradient(90deg,#000 74%,transparent 100%)!important;mask-image:linear-gradient(90deg,#000 74%,transparent 100%)!important}
+}</style>
 </body>
 </html>
