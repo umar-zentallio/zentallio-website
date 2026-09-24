@@ -1,0 +1,707 @@
+/* ============================================================================
+   Zentallio — mobile design system  (m.zentallio.com)
+   Mobile-first. Har rule single-column phone ke liye likha gaya hai.
+   Desktop ki koi media query yahan nahi -- ye file sirf mobile serve karti hai.
+   ========================================================================= */
+
+/* ---------- 1. Tokens (desktop site se same brand) ---------------------- */
+:root{
+  --bg:#05080F;
+  --bg2:#0A1020;
+  --surface:rgba(255,255,255,.035);
+  --surface2:rgba(255,255,255,.06);
+  --ink:#EEF1F8;
+  --fg2:#AEB9CB;
+  --fg3:#6E798F;
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.15);
+
+  --teal:#15F2F2;
+  --violet:#9B7BFF;
+  --amber:#E5A24B;
+  --pink:#ff2d95;
+
+  /* har page apna accent set kar sakta hai: <body data-accent="violet"> */
+  --ac:var(--teal);
+  --acr:21,242,242;
+
+  --sans:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --serif:'Fraunces',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+
+  /* Ek hi jagah se gutter control -- kisi bhi section mein alag padding nahi */
+  --gut:18px;
+  --rad:16px;
+  --rad-sm:11px;
+  --tap:46px;              /* minimum touch target */
+  --head-h:60px;
+
+  --safe-l:env(safe-area-inset-left,0px);
+  --safe-r:env(safe-area-inset-right,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+body[data-accent="violet"]{--ac:var(--violet);--acr:155,123,255}
+body[data-accent="amber"]{--ac:var(--amber);--acr:229,162,75}
+body[data-accent="pink"]{--ac:var(--pink);--acr:255,45,149}
+
+/* ---------- 2. Overflow ko structurally namumkin banao ------------------ */
+/* min-width:0 flex/grid children ka sab se bada overflow sabab hai.
+   Yahan globally 0 kar diya -- phir koi lamba word ya table baahar nahi ja sakta. */
+*,*::before,*::after{box-sizing:border-box;min-width:0}
+
+html{
+  -webkit-text-size-adjust:100%;      /* iOS landscape par font jump rokta hai */
+  text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+html,body{
+  max-width:100%;
+  overflow-x:clip;                    /* clip -> position:sticky zinda rehta hai */
+}
+@supports not (overflow:clip){ html,body{overflow-x:hidden} }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;                     /* 16px se kam -> iOS input par zoom karta hai */
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overscroll-behavior-y:none;
+  padding-left:var(--safe-l);
+  padding-right:var(--safe-r);
+}
+
+/* Koi bhi replaced element container se baahar nahi nikal sakta */
+img,svg,video,canvas,iframe,object,embed{
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+/* Lamba text, URL, email -- sab wrap hoga, kabhi horizontal scroll nahi */
+h1,h2,h3,h4,h5,h6,p,li,dt,dd,td,th,figcaption,blockquote,a,span,label{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  hyphens:auto;
+}
+pre,code{
+  font-family:var(--mono);
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+/* Table akela element hai jise scroll karne dena theek hai -- lekin wrapper ke andar */
+.m-tablewrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border:1px solid var(--line);
+  border-radius:var(--rad-sm);
+  margin:18px 0;
+}
+.m-tablewrap table{border-collapse:collapse;width:100%;font-size:.86rem}
+.m-tablewrap th,.m-tablewrap td{
+  padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);white-space:normal;
+}
+.m-tablewrap th{color:var(--fg3);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.m-tablewrap tr:last-child td{border-bottom:0}
+
+/* ---------- 3. Typography scale (fluid, phone range mein clamp) --------- */
+h1,h2,h3,h4{margin:0 0 .5em;line-height:1.18;font-weight:600;letter-spacing:-.01em}
+h1{font-family:var(--serif);font-size:clamp(1.85rem,8.2vw,2.6rem);line-height:1.1;font-weight:400}
+h2{font-family:var(--serif);font-size:clamp(1.45rem,6vw,1.95rem);line-height:1.16;font-weight:400}
+h3{font-size:clamp(1.08rem,4.4vw,1.28rem)}
+h4{font-size:1rem}
+p{margin:0 0 1em;color:var(--fg2)}
+p:last-child{margin-bottom:0}
+a{color:var(--ac);text-decoration:none}
+strong,b{color:var(--ink);font-weight:600}
+ul,ol{margin:0 0 1.1em;padding-left:1.15em}
+li{margin-bottom:.5em;color:var(--fg2)}
+li::marker{color:var(--ac)}
+hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+
+/* Eyebrow / kicker */
+.m-kick{
+  font-family:var(--mono);
+  font-size:.64rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ac);
+  margin:0 0 12px;
+  display:block;
+}
+
+/* ---------- 4. Layout primitives ---------------------------------------- */
+.m-wrap{width:100%;padding-inline:var(--gut)}
+.m-sec{
+  width:100%;
+  padding:clamp(38px,9vw,58px) var(--gut);
+  border-top:1px solid var(--line);
+  position:relative;
+}
+.m-sec:first-of-type{border-top:0}
+.m-sec > *:last-child{margin-bottom:0}
+
+/* Stack -- har child ke beech consistent gap, koi margin-collapse surprise nahi */
+.m-stack{display:flex;flex-direction:column;gap:14px}
+
+/* Grid: phone par hamesha 1 ya 2 column. auto-fit se overflow nahi hota
+   kyunki minmax ka min 0 hai. */
+.m-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.m-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+
+/* ---------- 5. Header + menu -------------------------------------------- */
+.m-head{
+  position:sticky;top:0;z-index:70;
+  height:var(--head-h);
+  padding-top:var(--safe-t);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-inline:var(--gut);
+  background:rgba(5,8,15,.82);
+  backdrop-filter:saturate(150%) blur(14px);
+  -webkit-backdrop-filter:saturate(150%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+/* Brand ka wahi treatment jo home page par hai -- serif + chalti hui
+   shine gradient. (desktop: .znav-brand / tools/unify_nav.py) */
+.m-brand{
+  font-family:var(--serif);
+  font-weight:500;font-size:1.3rem;letter-spacing:-.01em;
+  display:inline-flex;align-items:center;min-height:var(--tap);line-height:1;
+  background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);
+  background-size:280% auto;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:m-brandShine 7s linear infinite;
+}
+@keyframes m-brandShine{
+  0%{background-position:130% center}
+  100%{background-position:-30% center}
+}
+/* Circular bordered button -- home page ke .menu-btn jaisa */
+.m-burger{
+  appearance:none;padding:0;cursor:pointer;
+  width:44px;height:44px;flex:0 0 44px;
+  border:1px solid var(--line2);border-radius:50%;
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  transition:border-color .25s,background .25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.m-burger span{display:block;width:16px;height:1.5px;background:var(--ink);
+  transition:transform .3s,opacity .3s}
+body.menu-open .m-burger{border-color:rgba(255,255,255,.4)}
+body.menu-open .m-burger span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+body.menu-open .m-burger span:nth-child(2){opacity:0}
+body.menu-open .m-burger span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+
+.m-menu{
+  position:fixed;inset:0;z-index:69;
+  background:var(--bg);
+  padding:calc(var(--head-h) + var(--safe-t) + 18px) var(--gut) calc(26px + var(--safe-b));
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+  transform:translateY(-100%);
+  visibility:hidden;
+  transition:transform .38s cubic-bezier(.4,0,.2,1),visibility .38s;
+}
+body.menu-open .m-menu{transform:translateY(0);visibility:visible}
+body.menu-open{overflow:hidden}
+/* Overlay links: home page ke .menu-nav jaisa -- bade serif links,
+   mono number, aur sector ka rang wala dot. */
+.m-menu-nav{display:flex;flex-direction:column;justify-content:center;flex:1}
+.m-menu a.m-menu-item{
+  display:flex;align-items:center;gap:16px;
+  min-height:var(--tap);
+  padding:clamp(11px,2.4vw,18px) 0;
+  border-bottom:1px solid var(--line);
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(1.9rem,9vw,2.6rem);letter-spacing:-.02em;
+  color:var(--fg2);line-height:1.15;
+  transition:color .3s,padding-left .3s;
+}
+.m-menu a.m-menu-item.m-cur{color:#fff}
+.m-menu a.m-menu-item i{
+  font-family:var(--mono);font-style:normal;font-size:.72rem;
+  color:var(--fg3);letter-spacing:.1em;flex:0 0 auto;
+}
+.m-menu a.m-menu-item.m-cur i{color:var(--ink)}
+.m-menu a.m-menu-item span{flex:1 1 auto;min-width:0}
+.m-menu a.m-menu-item b{width:10px;height:10px;border-radius:50%;flex:0 0 10px;margin-left:auto}
+.m-menu a.m-menu-item .m-d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.m-menu a.m-menu-item .m-d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.m-menu a.m-menu-item .m-d-ai{background:var(--pink);box-shadow:0 0 12px var(--pink)}
+.m-menu-foot{
+  margin-top:clamp(24px,5vh,44px);padding-top:0;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;
+  color:var(--fg3);text-transform:uppercase;
+}
+
+/* ---------- 6. Hero ------------------------------------------------------ */
+.m-hero{
+  position:relative;
+  padding:clamp(36px,10vw,60px) var(--gut) clamp(34px,9vw,52px);
+  overflow:hidden;
+}
+.m-hero::before{
+  content:'';position:absolute;top:-34%;left:50%;
+  width:min(150vw,560px);aspect-ratio:1;transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(var(--acr),.17),transparent 66%);
+  pointer-events:none;z-index:0;
+}
+.m-hero > *{position:relative;z-index:1}
+.m-hero h1{margin-bottom:16px}
+.m-hero-sub{font-size:1.02rem;color:var(--fg2);line-height:1.62;margin-bottom:22px}
+
+/* ---------- 7. Buttons --------------------------------------------------- */
+.m-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;
+  /* 44px accessibility ki farsh hai (WCAG 2.5.5 / Apple HIG) -- isse neeche
+     nahi jaate, lekin padding pehle 14/20 thi jo phone par bhaari lagti thi */
+  min-height:44px;
+  padding:9px 16px;
+  border-radius:var(--rad-sm);
+  font-size:.9rem;font-weight:600;letter-spacing:.01em;
+  border:1px solid transparent;
+  text-align:center;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .16s,opacity .16s;
+}
+.m-btn:active{transform:scale(.982)}
+.m-btn-primary{background:var(--ac);color:#05080F;border-color:var(--ac)}
+.m-btn-ghost{background:rgba(255,255,255,.04);color:var(--ink);border-color:var(--line2)}
+.m-btns{display:flex;flex-direction:column;gap:8px}
+
+/* ---------- 8. Cards ----------------------------------------------------- */
+.m-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  padding:19px 17px;
+  position:relative;
+  overflow:hidden;          /* card ke andar ka kuch bhi baahar nahi nikal sakta */
+}
+.m-card h3{margin-bottom:8px;color:var(--ink)}
+.m-card p{font-size:.92rem;margin-bottom:0}
+.m-card-link{display:block;color:inherit}
+.m-card-link:active{background:var(--surface2)}
+.m-card-num{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+  color:var(--ac);display:block;margin-bottom:9px;
+}
+.m-card-arrow{
+  margin-top:13px;font-size:.82rem;color:var(--ac);font-weight:600;
+  display:inline-flex;align-items:center;gap:6px;
+}
+
+/* ---------- 9. Stat chips ------------------------------------------------ */
+.m-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:20px 0}
+/* 3 stats -> teeno ek qatar mein, warna aakhri akela reh jaata hai */
+/* Theek 3 stats -> ek hi qatar mein, warna aakhri akela reh jaata hai.
+   2 ya 4+ ke liye default 2-column theek hai. */
+.m-stats:has(> .m-stat:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
+.m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1.1rem}
+.m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.6rem;letter-spacing:.06em}
+.m-stat{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--rad-sm);padding:13px 12px;
+}
+.m-stat b{
+  display:block;font-family:var(--mono);font-size:1.32rem;
+  color:var(--ink);font-weight:500;line-height:1.1;letter-spacing:-.02em;
+}
+.m-stat i{
+  display:block;font-style:normal;margin-top:5px;
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);
+}
+
+/* ---------- 10. Accordion (dense desktop content ko mobile par foldable) - */
+.m-acc{border:1px solid var(--line);border-radius:var(--rad);overflow:hidden;background:var(--surface)}
+.m-acc + .m-acc{margin-top:10px}
+.m-acc summary{
+  list-style:none;cursor:pointer;
+  min-height:var(--tap);
+  padding:16px 44px 16px 17px;
+  position:relative;
+  font-weight:600;font-size:.98rem;color:var(--ink);
+  display:flex;align-items:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.m-acc summary::-webkit-details-marker{display:none}
+.m-acc summary::after{
+  content:'';position:absolute;right:18px;top:50%;
+  width:8px;height:8px;margin-top:-5px;
+  border-right:1.6px solid var(--ac);border-bottom:1.6px solid var(--ac);
+  transform:rotate(45deg);transition:transform .25s;
+}
+.m-acc[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+.m-acc-body{padding:0 17px 17px;border-top:1px solid var(--line);padding-top:15px}
+.m-acc-body > *:last-child{margin-bottom:0}
+
+/* ---------- 11. Pills / tag row (scroll snap, contained) ---------------- */
+.m-pills{
+  display:flex;gap:8px;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  margin:0 calc(var(--gut) * -1) 18px;
+  padding:2px var(--gut);
+}
+.m-pills::-webkit-scrollbar{display:none}
+.m-pill{
+  flex:0 0 auto;scroll-snap-align:start;
+  padding:9px 15px;min-height:38px;
+  display:inline-flex;align-items:center;
+  border:1px solid var(--line2);border-radius:999px;
+  font-size:.82rem;color:var(--fg2);white-space:nowrap;
+  background:var(--surface);
+}
+.m-pill[aria-selected="true"],.m-pill.is-on{
+  background:rgba(var(--acr),.12);border-color:rgba(var(--acr),.5);color:var(--ac);
+}
+
+/* ---------- 12. Prose block (articles / legal pages) -------------------- */
+.m-prose{padding:clamp(28px,7vw,42px) var(--gut)}
+.m-prose h2{margin-top:36px}
+.m-prose h3{margin-top:26px}
+.m-prose > *:first-child{margin-top:0}
+.m-prose img{border-radius:var(--rad-sm);margin:20px 0}
+.m-prose blockquote{
+  margin:22px 0;padding:14px 16px;
+  border-left:2px solid var(--ac);
+  background:var(--surface);border-radius:0 var(--rad-sm) var(--rad-sm) 0;
+  color:var(--fg2);font-style:italic;
+}
+
+/* ---------- 13. Footer --------------------------------------------------- */
+.m-foot{
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(10,16,32,.6));
+  padding:40px var(--gut) calc(26px + var(--safe-b));
+}
+.m-foot-name{font-weight:600;font-size:1.22rem;color:var(--ink);display:inline-block}
+.m-foot-tag{margin-top:13px;color:var(--fg2);font-size:.9rem;line-height:1.62}
+.m-foot-contact{display:flex;flex-direction:column;margin-top:18px}
+.m-foot-contact a{
+  color:var(--fg2);font-size:.88rem;
+  min-height:var(--tap);display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--line);
+}
+.m-foot-contact a:last-child{border-bottom:0}
+.m-foot-contact svg{width:13px;height:13px;flex:0 0 auto;fill:currentColor;opacity:.7}
+.m-foot-mail{color:var(--teal) !important}
+.m-foot-social{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.m-foot-social a{
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--line2);background:rgba(255,255,255,.03);
+  display:inline-flex;align-items:center;justify-content:center;color:var(--fg2);
+}
+.m-foot-social svg{width:17px;height:17px;fill:currentColor}
+.m-foot-cols{margin-top:30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}
+.m-foot-cols h4{
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fg3);margin:0 0 9px;font-weight:600;
+}
+.m-foot-cols a{display:flex;align-items:center;min-height:38px;color:var(--fg2);font-size:.87rem}
+.m-foot-bot{
+  margin-top:32px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.7rem;letter-spacing:.05em;color:var(--fg3);
+}
+.m-foot-switch{
+  margin-top:16px;display:inline-flex;align-items:center;gap:7px;
+  min-height:44px;color:var(--fg2);font-size:.82rem;
+  border:1px solid var(--line2);border-radius:999px;padding:0 15px;
+}
+
+/* ---------- 14. Sticky bottom CTA --------------------------------------- */
+.m-sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  padding:8px var(--gut) calc(8px + var(--safe-b));
+  background:rgba(5,8,15,.9);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  transform:translateY(105%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+.m-sticky-cta.is-on{transform:translateY(0)}
+body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
+
+/* ---------- 15. Utilities ------------------------------------------------ */
+.m-mono{font-family:var(--mono)}
+.m-muted{color:var(--fg3)}
+.m-center{text-align:center}
+.m-hide{display:none !important}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
+
+/* ---------- 16. Motion / reveal ----------------------------------------- */
+.m-rev{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.m-rev.is-in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .m-rev{opacity:1;transform:none}
+}
+
+/* ---------- 17. Bahut chhoti screens (<=360px) -------------------------- */
+@media (max-width:360px){
+  :root{--gut:14px}
+  /* 2 column par stat tile ~140px ka rehta hai -- 1 column banane se sirf
+     lambai barhti hai, faida koi nahi. Sirf card grid 1 column hoti hai. */
+  .m-grid-2{grid-template-columns:1fr}
+  .m-stats .m-stat{padding:11px 10px}
+  .m-stats .m-stat b{font-size:1.16rem}
+  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1rem}
+  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.56rem}
+}
+/* ---------- 18. Landscape phone ----------------------------------------- */
+@media (orientation:landscape) and (max-height:460px){
+  .m-hero{padding-block:30px}
+  .m-menu{padding-top:calc(var(--head-h) + 10px)}
+}
+
+/* ---------- 19. Link list (TOC, tag rows, nav groups) ------------------ */
+.m-linklist{
+  display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:var(--rad);
+  background:var(--surface);overflow:hidden;margin:4px 0 18px;
+}
+.m-linklist a{
+  display:flex;align-items:center;gap:10px;
+  min-height:var(--tap);padding:13px 16px;
+  color:var(--fg2);font-size:.92rem;
+  border-bottom:1px solid var(--line);
+}
+.m-linklist a:last-child{border-bottom:0}
+.m-linklist a::after{
+  content:'';margin-left:auto;flex:0 0 auto;
+  width:6px;height:6px;
+  border-right:1.5px solid var(--fg3);border-bottom:1.5px solid var(--fg3);
+  transform:rotate(-45deg);
+}
+.m-linklist a:active{background:var(--surface2);color:var(--ink)}
+
+/* ---------- 20. Rhythm between generated blocks ------------------------ */
+.m-sec > .m-grid,
+.m-sec > .m-stats,
+.m-sec > .m-pills,
+.m-sec > .m-acc,
+.m-sec > .m-linklist,
+.m-sec > .m-btns,
+.m-sec > .m-tablewrap{margin-bottom:22px}
+.m-sec > *:last-child{margin-bottom:0}
+.m-sec > h2,.m-sec > h3{margin-top:26px}
+.m-sec > h2:first-child,.m-sec > h3:first-child,
+.m-kick + h2,.m-kick + h3{margin-top:0}
+.m-card > *:last-child{margin-bottom:0}
+.m-card + .m-card{margin-top:10px}
+.m-card p + p{margin-top:-.4em}
+/* details ke baad aane wala text card se chipke nahi */
+.m-acc + p,.m-grid + p,.m-stats + p{margin-top:18px}
+
+/* ---------- 21. Tap targets & nested-link fallback --------------------- */
+.m-foot-name{min-height:var(--tap);display:inline-flex;align-items:center;padding:4px 0}
+.m-inline-link{color:var(--ac)}
+.m-linklist.is-static .m-inline-link{display:flex;align-items:center;min-height:var(--tap);
+  padding:13px 16px;border-bottom:1px solid var(--line);color:var(--fg2)}
+.m-linklist.is-static .m-inline-link:last-child{border-bottom:0}
+
+/* ---------- 22. Sector explorer (desktop ke selector ka mobile version) -- */
+.m-sector-explorer{padding-bottom:clamp(30px,7vw,46px)}
+.m-sector-tabs{
+  position:sticky;
+  /* header ke theek neeche chipke -- safe-area ko bhi shumaar karo */
+  top:calc(var(--head-h) + var(--safe-t));
+  z-index:50;
+  margin:18px calc(var(--gut) * -1) 22px;
+  padding:11px var(--gut) 12px;
+  background:rgba(5,8,15,.94);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-block:1px solid var(--line);
+}
+/* stick hone par halka saya -- warna banner ke upar tairta hua lagta hai */
+.m-sector-tabs::after{
+  content:'';position:absolute;left:0;right:0;top:100%;height:14px;
+  background:linear-gradient(180deg,rgba(5,8,15,.45),transparent);
+  pointer-events:none;
+}
+.m-sector-tabs .m-pill{
+  appearance:none;font:inherit;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.m-sector-panel{opacity:1;animation:m-panel-in .28s ease both}
+@keyframes m-panel-in{
+  from{transform:translateY(7px)}
+  to  {transform:none}
+}
+.m-sector-panel[hidden]{display:none}
+@keyframes m-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.m-sector-panel h3{font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.35rem,5.6vw,1.75rem);margin-bottom:12px}
+.m-sector-panel h4{font-size:.98rem;margin-bottom:6px;color:var(--ink)}
+.m-sector-panel > .m-kick{margin-top:26px}
+.m-sector-panel > .m-kick:first-child{margin-top:0}
+.m-lede{font-size:1rem;color:var(--fg2);line-height:1.62;margin-bottom:18px}
+
+/* Iris ka quote */
+.m-iris{
+  border:1px solid rgba(var(--acr),.32);
+  background:rgba(var(--acr),.06);
+  border-radius:var(--rad);padding:15px 16px;margin:18px 0;
+}
+.m-iris-who{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:9px;
+}
+.m-iris-who::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.m-iris p{margin:0;color:var(--ink);font-size:.95rem;line-height:1.6}
+.m-iris b,.m-iris strong{color:var(--ac);font-weight:600}
+
+/* ---------- 23. Definition list (label + description, stacked) --------- */
+/* Phone par do-column table ka label column nichur jaata hai aur lafz beech
+   se toot-te hain -- is liye label upar, tafseel neeche. */
+.m-deflist{margin:4px 0 18px;padding:0;
+  border:1px solid var(--line);border-radius:var(--rad);
+  background:var(--surface);overflow:hidden}
+.m-def{padding:14px 16px;border-bottom:1px solid var(--line)}
+.m-def:last-child{border-bottom:0}
+.m-def dt{font-weight:600;color:var(--ink);font-size:.92rem;margin:0 0 5px;
+  word-break:normal;overflow-wrap:break-word}
+.m-def dd{margin:0;color:var(--fg2);font-size:.9rem;line-height:1.58}
+
+/* Do-column table: label column ko nichurne se bachao */
+.m-tablewrap table{table-layout:fixed}
+.m-tablewrap td{word-break:normal;overflow-wrap:break-word}
+.m-tablewrap td:first-child{width:45%}
+
+/* ---------- 24. Sector banner -- video background + upar content -------- */
+/* Desktop jaisa: clip peeche chalti hai, headline/stats/CTA uske upar.
+   Scrim laazmi hai -- warna chalti hui video par text parha nahi jaata. */
+.m-banner{
+  position:relative;
+  margin:0 calc(var(--gut) * -1) 24px;
+  min-height:clamp(480px,82svh,680px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;isolation:isolate;
+  background:var(--bg2);
+}
+.m-banner-vid{
+  position:absolute;inset:0;z-index:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:50% 28%;
+  /* desktop ki --vop kahin kahin .73 tak jaati hai -- phone ki chhoti aur
+     aksar dhoop mein dekhi jaane wali screen par itni halki video gayab
+     ho jaati hai, is liye farsh .88 rakha hai */
+  opacity:max(var(--vop,1),.88);
+}
+/* brand tint -- sector ka apna rang */
+.m-banner-ink{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--sec-tint,transparent);
+  opacity:.08;mix-blend-mode:overlay;
+}
+/* scrim: upar halka, neeche page ke background mein ghul jaata hai */
+/* Scrim sirf wahan gehra hai jahan text baithta hai. Upar ka aadha hissa
+   tقریباً saaf rehta hai taake video waqai nazar aaye. */
+.m-banner-vig{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(5,8,15,.32) 0%,
+    rgba(5,8,15,.04) 15%,
+    rgba(5,8,15,.05) 40%,      /* yahan tak video saaf */
+    rgba(5,8,15,.52) 55%,      /* yahan se text zone shuru */
+    rgba(5,8,15,.86) 70%,
+    rgba(5,8,15,.96) 87%,
+    var(--bg)        100%);
+}
+.m-banner-copy{
+  position:relative;z-index:3;
+  padding:0 var(--gut) clamp(22px,6vw,34px);
+  width:100%;
+}
+.m-banner-copy > .m-kick{
+  color:#fff;opacity:.9;
+  text-shadow:0 1px 8px rgba(0,0,0,.85);
+}
+.m-banner-copy > *:last-child{margin-bottom:0}
+.m-banner--flat{min-height:0;background:transparent}
+.m-banner--flat .m-banner-copy{padding-inline:0}
+
+/* rotating headline -- desktop par ye badalti rehti hai */
+.m-rot{position:relative}
+/* Base par opacity 1 -- animation sirf polish hai, uske bharose text ki
+   visibility nahi chhodi ja sakti (warna animation atak jaye to headline
+   ghayab ho jaata hai). 'both' final state pakka rakhta hai, aur keyframe
+   kabhi 0 tak nahi jaata. */
+.m-rot-item{display:none;opacity:1}
+.m-rot-item.is-on{display:block;animation:m-rot-in .38s ease both}
+/* Sirf transform animate hota hai. Opacity ko haath nahi lagate --
+   headline kabhi adhi-phiki nazar nahi aani chahiye, chahe animation
+   kisi wajah se beech mein ruk jaye. */
+@keyframes m-rot-in{
+  from{transform:translateY(9px)}
+  to  {transform:none}
+}
+.m-rot-item h3{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.6rem,7.4vw,2.3rem);line-height:1.12;
+  color:#fff;margin:0 0 10px;
+  text-shadow:0 2px 10px rgba(0,0,0,.72), 0 1px 30px rgba(0,0,0,.5);
+}
+.m-rot-item h3 em{font-style:italic;color:var(--ac)}
+.m-rot-item p{
+  color:rgba(238,241,248,.9);font-size:.95rem;line-height:1.58;margin:0;
+  text-shadow:0 1px 8px rgba(0,0,0,.8), 0 1px 22px rgba(0,0,0,.55);
+}
+.m-rot-ticks{display:flex;gap:6px;margin:8px 0 0}
+/* Dash chhota dikhta hai lekin hit area 44px ka hai -- ungli se
+   chhoona aasan rahe. */
+.m-tick{
+  appearance:none;border:0;padding:0;cursor:pointer;
+  width:30px;height:44px;position:relative;background:transparent;
+  -webkit-tap-highlight-color:transparent;
+}
+.m-tick::after{
+  content:'';position:absolute;left:0;top:50%;margin-top:-1px;
+  width:22px;height:2px;border-radius:2px;
+  background:rgba(255,255,255,.28);transition:background .25s;
+}
+.m-tick.is-on::after{background:var(--ac)}
+
+/* banner ke stats -- glassy, video ke upar parhe jaate hain */
+.m-banner-stats{margin:20px 0 18px}
+.m-banner-stats .m-stat{
+  background:rgba(5,8,15,.42);
+  border-color:rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.m-banner-stats .m-stat b{color:#fff}
+.m-banner-stats .m-stat i{color:rgba(174,185,203,.95)}
+.m-banner .m-btns{margin-top:2px}
+
+@media (min-width:430px){
+  .m-banner{margin-inline:0;border-radius:var(--rad)}
+}
+/* landscape phone: banner poori screen na khaye */
+@media (orientation:landscape) and (max-height:520px){
+  .m-banner{min-height:340px}
+}
+/* reduced motion / data saver: sirf poster */
+@media (prefers-reduced-motion:reduce){
+  .m-rot-item.is-on,.m-sector-panel{animation:none;opacity:1;transform:none}
+}
+
+/* JS data ke units: 96<span class="u">s</span> */
+.m-stat b span,.m-card h4 span,.m-rot-item h3 span.u{
+  font-size:.72em;opacity:.7;font-weight:400;margin-left:1px;
+}

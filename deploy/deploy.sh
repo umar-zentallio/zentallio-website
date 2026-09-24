@@ -24,6 +24,7 @@ rsync -avz --delete \
   --exclude '.env' \
   --exclude 'node_modules' \
   --exclude 'dev-server.py' \
+  --include 'knowledge/***' \
   --exclude '*.md' \
   "$REPO"/ "$TARGET:$REMOTE_ROOT/"
 

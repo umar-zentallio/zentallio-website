@@ -30,7 +30,7 @@ What it does:
 - Live posting from the till
 - Ask-Zen over the ledger
 
-Illustrative outcomes: €68M net revenue · 45.3% gross margin · €5.4M closing cash
+Illustrative outcomes: $68M net revenue · 45.3% gross margin · $5.4M closing cash
 
 ## Sell
 
@@ -46,7 +46,7 @@ What it does:
 - Offline-first with NexNode
 - Posts every sale to the CFO ledger
 
-Illustrative outcomes: 9s avg card tender · +€2.80 Iris uplift / ticket · 100% offline continuity
+Illustrative outcomes: 9s avg card tender · +$2.80 Iris uplift / ticket · 100% offline continuity
 
 ### Drive-Through
 *Every second on the lane, managed.*
@@ -88,7 +88,7 @@ What it does:
 - 45% margin-floor guardrail
 - What-if price modelling
 
-Illustrative outcomes: 45% margin floor · €459 offers today · 6.3% discount rate
+Illustrative outcomes: 45% margin floor · $459 offers today · 6.3% discount rate
 
 ## Supply
 
@@ -118,7 +118,7 @@ What it does:
 - 3-way match to receipts
 - Spend by category & vendor
 
-Illustrative outcomes: −6.4% price variance · 24h avg approval · €4.6M payables
+Illustrative outcomes: −6.4% price variance · 24h avg approval · $4.6M payables
 
 ### Production / Kitchen
 *The kitchen, planned and paced.*
@@ -146,7 +146,7 @@ What it does:
 - Cycle counts & recounts
 - Shrink root-cause
 
-Illustrative outcomes: €3.1M inventory · 30 days on hand · −1.4% shrink
+Illustrative outcomes: $3.1M inventory · 30 days on hand · −1.4% shrink
 
 ### Menu & Recipe Engineering
 *Every dish, priced to win.*
@@ -204,7 +204,7 @@ What it does:
 - Overtime & compliance
 - Shift swaps & approvals
 
-Illustrative outcomes: −€60 labour saved / shift · 24% flagged lull · 7 staff on
+Illustrative outcomes: −$60 labour saved / shift · 24% flagged lull · 7 staff on
 
 ## Intelligence
 
@@ -248,7 +248,7 @@ What it does:
 - Export & e-invoice packs
 - Natural-language queries
 
-Illustrative outcomes: €12.4M wk revenue · 894K wk orders · 40+ report packs
+Illustrative outcomes: $12.4M wk revenue · 894K wk orders · 40+ report packs
 
 ## Sustainability
 
@@ -278,7 +278,7 @@ What it does:
 - Savings targets & tracking
 - Benchmark vs peer outlets
 
-Illustrative outcomes: −14% energy vs base · €8.2K saved / mo · 3 anomalies
+Illustrative outcomes: −14% energy vs base · $8.2K saved / mo · 3 anomalies
 
 ### Sustainability
 *Measured, then reduced.*
