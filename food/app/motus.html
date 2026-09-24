@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
+<meta charset="utf-8"/>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KZQGBF9K');</script>
 <!-- End Google Tag Manager -->
@@ -18,7 +19,7 @@ fbq('track', 'PageView');
 </script>
 <noscript><img height="1" src="https://www.facebook.com/tr?id=848592854970724&amp;ev=PageView&amp;noscript=1" style="display:none" width="1"/></noscript>
 <!-- End Meta Pixel Code -->
-<link href="/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon"/><meta charset="utf-8"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Zentallio · Motus — Operations Workbench</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -258,7 +259,7 @@ var CLC={urban:'#15F2F2',transit:'#3FD9A4',suburb:'#E5A24B',office:'#9B7BFF',des
 function agg(key,fn){var g={};BR.forEach(function(b){(g[b[key]]=g[b[key]]||[]).push(b);});return Object.keys(g).map(function(k){return [k,g[k],fn?fn(g[k]):0];});}
 function avg(a,f){return a.reduce(function(s,x){return s+f(x);},0)/a.length;}
 function sum(a,f){return a.reduce(function(s,x){return s+f(x);},0);}
-function eur(n){return '€'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
+function eur(n){return '$'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
 
 /* ---------- extended master data ---------- */
 var RX=(function(){var s=77003;return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
@@ -401,16 +402,16 @@ function tg(){var p=document.getElementById('ip');p.classList.toggle('on');
  if(p.classList.contains('on')){document.getElementById('ib').innerHTML='<div class="msg">'+IR[CURR]+'</div><div style="font-size:11.5px;color:var(--subtle)">Layer: '+(CURL==='wb'?'Workbench':CURL==='bi'?'BI &amp; Analytics':'Configuration')+'. Ask about anything on this view.</div>';}}
 
 var M={};
-M.cmd={wb:function(){return iflag('<b>Graben chiller 3 is the only true emergency.</b> Six hours above 4°C puts €1,840 of dairy at risk and breaks the cold-chain record. Separately, the Berlin allergen finding is the one that would cost you an audit grade — open 11 days against a 7-day standard.')
+M.cmd={wb:function(){return iflag('<b>Graben chiller 3 is the only true emergency.</b> Six hours above 4°C puts $1,840 of dairy at risk and breaks the cold-chain record. Separately, the Berlin allergen finding is the one that would cost you an audit grade — open 11 days against a 7-day standard.')
  +'<div class="kpis">'+kpi('BRANCHES TRADING','200 / 200','all open')+kpi('CHECKLIST COMPLIANCE',circ('94.2%'),'<span class="dn">-2.1pts WoW</span>')
- +kpi('AUDIT SCORE','A−','last external A')+kpi('OPEN INCIDENTS','7','2 overdue')+kpi('ASSETS DUE SERVICE','14','3 overdue')+kpi('ENERGY / €1K REV','38.2 kWh','<span class="dn">+8% Vienna</span>')+'</div>'
+ +kpi('AUDIT SCORE','A−','last external A')+kpi('OPEN INCIDENTS','7','2 overdue')+kpi('ASSETS DUE SERVICE','14','3 overdue')+kpi('ENERGY / $1K REV','38.2 kWh','<span class="dn">+8% Vienna</span>')+'</div>'
  +'<div class="pan"><h3>Operating day</h3><div class="ph">Open → trade → changeover → close → verify</div>'
  +pipe([['OPEN','Branches opened','200/200',''],['CHECKS','Opening done','196','doing'],['TRADE','Changeover done','184',''],['CLOSE','Closing due','200',''],['VERIFY','Photo-verified','78%','block'],['ESCALATE','Open actions','7','']])+'</div>'
  +'<div class="pan"><h3>What needs a decision today</h3><div class="ph">Ranked by operational risk</div>'
  +tbl(['SIGNAL','RISK','WINDOW'],[['<b>Chiller 3 at Graben running 4.2°C</b>','<span class="t-cr tag">CRITICAL</span>','now'],
  ['<b>Closing checklist missed 4 nights</b> — B087 Sablon','<span class="t-cr tag">HYGIENE</span>','tonight'],
  ['<b>Allergen audit finding unclosed</b> — 11 days','<span class="t-cr tag">COMPLIANCE</span>','overdue'],
- ['<b>Espresso service overdue</b> — 3 branches','<span class="t-wa tag">€6,200</span>','this week']])+'</div>';},
+ ['<b>Espresso service overdue</b> — 3 branches','<span class="t-wa tag">$6,200</span>','this week']])+'</div>';},
  bi:function(){var byC=agg('cln',function(g){return avg(g,function(b){return b.avail;});});
   return bi([['Compliance by cluster','Checklist completion',hbars(byC.map(function(r){return [r[0].split(' ')[0],r[2],r[2]<95?'wa':'mi',r[2].toFixed(1)+'%'];}),100)],
   ['Compliance by market','Completed on time',hbars([['France',97.1,'mi','97.1%'],['Belgium',95.4,'mi','95.4%'],['Germany',93.8,'wa','93.8%'],['Austria',88.2,'cr','88.2%']],100)],
@@ -521,9 +522,9 @@ M.inc={wb:function(){return iflag('<b>Three refrigeration incidents at Graben in
  ['Response targets','Time to close',[['Critical','24 hours','POLICY'],['High','3 days','POLICY'],['Standard','7 days','POLICY'],['Auto-escalate overdue',true,'ENABLED']]],
  ['Repeat-cause detection','How series are found',[['Window','30 days','AUTO'],['Min events to flag','3','AUTO'],['Same asset or location',true,'REQUIRED'],['Raise root-cause job',true,'ENABLED']]],
  ['Notification','Who is told',[['Branch manager',true,'IMMEDIATE'],['Area manager · critical',true,'IMMEDIATE'],['Head of Ops · critical',true,'IMMEDIATE'],['Insurer · injury',true,'WITHIN 24H']]]]);}};
-M.asset={wb:function(){return iflag('<b>Refrigeration is at 82% of expected life across the estate.</b> The Graben failure is the leading edge of a replacement cycle, not an isolated fault — and three espresso machines 40 days past service are costing about €6,200 a month in lost throughput.')
+M.asset={wb:function(){return iflag('<b>Refrigeration is at 82% of expected life across the estate.</b> The Graben failure is the leading edge of a replacement cycle, not an isolated fault — and three espresso machines 40 days past service are costing about $6,200 a month in lost throughput.')
  +'<div class="kpis">'+kpi('ASSETS TRACKED','1,806','200 branches')+kpi('DUE SERVICE','14','3 overdue')+kpi('UNPLANNED FAILURES','6','MTD')
- +kpi('DOWNTIME COST (MTD)','€18,400','')+kpi('PLANNED VS REACTIVE',circ('71 / 29'),'target 85/15')+'</div>'
+ +kpi('DOWNTIME COST (MTD)','$18,400','')+kpi('PLANNED VS REACTIVE',circ('71 / 29'),'target 85/15')+'</div>'
  +'<div class="pan"><h3>Maintenance schedule</h3><div class="ph">Planned service, not emergency repair</div>'
  +tbl(['ASSET','BRANCH','RUN HOURS','LAST SERVICE','DUE','STATUS'],[
  ['<b>Chiller 3</b>','B112 Graben','—','12 Mar','<span class="t-cr tag">OVERDUE 41d</span>','<span class="t-cr tag">FAILING</span>'],
@@ -539,31 +540,31 @@ M.asset={wb:function(){return iflag('<b>Refrigeration is at 82% of expected life
     a.st==='OVERDUE'?'<span class="t-cr tag">OVERDUE</span>':a.st==='DUE SOON'?'<span class="t-wa tag">DUE SOON</span>':'<span class="t-ok tag">OK</span>'];}),'148 ASSETS')+'</div>'
  +'<div class="pan"><h3>Asset lifecycle</h3><div class="ph">Age against expected life</div>'
  +cover([['Refrigeration',82,'cr','82%'],['Espresso machines',68,'wa','68%'],['Grinders',54,'ok','54%'],['Ovens &amp; decks',41,'ok','41%'],['POS hardware',37,'ok','37%']],100)+'</div>';},
- bi:function(){return bi([['Downtime cost by asset class','MTD',hbars([['Espresso machines',8200,'cr','€8.2k'],['Refrigeration',5400,'wa','€5.4k'],['Ovens',3100,'','€3.1k'],['POS',1700,'mi','€1.7k']])],
+ bi:function(){return bi([['Downtime cost by asset class','MTD',hbars([['Espresso machines',8200,'cr','$8.2k'],['Refrigeration',5400,'wa','$5.4k'],['Ovens',3100,'','$3.1k'],['POS',1700,'mi','$1.7k']])],
  ['MTBF','Mean hours between failures',hbars([['Ovens',9400,'mi','9,400'],['Grinders',6100,'mi','6,100'],['Espresso',3800,'wa','3,800'],['Refrigeration',2900,'cr','2,900']],10000)],
  ['Service compliance','On-schedule %',hbars([['Ovens',96,'mi','96%'],['POS',94,'mi','94%'],['Grinders',89,'wa','89%'],['Espresso',78,'cr','78%'],['Refrigeration',74,'cr','74%']],100)],
- ['Replacement forecast','Assets past 80% of life',tbl(['CLASS','COUNT','CAPEX'],[['Refrigeration','61','€412k'],['Espresso','28','€336k'],['Grinders','14','€42k']])]]);},
+ ['Replacement forecast','Assets past 80% of life',tbl(['CLASS','COUNT','CAPEX'],[['Refrigeration','61','$412k'],['Espresso','28','$336k'],['Grinders','14','$42k']])]]);},
  cfg:function(){return cfg([['Asset register','What is tracked',[['Refrigeration',true,'ENABLED'],['Espresso & grinders',true,'ENABLED'],['Ovens & bakery plant',true,'ENABLED'],['POS & IT hardware',true,'ENABLED'],['Furniture & fit-out',false,'NOT TRACKED']]],
  ['Service intervals','Planned maintenance',[['Espresso machine','2,600 run hours','MANUFACTURER'],['Refrigeration','6 months','MANUFACTURER'],['Deck oven','5,500 run hours','MANUFACTURER'],['Grinder','2,000 run hours','MANUFACTURER']]],
  ['Predictive triggers','Beyond the calendar',[['Run-hour based scheduling',true,'ENABLED'],['Telemetry anomaly triggers job',true,'ENABLED'],['Repeat-incident triggers job',true,'ENABLED'],['Auto-order consumables',false,'MANUAL']]],
  ['Replacement policy','When to renew not repair',[['Replace above % of life','85%','FINANCE'],['Replace after N failures','3 in 12 months','OPS'],['Capex approval','Head of Ops','DELEGATED']]]]);}};
-M.energy={wb:function(){return iflag('<b>Vienna uses 36% more energy per euro of revenue than Lyon.</b> Two thirds of the gap traces to refrigeration running out of specification — the same Graben fault plus two units at Stephansplatz never returning to setpoint overnight. Fixing it recovers roughly €3,400 a month.')
- +'<div class="kpis">'+kpi('ENERGY / €1K REVENUE',circ('38.2 kWh'),'<span class="dn">+8% Vienna</span>')+kpi('GROUP CONSUMPTION','580 MWh','MTD')
+M.energy={wb:function(){return iflag('<b>Vienna uses 36% more energy per dollar of revenue than Lyon.</b> Two thirds of the gap traces to refrigeration running out of specification — the same Graben fault plus two units at Stephansplatz never returning to setpoint overnight. Fixing it recovers roughly $3,400 a month.')
+ +'<div class="kpis">'+kpi('ENERGY / $1K REVENUE',circ('38.2 kWh'),'<span class="dn">+8% Vienna</span>')+kpi('GROUP CONSUMPTION','580 MWh','MTD')
  +kpi('COLD-CHAIN ALERTS','3','1 unresolved')+kpi('AMBIANCE AUTO-SET','186 / 200','on schedule')+'</div>'
- +'<div class="pan"><h3>Energy intensity by cluster</h3><div class="ph">kWh per €1,000 revenue — comparable across branch sizes</div>'
+ +'<div class="pan"><h3>Energy intensity by cluster</h3><div class="ph">kWh per $1,000 revenue — comparable across branch sizes</div>'
  +cover([['Lyon cluster',34.1,'mi','34.1 kWh'],['Brussels cluster',36.8,'mi','36.8 kWh'],['Berlin cluster',39.2,'wa','39.2 kWh'],['Vienna cluster',46.4,'cr','46.4 kWh']],50)+'</div>'
  +'<div class="pan"><h3>Ambiance schedule</h3><div class="ph">Lighting and sound follow footfall</div>'
  +tbl(['DAY-PART','LIGHTING','SOUND','MODE'],[['<b>Open · 07:00</b>','80%','42 dB','Bright / calm'],
  ['<b>Rush · 08:00</b>','100%','48 dB','Bright / lively'],['<b>Midday · 12:00</b>','90%','46 dB','Neutral'],
  ['<b>Afternoon · 15:00</b>','70%','40 dB','Warm / soft'],['<b>Close · 19:00</b>','55%','36 dB','Wind-down']])+'</div>';},
  bi:function(){return bi([['Consumption by end use','Share of kWh',hbars([['Refrigeration',38,'wa','38%'],['Baking & ovens',27,'','27%'],['HVAC',18,'','18%'],['Lighting',9,'mi','9%'],['Espresso & bar',8,'mi','8%']],45)],
- ['Energy vs revenue','Each dot is one branch',scatter(BR.map(function(b){return [b.sqm,b.rev/1000,CLC[b.cl]];}),'FLOOR AREA m² →','↑ WEEKLY REVENUE €k')],
+ ['Energy vs revenue','Each dot is one branch',scatter(BR.map(function(b){return [b.sqm,b.rev/1000,CLC[b.cl]];}),'FLOOR AREA m² →','↑ WEEKLY REVENUE $k')],
  ['Out-of-hours draw','% of daily consumption',hbars([['Vienna',31,'cr','31%'],['Berlin',24,'wa','24%'],['Brussels',19,'','19%'],['Lyon',16,'mi','16%']],35)],
- ['Intensity trend','kWh per €1k, 12 weeks',bars([34,35,34,36,35,37,36,38,37,39,38,40])]]);},
+ ['Intensity trend','kWh per $1k, 12 weeks',bars([34,35,34,36,35,37,36,38,37,39,38,40])]]);},
  cfg:function(){return cfg([['Metering','How energy is measured',[['Interval','30 minutes','IOT'],['Sub-metering by end use',true,'ENABLED'],['Branches metered','186 / 200','ROLLOUT'],['Estimated where unmetered',true,'FLAGGED']]],
  ['Ambiance automation','Comfort and saving',[['Lighting follows day-part',true,'ENABLED'],['Sound follows footfall',true,'ENABLED'],['HVAC setback out of hours',true,'ENABLED'],['Manual override at branch',true,'ALLOWED · 2H']]],
  ['Anomaly detection','When draw looks wrong',[['Flag deviation above','15%','AUTO'],['Out-of-hours draw ceiling','20%','AUTO'],['Link anomaly to asset',true,'ENABLED']]],
- ['Targets','What good looks like',[['Group intensity target','&lt; 35 kWh / €1k','ESG'],['Reduction target','−8% year on year','ESG'],['Review cadence','Monthly','ESG']]]]);}};
+ ['Targets','What good looks like',[['Group intensity target','&lt; 35 kWh / $1k','ESG'],['Reduction target','−8% year on year','ESG'],['Review cadence','Monthly','ESG']]]]);}};
 M.sus={wb:function(){return iflag('Scope 3 emissions — the supply chain — are <b>not included</b> in this carbon figure, and for a food business they are usually the largest share. Packaging recycling rests on supplier declaration rather than independent verification.')
  +'<div class="kpis">'+kpi('WASTE TO LANDFILL','18.2%','target &lt; 20%')+kpi('CARBON (SCOPE 1+2)',circ('284 tCO₂e'),'MTD')
  +kpi('RECYCLED PACKAGING','76%','<span class="wa">target 85%</span>')+kpi('SURPLUS REDISTRIBUTED','4,180 u','to food partners')+'</div>'
@@ -628,7 +629,7 @@ hyg:'<b>Third alert in 11 days at Graben.</b> A sustained rise is a failing comp
 audit:'<b>Two of four overdue findings sit with one manager</b> holding 31 open actions.',
 inc:'<b>Three refrigeration incidents closed individually are one failing compressor.</b>',
 asset:'<b>Refrigeration is at 82% of expected life estate-wide.</b> Graben is the leading edge of a replacement cycle.',
-energy:'<b>Vienna uses 36% more energy per euro than Lyon</b> — two thirds refrigeration out of specification.',
+energy:'<b>Vienna uses 36% more energy per dollar than Lyon</b> — two thirds refrigeration out of specification.',
 sus:'<b>Scope 3 is not included</b>, and for a food business it is usually the largest share.'};
 document.querySelectorAll('.nit').forEach(function(n){n.onclick=function(){go(n.dataset.r,'wb');};});
 go('cmd','wb');

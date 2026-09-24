@@ -8,3 +8,6 @@ node_modules/
 .DS_Store
 *.log
 __pycache__/
+
+# audit harness -- tools/audit_mobile.py isay chalate waqt banata aur hata deta hai
+_audit.html
