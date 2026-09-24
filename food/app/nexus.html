@@ -283,7 +283,7 @@ var BR=(function(){
 function agg(key,fn){var g={};BR.forEach(function(b){(g[b[key]]=g[b[key]]||[]).push(b);});return Object.keys(g).map(function(k){return [k,g[k],fn?fn(g[k]):0];});}
 function avg(a,f){return a.reduce(function(s,x){return s+f(x);},0)/a.length;}
 function sum(a,f){return a.reduce(function(s,x){return s+f(x);},0);}
-function eur(n){return '€'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
+function eur(n){return '$'+(n>=1000000?(n/1000000).toFixed(2)+'M':n>=1000?Math.round(n/1000)+'k':Math.round(n));}
 
 /* ---------- extended master data ---------- */
 var RX=(function(){var s=77003;return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
@@ -438,25 +438,25 @@ var CLC={urban:'#15F2F2',transit:'#3FD9A4',suburb:'#E5A24B',office:'#9B7BFF',des
 var M={};
 
 M.cmd={
- wb:function(){return iflag('<b>Butter is the binding constraint this week.</b> Laminated demand is forecast 18% above plan from Friday, but cover runs out Thursday. Raising the standing order by 340&nbsp;kg costs €2,180 and protects €12,400 of croissant revenue.')
+ wb:function(){return iflag('<b>Butter is the binding constraint this week.</b> Laminated demand is forecast 18% above plan from Friday, but cover runs out Thursday. Raising the standing order by 340&nbsp;kg costs $2,180 and protects $12,400 of croissant revenue.')
  +'<div class="kpis">'+kpi('FORECAST ACCURACY','92.8%','7-day rolling')+kpi('SERVICE LEVEL','97.4%','lines in full')
- +kpi('STOCK COVER',circ('2.4 d'),'dairy — <span class="dn">below par</span>')+kpi('OPEN POs','23','€184,200')
- +kpi('ON-SHELF AVAILABILITY','96.1%','<span class="dn">-1.2pts</span>')+kpi('WASTE COST (MTD)','€41,380','3.1% of food cost')+'</div>'
+ +kpi('STOCK COVER',circ('2.4 d'),'dairy — <span class="dn">below par</span>')+kpi('OPEN POs','23','$184,200')
+ +kpi('ON-SHELF AVAILABILITY','96.1%','<span class="dn">-1.2pts</span>')+kpi('WASTE COST (MTD)','$41,380','3.1% of food cost')+'</div>'
  +'<div class="pan"><h3>End-to-end chain status</h3><div class="ph">Plan → source → make → move → sell</div>'
  +pipe([['PLAN','Demand agreed','98%','doing'],['SOURCE','POs raised','23',''],['MAKE','Batches today','47',''],['MOVE','Loads in transit','14',''],['STORE','Branches replenished','194/200','block'],['SELL','On-shelf availability','96.1%','']])+'</div>'
  +'<div class="pan"><h3>What needs a decision today</h3><div class="ph">Ranked by cost of inaction</div>'
- +tbl(['SIGNAL','IMPACT','WINDOW'],[['<b>Butter cover falls below par Thursday</b>','<span class="t-cr tag">€12,400</span>','2 days'],
- ['<b>6 branches missed replenishment window</b> — route R-03','<span class="t-cr tag">€6,800</span>','today'],
- ['<b>Cold-chain excursion on load L-2214</b>','<span class="t-cr tag">€1,840</span>','now'],
- ['<b>Almond croissant below margin floor</b>','<span class="t-wa tag">€3,200</span>','this week']])+'</div>';},
+ +tbl(['SIGNAL','IMPACT','WINDOW'],[['<b>Butter cover falls below par Thursday</b>','<span class="t-cr tag">$12,400</span>','2 days'],
+ ['<b>6 branches missed replenishment window</b> — route R-03','<span class="t-cr tag">$6,800</span>','today'],
+ ['<b>Cold-chain excursion on load L-2214</b>','<span class="t-cr tag">$1,840</span>','now'],
+ ['<b>Almond croissant below margin floor</b>','<span class="t-wa tag">$3,200</span>','this week']])+'</div>';},
  bi:function(){var byC=agg('cln',function(g){return sum(g,function(b){return b.rev;});});
   return bi([['Revenue by cluster','Weekly, 200 branches',hbars(byC.map(function(r){return [r[0],r[2],'',eur(r[2])];}))],
   ['Chain reliability','Rolling 12 weeks',bars([88,90,89,92,91,93,92,94,93,95,94,96])+'<div class="axl"><span>12 WK AGO</span><span>NOW</span></div>'],
-  ['Cost to serve','€ per €100 revenue',hbars([['Procurement',3.1,'','€3.10'],['Production',11.4,'','€11.40'],['Logistics',4.2,'wa','€4.20'],['Waste',3.1,'wa','€3.10'],['Holding',1.2,'','€1.20']])],
-  ['Exception ageing','Open items by age',tbl(['AGE','COUNT','VALUE'],[['&lt; 24 h','14','€8,200'],['1–3 days','9','€21,400'],['4–7 days','5','€14,900'],['&gt; 7 days','<span class="t-cr tag">3</span>','€28,100']])]]);},
+  ['Cost to serve','$ per $100 revenue',hbars([['Procurement',3.1,'','$3.10'],['Production',11.4,'','$11.40'],['Logistics',4.2,'wa','$4.20'],['Waste',3.1,'wa','$3.10'],['Holding',1.2,'','$1.20']])],
+  ['Exception ageing','Open items by age',tbl(['AGE','COUNT','VALUE'],[['&lt; 24 h','14','$8,200'],['1–3 days','9','$21,400'],['4–7 days','5','$14,900'],['&gt; 7 days','<span class="t-cr tag">3</span>','$28,100']])]]);},
  cfg:function(){return cfg([['Planning horizon','How far ahead each engine plans',[['Demand forecast horizon','28 days','PLANNING'],['Production plan lock','18:00 D-1','OPS'],['Procurement horizon','45 days','BUYING'],['Re-plan on variance &gt;','8%','AUTO']]],
  ['Alert thresholds','When the chain raises its hand',[['Stock cover critical','&lt; 3 days','AUTO'],['Forecast accuracy floor','88%','PLANNING'],['On-shelf availability floor','95%','RETAIL'],['Waste ceiling (% food cost)','3.5%','FINANCE']]],
- ['Iris autonomy','What Iris may do unaided',[['Draft purchase orders',true,'ENABLED'],['Auto-approve POs under €5k',false,'DISABLED'],['Re-plan production intra-day',true,'ENABLED'],['Re-allocate constrained stock',true,'ENABLED'],['Change contracted prices',false,'NEVER']]],
+ ['Iris autonomy','What Iris may do unaided',[['Draft purchase orders',true,'ENABLED'],['Auto-approve POs under $5k',false,'DISABLED'],['Re-plan production intra-day',true,'ENABLED'],['Re-allocate constrained stock',true,'ENABLED'],['Change contracted prices',false,'NEVER']]],
  ['Data sources','What feeds this workbench',[['POS transactions','live · 200 branches','INTEGRATION'],['Weather API','hourly','INTEGRATION'],['Supplier EDI','12 of 38 suppliers','INTEGRATION'],['Telemetry · vehicles','live','IOT']]]]);}};
 
 M.fc={
@@ -500,7 +500,7 @@ M.dp={
  bi:function(){return bi([['Override accuracy','Actual vs planner adjustment',hbars([['With reason',2.1,'mi','+2.1%'],['No reason',6.8,'cr','+6.8%'],['Promo-driven',3.4,'wa','+3.4%'],['NPI',11.2,'cr','+11.2%']])],
  ['Consensus participation','Who adjusts the plan',tbl(['FUNCTION','OVERRIDES','ACCURACY'],[['Commercial','18','<span class="t-ok tag">+2.4%</span>'],['Planning','9','<span class="t-ok tag">+1.1%</span>'],['Store','7','<span class="t-wa tag">+5.2%</span>']])],
  ['Plan stability','Changes after publication',hbars([['&gt;7 days out',4,'mi','4%'],['3–7 days',11,'','11%'],['1–2 days',22,'wa','22%'],['Same day',31,'cr','31%']],40)],
- ['Waste attributable to plan','€ per week',bars([31,34,38,36,42,45,41,47,52,48,56,61])]]);},
+ ['Waste attributable to plan','$ per week',bars([31,34,38,36,42,45,41,47,52,48,56,61])]]);},
  cfg:function(){return cfg([['Consensus process','How the plan is agreed',[['Cycle','Weekly · Wednesday','PLANNING'],['Publication lock','Thursday 16:00','PLANNING'],['Override reason mandatory',false,'<span style="color:var(--red)">SHOULD BE ON</span>'],['Escalation if no consensus','Head of Supply','GOVERNANCE']]],
  ['Override limits','Guard-rails on adjustment',[['Max uplift without approval','+10%','AUTO'],['Max reduction without approval','−15%','AUTO'],['Store-level override cap','+20%','AUTO'],['Lock overrides after publication',true,'ENABLED']]],
  ['Scenario library','Standing what-ifs',[['Holiday build',true,'ACTIVE'],['Weather-adjusted',true,'ACTIVE'],['Conservative',true,'ACTIVE'],['Competitor opening',false,'DRAFT']]],
@@ -518,11 +518,11 @@ M.menu={
  +'<div class="pan"><h3>Full menu performance</h3><div class="ph">Every item by gross margin and velocity</div>'
  +big(['ITEM','CATEGORY','PRICE','COST','GM%','UNITS / WK','GP / WK','LIFECYCLE'],
   srt(SKU,'gm','desc').map(function(k){var gp=Math.round((k.price-k.cost)*k.vel);
-   return ['<b>'+k.n+'</b>',k.cat,'€'+k.price.toFixed(2),'€'+k.cost.toFixed(2),
+   return ['<b>'+k.n+'</b>',k.cat,'$'+k.price.toFixed(2),'$'+k.cost.toFixed(2),
     '<span class="'+(k.gm>70?'t-ok':k.gm>60?'t-wa':'t-cr')+' tag">'+k.gm+'%</span>',k.vel,eur(gp),
     k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST</span>'];}),SKU.length+' ITEMS')+'</div>';},
  bi:function(){return bi([['Category contribution','Share of gross profit',hbars([['Hot drinks',44,'','44%'],['Laminated',23,'','23%'],['Bread',12,'','12%'],['Patisserie',11,'','11%'],['Savoury',7,'wa','7%'],['Cold drinks',3,'cr','3%']])],
- ['Attachment rates','What sells with what',tbl(['ANCHOR','ATTACHES','RATE','UPLIFT'],[['<b>Flat white</b>','Butter croissant','41%','€0.64'],['<b>Cappuccino</b>','Pain au chocolat','34%','€0.61'],['<b>Sourdough</b>','Butter portion','28%','€0.22'],['<b>Filter</b>','—','9%','<span class="t-wa tag">low</span>']])],
+ ['Attachment rates','What sells with what',tbl(['ANCHOR','ATTACHES','RATE','UPLIFT'],[['<b>Flat white</b>','Butter croissant','41%','$0.64'],['<b>Cappuccino</b>','Pain au chocolat','34%','$0.61'],['<b>Sourdough</b>','Butter portion','28%','$0.22'],['<b>Filter</b>','—','9%','<span class="t-wa tag">low</span>']])],
  ['Price elasticity','Modelled volume response to +10% price',hbars([['Flat white',-3.1,'mi','−3.1%'],['Butter croissant',-4.8,'mi','−4.8%'],['Almond croissant',-6.2,'wa','−6.2%'],['Iced latte',-11.4,'cr','−11.4%']],12)],
  ['Menu churn','Items added / removed per quarter',tbl(['QUARTER','ADDED','REMOVED','NET'],[['Q1','8','5','+3'],['Q2','6','9','−3'],['Q3 (plan)','7','14','<span class="t-wa tag">−7</span>']])]]);},
  cfg:function(){return cfg([['Classification rules','How items are graded',[['Margin floor (Star)','70%','FINANCE'],['Velocity floor (Star)','Top 40%','COMMERCIAL'],['Dog review threshold','Bottom 15% both axes','COMMERCIAL'],['Review cadence','Monthly','GOVERNANCE']]],
@@ -531,7 +531,7 @@ M.menu={
  ['Delist protection','Items that cannot be auto-delisted',[['Allergen-alternative items',true,'PROTECTED'],['Contractual / franchise items',true,'PROTECTED'],['New items under 6 weeks',true,'PROTECTED']]]]);}};
 
 M.plan={
- wb:function(){return iflag('Second bakes at 09:30 and 12:20 exist because afternoon sell-through collapsed 22% on single-bake days. The split costs 40 extra labour minutes and recovers about <b>€1,840 a week</b>.')
+ wb:function(){return iflag('Second bakes at 09:30 and 12:20 exist because afternoon sell-through collapsed 22% on single-bake days. The split costs 40 extra labour minutes and recovers about <b>$1,840 a week</b>.')
  +'<div class="kpis">'+kpi('BATCHES TOMORROW','63','3 bake windows')+kpi('OVEN UTILISATION',circ('86%'),'<span class="up">+4pts vs plan</span>')
  +kpi('PLANNED YIELD','34,560 u','vs 34,240 plan')+kpi('LABOUR HOURS','418','matched to plan')+'</div>'
  +'<div class="pan"><h3>Tomorrow\'s bake plan</h3><div class="ph">From the agreed demand plan · respects oven, proofer and shelf life</div>'
@@ -552,7 +552,7 @@ M.clus={
  wb:function(){
   var cls=agg('cln',function(g){return g.length;});
   var rows=cls.map(function(r){var g=r[1];
-   return ['<b>'+r[0]+'</b>',g.length,eur(sum(g,function(b){return b.rev;})),'€'+avg(g,function(b){return b.basket;}).toFixed(2),
+   return ['<b>'+r[0]+'</b>',g.length,eur(sum(g,function(b){return b.rev;})),'$'+avg(g,function(b){return b.basket;}).toFixed(2),
     Math.round(avg(g,function(b){return b.txn;})),avg(g,function(b){return b.am;}).toFixed(2),Math.round(avg(g,function(b){return b.nps;}))];});
   return iflag('<b>Eleven branches changed cluster this quarter.</b> Nine drifted from Office &amp; Campus toward Urban High-Traffic as hybrid working settled — their midday peak flattened and morning sharpened. Their assortment and replenishment calendar still follow the old cluster.')
   +'<div class="kpis">'+kpi('BRANCHES',circ(String(BR.length)),'coffee &amp; bakery estate')+kpi('CLUSTERS','5','behaviour-based')
@@ -561,16 +561,16 @@ M.clus={
   +'<div class="pan"><h3>Cluster centroids</h3><div class="ph">Grouped on demand behaviour — not geography. '+BR.length+' branches, weekly figures</div>'
   +tbl(['CLUSTER','BRANCHES','WEEKLY REV','AVG BASKET','TXN / WK','AM SHARE','NPS'],rows)+'</div>'
   +'<div class="pan"><h3>Branch register · sample</h3><div class="ph">Every branch carries its own KPI set</div>'
-  +big(['ID','CITY','CLUSTER','FORMAT','REV/WK','BASKET','TXN/WK','LABOUR %','WASTE %','€/SQM','NPS'],
+  +big(['ID','CITY','CLUSTER','FORMAT','REV/WK','BASKET','TXN/WK','LABOUR %','WASTE %','$/SQM','NPS'],
    srt(BR,'rev','desc').map(function(b){
-    return ['<b>'+b.id+'</b>',b.city+' · '+b.cc,b.cln.split(' ')[0],b.fmt,eur(b.rev),'€'+b.basket.toFixed(2),b.txn,b.lab+'%',b.waste+'%','€'+b.rps,b.nps];}),'FULL ESTATE')+'</div>';},
+    return ['<b>'+b.id+'</b>',b.city+' · '+b.cc,b.cln.split(' ')[0],b.fmt,eur(b.rev),'$'+b.basket.toFixed(2),b.txn,b.lab+'%',b.waste+'%','$'+b.rps,b.nps];}),'FULL ESTATE')+'</div>';},
  bi:function(){
   var pts=BR.map(function(b){return [b.txn,b.basket,CLC[b.cl]];});
   var byCity=agg('city',function(g){return sum(g,function(b){return b.rev;});}).sort(function(a,b){return b[2]-a[2];}).slice(0,8);
   var cls=agg('cln',function(g){return avg(g,function(b){return b.rps;});});
   var lab=agg('cln',function(g){return avg(g,function(b){return b.lab;});});
   return bi([['Basket vs transactions','Each dot is one branch, coloured by cluster',scatter(pts,'TRANSACTIONS / WEEK →','↑ AVG BASKET')],
-  ['Revenue per m²','Cluster average — space productivity',hbars(cls.map(function(r){return [r[0].split(' ')[0],r[2],'','€'+r[2].toFixed(0)];}))],
+  ['Revenue per m²','Cluster average — space productivity',hbars(cls.map(function(r){return [r[0].split(' ')[0],r[2],'','$'+r[2].toFixed(0)];}))],
   ['Top cities by revenue','Weekly, all branches',hbars(byCity.map(function(r){return [r[0],r[2],'',eur(r[2])];}))],
   ['Labour intensity by cluster','% of sales',hbars(lab.map(function(r){return [r[0].split(' ')[0],r[2],r[2]>30?'wa':'mi',r[2].toFixed(1)+'%'];}),36)]]);},
  cfg:function(){return cfg([['Clustering model','How branches are grouped',[['Algorithm','k-means + silhouette','L2 ZEN'],['Cluster count k','5','TUNED'],['Re-cluster cadence','Quarterly','AUTO'],['Min branches per cluster','20','GUARD']]],
@@ -596,7 +596,7 @@ M.alloc={
  ['<b>Seasonal tart</b>','Urban High','0','40','0','<b>40</b>','<span class="t-ai tag">PUSH · NPI</span>'],
  ['<b>Almond croissant</b>','All','30','90','—','<span class="t-wa tag">FAIR SHARE</span>','<span class="t-wa tag">CONSTRAINED</span>']])+'</div>';},
  bi:function(){return bi([['Availability by cluster','On-shelf %, rolling 4 weeks',hbars([['Urban High',97.8,'mi','97.8%'],['Transit',97.1,'mi','97.1%'],['Destination',96.4,'mi','96.4%'],['Suburban',95.2,'wa','95.2%'],['Office',93.1,'cr','93.1%']],100)],
- ['Lost sales estimate','€ per week from stock-outs',hbars([['Office & Campus',8400,'cr','€8.4k'],['Suburban',5100,'wa','€5.1k'],['Urban High',2200,'','€2.2k'],['Transit',1900,'','€1.9k'],['Destination',1100,'','€1.1k']])],
+ ['Lost sales estimate','$ per week from stock-outs',hbars([['Office & Campus',8400,'cr','$8.4k'],['Suburban',5100,'wa','$5.1k'],['Urban High',2200,'','$2.2k'],['Transit',1900,'','$1.9k'],['Destination',1100,'','$1.1k']])],
  ['Push vs pull outcome','Waste and availability by mode',tbl(['MODE','SHARE','AVAIL.','WASTE'],[['Pull (min–max)','74%','96.8%','2.8%'],['Push (NPI/promo)','26%','94.1%','<span class="t-wa tag">4.6%</span>']])],
  ['Fair-share fairness','Cut applied vs forecast share',hbars([['Urban High',-8.2,'wa','−8.2%'],['Transit',-8.4,'wa','−8.4%'],['Suburban',-8.1,'wa','−8.1%'],['Office',-8.3,'wa','−8.3%'],['Destination',-8.0,'wa','−8.0%']],10)]]);},
  cfg:function(){return cfg([['Replenishment policy','How stock reaches a branch',[['Default mode','Pull (min–max)','PLANNING'],['Review period','Daily','AUTO'],['Safety stock method','Service-level 97%','AUTO'],['Lead-time buffer','1 delivery cycle','AUTO']]],
@@ -605,9 +605,9 @@ M.alloc={
  ['Push allocation','New and promoted items',[['NPI push duration','2 weeks','COMMERCIAL'],['Promo push override',true,'ENABLED'],['Max push as % of max','60%','GUARD']]]]);}};
 
 M.log={
- wb:function(){return iflag('<b>Load L-2214 ran 2.1°C above cold specification for 40 minutes.</b> Dairy on that load must be quarantined, not sold — €1,840 at risk. Cause is the same door-seal fault reported twice this month; that vehicle should come off cold rotation.')
+ wb:function(){return iflag('<b>Load L-2214 ran 2.1°C above cold specification for 40 minutes.</b> Dairy on that load must be quarantined, not sold — $1,840 at risk. Cause is the same door-seal fault reported twice this month; that vehicle should come off cold rotation.')
  +'<div class="kpis">'+kpi('LOADS IN TRANSIT','14','3 DCs · 9 routes')+kpi('ON-TIME DELIVERY','91.4%','<span class="dn">-3.1pts</span>')
- +kpi('COLD-CHAIN COMPLIANCE',circ('99.2%'),'<span class="wa">1 excursion</span>')+kpi('COST PER DROP','€18.40','<span class="up">-€1.10</span>')+'</div>'
+ +kpi('COLD-CHAIN COMPLIANCE',circ('99.2%'),'<span class="wa">1 excursion</span>')+kpi('COST PER DROP','$18.40','<span class="up">-$1.10</span>')+'</div>'
  +'<div class="pan"><h3>Warehouse to store · live loads</h3><div class="ph">Cold, frozen and dry chains tracked separately</div>'
  +tbl(['LOAD','ROUTE','CHAIN','DROPS','DEPART','ETA','STATUS'],[
  ['<b>L-2214</b>','R-03 Lyon Centre','<span class="t-nu tag">COLD 2–4°C</span>','9','04:10','07:40','<span class="t-cr tag">EXCURSION</span>'],
@@ -619,7 +619,7 @@ M.log={
  +big(['ROUTE','CITY','CHAIN','DROPS','ON-TIME','COST / DROP','EXCURSIONS'],
   srt(ROUTES,'otd','asc').map(function(r){
    return ['<b>'+r.id+'</b>',r.city,'<span class="'+(r.chain.charAt(0)==='C'?'t-nu':r.chain.charAt(0)==='F'?'t-ai':'t-wa')+' tag">'+r.chain+'</span>',r.drops,
-    '<span class="'+(r.otd>95?'t-ok':r.otd>88?'t-wa':'t-cr')+' tag">'+r.otd+'%</span>','€'+r.cpd.toFixed(2),
+    '<span class="'+(r.otd>95?'t-ok':r.otd>88?'t-wa':'t-cr')+' tag">'+r.otd+'%</span>','$'+r.cpd.toFixed(2),
     r.exc?'<span class="t-cr tag">'+r.exc+'</span>':'—'];}),'26 ROUTES')+'</div>'
  +'<div class="pan"><h3>Temperature integrity in transit</h3><div class="ph">Against chain specification</div>'
  +'<div class="tempbar"><span class="nm">L-2214 · cold</span><div class="tr"><i style="left:0;width:64%;background:linear-gradient(90deg,var(--teal),var(--red))"></i></div><span class="vv" style="color:var(--red)">6.1°C</span></div>'
@@ -627,8 +627,8 @@ M.log={
  +'<div class="tempbar"><span class="nm">L-2226 · frozen</span><div class="tr"><i style="left:0;width:22%;background:var(--violet)"></i></div><span class="vv" style="color:var(--mint)">−19.1°C</span></div>'
  +'<div class="tempbar"><span class="nm">L-2224 · dry</span><div class="tr"><i style="left:0;width:52%;background:var(--amber)"></i></div><span class="vv" style="color:var(--mint)">18.4°C</span></div></div>';},
  bi:function(){return bi([['On-time by route','Rolling 4 weeks',hbars([['R-07 Lyon East',97.2,'mi','97.2%'],['R-19 Berlin',96.1,'mi','96.1%'],['R-14 Brussels',94.8,'mi','94.8%'],['R-11 Vienna',92.4,'wa','92.4%'],['R-03 Lyon Centre',81.6,'cr','81.6%']],100)],
- ['Cost to serve by chain','€ per drop',hbars([['Frozen',26.8,'wa','€26.80'],['Cold',21.4,'','€21.40'],['Dry ambient',12.9,'mi','€12.90']],30)],
- ['Excursions by cause','Last 90 days',tbl(['CAUSE','COUNT','STOCK AT RISK'],[['Door seal fault','4','€6,200'],['Compressor','2','€3,100'],['Door open too long','7','€1,400'],['Loading delay','3','€900']])],
+ ['Cost to serve by chain','$ per drop',hbars([['Frozen',26.8,'wa','$26.80'],['Cold',21.4,'','$21.40'],['Dry ambient',12.9,'mi','$12.90']],30)],
+ ['Excursions by cause','Last 90 days',tbl(['CAUSE','COUNT','STOCK AT RISK'],[['Door seal fault','4','$6,200'],['Compressor','2','$3,100'],['Door open too long','7','$1,400'],['Loading delay','3','$900']])],
  ['Drop density','Drops per route hour',hbars([['Transit routes',4.8,'mi','4.8'],['Urban routes',3.9,'','3.9'],['Suburban routes',2.4,'wa','2.4'],['Destination routes',1.8,'cr','1.8']],6)]]);},
  cfg:function(){return cfg([['Chain specifications','Temperature bands',[['Cold chain','2 – 4°C','FOOD SAFETY'],['Frozen chain','≤ −18°C','FOOD SAFETY'],['Dry ambient','10 – 25°C','QUALITY'],['Excursion tolerance','15 min','FOOD SAFETY']]],
  ['Routing rules','How loads are built',[['Optimise for','Cost per drop','LOGISTICS'],['Max drops per load','12','OPS'],['Max route duration','4.5 h','COMPLIANCE'],['Split cold and dry loads',true,'MANDATORY']]],
@@ -636,9 +636,9 @@ M.log={
  ['Excursion response','What happens automatically',[['Alert threshold','+0.5°C for 10 min','AUTO'],['Auto-quarantine affected stock',true,'ENABLED'],['Remove vehicle from cold rotation',false,'MANUAL'],['Notify food safety lead',true,'ENABLED']]]]);}};
 
 M.inv={
- wb:function(){return iflag('<b>Butter variance is 6.4% above theoretical.</b> That is not shrinkage — it is lamination portioning at three branches, worth about €4,900 a month.')
- +'<div class="kpis">'+kpi('SKUS TRACKED','214','raw + packaging')+kpi('STOCK VALUE','€312,400','at latest cost')
- +kpi('BELOW PAR',circ('7'),'action needed')+kpi('EXPIRING ≤7 DAYS','€2,140','rotate first')+'</div>'
+ wb:function(){return iflag('<b>Butter variance is 6.4% above theoretical.</b> That is not shrinkage — it is lamination portioning at three branches, worth about $4,900 a month.')
+ +'<div class="kpis">'+kpi('SKUS TRACKED','214','raw + packaging')+kpi('STOCK VALUE','$312,400','at latest cost')
+ +kpi('BELOW PAR',circ('7'),'action needed')+kpi('EXPIRING ≤7 DAYS','$2,140','rotate first')+'</div>'
  +'<div class="pan"><h3>Live ingredient ledger</h3><div class="ph">Depleting against every sale through the bill of material</div>'
  +tbl(['INGREDIENT','ON HAND','PAR','COVER','BATCH / EXPIRY','STATUS'],[
  ['<b>Butter, unsalted 82%</b>','412 kg','900 kg','2.4 d','B-2291 · 14 Aug','<span class="t-cr tag">BELOW PAR</span>'],
@@ -650,12 +650,12 @@ M.inv={
  +big(['ITEM','CATEGORY','SHELF LIFE','UNITS / WK','WASTE %','COST/UNIT','LIFECYCLE'],
   srt(SKU,'waste','desc').map(function(k){
    return ['<b>'+k.n+'</b>',k.cat,k.shelf?k.shelf+' h':'—',k.vel,
-    '<span class="'+(k.waste<2?'t-ok':k.waste<4?'t-wa':'t-cr')+' tag">'+k.waste+'%</span>','€'+k.cost.toFixed(2),
+    '<span class="'+(k.waste<2?'t-ok':k.waste<4?'t-wa':'t-cr')+' tag">'+k.waste+'%</span>','$'+k.cost.toFixed(2),
     k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST</span>'];}),SKU.length+' CATALOGUE ITEMS')+'</div>';},
  bi:function(){return bi([['Inventory turns','By category, annualised',hbars([['Dairy',104,'mi','104×'],['Fresh produce',182,'mi','182×'],['Flour & grain',41,'','41×'],['Chocolate',26,'wa','26×'],['Packaging',18,'wa','18×']],200)],
  ['Theoretical vs actual','7-day usage variance',hbars([['Butter',6.4,'cr','+6.4%'],['Chocolate',6.3,'cr','+6.3%'],['Flour T55',1.1,'mi','+1.1%'],['Milk',1.0,'mi','+1.0%'],['Yeast',2.2,'','+2.2%']],8)],
- ['Stock value trend','€ held, 12 weeks',bars([64,68,66,71,69,74,72,76,74,78,76,81])],
- ['Write-off by reason','Last 90 days',tbl(['REASON','VALUE','SHARE'],[['Expiry','€8,400','44%'],['Damage','€5,100','27%'],['Quality reject','€3,600','19%'],['Cold-chain loss','€1,900','10%']])]]);},
+ ['Stock value trend','$ held, 12 weeks',bars([64,68,66,71,69,74,72,76,74,78,76,81])],
+ ['Write-off by reason','Last 90 days',tbl(['REASON','VALUE','SHARE'],[['Expiry','$8,400','44%'],['Damage','$5,100','27%'],['Quality reject','$3,600','19%'],['Cold-chain loss','$1,900','10%']])]]);},
  cfg:function(){return cfg([['Stock policy','How inventory is governed',[['Rotation method','FEFO','FOOD SAFETY'],['Count cadence · high value','Weekly','FINANCE'],['Count cadence · standard','Monthly','FINANCE'],['Negative stock allowed',false,'BLOCKED']]],
  ['Par levels','Reorder points',[['Derived from','Forecast × lead time','L2 ZEN'],['Seasonal adjustment',true,'ENABLED'],['Manual par override',true,'BUYER'],['Recalculate weekly',true,'ENABLED']]],
  ['Batch & traceability','What is recorded',[['Batch code capture',true,'MANDATORY'],['Supplier lot linkage',true,'ENABLED'],['Expiry date capture',true,'MANDATORY'],['Forward trace to product',true,'ENABLED']]],
@@ -663,49 +663,49 @@ M.inv={
 
 M.proc={
  wb:function(){return iflag('<b>PO-4455 is invoiced 6.1% above contracted price.</b> That single exception explains the entire group price variance — and it is the same supplier whose on-time performance has fallen 15 points.')
- +'<div class="kpis">'+kpi('REQUISITIONS OPEN','31','€214,600')+kpi('AWAITING APPROVAL','4','€38,400')
+ +'<div class="kpis">'+kpi('REQUISITIONS OPEN','31','$214,600')+kpi('AWAITING APPROVAL','4','$38,400')
  +kpi('3-WAY MATCH RATE','96.2%','6 exceptions')+kpi('PRICE VARIANCE (MTD)',circ('+2.4%'),'vs contracted')+kpi('PO CYCLE TIME','1.8 days','plan to dispatch')+'</div>'
  +'<div class="pan"><h3>Plan-to-procure cycle</h3><div class="ph">Every stage from demand signal to supplier payment</div>'
  +pipe([['DEMAND','Requirement raised','31',''],['REQUISITION','Drafted by Iris','23','doing'],['SOURCING','RFQ issued','6',''],['AWARD','Quote accepted','4',''],['PO','Order placed','23',''],['APPROVE','Awaiting sign-off','4','block'],['RECEIPT','GRN booked','18',''],['MATCH','3-way matched','17',''],['PAY','Scheduled','14','']])+'</div>'
  +'<div class="pan"><h3>Live procurement pipeline</h3><div class="ph">Requisition → PO → receipt → match → payment</div>'
  +tbl(['REF','SUPPLIER','ITEM','VALUE','STAGE','STATUS'],[
- ['<b>REQ-8841</b>','Delcourt Dairy','Butter 1,240 kg','€28,400','Requisition','<span class="t-ai tag">IRIS DRAFT</span>'],
- ['<b>PO-4479</b>','Moulin Berger','Flour T55 6 t','€19,800','Purchase order','<span class="t-ok tag">APPROVED</span>'],
- ['<b>PO-4471</b>','Cacao Nord','Chocolate 600 kg','€12,600','Purchase order','<span class="t-wa tag">AWAITING APPROVAL</span>'],
- ['<b>PO-4466</b>','Verger Lyon','Fresh produce','€6,240','Goods receipt','<span class="t-nu tag">GRN BOOKED</span>'],
- ['<b>PO-4455</b>','Delcourt Dairy','Butter 900 kg','€26,900','Exception','<span class="t-cr tag">PRICE MISMATCH</span>']])+'</div>'
+ ['<b>REQ-8841</b>','Delcourt Dairy','Butter 1,240 kg','$28,400','Requisition','<span class="t-ai tag">IRIS DRAFT</span>'],
+ ['<b>PO-4479</b>','Moulin Berger','Flour T55 6 t','$19,800','Purchase order','<span class="t-ok tag">APPROVED</span>'],
+ ['<b>PO-4471</b>','Cacao Nord','Chocolate 600 kg','$12,600','Purchase order','<span class="t-wa tag">AWAITING APPROVAL</span>'],
+ ['<b>PO-4466</b>','Verger Lyon','Fresh produce','$6,240','Goods receipt','<span class="t-nu tag">GRN BOOKED</span>'],
+ ['<b>PO-4455</b>','Delcourt Dairy','Butter 900 kg','$26,900','Exception','<span class="t-cr tag">PRICE MISMATCH</span>']])+'</div>'
  +'<div class="pan"><h3>Full purchase ledger</h3><div class="ph">All open and recent orders across 38 suppliers</div>'
  +big(['REF','SUPPLIER','ITEM','QTY','VALUE','AGE','STATUS'],
   srt(POS,'age','asc').map(function(o){var c=o.st==='PRICE MISMATCH'?'t-cr':o.st==='AWAITING APPROVAL'?'t-wa':o.st==='IRIS DRAFT'?'t-ai':'t-ok';
    return ['<b>'+o.ref+'</b>',o.sup,o.item,o.qty,eur(o.val),o.age+' d','<span class="'+c+' tag">'+o.st+'</span>'];}),'64 ORDERS')+'</div>';},
  bi:function(){return bi([['Cycle time by stage','Average days',hbars([['Requisition → PO',0.4,'mi','0.4 d'],['PO → approval',0.8,'wa','0.8 d'],['Approval → dispatch',0.6,'mi','0.6 d'],['Receipt → match',1.9,'cr','1.9 d'],['Match → payment',28,'','28 d']],30)],
- ['Spend by category','MTD',hbars([['Dairy',184000,'','€184k'],['Flour & grain',142000,'','€142k'],['Chocolate',68000,'','€68k'],['Produce',54000,'','€54k'],['Packaging',41000,'','€41k']])],
- ['Match exceptions','PO vs GRN vs invoice',tbl(['TYPE','COUNT','VALUE'],[['Price variance','3','€2,072'],['Quantity short','2','€494'],['Tax code','1','€96']])],
+ ['Spend by category','MTD',hbars([['Dairy',184000,'','$184k'],['Flour & grain',142000,'','$142k'],['Chocolate',68000,'','$68k'],['Produce',54000,'','$54k'],['Packaging',41000,'','$41k']])],
+ ['Match exceptions','PO vs GRN vs invoice',tbl(['TYPE','COUNT','VALUE'],[['Price variance','3','$2,072'],['Quantity short','2','$494'],['Tax code','1','$96']])],
  ['Maverick spend','Purchases outside contract',hbars([['Fresh produce',18.2,'cr','18.2%'],['Packaging',6.1,'wa','6.1%'],['Dairy',2.4,'mi','2.4%'],['Flour',0.8,'mi','0.8%']],20)]]);},
- cfg:function(){return cfg([['Approval matrix','Who signs what',[['Under €5,000','Area manager','DELEGATED'],['€5,000 – €25,000','Head of Supply','DELEGATED'],['€25,000 – €100,000','CFO','ESCALATED'],['Over €100,000','Board','ESCALATED']]],
+ cfg:function(){return cfg([['Approval matrix','Who signs what',[['Under $5,000','Area manager','DELEGATED'],['$5,000 – $25,000','Head of Supply','DELEGATED'],['$25,000 – $100,000','CFO','ESCALATED'],['Over $100,000','Board','ESCALATED']]],
  ['Three-way match','Tolerances before exception',[['Price tolerance','±2%','FINANCE'],['Quantity tolerance','±3%','FINANCE'],['Auto-post within tolerance',true,'ENABLED'],['Block payment on exception',true,'ENABLED']]],
  ['Requisition automation','What Iris may draft',[['Auto-draft on par breach',true,'ENABLED'],['Auto-draft on forecast lift',true,'ENABLED'],['Auto-submit without human',false,'NEVER'],['Suggest alternative supplier',true,'ENABLED']]],
  ['Payment terms','Standing commercial terms',[['Default terms','45 days','FINANCE'],['Early-settlement discount','2% / 10 days','FINANCE'],['Hold payment on quality reject',true,'ENABLED']]]]);}};
 
 M.rfq={
- wb:function(){return iflag('<b>Beurre Vallée is €0.16/kg more expensive landed, and still the better award.</b> Delcourt\'s indexed contract is what allowed the 6.1% rise, and its OTIF has fallen to 81%. Switching costs ~€14,900/yr and saves an estimated €38,000 in lost production.')
- +'<div class="kpis">'+kpi('ACTIVE RFQs','6','€142,800 addressable')+kpi('CONTRACTS LIVE','24','€2.1M annualised')
- +kpi('EXPIRING ≤90 DAYS',circ('5'),'renegotiate')+kpi('SAVINGS IDENTIFIED','€64,200','annualised')+'</div>'
+ wb:function(){return iflag('<b>Beurre Vallée is $0.16/kg more expensive landed, and still the better award.</b> Delcourt\'s indexed contract is what allowed the 6.1% rise, and its OTIF has fallen to 81%. Switching costs ~$14,900/yr and saves an estimated $38,000 in lost production.')
+ +'<div class="kpis">'+kpi('ACTIVE RFQs','6','$142,800 addressable')+kpi('CONTRACTS LIVE','24','$2.1M annualised')
+ +kpi('EXPIRING ≤90 DAYS',circ('5'),'renegotiate')+kpi('SAVINGS IDENTIFIED','$64,200','annualised')+'</div>'
  +'<div class="pan"><h3>Open RFQs · quote comparison</h3><div class="ph">Award on landed cost and reliability, not headline price</div>'
  +tbl(['RFQ','CATEGORY','BIDDERS','BEST PRICE','LANDED','OTIF','RECOMMENDED'],[
- ['<b>RFQ-114</b>','Butter · 12 mo','4','€6.02 / kg','€6.18','98.1%','<span class="t-ok tag">Beurre Vallée</span>'],
- ['<b>RFQ-115</b>','Flour T55 · 12 mo','3','€0.58 / kg','€0.61','98.2%','<span class="t-ok tag">Moulin Berger</span>'],
- ['<b>RFQ-118</b>','Packaging · 24 mo','5','€0.041 / u','€0.044','99.4%','<span class="t-ok tag">EmballagePro</span>'],
- ['<b>RFQ-121</b>','Chocolate · 12 mo','3','€19.40 / kg','€20.10','96.8%','<span class="t-wa tag">Cacao Nord</span>']])+'</div>'
+ ['<b>RFQ-114</b>','Butter · 12 mo','4','$6.02 / kg','$6.18','98.1%','<span class="t-ok tag">Beurre Vallée</span>'],
+ ['<b>RFQ-115</b>','Flour T55 · 12 mo','3','$0.58 / kg','$0.61','98.2%','<span class="t-ok tag">Moulin Berger</span>'],
+ ['<b>RFQ-118</b>','Packaging · 24 mo','5','$0.041 / u','$0.044','99.4%','<span class="t-ok tag">EmballagePro</span>'],
+ ['<b>RFQ-121</b>','Chocolate · 12 mo','3','$19.40 / kg','$20.10','96.8%','<span class="t-wa tag">Cacao Nord</span>']])+'</div>'
  +'<div class="pan"><h3>Contract register</h3><div class="ph">Price protection and volume commitment</div>'
  +tbl(['SUPPLIER','CATEGORY','EXPIRES','PRICE BASIS','VOLUME COMMIT'],[
  ['<b>Delcourt Dairy</b>','Dairy','<span class="t-cr tag">18 Sep</span>','Indexed','80% of category'],
  ['<b>Moulin Berger</b>','Flour','12 Mar','Fixed','70%'],
  ['<b>Cacao Nord</b>','Chocolate','<span class="t-wa tag">30 Oct</span>','Fixed','60%'],
  ['<b>Verger Lyon</b>','Produce','<span class="t-wa tag">22 Aug</span>','Spot','None']])+'</div>';},
- bi:function(){return bi([['Savings pipeline','Identified vs realised',hbars([['Identified',64200,'','€64.2k'],['Negotiated',41800,'wa','€41.8k'],['Contracted',28400,'wa','€28.4k'],['Realised in P&L',19100,'cr','€19.1k']])],
+ bi:function(){return bi([['Savings pipeline','Identified vs realised',hbars([['Identified',64200,'','$64.2k'],['Negotiated',41800,'wa','$41.8k'],['Contracted',28400,'wa','$28.4k'],['Realised in P&L',19100,'cr','$19.1k']])],
  ['Bid participation','Suppliers per RFQ',hbars([['Packaging',5,'mi','5'],['Butter',4,'mi','4'],['Produce',4,'mi','4'],['Flour',3,'wa','3'],['Chocolate',3,'wa','3']],6)],
- ['Price basis exposure','Share of spend',tbl(['BASIS','SPEND','RISK'],[['Fixed','€1.24M','<span class="t-ok tag">LOW</span>'],['Indexed','€0.61M','<span class="t-cr tag">HIGH</span>'],['Spot','€0.25M','<span class="t-wa tag">MEDIUM</span>']])],
+ ['Price basis exposure','Share of spend',tbl(['BASIS','SPEND','RISK'],[['Fixed','$1.24M','<span class="t-ok tag">LOW</span>'],['Indexed','$0.61M','<span class="t-cr tag">HIGH</span>'],['Spot','$0.25M','<span class="t-wa tag">MEDIUM</span>']])],
  ['Contract expiry runway','Months to expiry',hbars([['Delcourt · dairy',2,'cr','2 mo'],['Verger · produce',1,'cr','1 mo'],['Cacao Nord',3,'wa','3 mo'],['EmballagePro',11,'mi','11 mo'],['Moulin Berger',8,'mi','8 mo']],12)]]);},
  cfg:function(){return cfg([['Sourcing policy','How awards are decided',[['Minimum bidders','3','GOVERNANCE'],['Award basis','Landed cost + OTIF','POLICY'],['OTIF weighting','30%','POLICY'],['Single-source approval','CFO','ESCALATED']]],
  ['Contract standards','Default clauses',[['Price review frequency','Quarterly','LEGAL'],['Max indexed exposure','25% of spend','FINANCE'],['Quality reject clause',true,'MANDATORY'],['Volume flexibility','±15%','COMMERCIAL']]],
@@ -746,14 +746,14 @@ M.bom={
  +kpi('BELOW MARGIN FLOOR',circ('5'),'reprice candidates')+kpi('ALLERGEN-TAGGED','100%','label ready')+'</div>'
  +'<div class="pan"><h3>Recipe cost &amp; margin</h3><div class="ph">Recosted live as ingredient prices move</div>'
  +tbl(['PRODUCT','YIELD','COST/UNIT','PRICE','GM%','TREND'],[
- ['<b>Butter croissant</b>','96%','€0.41','€1.60','<b>74.4%</b>','<span class="t-wa tag">-2.1pts</span>'],
- ['<b>Pain au chocolat</b>','95%','€0.52','€1.90','<b>72.6%</b>','<span class="t-wa tag">-2.4pts</span>'],
- ['<b>Sourdough loaf</b>','92%','€0.88','€3.80','<b>76.8%</b>','<span class="t-ok tag">+0.3pts</span>'],
- ['<b>Almond croissant</b>','94%','€0.94','€2.60','<b>63.8%</b>','<span class="t-cr tag">-3.8pts</span>']])+'</div>'
+ ['<b>Butter croissant</b>','96%','$0.41','$1.60','<b>74.4%</b>','<span class="t-wa tag">-2.1pts</span>'],
+ ['<b>Pain au chocolat</b>','95%','$0.52','$1.90','<b>72.6%</b>','<span class="t-wa tag">-2.4pts</span>'],
+ ['<b>Sourdough loaf</b>','92%','$0.88','$3.80','<b>76.8%</b>','<span class="t-ok tag">+0.3pts</span>'],
+ ['<b>Almond croissant</b>','94%','$0.94','$2.60','<b>63.8%</b>','<span class="t-cr tag">-3.8pts</span>']])+'</div>'
  +'<div class="pan"><h3>Sub-recipe: Laminated dough</h3><div class="ph">Used by 6 products — change once, recost everywhere</div>'
- +tbl(['INGREDIENT','QTY / KG','COST','SHARE'],[['<b>Flour T55</b>','0.540 kg','€0.32','38%'],
- ['<b>Butter, unsalted 82%</b>','0.310 kg','€1.86','<b>52%</b>'],['<b>Water</b>','0.120 L','€0.00','0%'],
- ['<b>Yeast, fresh</b>','0.018 kg','€0.09','4%'],['<b>Salt &amp; sugar</b>','0.024 kg','€0.06','6%']])+'</div>';},
+ +tbl(['INGREDIENT','QTY / KG','COST','SHARE'],[['<b>Flour T55</b>','0.540 kg','$0.32','38%'],
+ ['<b>Butter, unsalted 82%</b>','0.310 kg','$1.86','<b>52%</b>'],['<b>Water</b>','0.120 L','$0.00','0%'],
+ ['<b>Yeast, fresh</b>','0.018 kg','$0.09','4%'],['<b>Salt &amp; sugar</b>','0.024 kg','$0.06','6%']])+'</div>';},
  bi:function(){return bi([['Margin bridge','Points of GM change, MTD',hbars([['Butter price',-2.4,'cr','−2.4'],['Flour price',-0.2,'wa','−0.2'],['Mix shift',0.9,'mi','+0.9'],['Yield improvement',0.6,'mi','+0.6']],3)],
  ['Cost sensitivity','GM impact of +10% ingredient',hbars([['Butter',-3.9,'cr','−3.9pts'],['Flour',-1.1,'wa','−1.1pts'],['Chocolate',-0.8,'wa','−0.8pts'],['Milk',-0.6,'mi','−0.6pts']],5)],
  ['Sub-recipe reuse','Products per sub-recipe',hbars([['Laminated dough',6,'','6'],['Pastry cream',5,'','5'],['Sourdough starter',4,'','4'],['Chocolate ganache',3,'','3']],8)],
@@ -765,19 +765,19 @@ M.bom={
 
 M.waste={
  wb:function(){return iflag('<b>58% of waste is unsold product</b> — a planning problem, not a kitchen discipline problem. It rises with the unjustified demand-plan overrides flagged in Demand Planning.')
- +'<div class="kpis">'+kpi('WASTE COST (MTD)',circ('€41,380'),'3.1% of food cost')+kpi('UNSOLD','€24,100','58%')
- +kpi('PRODUCTION VARIANCE','€11,900','29%')+kpi('SPOILAGE','€5,380','13%')+'</div>'
+ +'<div class="kpis">'+kpi('WASTE COST (MTD)',circ('$41,380'),'3.1% of food cost')+kpi('UNSOLD','$24,100','58%')
+ +kpi('PRODUCTION VARIANCE','$11,900','29%')+kpi('SPOILAGE','$5,380','13%')+'</div>'
  +'<div class="pan"><h3>Waste by cause</h3><div class="ph">Because the fix for over-production is not the fix for spoilage</div>'
  +tbl(['CAUSE','COST','SHARE','TREND','OWNER'],[
- ['<b>Unsold at close</b>','€24,100','58%','<span class="t-wa tag">+4.2%</span>','Demand plan'],
- ['<b>Portion / recipe variance</b>','€11,900','29%','<span class="t-cr tag">+8.1%</span>','Kitchen'],
- ['<b>Spoilage &amp; expiry</b>','€5,380','13%','<span class="t-ok tag">-2.4%</span>','Stock rotation'],
- ['<b>Damaged in transit</b>','€1,240','3%','<span class="t-ok tag">-1.1%</span>','Logistics']])+'</div>';},
+ ['<b>Unsold at close</b>','$24,100','58%','<span class="t-wa tag">+4.2%</span>','Demand plan'],
+ ['<b>Portion / recipe variance</b>','$11,900','29%','<span class="t-cr tag">+8.1%</span>','Kitchen'],
+ ['<b>Spoilage &amp; expiry</b>','$5,380','13%','<span class="t-ok tag">-2.4%</span>','Stock rotation'],
+ ['<b>Damaged in transit</b>','$1,240','3%','<span class="t-ok tag">-1.1%</span>','Logistics']])+'</div>';},
  bi:function(){return bi([['Waste % by cluster','Of food cost',hbars([['Transit',4.1,'cr','4.1%'],['Office & Campus',3.8,'wa','3.8%'],['Urban High',3.0,'','3.0%'],['Suburban',2.6,'mi','2.6%'],['Destination',2.2,'mi','2.2%']],5)],
  ['Waste by day-part','Where product is left',hbars([['Late afternoon',52,'cr','52%'],['Evening close',31,'wa','31%'],['Midday',11,'','11%'],['Morning',6,'mi','6%']],60)],
- ['Markdown recovery','Value recovered vs written off',tbl(['ACTION','UNITS','VALUE'],[['Sold at markdown','18,400','€21,600'],['Redistributed','4,180','€0'],['Written off','9,100','€41,380']])],
+ ['Markdown recovery','Value recovered vs written off',tbl(['ACTION','UNITS','VALUE'],[['Sold at markdown','18,400','$21,600'],['Redistributed','4,180','$0'],['Written off','9,100','$41,380']])],
  ['Waste trend','% of food cost, 12 weeks',bars([38,41,44,42,46,49,44,47,52,48,55,58])]]);},
- cfg:function(){return cfg([['Waste capture','How loss is recorded',[['Capture method','Weighed at bin','OPS'],['Reason code mandatory',true,'ENABLED'],['Photo evidence for &gt; €50',true,'ENABLED'],['Daily close reconciliation',true,'MANDATORY']]],
+ cfg:function(){return cfg([['Waste capture','How loss is recorded',[['Capture method','Weighed at bin','OPS'],['Reason code mandatory',true,'ENABLED'],['Photo evidence for &gt; $50',true,'ENABLED'],['Daily close reconciliation',true,'MANDATORY']]],
  ['Markdown policy','Before product is wasted',[['First markdown at','−2 h to expiry','PRICING'],['First markdown %','25%','PRICING'],['Second markdown at','−1 h','PRICING'],['Second markdown %','50%','PRICING']]],
  ['Redistribution','Surplus to partners',[['Partner collection enabled',true,'ENABLED'],['Cut-off time','19:30','OPS'],['Categories excluded','Chilled dairy','FOOD SAFETY']]],
  ['Variance investigation','When to dig in',[['Investigate above','5%','AUTO'],['Escalate above','8%','AUTO'],['Link to branch and shift',true,'ENABLED']]]]);}};
@@ -785,15 +785,15 @@ M.waste={
 M.xfer={
  wb:function(){return iflag('<b>Lyon central kitchen is at 87% of reliable throughput.</b> Two more branches on this indent cycle would push it past the point where late dispatches begin to compound.')
  +'<div class="kpis">'+kpi('CENTRAL KITCHENS','3','Lyon · Vienna · Brussels')+kpi('OPEN INDENTS','18','from 58 branches')
- +kpi('IN TRANSIT','€22,400','9 dispatches')+kpi('TRANSFER ACCURACY',circ('98.6%'),'received = dispatched')+'</div>'
+ +kpi('IN TRANSIT','$22,400','9 dispatches')+kpi('TRANSFER ACCURACY',circ('98.6%'),'received = dispatched')+'</div>'
  +'<div class="pan"><h3>Indents &amp; transfers</h3><div class="ph">Inter-branch movement tracked like external purchase</div>'
  +tbl(['REF','FROM','TO','LINES','VALUE','STATUS'],[
- ['<b>TR-2214</b>','Lyon CK','B041 · Bellecour','12','€3,180','<span class="t-nu tag">IN TRANSIT</span>'],
- ['<b>TR-2213</b>','Lyon CK','B038 · Part-Dieu','9','€2,420','<span class="t-nu tag">IN TRANSIT</span>'],
- ['<b>TR-2209</b>','Vienna CK','B112 · Graben','14','€4,060','<span class="t-ok tag">RECEIVED</span>'],
- ['<b>TR-2201</b>','Lyon CK','B044 · Confluence','11','€2,940','<span class="t-wa tag">SHORT RECEIVED</span>']])+'</div>';},
+ ['<b>TR-2214</b>','Lyon CK','B041 · Bellecour','12','$3,180','<span class="t-nu tag">IN TRANSIT</span>'],
+ ['<b>TR-2213</b>','Lyon CK','B038 · Part-Dieu','9','$2,420','<span class="t-nu tag">IN TRANSIT</span>'],
+ ['<b>TR-2209</b>','Vienna CK','B112 · Graben','14','$4,060','<span class="t-ok tag">RECEIVED</span>'],
+ ['<b>TR-2201</b>','Lyon CK','B044 · Confluence','11','$2,940','<span class="t-wa tag">SHORT RECEIVED</span>']])+'</div>';},
  bi:function(){return bi([['Central kitchen utilisation','% of reliable throughput',hbars([['Lyon CK',87,'wa','87%'],['Vienna CK',68,'mi','68%'],['Brussels CK',52,'mi','52%']],100)],
- ['Make vs buy','Cost per unit, central vs supplier',tbl(['PRODUCT','CENTRAL','SUPPLIER','DECISION'],[['Laminated dough','€1.42','€1.88','<span class="t-ok tag">MAKE</span>'],['Pastry cream','€2.10','€2.24','<span class="t-ok tag">MAKE</span>'],['Sourdough starter','€0.88','€1.60','<span class="t-ok tag">MAKE</span>'],['Sandwich bread','€1.94','€1.61','<span class="t-wa tag">BUY</span>']])],
+ ['Make vs buy','Cost per unit, central vs supplier',tbl(['PRODUCT','CENTRAL','SUPPLIER','DECISION'],[['Laminated dough','$1.42','$1.88','<span class="t-ok tag">MAKE</span>'],['Pastry cream','$2.10','$2.24','<span class="t-ok tag">MAKE</span>'],['Sourdough starter','$0.88','$1.60','<span class="t-ok tag">MAKE</span>'],['Sandwich bread','$1.94','$1.61','<span class="t-wa tag">BUY</span>']])],
  ['Transfer discrepancies','Dispatched vs received',hbars([['Lyon CK',1.4,'wa','1.4%'],['Vienna CK',0.9,'mi','0.9%'],['Brussels CK',1.1,'mi','1.1%']],2)],
  ['Branches served per CK','Current allocation',hbars([['Lyon CK',88,'wa','88'],['Vienna CK',64,'','64'],['Brussels CK',48,'mi','48']],100)]]);},
  cfg:function(){return cfg([['Central kitchen network','Which CK serves which branches',[['Allocation basis','Drive time','LOGISTICS'],['Max drive time','75 min','QUALITY'],['Reallocate on capacity breach',true,'ENABLED'],['Reliable throughput ceiling','90%','OPS']]],
@@ -806,29 +806,29 @@ M.xfer={
 M.cmd.ana=function(){return drv('What is driving the service gap','Contribution to the 1.2pt on-shelf availability decline',
  [['Ingredient shortfall',38,DC.d],['Route timing',27,DC.c],['Cluster drift',19,DC.a],['Forecast error',11,DC.b],['Other',5,DC.e]])
  +wif('What-if · relieve the butter constraint','Move the standing order and see what the chain does',
- ['SCENARIO','AVAILABILITY','WASTE','MARGIN','NET €/WK'],
- [['<b>Do nothing</b>','96.1%','3.1%','68.2%','<span class="t-cr tag">−€12,400</span>'],
-  ['<b>+340 kg butter</b>','<span class="t-ok tag">98.4%</span>','3.2%','68.0%','<span class="t-ok tag">+€10,220</span>'],
-  ['<b>+680 kg butter</b>','98.6%','<span class="t-wa tag">4.1%</span>','67.6%','+€6,800'],
-  ['<b>Cut Friday bake 12%</b>','94.8%','<span class="t-ok tag">2.6%</span>','68.4%','−€4,100']],
+ ['SCENARIO','AVAILABILITY','WASTE','MARGIN','NET $/WK'],
+ [['<b>Do nothing</b>','96.1%','3.1%','68.2%','<span class="t-cr tag">−$12,400</span>'],
+  ['<b>+340 kg butter</b>','<span class="t-ok tag">98.4%</span>','3.2%','68.0%','<span class="t-ok tag">+$10,220</span>'],
+  ['<b>+680 kg butter</b>','98.6%','<span class="t-wa tag">4.1%</span>','67.6%','+$6,800'],
+  ['<b>Cut Friday bake 12%</b>','94.8%','<span class="t-ok tag">2.6%</span>','68.4%','−$4,100']],
  'The second row is the recommendation. Doubling the order buys 0.2 points of availability and costs a point of margin in waste — the constraint is worth relieving, not over-relieving.');};
 M.fc.ana=function(){return drv('Where forecast error comes from','Contribution to group MAPE of 7.2%',
  [['Cold drinks · weather',34,DC.d],['Seasonal / NPI',22,DC.c],['Savoury',18,DC.e],['Laminated bias',15,DC.a],['Bread',11,DC.b]])
  +wif('What-if · add a signal','Modelled effect of enabling additional features',
  ['CHANGE','MAPE','COLD-DRINK MAPE','COST'],
  [['<b>Current model</b>','7.2%','14.8%','—'],
-  ['<b>+ hourly weather</b>','<span class="t-ok tag">6.6%</span>','<span class="t-ok tag">10.1%</span>','€0 · already licensed'],
-  ['<b>+ local events feed</b>','6.9%','14.4%','€4,800 / yr'],
-  ['<b>+ competitor pricing</b>','7.0%','14.6%','<span class="t-cr tag">€26,000 / yr</span>']],
- 'Hourly weather is free and fixes the biggest error pocket. Competitor pricing costs €26k and moves MAPE by 0.2 points — not worth buying yet.');};
+  ['<b>+ hourly weather</b>','<span class="t-ok tag">6.6%</span>','<span class="t-ok tag">10.1%</span>','$0 · already licensed'],
+  ['<b>+ local events feed</b>','6.9%','14.4%','$4,800 / yr'],
+  ['<b>+ competitor pricing</b>','7.0%','14.6%','<span class="t-cr tag">$26,000 / yr</span>']],
+ 'Hourly weather is free and fixes the biggest error pocket. Competitor pricing costs $26k and moves MAPE by 0.2 points — not worth buying yet.');};
 M.dp.ana=function(){return drv('What the plan is made of','Sources of variance between plan and eventual actual',
  [['Unjustified overrides',41,DC.d],['NPI estimates',24,DC.c],['Promo uplift error',18,DC.e],['Statistical error',17,DC.a]])
  +wif('What-if · override discipline','Effect of making a reason mandatory',
  ['POLICY','PLAN ERROR','UNSOLD WASTE','SERVICE'],
- [['<b>Today · reason optional</b>','+3.8%','€24,100','97.4%'],
-  ['<b>Reason mandatory</b>','<span class="t-ok tag">+2.4%</span>','<span class="t-ok tag">€19,600</span>','97.3%'],
-  ['<b>Reason + approval &gt;10%</b>','+2.1%','€18,400','<span class="t-wa tag">96.9%</span>']],
- 'Making a reason mandatory is a one-line configuration change worth about €4,500 a month. Adding approval on top buys little more and costs half a point of service.');};
+ [['<b>Today · reason optional</b>','+3.8%','$24,100','97.4%'],
+  ['<b>Reason mandatory</b>','<span class="t-ok tag">+2.4%</span>','<span class="t-ok tag">$19,600</span>','97.3%'],
+  ['<b>Reason + approval &gt;10%</b>','+2.1%','$18,400','<span class="t-wa tag">96.9%</span>']],
+ 'Making a reason mandatory is a one-line configuration change worth about $4,500 a month. Adding approval on top buys little more and costs half a point of service.');};
 M.menu.ana=function(){return drv('Why menu margin fell 1.1 points','Decomposition of the month-on-month move',
  [['Butter cost',58,DC.d],['Mix shift to cold',19,DC.e],['Flour cost',9,DC.c],['Markdown depth',8,DC.a],['Other',6,DC.b]])
  +wif('What-if · restore margin on laminated','Four routes to the same 2-point recovery',
@@ -841,92 +841,92 @@ M.menu.ana=function(){return drv('Why menu margin fell 1.1 points','Decompositio
 M.plan.ana=function(){return drv('What limits throughput','Binding constraints on the bake plan',
  [['Deck oven 1 capacity',44,DC.d],['Proofer time',23,DC.c],['Labour at 04:00',18,DC.e],['Ingredient availability',15,DC.a]])
  +wif('What-if · add a second-bake window','Cost against recovered afternoon trade',
- ['PLAN SHAPE','AFTERNOON SELL-THRU','LABOUR COST','NET €/WK'],
- [['<b>Single 04:00 bake</b>','78%','€0','—'],
-  ['<b>+ 09:30 bake</b>','<span class="t-ok tag">94%</span>','+€420','<span class="t-ok tag">+€1,840</span>'],
-  ['<b>+ 09:30 and 12:20</b>','96%','+€710','+€1,910'],
-  ['<b>+ three extra bakes</b>','96%','<span class="t-cr tag">+€1,180</span>','<span class="t-wa tag">+€1,240</span>']],
+ ['PLAN SHAPE','AFTERNOON SELL-THRU','LABOUR COST','NET $/WK'],
+ [['<b>Single 04:00 bake</b>','78%','$0','—'],
+  ['<b>+ 09:30 bake</b>','<span class="t-ok tag">94%</span>','+$420','<span class="t-ok tag">+$1,840</span>'],
+  ['<b>+ 09:30 and 12:20</b>','96%','+$710','+$1,910'],
+  ['<b>+ three extra bakes</b>','96%','<span class="t-cr tag">+$1,180</span>','<span class="t-wa tag">+$1,240</span>']],
  'Returns flatten after the second window. Two extra bakes is the efficient point; a third adds cost without adding sell-through.');};
 M.clus.ana=function(){return drv('What separates the clusters','Feature weight in the current segmentation',
  [['Day-part shape',34,DC.a],['Average basket',26,DC.b],['Category mix',21,DC.c],['Footfall conversion',12,DC.e],['Trading area',7,DC.d]])
  +wif('What-if · re-cluster the drifted branches','Nine branches that moved from Office toward Urban High',
  ['ACTION','AVAILABILITY','WASTE','REVENUE / WK'],
  [['<b>Leave on old cluster</b>','93.1%','3.8%','—'],
-  ['<b>Re-assign assortment only</b>','<span class="t-ok tag">95.8%</span>','3.4%','<span class="t-ok tag">+€6,200</span>'],
-  ['<b>Re-assign assortment + calendar</b>','<span class="t-ok tag">96.9%</span>','<span class="t-ok tag">3.0%</span>','<span class="t-ok tag">+€9,400</span>'],
-  ['<b>Full re-cluster incl. labour</b>','97.1%','2.9%','+€9,700']],
+  ['<b>Re-assign assortment only</b>','<span class="t-ok tag">95.8%</span>','3.4%','<span class="t-ok tag">+$6,200</span>'],
+  ['<b>Re-assign assortment + calendar</b>','<span class="t-ok tag">96.9%</span>','<span class="t-ok tag">3.0%</span>','<span class="t-ok tag">+$9,400</span>'],
+  ['<b>Full re-cluster incl. labour</b>','97.1%','2.9%','+$9,700']],
  'Assortment alone captures two thirds of the benefit; adding the replenishment calendar captures nearly all of it. Re-rostering on top adds very little and touches people\'s hours, so it can wait.');};
 M.alloc.ana=function(){return drv('Why on-shelf availability slipped','Contribution by cause, last 4 weeks',
  [['Cluster calendar mismatch',36,DC.c],['Constrained supply',28,DC.d],['Route lateness',21,DC.e],['Min–max staleness',15,DC.a]])
  +wif('What-if · move to fair-share earlier','When a constraint is detected, how soon to switch',
  ['TRIGGER POINT','LOST SALES','WASTE','FAIRNESS SPREAD'],
- [['<b>On stock-out (today)</b>','€8,400','2.9%','<span class="t-cr tag">31%</span>'],
-  ['<b>At 1 day cover</b>','<span class="t-ok tag">€5,100</span>','3.1%','<span class="t-wa tag">12%</span>'],
-  ['<b>At 2 days cover</b>','<span class="t-ok tag">€3,900</span>','<span class="t-wa tag">3.6%</span>','<span class="t-ok tag">4%</span>'],
-  ['<b>At 3 days cover</b>','€3,700','<span class="t-cr tag">4.4%</span>','3%']],
+ [['<b>On stock-out (today)</b>','$8,400','2.9%','<span class="t-cr tag">31%</span>'],
+  ['<b>At 1 day cover</b>','<span class="t-ok tag">$5,100</span>','3.1%','<span class="t-wa tag">12%</span>'],
+  ['<b>At 2 days cover</b>','<span class="t-ok tag">$3,900</span>','<span class="t-wa tag">3.6%</span>','<span class="t-ok tag">4%</span>'],
+  ['<b>At 3 days cover</b>','$3,700','<span class="t-cr tag">4.4%</span>','3%']],
  'Switching at two days of cover cuts lost sales by more than half and almost eliminates the spread between first and last branch on a route. Beyond that you simply spread more stock thinly and waste it.');};
 M.log.ana=function(){return drv('Why on-time delivery fell 3.1 points','Contribution by route factor',
  [['R-03 afternoon leg',47,DC.d],['Load build time',21,DC.c],['Traffic variance',16,DC.e],['Vehicle downtime',16,DC.a]])
  +wif('What-if · re-sequence route R-03','Nine drops, currently failing the last two',
  ['SEQUENCE','ON-TIME','COST / DROP','COLD MINUTES'],
- [['<b>Current</b>','81.6%','€18.40','<span class="t-cr tag">168</span>'],
-  ['<b>Bellecour first</b>','<span class="t-ok tag">94.2%</span>','€18.60','<span class="t-ok tag">121</span>'],
-  ['<b>Split into two routes</b>','<span class="t-ok tag">97.8%</span>','<span class="t-cr tag">€26.10</span>','98'],
-  ['<b>Earlier depart 03:30</b>','92.1%','€18.40','142']],
+ [['<b>Current</b>','81.6%','$18.40','<span class="t-cr tag">168</span>'],
+  ['<b>Bellecour first</b>','<span class="t-ok tag">94.2%</span>','$18.60','<span class="t-ok tag">121</span>'],
+  ['<b>Split into two routes</b>','<span class="t-ok tag">97.8%</span>','<span class="t-cr tag">$26.10</span>','98'],
+  ['<b>Earlier depart 03:30</b>','92.1%','$18.40','142']],
  'Re-sequencing costs 20 cents a drop and recovers nearly 13 points of on-time performance. Splitting the route works too, but at a 42% cost increase for 3.6 points more.');};
 M.inv.ana=function(){return drv('Where the butter went','Decomposition of the 6.4% usage variance',
  [['Lamination portioning',52,DC.d],['Trim &amp; offcut',19,DC.c],['Recipe yield drift',14,DC.e],['Measurement error',9,DC.a],['Spoilage',6,DC.b]])
  +wif('What-if · correct portioning at three branches','Scale weighing on the lamination station',
  ['ACTION','VARIANCE','COST','PAYBACK'],
  [['<b>Do nothing</b>','+6.4%','—','—'],
-  ['<b>Retrain three branches</b>','<span class="t-wa tag">+4.1%</span>','€340','<span class="t-ok tag">3 weeks</span>'],
-  ['<b>Scale-guided portioning</b>','<span class="t-ok tag">+1.6%</span>','€2,800','<span class="t-ok tag">9 weeks</span>'],
-  ['<b>Pre-portioned butter blocks</b>','+1.2%','<span class="t-cr tag">+€0.04/unit</span>','<span class="t-cr tag">never</span>']],
+  ['<b>Retrain three branches</b>','<span class="t-wa tag">+4.1%</span>','$340','<span class="t-ok tag">3 weeks</span>'],
+  ['<b>Scale-guided portioning</b>','<span class="t-ok tag">+1.6%</span>','$2,800','<span class="t-ok tag">9 weeks</span>'],
+  ['<b>Pre-portioned butter blocks</b>','+1.2%','<span class="t-cr tag">+$0.04/unit</span>','<span class="t-cr tag">never</span>']],
  'Scale-guided portioning pays back inside a quarter and holds. Buying pre-portioned butter fixes the variance but permanently raises unit cost by more than the variance was costing.');};
 M.proc.ana=function(){return drv('What is slowing the procurement cycle','Contribution to the 1.8-day plan-to-dispatch time',
  [['Approval queue',43,DC.c],['Receipt to match',29,DC.d],['Sourcing where no contract',18,DC.e],['System handoff',10,DC.a]])
  +wif('What-if · raise the delegated approval limit','Where the queue clears without losing control',
  ['LIMIT','CYCLE TIME','% AUTO-APPROVED','CONTROL RISK'],
- [['<b>€5,000 (today)</b>','1.8 d','34%','<span class="t-ok tag">LOW</span>'],
-  ['<b>€10,000</b>','<span class="t-ok tag">1.3 d</span>','61%','<span class="t-ok tag">LOW</span>'],
-  ['<b>€25,000</b>','<span class="t-ok tag">1.0 d</span>','84%','<span class="t-wa tag">MEDIUM</span>'],
+ [['<b>$5,000 (today)</b>','1.8 d','34%','<span class="t-ok tag">LOW</span>'],
+  ['<b>$10,000</b>','<span class="t-ok tag">1.3 d</span>','61%','<span class="t-ok tag">LOW</span>'],
+  ['<b>$25,000</b>','<span class="t-ok tag">1.0 d</span>','84%','<span class="t-wa tag">MEDIUM</span>'],
   ['<b>No limit under contract</b>','0.8 d','96%','<span class="t-cr tag">HIGH</span>']],
- 'Raising the delegated limit to €10,000 removes most of the queue with no meaningful change in control, because every one of those orders is against a contracted price anyway.');};
+ 'Raising the delegated limit to $10,000 removes most of the queue with no meaningful change in control, because every one of those orders is against a contracted price anyway.');};
 M.rfq.ana=function(){return drv('What the butter award actually turns on','Weighted contribution to total cost of ownership',
  [['Unit price',38,DC.a],['Reliability / OTIF',31,DC.d],['Lost production risk',18,DC.e],['Freight &amp; handling',13,DC.c]])
  +wif('What-if · award RFQ-114','Three ways to place the butter contract',
  ['AWARD','ANNUAL PRICE','RELIABILITY COST','TOTAL','CONCENTRATION'],
- [['<b>Renew Delcourt</b>','<span class="t-ok tag">€1,184,000</span>','<span class="t-cr tag">€38,000</span>','€1,222,000','<span class="t-cr tag">96%</span>'],
-  ['<b>Award Beurre Vallée</b>','€1,198,900','<span class="t-ok tag">€4,200</span>','<span class="t-ok tag">€1,203,100</span>','<span class="t-ok tag">62%</span>'],
-  ['<b>Split 60/40</b>','€1,203,400','€9,100','€1,212,500','<span class="t-ok tag">58%</span>']],
- 'The single award is cheapest on total cost; the split costs €9,400 more and buys the most resilience. Renewing the incumbent is cheapest on paper and most expensive in practice.');};
+ [['<b>Renew Delcourt</b>','<span class="t-ok tag">$1,184,000</span>','<span class="t-cr tag">$38,000</span>','$1,222,000','<span class="t-cr tag">96%</span>'],
+  ['<b>Award Beurre Vallée</b>','$1,198,900','<span class="t-ok tag">$4,200</span>','<span class="t-ok tag">$1,203,100</span>','<span class="t-ok tag">62%</span>'],
+  ['<b>Split 60/40</b>','$1,203,400','$9,100','$1,212,500','<span class="t-ok tag">58%</span>']],
+ 'The single award is cheapest on total cost; the split costs $9,400 more and buys the most resilience. Renewing the incumbent is cheapest on paper and most expensive in practice.');};
 M.sup.ana=function(){return drv('What is behind the Delcourt decline','Signals contributing to the OTIF slide',
  [['Their capacity constraint',44,DC.d],['Our order variability',24,DC.c],['Route / delivery window',18,DC.e],['Quality holds',14,DC.a]])
  +wif('What-if · stabilise our own ordering','Some of their unreliability is ours',
  ['CHANGE','THEIR OTIF','OUR COST','EFFORT'],
  [['<b>Today · variable orders</b>','81.4%','—','—'],
-  ['<b>Share 4-week forecast</b>','<span class="t-ok tag">88.2%</span>','€0','<span class="t-ok tag">Low</span>'],
-  ['<b>Fixed weekly volume ±10%</b>','<span class="t-ok tag">92.6%</span>','<span class="t-wa tag">+€6,400</span>','Medium'],
-  ['<b>Re-source entirely</b>','98.1%','+€14,900','<span class="t-cr tag">High</span>']],
+  ['<b>Share 4-week forecast</b>','<span class="t-ok tag">88.2%</span>','$0','<span class="t-ok tag">Low</span>'],
+  ['<b>Fixed weekly volume ±10%</b>','<span class="t-ok tag">92.6%</span>','<span class="t-wa tag">+$6,400</span>','Medium'],
+  ['<b>Re-source entirely</b>','98.1%','+$14,900','<span class="t-cr tag">High</span>']],
  'Roughly a quarter of the supplier\'s unreliability traces to our own order variability. Sharing the forecast costs nothing and recovers seven points before any commercial conversation begins.');};
 M.bom.ana=function(){return drv('What moves recipe cost','Contribution to cost per unit across the laminated range',
  [['Butter',52,DC.d],['Flour',18,DC.c],['Yield loss',14,DC.e],['Fillings',11,DC.a],['Other',5,DC.b]])
  +wif('What-if · improve lamination yield','Currently 96% on croissant',
  ['YIELD','COST / UNIT','GM%','ANNUAL VALUE'],
- [['<b>96% (today)</b>','€0.41','74.4%','—'],
-  ['<b>97%</b>','€0.405','<span class="t-ok tag">74.7%</span>','<span class="t-ok tag">+€21,400</span>'],
-  ['<b>98%</b>','€0.401','75.0%','<span class="t-ok tag">+€42,600</span>'],
-  ['<b>99% (theoretical)</b>','€0.397','75.2%','<span class="t-wa tag">not achievable</span>']],
- 'A single point of yield is worth €21,400 a year on croissant alone. The last point is theoretical — trim and proofing loss put a practical ceiling around 98%.');};
-M.waste.ana=function(){return drv('What is actually being thrown away','Attribution of €41,380 monthly waste',
+ [['<b>96% (today)</b>','$0.41','74.4%','—'],
+  ['<b>97%</b>','$0.405','<span class="t-ok tag">74.7%</span>','<span class="t-ok tag">+$21,400</span>'],
+  ['<b>98%</b>','$0.401','75.0%','<span class="t-ok tag">+$42,600</span>'],
+  ['<b>99% (theoretical)</b>','$0.397','75.2%','<span class="t-wa tag">not achievable</span>']],
+ 'A single point of yield is worth $21,400 a year on croissant alone. The last point is theoretical — trim and proofing loss put a practical ceiling around 98%.');};
+M.waste.ana=function(){return drv('What is actually being thrown away','Attribution of $41,380 monthly waste',
  [['Over-production',48,DC.d],['Portion variance',29,DC.c],['Expiry',13,DC.e],['Damage',6,DC.a],['Quality reject',4,DC.b]])
  +wif('What-if · deepen the markdown curve','Move product before it becomes waste',
  ['MARKDOWN POLICY','WASTE','MARKDOWN COST','NET'],
- [['<b>−25% at T−2h (today)</b>','€41,380','€21,600','—'],
-  ['<b>−25% at T−3h</b>','<span class="t-ok tag">€36,100</span>','€24,900','<span class="t-ok tag">+€1,980</span>'],
-  ['<b>−40% at T−2h</b>','<span class="t-ok tag">€33,800</span>','<span class="t-wa tag">€29,400</span>','<span class="t-wa tag">−€240</span>'],
-  ['<b>−25% T−3h, −50% T−1h</b>','<span class="t-ok tag">€29,200</span>','€28,100','<span class="t-ok tag">+€5,680</span>']],
- 'Going earlier beats going deeper. A two-step curve that starts earlier and finishes deeper recovers €5,680 a month; simply discounting harder at the same hour loses money.');};
+ [['<b>−25% at T−2h (today)</b>','$41,380','$21,600','—'],
+  ['<b>−25% at T−3h</b>','<span class="t-ok tag">$36,100</span>','$24,900','<span class="t-ok tag">+$1,980</span>'],
+  ['<b>−40% at T−2h</b>','<span class="t-ok tag">$33,800</span>','<span class="t-wa tag">$29,400</span>','<span class="t-wa tag">−$240</span>'],
+  ['<b>−25% T−3h, −50% T−1h</b>','<span class="t-ok tag">$29,200</span>','$28,100','<span class="t-ok tag">+$5,680</span>']],
+ 'Going earlier beats going deeper. A two-step curve that starts earlier and finishes deeper recovers $5,680 a month; simply discounting harder at the same hour loses money.');};
 M.xfer.ana=function(){return drv('What constrains the central kitchens','Contribution to Lyon reaching 87% of throughput',
  [['Branch count served',41,DC.c],['Dispatch window',26,DC.d],['Oven capacity',19,DC.a],['Indent lateness',14,DC.e]])
  +wif('What-if · rebalance the network','Move branches between central kitchens',
@@ -939,30 +939,30 @@ M.xfer.ana=function(){return drv('What constrains the central kitchens','Contrib
 
 /* ---------- new engine modules ---------- */
 M.mark={
- wb:function(){return iflag('<b>Going earlier beats going deeper.</b> A two-step curve starting at T−3h and finishing at −50% recovers €5,680 a month; discounting harder at the same hour actually loses money.')
- +'<div class="kpis">'+kpi('MARKDOWN REVENUE (MTD)','€21,600','18,400 units')+kpi('SELL-THROUGH BEFORE CLOSE',circ('88.2%'),'<span class="dn">target 92%</span>')
- +kpi('MARGIN GIVEN AWAY','€7,940','2.1% of sales')+kpi('WASTE AVOIDED','€26,300','vs no markdown')+kpi('AUTO-APPLIED','96%','rules engine')+'</div>'
+ wb:function(){return iflag('<b>Going earlier beats going deeper.</b> A two-step curve starting at T−3h and finishing at −50% recovers $5,680 a month; discounting harder at the same hour actually loses money.')
+ +'<div class="kpis">'+kpi('MARKDOWN REVENUE (MTD)','$21,600','18,400 units')+kpi('SELL-THROUGH BEFORE CLOSE',circ('88.2%'),'<span class="dn">target 92%</span>')
+ +kpi('MARGIN GIVEN AWAY','$7,940','2.1% of sales')+kpi('WASTE AVOIDED','$26,300','vs no markdown')+kpi('AUTO-APPLIED','96%','rules engine')+'</div>'
  +'<div class="pan"><h3>Markdown curve in force</h3><div class="ph">Triggered on remaining shelf life, not on clock time alone</div>'
  +pipe([['T−3h','Watchlist','142 SKU','doing'],['T−2h','First markdown −25%','88',''],['T−1h','Second markdown −50%','41',''],['T−30m','Staff / redistribute','18',''],['CLOSE','Write off','9','block']])+'</div>'
  +'<div class="pan"><h3>Live markdown queue</h3><div class="ph">By branch and product, with the decision Iris took</div>'
  +tbl(['BRANCH','PRODUCT','ON HAND','SHELF LIFE','ACTION','RECOVERY'],[
- ['<b>B041 · Bellecour</b>','Almond croissant','34','1h 10m','<span class="t-wa tag">−25%</span>','€66'],
+ ['<b>B041 · Bellecour</b>','Almond croissant','34','1h 10m','<span class="t-wa tag">−25%</span>','$66'],
  ['<b>B112 · Graben</b>','Sourdough loaf','18','2h 40m','<span class="t-nu tag">WATCH</span>','—'],
- ['<b>B087 · Sablon</b>','Chocolate tart','11','0h 45m','<span class="t-cr tag">−50%</span>','€38'],
- ['<b>B038 · Part-Dieu</b>','Baguette','52','1h 05m','<span class="t-wa tag">−25%</span>','€78'],
- ['<b>B044 · Confluence</b>','Pain au chocolat','9','0h 25m','<span class="t-ai tag">REDISTRIBUTE</span>','€0 · donated']])+'</div>';},
+ ['<b>B087 · Sablon</b>','Chocolate tart','11','0h 45m','<span class="t-cr tag">−50%</span>','$38'],
+ ['<b>B038 · Part-Dieu</b>','Baguette','52','1h 05m','<span class="t-wa tag">−25%</span>','$78'],
+ ['<b>B044 · Confluence</b>','Pain au chocolat','9','0h 25m','<span class="t-ai tag">REDISTRIBUTE</span>','$0 · donated']])+'</div>';},
  bi:function(){return bi([['Markdown depth by category','Average discount applied',hbars([['Patisserie',38,'cr','38%'],['Laminated',31,'wa','31%'],['Bread',27,'wa','27%'],['Savoury',24,'','24%'],['Drinks',0,'mi','0%']],45)],
  ['Sell-through by markdown step','Units cleared at each stage',hbars([['Full price',82,'mi','82%'],['−25%',11,'','11%'],['−50%',4,'','4%'],['Redistributed',2,'mi','2%'],['Written off',1,'wa','1%']],90)],
- ['Recovery vs give-away','€ per week',tbl(['WEEK','MARKDOWN REV','MARGIN GIVEN','WASTE AVOIDED','NET'],[['W27','€5,140','€1,880','€6,200','+€4,320'],['W28','€5,380','€1,940','€6,510','+€4,570'],['W29','€5,610','€2,090','€6,740','+€4,650'],['W30','€5,470','€2,030','€6,850','+€4,820']])],
+ ['Recovery vs give-away','$ per week',tbl(['WEEK','MARKDOWN REV','MARGIN GIVEN','WASTE AVOIDED','NET'],[['W27','$5,140','$1,880','$6,200','+$4,320'],['W28','$5,380','$1,940','$6,510','+$4,570'],['W29','$5,610','$2,090','$6,740','+$4,650'],['W30','$5,470','$2,030','$6,850','+$4,820']])],
  ['Markdown timing','Hour of first markdown',hbars([['15:00–16:00',18,'','18%'],['16:00–17:00',34,'','34%'],['17:00–18:00',31,'wa','31%'],['18:00+',17,'cr','17%']],40)]]);},
  ana:function(){return drv('What determines markdown effectiveness','Contribution to recovered value',
  [['Timing of first step',44,DC.a],['Depth of discount',24,DC.c],['Product visibility',18,DC.e],['Branch footfall at hour',14,DC.b]])
  +wif('What-if · optimise the curve','Same products, different curve shape',
  ['CURVE','WASTE','MARGIN GIVEN','NET VS TODAY'],
- [['<b>−25% at T−2h (today)</b>','€41,380','€7,940','—'],
-  ['<b>−25% at T−3h</b>','€36,100','€8,720','<span class="t-ok tag">+€1,980</span>'],
-  ['<b>−40% at T−2h</b>','€33,800','<span class="t-cr tag">€11,100</span>','<span class="t-wa tag">−€240</span>'],
-  ['<b>−25% T−3h then −50% T−1h</b>','<span class="t-ok tag">€29,200</span>','€9,860','<span class="t-ok tag">+€5,680</span>']],
+ [['<b>−25% at T−2h (today)</b>','$41,380','$7,940','—'],
+  ['<b>−25% at T−3h</b>','$36,100','$8,720','<span class="t-ok tag">+$1,980</span>'],
+  ['<b>−40% at T−2h</b>','$33,800','<span class="t-cr tag">$11,100</span>','<span class="t-wa tag">−$240</span>'],
+  ['<b>−25% T−3h then −50% T−1h</b>','<span class="t-ok tag">$29,200</span>','$9,860','<span class="t-ok tag">+$5,680</span>']],
  'Timing contributes nearly twice as much as depth. The two-step curve wins because it reaches shoppers who are still in the store, rather than deeper-discounting to shoppers who have already gone.');},
  cfg:function(){return cfg([['Markdown triggers','What starts the clock',[['Trigger basis','Remaining shelf life','QUALITY'],['First markdown at','T−2h','<span style="color:var(--amber)">T−3h MODELLED BETTER</span>'],['Second markdown at','T−1h','PRICING'],['Redistribute at','T−30m','ESG']]],
  ['Discount steps','Depth per step',[['First step','−25%','PRICING'],['Second step','−50%','PRICING'],['Max total depth','−50%','FINANCE'],['Never mark down below cost',true,'ENABLED']]],
@@ -972,14 +972,14 @@ M.mark={
 M.promo={
  wb:function(){return iflag('<b>Reported promo uplift is 14.2%; true incremental uplift is 6.1%.</b> The rest would have been bought anyway. Measuring against a matched control group rather than last year is the difference between a campaign that works and one that only looks like it does.')
  +'<div class="kpis">'+kpi('ACTIVE CAMPAIGNS','6','4 markets')+kpi('REPORTED UPLIFT','+14.2%','vs last year')
- +kpi('TRUE INCREMENTAL',circ('+6.1%'),'vs matched control')+kpi('PROMO MARGIN COST','€34,200','MTD')+kpi('ROI ON SPEND','1.8×','blended')+'</div>'
+ +kpi('TRUE INCREMENTAL',circ('+6.1%'),'vs matched control')+kpi('PROMO MARGIN COST','$34,200','MTD')+kpi('ROI ON SPEND','1.8×','blended')+'</div>'
  +'<div class="pan"><h3>Campaign performance</h3><div class="ph">Measured against a matched control group, not against last year</div>'
  +tbl(['CAMPAIGN','MECHANIC','REPORTED','INCREMENTAL','MARGIN COST','ROI'],[
- ['<b>Morning Pair</b>','Coffee + laminated bundle','+18.4%','<span class="t-ok tag">+11.2%</span>','€9,400','<span class="t-ok tag">2.9×</span>'],
- ['<b>Loyalty Double Points</b>','Points multiplier','+12.1%','<span class="t-ok tag">+7.8%</span>','€6,200','<span class="t-ok tag">2.4×</span>'],
- ['<b>Afternoon Sourdough</b>','Fixed discount −20%','+16.8%','<span class="t-wa tag">+3.1%</span>','€8,900','<span class="t-cr tag">0.9×</span>'],
- ['<b>App-Only Free Pastry</b>','Threshold gift','+9.4%','<span class="t-ok tag">+6.4%</span>','€4,800','1.9×'],
- ['<b>Weekend Family Box</b>','Bundle','+11.2%','+5.2%','€4,900','1.6×']])+'</div>'
+ ['<b>Morning Pair</b>','Coffee + laminated bundle','+18.4%','<span class="t-ok tag">+11.2%</span>','$9,400','<span class="t-ok tag">2.9×</span>'],
+ ['<b>Loyalty Double Points</b>','Points multiplier','+12.1%','<span class="t-ok tag">+7.8%</span>','$6,200','<span class="t-ok tag">2.4×</span>'],
+ ['<b>Afternoon Sourdough</b>','Fixed discount −20%','+16.8%','<span class="t-wa tag">+3.1%</span>','$8,900','<span class="t-cr tag">0.9×</span>'],
+ ['<b>App-Only Free Pastry</b>','Threshold gift','+9.4%','<span class="t-ok tag">+6.4%</span>','$4,800','1.9×'],
+ ['<b>Weekend Family Box</b>','Bundle','+11.2%','+5.2%','$4,900','1.6×']])+'</div>'
  +'<div class="pan"><h3>Cannibalisation check</h3><div class="ph">What the promoted item took from elsewhere</div>'
  +tbl(['CAMPAIGN','PROMOTED ITEM','CANNIBALISED','NET UNITS'],[
  ['<b>Afternoon Sourdough</b>','Sourdough +820','<span class="t-cr tag">Baguette −540</span>','+280'],
@@ -987,21 +987,21 @@ M.promo={
  ['<b>Weekend Family Box</b>','Box +310','<span class="t-wa tag">Individual −140</span>','+170']])+'</div>';},
  bi:function(){return bi([['Incremental vs reported','Gap by campaign',hbars([['Morning Pair',11.2,'mi','11.2%'],['Loyalty Double',7.8,'mi','7.8%'],['App-Only Gift',6.4,'mi','6.4%'],['Family Box',5.2,'','5.2%'],['Afternoon Sourdough',3.1,'cr','3.1%']],20)],
  ['Mechanic effectiveness','Blended ROI by type',hbars([['Bundle',2.6,'mi','2.6×'],['Points multiplier',2.4,'mi','2.4×'],['Threshold gift',1.9,'','1.9×'],['Fixed discount',0.9,'cr','0.9×']],3)],
- ['Promo margin cost','Share of gross margin',tbl(['MARKET','PROMO SPEND','% OF GM','TREND'],[['France','€14,800','2.1%','<span class="t-wa tag">+0.3</span>'],['Germany','€8,900','1.8%','<span class="t-ok tag">−0.1</span>'],['Belgium','€5,600','1.6%','<span class="t-ok tag">flat</span>'],['Austria','€4,900','1.9%','<span class="t-wa tag">+0.2</span>']])],
+ ['Promo margin cost','Share of gross margin',tbl(['MARKET','PROMO SPEND','% OF GM','TREND'],[['France','$14,800','2.1%','<span class="t-wa tag">+0.3</span>'],['Germany','$8,900','1.8%','<span class="t-ok tag">−0.1</span>'],['Belgium','$5,600','1.6%','<span class="t-ok tag">flat</span>'],['Austria','$4,900','1.9%','<span class="t-wa tag">+0.2</span>']])],
  ['Halo effect','Uplift on non-promoted items',hbars([['Morning Pair',4.2,'mi','+4.2%'],['Family Box',2.8,'mi','+2.8%'],['App-Only Gift',1.4,'','+1.4%'],['Afternoon Sourdough',-1.9,'cr','−1.9%']],5)]]);},
  ana:function(){return drv('Why reported uplift overstates the truth','Decomposition of the 14.2% reported figure',
  [['Would have bought anyway',52,DC.d],['Genuine incremental',31,DC.b],['Pulled forward from later',11,DC.c],['Cannibalised from other lines',6,DC.e]])
  +wif('What-if · retire the weakest mechanic','Afternoon Sourdough at 0.9× ROI',
  ['ACTION','UNITS','GROSS MARGIN','GUEST IMPACT'],
- [['<b>Continue as-is</b>','+820','<span class="t-cr tag">−€890</span>','none'],
-  ['<b>Reduce depth to −10%</b>','+410','<span class="t-ok tag">+€1,240</span>','minimal'],
-  ['<b>Switch to bundle mechanic</b>','+680','<span class="t-ok tag">+€2,110</span>','<span class="t-ok tag">positive</span>'],
-  ['<b>Stop the campaign</b>','−820','+€2,380','<span class="t-wa tag">habit loss risk</span>']],
+ [['<b>Continue as-is</b>','+820','<span class="t-cr tag">−$890</span>','none'],
+  ['<b>Reduce depth to −10%</b>','+410','<span class="t-ok tag">+$1,240</span>','minimal'],
+  ['<b>Switch to bundle mechanic</b>','+680','<span class="t-ok tag">+$2,110</span>','<span class="t-ok tag">positive</span>'],
+  ['<b>Stop the campaign</b>','−820','+$2,380','<span class="t-wa tag">habit loss risk</span>']],
  'A fixed discount on a staple is the least efficient mechanic you run — it mostly pays people to do what they were already doing, and it cannibalises baguette. Converting it to a bundle keeps most of the volume and turns the margin positive.');},
  cfg:function(){return cfg([['Measurement','How uplift is judged',[['Baseline method','Matched control group','L2 ZEN'],['Control group size','15% of comparable branches','STATS'],['Minimum test duration','2 weeks','STATS'],['Report vs last year',false,'<span style="color:var(--amber)">MISLEADING</span>']]],
  ['Mechanics permitted','What may be run',[['Bundle',true,'ENABLED'],['Points multiplier',true,'ENABLED'],['Threshold gift',true,'ENABLED'],['Fixed discount',true,'<span style="color:var(--amber)">LOW ROI</span>'],['Deep discount &gt; 30%',false,'BLOCKED']]],
  ['Guard-rails','Limits on promotional spend',[['Max promo % of gross margin','2.5%','FINANCE'],['Max concurrent campaigns','3 per market','COMMERCIAL'],['Cannibalisation check required',true,'MANDATORY'],['Stop campaign if ROI &lt;','1.2×','AUTO']]],
- ['Approval','Who signs a campaign off',[['Under €5,000','Marketing manager','DELEGATED'],['€5,000 – €25,000','Commercial director','ESCALATED'],['Any margin-dilutive mechanic','CFO','ESCALATED']]]]);}};
+ ['Approval','Who signs a campaign off',[['Under $5,000','Marketing manager','DELEGATED'],['$5,000 – $25,000','Commercial director','ESCALATED'],['Any margin-dilutive mechanic','CFO','ESCALATED']]]]);}};
 
 M.cat={
  wb:function(){return iflag('<b>Eleven items are live in at least one branch but absent from the master catalogue.</b> They sell, they consume ingredients, and they are invisible to forecasting and costing — which is why those branches show unexplained usage variance.')
@@ -1026,7 +1026,7 @@ M.cat={
  +'<div class="pan"><h3>Master catalogue</h3><div class="ph">Every item with its commercial and production attributes</div>'
  +big(['ID','ITEM','CATEGORY','PRICE','GM%','SHELF LIFE','VELOCITY','LIFECYCLE'],
   SKU.map(function(k){
-   return ['<b>'+k.id+'</b>',k.n,k.cat,'€'+k.price.toFixed(2),k.gm+'%',k.shelf?k.shelf+' h':'—',k.vel,
+   return ['<b>'+k.id+'</b>',k.n,k.cat,'$'+k.price.toFixed(2),k.gm+'%',k.shelf?k.shelf+' h':'—',k.vel,
     k.status==='Core'?'<span class="t-ok tag">CORE</span>':k.status==='NPI'?'<span class="t-ai tag">NPI</span>':'<span class="t-wa tag">DELIST PENDING</span>'];}),SKU.length+' ITEMS')+'</div>';},
  bi:function(){return bi([['Assortment depth by cluster','Items live',hbars([['Destination',134,'mi','134'],['Suburban',126,'mi','126'],['Urban High',118,'','118'],['Office',88,'','88'],['Transit',74,'wa','74']],140)],
  ['Item lifecycle','Where the catalogue sits',hbars([['Core · always on',62,'mi','62'],['Seasonal',34,'','34'],['Trial / NPI',12,'wa','12'],['Delist pending',10,'cr','10']],70)],
@@ -1055,10 +1055,10 @@ var IR={cmd:'<b>Butter is the binding constraint.</b> Route R-03 has also missed
 fc:'<b>Iced drinks carry most of the remaining forecast error</b> at 78% confidence, and rain is forecast tomorrow.',
 dp:'<b>Twelve overrides carry no reason.</b> Those historically run 6.8% above actual.',
 menu:'<b>Almond croissant is a plough-horse because of butter, not demand.</b> Sourcing fix, not menu fix.',
-plan:'<b>Staggering the bake recovers about €1,840 a week</b> by protecting afternoon sell-through.',
+plan:'<b>Staggering the bake recovers about $1,840 a week</b> by protecting afternoon sell-through.',
 clus:'<b>Eleven branches changed cluster this quarter</b> — nine drifted from Office toward Urban High as hybrid working settled.',
 cat:'<b>Eleven items sell but are not in the master catalogue</b> — invisible to forecasting and costing.',
-mark:'<b>Going earlier beats going deeper.</b> The two-step curve recovers €5,680 a month.',
+mark:'<b>Going earlier beats going deeper.</b> The two-step curve recovers $5,680 a month.',
 promo:'<b>Reported uplift is 14.2%; true incremental is 6.1%.</b> The rest would have been bought anyway.',
 alloc:'<b>Office & Campus is short six SKUs</b> because those branches still run their old cluster calendar.',
 log:'<b>L-2214 ran 2.1°C over specification for 40 minutes.</b> Quarantine the dairy and pull that vehicle off cold rotation.',

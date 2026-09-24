@@ -1132,7 +1132,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   };
   var CH=[{id:'store',n:'Store POS',c:'#9B7BFF'},{id:'web',n:'Web',c:'#4D9DFF'},{id:'app',n:'App',c:'#15F2F2'},{id:'amazon',n:'Amazon',c:'#E5A24B'},{id:'ebay',n:'eBay',c:'#3FD9A4'},{id:'etsy',n:'Etsy',c:'#E8795E'}];
   var CHID=CH.map(function(c){return c.id;});
-  var EUR='\u20AC',X='\u00D7',DASH='\u2014';
+  var USD='$',X='\u00D7',DASH='\u2014';
   var P=[
     {id:'coat',n:'Aria Wool Coat',g:'jacket',base:289,cw:['#6E5BC0','#3A4A66','#7A2E3A'],ch:{store:{s:14,p:289},web:{s:22,p:289},app:{s:22,p:289},amazon:{s:12,p:299},ebay:{s:8,p:295},etsy:{no:true}}},
     {id:'tee',n:'Cira Boxy Tee',g:'tee',base:39,cw:['#B9A8FF','#2E3A4E','#C9B7A0'],ch:{store:{s:60,p:39},web:{s:120,p:39},app:{s:120,p:39},amazon:{s:80,p:42},ebay:{s:40,p:41},etsy:{s:30,p:44}}},
@@ -1143,7 +1143,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   ];
   P.forEach(function(p){p.init={};CHID.forEach(function(k){if(p.ch[k]&&!p.ch[k].no)p.init[k]=p.ch[k].s;});});
   var SIZES=['XS','S','M','L','XL'];
-  var CM={store:{o:'312',rev:EUR+'44.8K',aov:EUR+'144',st:'Live'},web:{o:'486',rev:EUR+'61.2K',aov:EUR+'126',st:'Syncing'},app:{o:'298',rev:EUR+'33.1K',aov:EUR+'111',st:'Live'},amazon:{o:'142',rev:EUR+'21.4K',aov:EUR+'151',st:'Live'},ebay:{o:'33',rev:EUR+'4.9K',aov:EUR+'148',st:'Live'},etsy:{o:'13',rev:EUR+'2.1K',aov:EUR+'162',st:'Live'}};
+  var CM={store:{o:'312',rev:USD+'44.8K',aov:USD+'144',st:'Live'},web:{o:'486',rev:USD+'61.2K',aov:USD+'126',st:'Syncing'},app:{o:'298',rev:USD+'33.1K',aov:USD+'111',st:'Live'},amazon:{o:'142',rev:USD+'21.4K',aov:USD+'151',st:'Live'},ebay:{o:'33',rev:USD+'4.9K',aov:USD+'148',st:'Live'},etsy:{o:'13',rev:USD+'2.1K',aov:USD+'162',st:'Live'}};
   var IRC={store:'Store POS leads on order value \u2014 Iris cues clienteling on outerwear to lift attach rate.',web:'Web is the volume channel \u2014 Iris holds full price two weeks longer where size curves are healthy.',app:'App pickup orders convert fastest \u2014 Iris reserves core sizes for buy-online-pickup-in-store.',amazon:'Amazon\u2019s 15% fee compresses margin \u2014 Iris lifts list prices and won the Buy Box on 3 SKUs this week.',ebay:'eBay buffer runs thin \u2014 Iris rebalances 6 units from the Web pool to keep the listing live.',etsy:'Etsy converts above plan on premium styles \u2014 Iris shifts buffer toward the Etsy listing.'};
   var irisSVG='<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="7" fill="none" stroke="#ff2d95" stroke-width="1.4"><animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/></circle><circle cx="20" cy="20" r="3" fill="#ff2d95"/></svg>';
   var ic=document.getElementById('ocIris');if(ic)ic.innerHTML=irisSVG;
@@ -1167,9 +1167,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     function draw(i){fi=i;var p=P[i];
       [].forEach.call(swEl.children,function(b,k){b.classList.toggle('on',k===i);});
       var liveN=CHID.filter(function(k){return p.ch[k]&&!p.ch[k].no;}).length;
-      featEl.innerHTML='<div class="oc-fimg">'+G[p.g]+'</div><div class="oc-fmeta"><div class="oc-fn">'+p.n+'</div><div class="oc-fb">Base '+EUR+p.base+' \u00B7 '+liveN+' channels live</div><div class="oc-cw">'+p.cw.map(function(c){return '<i style="background:'+c+'"></i>';}).join('')+'</div></div>';
+      featEl.innerHTML='<div class="oc-fimg">'+G[p.g]+'</div><div class="oc-fmeta"><div class="oc-fn">'+p.n+'</div><div class="oc-fb">Base '+USD+p.base+' \u00B7 '+liveN+' channels live</div><div class="oc-cw">'+p.cw.map(function(c){return '<i style="background:'+c+'"></i>';}).join('')+'</div></div>';
       var rows='<div class="oc-tr head"><span>Channel</span><span>Status</span><span style="text-align:right">Stock</span><span style="text-align:right">Price</span></div>';
-      CH.forEach(function(c){var d=p.ch[c.id];if(d&&d.no){rows+='<div class="oc-tr no" style="--cc:'+c.c+'"><span class="oc-cn"><i></i>'+c.n+'</span><span class="oc-cst off">Not listed</span><span class="oc-cstk">'+DASH+'</span><span class="oc-cpr">'+DASH+'</span></div>';}else{var low=d.s<=8;rows+='<div class="oc-tr'+(low?' low':'')+'" style="--cc:'+c.c+'"><span class="oc-cn"><i></i>'+c.n+'</span><span class="oc-cst">Live</span><span class="oc-cstk'+(low?' tcell-low':'')+'">'+d.s+'</span><span class="oc-cpr">'+EUR+d.p+'</span></div>';}});
+      CH.forEach(function(c){var d=p.ch[c.id];if(d&&d.no){rows+='<div class="oc-tr no" style="--cc:'+c.c+'"><span class="oc-cn"><i></i>'+c.n+'</span><span class="oc-cst off">Not listed</span><span class="oc-cstk">'+DASH+'</span><span class="oc-cpr">'+DASH+'</span></div>';}else{var low=d.s<=8;rows+='<div class="oc-tr'+(low?' low':'')+'" style="--cc:'+c.c+'"><span class="oc-cn"><i></i>'+c.n+'</span><span class="oc-cst">Live</span><span class="oc-cstk'+(low?' tcell-low':'')+'">'+d.s+'</span><span class="oc-cpr">'+USD+d.p+'</span></div>';}});
       tblEl.innerHTML=rows;
     }
     [].forEach.call(swEl.children,function(b){b.addEventListener('click',function(){auto=false;if(t)clearTimeout(t);draw(parseInt(b.dataset.i,10));});});
@@ -1183,7 +1183,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var c=CH[CHID.indexOf(cid)],m=CM[cid];
     var prods=P.filter(function(p){return p.ch[cid]&&!p.ch[cid].no;});
     var rows='<div class="oc-cdr h"><span>Product</span><span style="text-align:right">Stock</span><span style="text-align:right">Price</span><span style="text-align:right">Status</span></div>';
-    prods.forEach(function(p){var d=p.ch[cid];var low=d.s<=8;rows+='<div class="oc-cdr"><span class="oc-cdname"><span class="oc-cdg">'+G[p.g]+'</span><span class="nn">'+p.n+'</span></span><span class="oc-cdmono'+(low?' lo':'')+'">'+d.s+'</span><span class="oc-cdmono">'+EUR+d.p+'</span><span class="oc-cdst'+(low?' lo':'')+'">'+(low?'Low':'Live')+'</span></div>';});
+    prods.forEach(function(p){var d=p.ch[cid];var low=d.s<=8;rows+='<div class="oc-cdr"><span class="oc-cdname"><span class="oc-cdg">'+G[p.g]+'</span><span class="nn">'+p.n+'</span></span><span class="oc-cdmono'+(low?' lo':'')+'">'+d.s+'</span><span class="oc-cdmono">'+USD+d.p+'</span><span class="oc-cdst'+(low?' lo':'')+'">'+(low?'Low':'Live')+'</span></div>';});
     var sync=m.st==='Syncing';
     mgr.innerHTML='<div class="oc-cd" style="--cc:'+c.c+'">'+
       '<div class="oc-cdhead"><span class="cdot"></span>'+c.n+' <span class="st'+(sync?' sync':'')+'">'+m.st+'</span><span class="back" id="ocBack">\u2039 all channels</span></div>'+
@@ -1216,7 +1216,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var cid=sel||rnd(CHID.filter(function(k){return p.ch[k]&&!p.ch[k].no&&p.ch[k].s>0;}));
     var c=CH[CHID.indexOf(cid)],d=p.ch[cid],size=rnd(SIZES),qty=Math.random()<0.8?1:2;
     var row=document.createElement('div');row.className='oc-order';row.style.setProperty('--cc',c.c);
-    row.innerHTML='<div class="oc-thumb">'+G[p.g]+'</div><div class="oc-od"><div class="oc-on">'+p.n+'</div><div class="oc-ometa"><span class="oc-tag"><i></i>'+c.n+'</span><span>Size '+size+'</span><span>'+X+qty+'</span></div></div><div class="oc-oright"><div class="oc-price">'+EUR+(d.p*qty)+'</div><div class="oc-status new">New</div></div>';
+    row.innerHTML='<div class="oc-thumb">'+G[p.g]+'</div><div class="oc-od"><div class="oc-on">'+p.n+'</div><div class="oc-ometa"><span class="oc-tag"><i></i>'+c.n+'</span><span>Size '+size+'</span><span>'+X+qty+'</span></div></div><div class="oc-oright"><div class="oc-price">'+USD+(d.p*qty)+'</div><div class="oc-status new">New</div></div>';
     feed.insertBefore(row,feed.firstChild);
     while(feed.children.length>MAX)feed.removeChild(feed.lastChild);
     today++;if(todayEl)todayEl.textContent=today;
@@ -1241,7 +1241,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 /* ============ PRODUCT TOUR ============ */
 (function(){
   var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var EUR='\u20AC';
+  var USD='$';
   var G={
     jacket:'<svg viewBox="0 0 64 64"><path d="M21 11 L12 16 L16 31 L21 28 L21 55 L43 55 L43 28 L48 31 L52 16 L43 11 Z" fill="url(#gApp)"/><path d="M21 11 L32 20 L43 11" fill="none" stroke="#0C1322" stroke-width="2"/><line x1="32" y1="20" x2="32" y2="55" stroke="#0C1322" stroke-width="1.5"/></svg>',
     tee:'<svg viewBox="0 0 64 64"><path d="M23 9 L15 13 L9 21 L15 28 L20 24 L20 55 L44 55 L44 24 L49 28 L55 21 L49 13 L41 9 C39 14 36 16 32 16 C28 16 25 14 23 9 Z" fill="url(#gApp)"/></svg>',
@@ -1285,7 +1285,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function brk(rows){return '<div class="tbreak">'+rows.map(function(r){return '<div class="tbrow"><span>'+r[0]+'</span><span class="tbbar"><i class="'+(r[3]?'w':'')+'" style="width:'+r[1]+'%"></i></span><b>'+r[2]+'</b></div>';}).join('')+'</div>';}
 
   function scrDashboard(){
-    var k=[['Revenue \u00B7 MTD',EUR+'36.0M'],['Orders today','1,284'],['Sell-through','62%'],['Gross margin','58.4%']];
+    var k=[['Revenue \u00B7 MTD',USD+'36.0M'],['Orders today','1,284'],['Sell-through','62%'],['Gross margin','58.4%']];
     var mix=[['#9B7BFF',31,'Store'],['#4D9DFF',22,'Web'],['#15F2F2',14,'App'],['#E5A24B',18,'Amazon'],['#3FD9A4',9,'eBay'],['#E8795E',6,'Etsy']];
     var alerts=[['var(--bad)','Lyon \u00B7 M size out on Aria Wool Coat','Inventory'],['var(--warn)','Nice dispatch at SLA risk','Dispatch'],['var(--ai)','Size break forming \u00B7 Women\u2019s Outerwear','Iris']];
     return '<div class="tscreen" id="scr-dashboard"><div class="tsh">Overview</div><div class="tsub">Every channel, every store \u2014 one live board.</div>'+
@@ -1296,9 +1296,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
   function scrOrders(){
     var O=[['amazon','Amazon','jacket','Aria Wool Coat','M',299,'sfs','Ship-from-store'],['app','App','sneaker','Vela Runner','42',129,'pick','Store pickup'],['web','Web','dress','Lumen Slip Dress','S',119,'dc','Ship-from-DC'],['ebay','eBay','tee','Cira Boxy Tee','L',41,'sfs','Ship-from-store'],['store','Store POS','bag','Onda Shoulder Bag','\u2014',159,'pick','In-store'],['etsy','Etsy','jeans','Halden Slim Jean','32',92,'dc','Ship-from-DC']];
-    var rows=O.map(function(o,i){return '<div class="ttr tordr"><span class="tmono">#80'+(3120+i)+'</span><span class="tchip" style="--cc:'+CC[o[0]]+'"><i></i>'+o[1]+'</span><span class="tnamec"><span class="tgar">'+G[o[2]]+'</span><span class="nn">'+o[3]+'</span></span><span>'+o[4]+'</span><span class="tmono">'+EUR+o[5]+'</span><span'+(i===0?' id="t-ship"':'')+'><span class="tpill '+o[6]+'">'+o[7]+'</span></span></div>';}).join('');
+    var rows=O.map(function(o,i){return '<div class="ttr tordr"><span class="tmono">#80'+(3120+i)+'</span><span class="tchip" style="--cc:'+CC[o[0]]+'"><i></i>'+o[1]+'</span><span class="tnamec"><span class="tgar">'+G[o[2]]+'</span><span class="nn">'+o[3]+'</span></span><span>'+o[4]+'</span><span class="tmono">'+USD+o[5]+'</span><span'+(i===0?' id="t-ship"':'')+'><span class="tpill '+o[6]+'">'+o[7]+'</span></span></div>';}).join('');
     return '<div class="tscreen" id="scr-orders"><div class="tsh">Orders</div><div class="tsub">One queue for store, web, app and every marketplace \u2014 routed automatically.</div>'+
-      tiles([['Orders today','1,284'],['Marketplace share','38%'],['Avg order value',EUR+'96'],['Awaiting fulfilment','42']])+
+      tiles([['Orders today','1,284'],['Marketplace share','38%'],['Avg order value',USD+'96'],['Awaiting fulfilment','42']])+
       '<div class="ttbl" id="t-ordtbl"><div class="ttr tordr h"><span>Order</span><span>Channel</span><span>Item</span><span>Size</span><span>Total</span><span>Fulfilment</span></div>'+rows+'</div>'+
       irisRow('marketplace orders are routed to ship-from-store where it cuts delivery time and protects margin \u2014 14 orders re-routed in the last hour.')+'</div>';
   }
@@ -1325,11 +1325,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function scrPricing(){
     var cost=170;
     var Pr=[['store','Store POS',289,0],['web','Web',289,4],['app','App',289,4],['amazon','Amazon',299,45],['ebay','eBay',295,38],['etsy','Etsy',0,0,1]];
-    var rows=Pr.map(function(p){if(p[4])return '<div class="ttr tprcr" style="--cc:'+CC[p[0]]+'"><span class="tchip"><i></i>'+p[1]+'</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">Not listed</span></div>';var net=p[2]-p[3];var mg=((net-cost)/p[2]*100).toFixed(1);var low=mg<32;return '<div class="ttr tprcr" style="--cc:'+CC[p[0]]+'"><span class="tchip"><i></i>'+p[1]+'</span><span class="tmono" style="text-align:right">'+EUR+p[2]+'</span><span class="tmono" style="text-align:right;color:var(--warn)">'+(p[3]?'-'+EUR+p[3]:'\u2014')+'</span><span class="tmono" style="text-align:right">'+EUR+net+'</span><span class="tmono'+(low?' tcell-low':'')+'" style="text-align:right">'+mg+'%</span></div>';}).join('');
+    var rows=Pr.map(function(p){if(p[4])return '<div class="ttr tprcr" style="--cc:'+CC[p[0]]+'"><span class="tchip"><i></i>'+p[1]+'</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">\u2014</span><span style="color:var(--fgm);text-align:right">Not listed</span></div>';var net=p[2]-p[3];var mg=((net-cost)/p[2]*100).toFixed(1);var low=mg<32;return '<div class="ttr tprcr" style="--cc:'+CC[p[0]]+'"><span class="tchip"><i></i>'+p[1]+'</span><span class="tmono" style="text-align:right">'+USD+p[2]+'</span><span class="tmono" style="text-align:right;color:var(--warn)">'+(p[3]?'-'+USD+p[3]:'\u2014')+'</span><span class="tmono" style="text-align:right">'+USD+net+'</span><span class="tmono'+(low?' tcell-low':'')+'" style="text-align:right">'+mg+'%</span></div>';}).join('');
     return '<div class="tscreen" id="scr-pricing"><div class="tsh">Pricing \u00B7 Aria Wool Coat</div><div class="tsub">A price per channel \u2014 marketplace fees folded in, net margin protected.</div>'+
-      tiles([['Cost',EUR+cost],['Best margin','41.2%'],['Lowest \u00B7 Amazon','28.1%'],['Reprices today','14']])+
+      tiles([['Cost',USD+cost],['Best margin','41.2%'],['Lowest \u00B7 Amazon','28.1%'],['Reprices today','14']])+
       '<div class="ttbl"><div class="ttr tprcr h"><span>Channel</span><span style="text-align:right">List</span><span style="text-align:right">Fee</span><span style="text-align:right">Net</span><span id="t-margin" style="text-align:right">Margin</span></div>'+rows+'</div>'+
-      irisRow('Amazon\u2019s 15% fee would crush margin to 29% \u2014 Iris lifts the Amazon list to '+EUR+'299 so net margin holds the 41% floor.')+'</div>';
+      irisRow('Amazon\u2019s 15% fee would crush margin to 29% \u2014 Iris lifts the Amazon list to '+USD+'299 so net margin holds the 41% floor.')+'</div>';
   }
   function scrDispatch(){
     var stages=[['Picking',12,''],['Packing',8,''],['Shipping',26,'act'],['In transit',184,''],['Delivered today',312,'']];
@@ -1369,7 +1369,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
   function scrCollection(){
     var C=[['jacket','Aria Wool Coat',289,5],['tee','Cira Boxy Tee',39,6],['sneaker','Vela Runner',129,5],['dress','Lumen Slip Dress',119,6],['jeans','Halden Slim Jean',89,5],['bag','Onda Shoulder Bag',159,6]];
-    var cards=C.map(function(p){return '<div class="tcprod"><div class="tcimg">'+G[p[0]]+'</div><div class="tcn">'+p[1]+'</div><div class="tcmeta"><span class="tcp">'+EUR+p[2]+'</span><span class="tcch">'+p[3]+' channels live</span></div></div>';}).join('');
+    var cards=C.map(function(p){return '<div class="tcprod"><div class="tcimg">'+G[p[0]]+'</div><div class="tcn">'+p[1]+'</div><div class="tcmeta"><span class="tcp">'+USD+p[2]+'</span><span class="tcch">'+p[3]+' channels live</span></div></div>';}).join('');
     return '<div class="tscreen" id="scr-collection"><div class="tsh">Lumière Mode · Autumn / Winter</div><div class="tsub">The line, live across every channel — one catalogue behind all of it.</div><div class="tcoll" id="t-coll">'+cards+'</div></div>';
   }
   document.getElementById('tMain').innerHTML=scrCollection()+scrDashboard()+scrOrders()+scrInventory()+scrAllocation()+scrPricing()+scrDispatch()+scrReturns()+scrReviews()+scrAsk();
