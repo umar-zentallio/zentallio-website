@@ -82,6 +82,11 @@ a{color:inherit;text-decoration:none}
   border:1px solid var(--line-2);border-radius:6px;background:rgba(10,16,32,.6);backdrop-filter:blur(9px);
   cursor:pointer;display:grid;place-items:center;transition:border-color .3s,background .3s}
 .menu-btn:hover{border-color:var(--violet-soft)}
+/* mobile: keep the floating menu button from colliding with scrolled content */
+.topscrim{position:fixed;top:0;left:0;right:0;height:70px;z-index:88;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.78) 55%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.topscrim.on{opacity:1}
+@media(max-width:820px){.menu-btn{background:rgba(8,13,26,.92);box-shadow:0 6px 20px -8px rgba(0,0,0,.7)}}
+@media(min-width:821px){.topscrim{display:none}}
 .menu-btn i{display:block;width:19px;height:1.5px;background:var(--fg1);position:absolute;transition:transform .32s cubic-bezier(.7,0,.3,1),opacity .2s}
 .menu-btn i:nth-child(1){transform:translateY(-5px)}
 .menu-btn i:nth-child(2){transform:translateY(0)}
@@ -726,7 +731,8 @@ a{color:inherit;text-decoration:none}
   .tick.on i{transform:scaleX(1)}
 }
 </style>
-<link href="https://m.zentallio.com/fashion/sector-solutions" media="only screen and (max-width: 640px)" rel="alternate"/>
+
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/fashion/sector-solutions">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -735,7 +741,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --><header class="znav">
 <a aria-label="Zentallio home" class="znav-brand" href="/">Zentallio</a>
 <button aria-controls="znavOv" aria-expanded="false" aria-label="Open menu" class="znav-btn" id="znavBtn"><span></span><span></span><span></span></button>
-</header><div class="znav-spacer" aria-hidden="true"></div>
+</header>
+<div aria-hidden="true" class="znav-spacer"></div>
 <div aria-hidden="true" class="znav-ov" id="znavOv">
 <nav class="znav-nav">
 <a href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="znav-d-fb"></b></a>
@@ -746,7 +753,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="znav-foot">info@zentallio.com</div>
 </div>
 <!-- ===== menu ===== -->
-<button aria-expanded="false" aria-label="Open menu" class="menu-btn" id="menuBtn"><i></i><i></i><i></i></button>
+
+
 
 <!-- ==================== 1 · SECTOR BANNER ==================== -->
 <header class="zb" id="top">
@@ -756,7 +764,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="zb-tint"></div>
 <div class="zb-grain"></div>
 <div class="zb-bar">
-<a aria-label="Zentallio home" class="brand" href="/">Zentallio</a>
+<a class="brand" href="https://zentallio.com">Zentallio</a>
 <span class="worldpill">Fashion Retail</span>
 </div>
 <div class="zb-body">
@@ -822,8 +830,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 .zfoot a{text-decoration:none}
 .zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
 .zfoot-brand{max-width:400px}
-.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em;display:inline-block;text-decoration:none;transition:opacity .2s}
-.zfoot-name:hover{opacity:.75}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
 .zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
 .zfoot-contact{margin-top:22px;display:flex;flex-direction:column;gap:9px;font-size:.88rem;line-height:1.55}
 .zfoot-contact a{color:#AEB9CB;width:fit-content;transition:color .2s}
@@ -846,7 +853,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </style>
 <div class="zfoot-top">
 <div class="zfoot-brand">
-<a aria-label="Zentallio home" class="zfoot-name" href="/">Zentallio</a>
+<div class="zfoot-name">Zentallio</div>
 <p class="zfoot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail — one agent, Iris, reading every signal and deciding across every floor.</p>
 <div class="zfoot-contact">
 <a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" rel="noopener" target="_blank">142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</a>
@@ -3429,6 +3436,7 @@ document.getElementById('askZen').addEventListener('click',function(){
 </script>
 <style>/* mobile-polish: sub-9px floor + rail hint */@media(max-width:640px){.bexp,.beye,.dcap .mono,.bstage-bar span,.dem-ask .az,.dem-ask .lyr,.fc-here span,.fs-here span,.herobadge,.bbadge,.htab span,.stab span,.ltab td .st,.lyrbox h4,.postop .ask span,.postop .tn,.postour .nav b,.postour .nav button,.posurl .bar,.qd .qdel,.qd .ql,.scr-chrome,.scr-foot,.tender span,.zb-stat .sl,.zchip{font-size:10px !important}.rail-pills{-webkit-mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%);mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%)}}</style>
 <link href="/booking.css" rel="stylesheet"/><script defer="" src="/booking.js"></script>
+<script>(function(){var s=document.getElementById('topscrim');if(!s)return;var t=false;addEventListener('scroll',function(){var on=scrollY>56;if(on!==t){t=on;s.classList.toggle('on',on);}},{passive:true});})();</script>
 <style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
 .znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
 .znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}

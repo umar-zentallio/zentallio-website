@@ -258,8 +258,9 @@
     .bubble .cursor{ display:none !important; }
   }
 </style>
-<link href="https://zentallio.com/resources/quick-service-street-food" rel="canonical"/>
-<link href="https://m.zentallio.com/resources/quick-service-street-food" media="only screen and (max-width: 640px)" rel="alternate"/>
+
+<link rel="canonical" href="https://zentallio.com/resources/quick-service-street-food">
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/resources/quick-service-street-food">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -268,7 +269,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) --><header class="znav">
 <a aria-label="Zentallio home" class="znav-brand" href="/">Zentallio</a>
 <button aria-controls="znavOv" aria-expanded="false" aria-label="Open menu" class="znav-btn" id="znavBtn"><span></span><span></span><span></span></button>
-</header><div class="znav-spacer" aria-hidden="true"></div>
+</header>
+<div aria-hidden="true" class="znav-spacer"></div>
 <div aria-hidden="true" class="znav-ov" id="znavOv">
 <nav class="znav-nav">
 <a href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="znav-d-fb"></b></a>
@@ -1050,6 +1052,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   goTo(0);
 })();
 </script>
+<style>/* mobile: keep the deck top chrome from colliding (hide keyboard hints, compact wordmark + PDF) */
+@media(max-width:680px){
+  .chrome .hint{display:none!important}
+  .chrome .wordmark{font-size:8.5px!important;letter-spacing:.05em!important;max-width:56vw!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;top:18px!important}
+  .chrome .toolbar{gap:0!important;top:14px!important}
+  .chrome .pdf-btn{font-size:8.5px!important;letter-spacing:.03em!important;padding:5px 9px!important}
+}</style>
 <style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
 .znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
 .znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}

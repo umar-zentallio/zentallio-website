@@ -11,6 +11,7 @@ toot jaata.
 
     python3 tools/unify_nav.py            # dry run
     python3 tools/unify_nav.py --apply
+    python3 tools/unify_nav.py --apply --force   # purana navbar nikaal kar dobara
 """
 import os, re, sys
 from bs4 import BeautifulSoup
@@ -25,6 +26,14 @@ REPLACE_SEL = [
     'nav.zmenu-nav', '.zmenu',     # food-beverage ka overlay
     'nav.site-nav',                # resources.html
     'div.nav-row',                 # article pages
+    # Standalone floating menu button -- kuch pages par ye header.top ke bahar
+    # seedha body ka child hai, is liye upar wale selectors isay nahi pakadte.
+    # Isay chhod dene se page par DO menu buttons reh jaate hain.
+    'button.menu-btn',
+    # main branch ne ye scrim purane floating button ko parhne-laayak banane
+    # ke liye lagaya tha. Naya navbar khud .is-scrolled background rakhta hai,
+    # aur scrim ka z-index:85 navbar (60) ke UPAR aa jaata hai.
+    '#topscrim',
 ]
 # Page ka apna chrome -- inhe haath nahi lagate:
 #   div.top, div.topbar   food/app demo screens ka title bar
@@ -119,6 +128,27 @@ JS = """(function(){
 })();"""
 
 
+# Pehle se laga hua canonical navbar -- dobara lagane se pehle isay nikalna
+# parta hai, warna page par do navbar reh jaate hain.
+ZNAV_SEL = ['header.znav', '.znav-spacer', '#znavOv', 'style#znav-css']
+
+
+def strip_znav(soup):
+    """Purana znav (markup + css + js) nikaal do. Ye tool ko waqai
+    re-runnable banata hai: REPLACE_SEL ya CSS badalne ke baad seedha
+    dobara chala sakte hain."""
+    found = False
+    for sel in ZNAV_SEL:
+        for el in soup.select(sel):
+            found = True
+            el.decompose()
+    for sc in soup.find_all('script'):
+        if sc.string and 'znavBtn' in sc.string:
+            found = True
+            sc.decompose()
+    return found
+
+
 def url_path(rel):
     p = '/' + rel[:-5]
     return '/' if p == '/index' else p
@@ -193,14 +223,16 @@ def sync_spacer(path, html, rel, apply_changes):
     return 'spacer+' if want else 'spacer-'
 
 
-def process(rel, apply_changes):
+def process(rel, apply_changes, force=False):
     path = os.path.join(ROOT, rel)
     html = open(path, encoding='utf-8').read()
-    if 'id="znavOv"' in html:
+    soup = BeautifulSoup(html, 'lxml')
+
+    if 'id="znavOv"' in html and not force:
         # pehle se laga hua hai -- sirf spacer ko list ke mutabiq theek karo
         return sync_spacer(path, html, rel, apply_changes)
 
-    soup = BeautifulSoup(html, 'lxml')
+    had = strip_znav(soup) if force else False
     back_link, removed = None, []
     for sel in REPLACE_SEL:
         for el in soup.select(sel):
@@ -224,6 +256,8 @@ def process(rel, apply_changes):
 
     if apply_changes:
         open(path, 'w', encoding='utf-8').write(str(soup))
+    if had:
+        return 'rebuilt'
     return ('replaced:' + ','.join(sorted(set(removed)))) if removed else 'added'
 
 
@@ -240,9 +274,10 @@ def pages():
 
 if __name__ == '__main__':
     apply_changes = '--apply' in sys.argv
+    force = '--force' in sys.argv      # purana navbar nikaal kar naya lagao
     counts = {}
     for rel in pages():
-        r = process(rel, apply_changes)
+        r = process(rel, apply_changes, force)
         k = r.split(':')[0]
         counts[k] = counts.get(k, 0) + 1
         print('%-52s %s' % (rel, r))

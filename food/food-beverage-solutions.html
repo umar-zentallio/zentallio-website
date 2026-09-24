@@ -110,19 +110,7 @@ a{color:inherit;text-decoration:none}
 .fmrow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .fmrow::-webkit-scrollbar{display:none}
 .fmchip{font-size:10.5px;color:var(--muted);border:.5px solid var(--line);background:rgba(255,255,255,.02);border-radius:7px;padding:3px 9px;white-space:nowrap}
-@media(max-width:760px){
-.secbar .sin{display:block;padding:12px 0 11px}
-.secbar .fmin{padding:0 16px 8px}
-.sxlab{display:block;font-size:9.5px;letter-spacing:.26em;padding:0 16px;margin-bottom:10px}
-.sxrow{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;gap:8px;padding:8px 16px 10px;scroll-snap-type:x proximity;scroll-padding-left:16px;
- -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);
- mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
-.sxrow.sxs{--fl:28px}.sxrow.sxe{--fr:32px}
-.sxrow::-webkit-scrollbar{display:none}
-.sxpill{scroll-snap-align:start;font-size:12.5px;font-weight:600;padding:9px 14px;gap:7px;border-radius:999px}
-.sxpill i{font-size:9px;padding:2px 5px;border-radius:5px}
-}
-@media(max-width:420px){.sxpill{font-size:12px;padding:8px 12px}}
+@media(max-width:760px){.secbar .sin{padding:8px 16px 6px}.secbar .fmin{padding:0 16px 8px}.sxrow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.sxrow::-webkit-scrollbar{display:none}.sxpill{font-size:11px;padding:5px 10px}}
 /* sector banner (image-led, wireframe layout) */
 .sbanner{position:relative;overflow:hidden;border-bottom:.5px solid var(--line);background:#05080F}
 .sb-media{height:min(54vh,600px);min-height:380px;background-size:cover;background-position:center 42%;filter:saturate(1.02)}
@@ -658,8 +646,9 @@ a{color:inherit;text-decoration:none}
 .fdquiet{color:#C3CEDD;font-size:13.5px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.18s}
 .fdquiet:hover{color:#fff}
 .fdquiet .ar{color:var(--sec-hue)}
+.fdscale{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#7E8CA0;margin-top:26px}
+.fdscale .t{color:var(--teal)}.fdscale .a{color:#FF2D95}
 @media(max-width:720px){.fdrail{width:100%}.fdcell{flex:1 1 46%;padding:11px 15px}.sb-vink{background:linear-gradient(180deg,rgba(5,8,15,.30) 0%,rgba(5,8,15,.72) 55%,rgba(5,8,15,.92) 100%)}}
-@media(max-width:560px){.fdc{padding-left:clamp(14px,4vw,20px);padding-right:clamp(14px,4vw,20px)}.fdcta{gap:clamp(6px,2.2vw,14px);margin-top:24px;flex-wrap:nowrap;align-items:center}.fdbtn{width:auto;justify-content:center;padding:clamp(9px,2.7vw,14px) clamp(9px,2.9vw,18px);font-size:clamp(9.3px,2.95vw,13px);gap:6px;white-space:nowrap;flex:0 0 auto}.fdquiet{font-size:clamp(8.6px,2.55vw,12.5px);gap:5px;white-space:nowrap;flex:0 0 auto}.fdquiet .ar{font-size:1.05em}}
 </style>
 <style id="textfirst">
 /* hero demo */
@@ -752,6 +741,11 @@ body.dm-open{overflow:hidden}
 .zh-bn{font-family:Fraunces,serif;font-weight:400;font-size:1.4rem;letter-spacing:-.01em;color:#FFFFFF}
 .zh-pill{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-hue,#15F2F2);border:1px solid color-mix(in srgb,var(--sec-hue,#15F2F2) 34%,transparent);border-radius:6px;padding:3px 8px;line-height:1;white-space:nowrap}
 .menu-btn{position:fixed;top:clamp(16px,2.4vh,26px);right:var(--gut);width:46px;height:46px;border:1px solid rgba(255,255,255,.11);border-radius:3px;background:rgba(10,16,32,.55);backdrop-filter:blur(8px);cursor:pointer;display:grid;place-items:center;transition:.25s;z-index:90}
+/* mobile: keep the floating menu button from colliding with scrolled content */
+.topscrim{position:fixed;top:0;left:0;right:0;height:68px;z-index:85;pointer-events:none;opacity:0;transition:opacity .3s ease;background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.78) 55%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.topscrim.on{opacity:1}
+@media(max-width:820px){.menu-btn{background:rgba(8,13,26,.92);border-color:rgba(255,255,255,.2);box-shadow:0 6px 20px -8px rgba(0,0,0,.7)}}
+@media(min-width:821px){.topscrim{display:none}}
 .menu-btn:hover{border-color:#15F2F2}
 .menu-btn span{position:absolute;left:13px;width:20px;height:1.5px;background:#FFFFFF;transition:.32s cubic-bezier(.7,0,.3,1)}
 .menu-btn span:nth-child(1){transform:translateY(-4px)}
@@ -793,31 +787,24 @@ body.dm-open{overflow:hidden}
 @media(max-width:430px){.sgrid{grid-template-columns:1fr 1fr;gap:8px}}
 </style>
 <style id="stabs">
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px}
-.stab{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
- border:.5px solid var(--line);background:rgba(255,255,255,.022);border-radius:13px;
- padding:15px 17px;cursor:pointer;transition:.2s cubic-bezier(.2,.7,.3,1);text-align:left;width:100%;
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:10px}
+.stab{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;
+ border:.5px solid var(--line);background:rgba(255,255,255,.02);border-radius:12px;
+ padding:13px 15px;cursor:pointer;transition:.2s cubic-bezier(.2,.7,.3,1);text-align:left;width:100%;
  font-family:Inter,sans-serif;opacity:0;animation:stabIn .5s var(--d,0s) forwards}
 @keyframes stabIn{to{opacity:1;transform:none}}
 .stab{transform:translateY(6px)}
-/* accent rail on the left edge marks hover and the open tab */
-.stab::before{content:"";position:absolute;left:0;top:15px;bottom:15px;width:2px;border-radius:0 2px 2px 0;
- background:var(--sec-hue,#15F2F2);opacity:0;transition:opacity .2s,top .2s,bottom .2s}
-.stab:hover::before{opacity:.6;top:11px;bottom:11px}
 .stab:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--sec-hue) 62%,transparent);
- background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 12%,transparent),transparent);
+ background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 13%,transparent),transparent);
  box-shadow:0 10px 26px -12px color-mix(in srgb,var(--sec-hue) 34%,transparent)}
-.stab b{display:block;font-size:14px;font-weight:600;color:#E3EAF5;letter-spacing:-.006em;line-height:1.36;
- overflow-wrap:anywhere}
+.stab b{font-size:13.5px;font-weight:600;color:#D9E1EE;letter-spacing:-.005em;line-height:1.3}
 .stab:hover b{color:#fff}
-.stab span{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;
- font-size:9.5px;letter-spacing:.11em;color:var(--subtle);line-height:1.25}
-.stab span::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6;flex-shrink:0}
+.stab span{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;color:var(--subtle)}
 .stab:hover span{color:var(--sec-hue)}
-@media(max-width:820px){.sgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}}
-/* one readable column once two would squeeze the longer titles */
-@media(max-width:560px){.sgrid{grid-template-columns:1fr;gap:8px}
- .stab{padding:13px 15px;gap:6px}.stab b{font-size:13.5px;line-height:1.32}}
+.stab-ai{position:absolute;top:9px;right:10px;font-style:normal;font-family:'JetBrains Mono',monospace;
+ font-size:7.5px;letter-spacing:.1em;color:var(--ai);border:.5px solid rgba(255,45,149,.4);border-radius:4px;padding:2px 5px;line-height:1}
+@media(max-width:820px){.sgrid{grid-template-columns:1fr 1fr;gap:8px}}
+@media(max-width:430px){.stab{padding:11px 12px}.stab b{font-size:12.5px}}
 </style>
 <style id="bundles">
 .bhead{display:flex;align-items:flex-start;gap:20px;justify-content:space-between;flex-wrap:wrap;margin:0 0 16px;padding-bottom:15px;border-bottom:.5px solid var(--line)}
@@ -836,7 +823,6 @@ body.dm-open{overflow:hidden}
 .bexp:hover{color:#fff;border-color:var(--sec-hue,#15F2F2)}
 .bframe{width:100%;height:clamp(500px,64vh,760px);border:0;display:block;background:#05080F}
 .stab.on{transform:translateY(-2px);background:linear-gradient(135deg,color-mix(in srgb,var(--sec-hue) 20%,transparent),color-mix(in srgb,var(--sec-hue) 7%,transparent));border-color:color-mix(in srgb,var(--sec-hue) 75%,transparent);box-shadow:0 8px 22px -10px color-mix(in srgb,var(--sec-hue) 30%,transparent)}
-.stab.on::before{opacity:1;top:9px;bottom:9px;width:3px}
 .stab.on b{color:#fff}.stab.on span{color:var(--sec-hue)}
 @media(max-width:820px){.bframe{height:clamp(420px,58vh,560px)}.bsub{display:none}}
 </style>
@@ -845,19 +831,11 @@ body.dm-open{overflow:hidden}
 #solGrid{display:block}
 .sgrp{grid-column:1/-1;display:block;padding-top:clamp(30px,4vw,50px);border-top:.5px solid var(--line);margin-top:clamp(30px,4vw,50px)}
 .sgrp:first-child{border-top:none;padding-top:0;margin-top:0}
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px}
-.sgrid .stab{width:auto;min-width:0}
+.sgrid{display:flex;flex-wrap:wrap;gap:9px}
+.sgrid .stab{flex:0 1 auto;width:auto;min-width:180px}
 .bstage{margin-top:16px}
 .bframe{height:clamp(560px,72vh,860px)}
-@media(max-width:820px){.sgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}.bframe{height:clamp(430px,60vh,580px)}}
-@media(max-width:560px){.sgrid{grid-template-columns:1fr;gap:8px}}
-/* the stage bar: title on its own line, meta + Expand under it */
-@media(max-width:560px){
- .bstage-bar{flex-wrap:wrap;gap:5px 10px;padding:10px 13px}
- .bstage-bar b{flex:1 1 100%;font-size:12.5px;line-height:1.35}
- .bstage-bar span{flex:1 1 0;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
- .bexp{margin-left:auto;padding:5px 10px;font-size:10.5px;flex-shrink:0}
-}
+@media(max-width:820px){.sgrid{gap:7px}.sgrid .stab{min-width:calc(50% - 4px);flex:1 1 calc(50% - 4px)}.bframe{height:clamp(430px,60vh,580px)}}
 </style>
 <style id="bundlehdr">
 /* the header itself is the divider: a hue rule that fades out */
@@ -892,7 +870,7 @@ body.dm-open{overflow:hidden}
 .bstage.idle .bframe,.bstage.loading .bframe{opacity:0}
 .bstage .bframe{opacity:1;transition:opacity .28s}
 .bstage.idle{--sk:1}
-.bstage.idle::after,.bstage.loading::after{content:"";position:absolute;left:0;right:0;top:var(--barh,44px);bottom:0;
+.bstage.idle::after,.bstage.loading::after{content:"";position:absolute;left:0;right:0;top:44px;bottom:0;
  background:linear-gradient(100deg,rgba(255,255,255,.022) 30%,rgba(255,255,255,.055) 50%,rgba(255,255,255,.022) 70%);
  background-size:220% 100%;animation:skwipe 1.25s linear infinite;pointer-events:none}
 @keyframes skwipe{0%{background-position:120% 0}100%{background-position:-120% 0}}
@@ -921,119 +899,6 @@ body.dm-open{overflow:hidden}
 @media(max-width:900px){.sf-in{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.sf-in{grid-template-columns:1fr}}
 </style>
-<style id="sectorpage">
-/* dedicated sector pages: the sector bar above already names the sector, so the
-   product showcase gets air above it and the solutions list starts much sooner */
-body.sectorpage #showcase{padding-top:clamp(38px,4.2vw,64px)}
-body.sectorpage #solutions{padding-top:6px}
-body.sectorpage #solGrid .sgrp:first-child{padding-top:0!important}
-@media(max-width:820px){body.sectorpage #showcase{padding-top:clamp(26px,5vw,40px)}}
-</style>
-<style id="soltabs">
-/* ==========================================================================
-   "Every solution, one screen at a time" — the tab strip and its live screen.
-
-   Desktop: a grid of numbered tabs sitting above the screen they open.
-   Mobile : the same tabs become a snapping rail with a stepper underneath,
-            so the screen the section is about is one thumb-scroll away
-            instead of thirteen stacked cards away.
-   ========================================================================== */
-
-/* --- the tabs, both layouts --------------------------------------------- */
-.srail{position:relative}
-.sgrid{scrollbar-width:none;-ms-overflow-style:none}
-.sgrid::-webkit-scrollbar{width:0;height:0;display:none}
-
-.stab{min-height:86px;padding:14px 15px 13px;gap:7px;justify-content:flex-start}
-.stab .stab-n{position:absolute;top:12px;right:13px;font-style:normal;font-weight:500;
- font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.09em;
- color:var(--subtle);opacity:.6;transition:color .2s,opacity .2s}
-.stab:hover .stab-n,.stab.on .stab-n{color:var(--sec-hue,#15F2F2);opacity:1}
-.stab b{padding-right:26px}        /* the title never runs under the index */
-.stab span{margin-top:auto}        /* the layer label sits on the bottom edge */
-.stab:focus-visible{outline:2px solid var(--sec-hue,#15F2F2);outline-offset:2px}
-
-/* --- the stepper under the rail (mobile only) ---------------------------- */
-.srailfoot{display:none;align-items:center;gap:10px;margin-top:11px}
-.rnav{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;
- border:.5px solid var(--line);border-radius:10px;background:rgba(255,255,255,.045);
- color:var(--muted);font-family:Inter,sans-serif;font-size:16px;line-height:1;
- cursor:pointer;transition:.18s;padding:0}
-.rnav:hover:not(:disabled){color:#fff;
- border-color:color-mix(in srgb,var(--sec-hue,#15F2F2) 60%,transparent)}
-.rnav:disabled{opacity:.28;cursor:default}
-.rcount{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
- color:var(--subtle);white-space:nowrap;flex:0 0 auto}
-.rcount b{color:var(--sec-hue,#15F2F2);font-weight:500}
-.rtrack{flex:1 1 auto;min-width:26px;height:2px;border-radius:2px;
- background:var(--line);overflow:hidden}
-.rtrack i{display:block;height:100%;width:0;border-radius:2px;
- background:var(--sec-hue,#15F2F2);transition:width .32s cubic-bezier(.2,.7,.3,1)}
-
-/* --- the stage bar ------------------------------------------------------- */
-.bstage-bar b{min-width:0;overflow-wrap:anywhere}
-
-@media(prefers-reduced-motion:reduce){
- .stab{opacity:1;animation:none;transform:none}
- .rtrack i{transition:none}
-}
-
-@media(max-width:820px){
- /* the header reads as one block: title, the line that explains it, then LIVE */
- .bhead{display:block;padding-bottom:13px!important;margin-bottom:15px!important}
- .bh2{font-size:clamp(21px,5.9vw,28px)!important;line-height:1.18!important}
- .bsub{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:3;
-  overflow:hidden;font-size:13px!important;line-height:1.62!important;
-  color:#96A3B6!important;margin:10px 0 0!important;max-width:none}
- .bbadge{display:inline-flex;margin-top:13px}
-
- /* the tabs become a rail that runs to both screen edges */
- .srail{margin-inline:-26px}
- .sgrid{display:flex!important;flex-wrap:nowrap;gap:9px;
-  overflow-x:auto;overflow-y:hidden;padding:2px 26px 4px;
-  scroll-snap-type:x mandatory;scroll-padding-left:26px;
-  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
- .sgrid .stab{flex:0 0 min(69vw,268px);scroll-snap-align:start;
-  min-height:0;padding:12px 14px;gap:5px;width:auto}
- .stab b{font-size:14px!important;line-height:1.3;padding-right:24px}
- .stab .stab-n{top:11px;right:12px}
- .stab.on,.stab:hover{transform:none}
-
- /* edge fades say the rail keeps going */
- .srail::before,.srail::after{content:"";position:absolute;top:0;bottom:0;width:26px;
-  pointer-events:none;z-index:2;opacity:0;transition:opacity .22s}
- .srail::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
- .srail::after{right:0;background:linear-gradient(270deg,var(--bg),transparent);opacity:1}
- .srail.scrolled::before{opacity:1}
- .srail.at-end::after{opacity:0}
-
- /* one screen at a time, literally */
- .srailfoot{display:flex}
-
- /* the screen itself gets the room the stacked cards used to take */
- .bframe{height:clamp(520px,76vh,700px)!important}
- .bstage.idle .bframe{height:clamp(520px,76vh,700px)}
-
- /* the stage bar: title on its own row, meta and Expand under it, nothing clipped */
- .bstage-bar{flex-wrap:wrap;align-items:center;gap:8px 10px;padding:11px 14px!important}
- .bstage-bar b{order:1;flex:1 1 100%;font-size:13px!important;line-height:1.35}
- /* Expand leads the second row rather than sitting in the top-right corner,
-    where the floating menu button would land on top of it */
- .bexp{order:2;flex:0 0 auto;margin-left:0!important;padding:7px 12px;font-size:11px}
- .bstage-bar span{order:3;flex:1 1 130px;min-width:0;line-height:1.5;letter-spacing:.1em;
-  white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
-
- /* the floating menu button sits over whatever scrolls under it — make sure
-    it never lets that text read through */
- .menu-btn{background:rgba(8,13,26,.9)}
-}
-
-@media(max-width:430px){
- .sgrid .stab{flex:0 0 min(78vw,272px)}
- .bframe{height:clamp(500px,72vh,640px)!important}
- .bstage.idle .bframe{height:clamp(500px,72vh,640px)}
-}
-</style>
 <meta content="Open any solution and watch it run: the till, the label printer, the scale, the guest's phone. 149 live solutions across quick service, casual dining, café, cloud kitchen and six more sectors." name="description"/>
 <link href="https://zentallio.com/food/food-beverage-solutions" rel="canonical"/>
 <meta content="#070C18" name="theme-color"/>
@@ -1051,7 +916,8 @@ body.sectorpage #solGrid .sgrp:first-child{padding-top:0!important}
 <meta content="Solutions — Zentallio for Food &amp; Beverage" name="twitter:title"/>
 <meta content="Open any solution and watch it run: the till, the label printer, the scale, the guest's phone. 149 live solutions across quick service, casual dining, café, cloud kitchen and six more sectors." name="twitter:description"/>
 <meta content="https://zentallio.com/og-image.png" name="twitter:image"/>
-<link href="https://m.zentallio.com/food/food-beverage-solutions" media="only screen and (max-width: 640px)" rel="alternate"/>
+
+<link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/food/food-beverage-solutions">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1071,7 +937,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="znav-foot">info@zentallio.com</div>
 </div>
 
-<button aria-label="Menu" class="menu-btn" id="menuBtn" onclick="toggleMenu()"><span></span><span></span></button>
+
+
 
 <header class="sbanner" id="sbanner">
 <div class="sb-media" id="sbMedia"></div>
@@ -1312,8 +1179,6 @@ var SECTORS=[
  formats:['Breakfast & brunch-only','Late night / 24-hour eatery','Pop-up & supper club','Food hall / market stall','Themed restaurant','Ghost restaurant'],
  map:[['Croque Madame','Midnight Croque'],['Poulet Frites','Chicken & Waffles'],['Burger Royale','Theme-Night Burger'],['Tartine truffe','Supper-Club Tartine'],['Soupe du jour','Late-Night Ramen'],['Family Box','Brunch Board'],['Lunch Duo','Brunch Duo'],['Menu Royale','Bottomless Brunch']]}
 ];
-var SECURL={qsr:'/food/solutions/quick-service-street-food',casual:'/food/solutions/casual-dining',fine:'/food/solutions/fine-dining-premium',cafe:'/food/solutions/cafe-coffee-bakery',dessert:'/food/solutions/ice-cream-desserts-sweets',beverage:'/food/solutions/beverages-drinks',health:'/food/solutions/health-wellness-specialty-diets',cloud:'/food/solutions/cloud-kitchen-delivery-only',b2b:'/food/solutions/institutional-b2b-food-service',niche:'/food/solutions/niche-experience-concepts'};
-function sectorHref(id){return SECURL[id]||'/food/food-beverage-solutions';}
 var curSector='cafe';
 function getSector(){return SECTORS.find(function(x){return x.id===curSector;});}
 function sectorize(html){
@@ -1385,63 +1250,72 @@ var VIDBANNER={
   rot:[['the <em>scoop</em>.','Weighed and scooped billing, a topping engine that prices every mix-in, and a display freezer that counts itself down \u2014 12 dessert solutions, narrated by Iris.'],
    ['the <em>freezer</em>.','Every tub tracked by batch and best-before, hardening times respected, and Iris flagging the flavour that will not survive the weekend.'],
    ['<em>peak hour</em>.','Saturday at eight is a different business from Tuesday at three. Production, staffing and the menu all move with the queue, not against it.']],
-  rail:[['Scoops today','1,840'],['Avg ticket','\u20ac6.40'],['Waste','1.9<span class="u">%</span>']]},
+  rail:[['Scoops today','1,840'],['Avg ticket','\u20ac6.40'],['Waste','1.9<span class="u">%</span>']],
+  scale:'6 formats \u00b7 12 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  beverage:{embedded:'bv',stack:'beverage',pos:'50% 42%',warm:'#A8E05F',
   eyebrow:'Sector 06 \u00b7 Beverages & Drinks',
   h1lead:'The AI that runs',
   rot:[['the <em>bar</em>.','Drink builder, pour cost, draught yield and every tab reconciled \u2014 17 beverage solutions, narrated by Iris.'],
    ['the <em>pour</em>.','Free-pour drift is invisible until it is 4% of your spirits spend. Iris measures it per bartender, per shift, per bottle.'],
    ['<em>the last hour</em>.','Happy hour, weather and the match calendar move demand more than the menu does \u2014 so the price and the prep move with them.']],
-  rail:[['Drinks / hr','168'],['Pour variance','2.1<span class="u">%</span>'],['Tab recovery','99.4<span class="u">%</span>']]},
+  rail:[['Drinks / hr','168'],['Pour variance','2.1<span class="u">%</span>'],['Tab recovery','99.4<span class="u">%</span>']],
+  scale:'9 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  casual:{embedded:'ca',stack:'casual',pos:'50% 46%',warm:'#FF8A5C',
   eyebrow:'Sector 02 \u00b7 Casual Dining',
   h1lead:'The AI that runs',
   rot:[['the <em>floor</em>.','Tables, courses, servers and every split bill reconciled \u2014 17 casual-dining solutions, narrated by Iris.'],
    ['the <em>turn</em>.','Table turn time is the number that decides a Saturday. Iris seats, fires and paces against it rather than hoping.'],
    ['<em>every course</em>.','Starters, mains and desserts fired to arrive together for the table \u2014 not for the ticket.']],
-  rail:[['Covers / night','284'],['Table turn','68<span class="u">m</span>'],['Course accuracy','97.2<span class="u">%</span>']]},
+  rail:[['Covers / night','284'],['Table turn','68<span class="u">m</span>'],['Course accuracy','97.2<span class="u">%</span>']],
+  scale:'8 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  health:{embedded:'hl',stack:'health',pos:'50% 44%',warm:'#3FD9A4',
   eyebrow:'Sector 07 \u00b7 Health, Wellness & Specialty Diets',
   h1lead:'The AI that runs',
   rot:[['the <em>bowl</em>.','Macros calculated per build, allergens enforced at the till, and every claim on the menu traceable \u2014 17 wellness solutions, narrated by Iris.'],
    ['<em>every claim</em>.','If the menu says 32g of protein, the platform can show which ingredients made it and which batch they came from.'],
    ['the <em>plan</em>.','Subscription meal plans that stay profitable per subscriber, not just popular.']],
-  rail:[['Bowls / day','486'],['Macro accuracy','99.1<span class="u">%</span>'],['Allergen incidents','0']]},
+  rail:[['Bowls / day','486'],['Macro accuracy','99.1<span class="u">%</span>'],['Allergen incidents','0']],
+  scale:'8 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  cloud:{embedded:'ck',stack:'cloud',pos:'50% 46%',warm:'#7B9BFF',
   eyebrow:'Sector 08 \u00b7 Cloud Kitchen & Delivery-Only',
   h1lead:'The AI that runs',
   rot:[['<em>every brand</em>.','Six virtual brands out of one kitchen, each with its own P&L and its own aggregator storefronts \u2014 16 delivery-only solutions, narrated by Iris.'],
    ['the <em>rider gate</em>.','Prep time, rider ETA and pickup are one sequence. Food that waits on a shelf is the whole margin.'],
    ['the <em>commission</em>.','Aggregator commission decides whether a busy kitchen is a profitable one. Iris prices and routes against it, order by order.']],
-  rail:[['Orders / hr','214'],['Prep to pickup','3.1<span class="u">m</span>'],['Brand contribution','21.4<span class="u">%</span>']]},
+  rail:[['Orders / hr','214'],['Prep to pickup','3.1<span class="u">m</span>'],['Brand contribution','21.4<span class="u">%</span>']],
+  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  b2b:{embedded:'ib',stack:'b2b',pos:'50% 44%',warm:'#8FB3C7',
   eyebrow:'Sector 09 \u00b7 Institutional & B2B Food Service',
   h1lead:'The AI that runs',
   rot:[['the <em>contract</em>.','Headcount billing, subsidy rules, tender compliance and a client invoice that reconciles first time \u2014 16 institutional solutions, narrated by Iris.'],
    ['<em>every site</em>.','Twelve canteens, four clients, one standard. Cost per meal compared honestly across sites rather than averaged into meaninglessness.'],
    ['the <em>audit</em>.','Nutrition standards, allergen records and food-safety evidence produced on request \u2014 because in this sector the audit is not an event, it is the operating condition.']],
-  rail:[['Meals / day','14,280'],['Cost per meal','\u20ac3.42'],['Invoice accuracy','99.6<span class="u">%</span>']]},
+  rail:[['Meals / day','14,280'],['Cost per meal','\u20ac3.42'],['Invoice accuracy','99.6<span class="u">%</span>']],
+  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  niche:{embedded:'ni',stack:'niche',pos:'50% 44%',warm:'#FF9A62',
   eyebrow:'Sector 10 \u00b7 Niche & Experience Concepts',
   h1lead:'The AI that runs',
   rot:[['the <em>experience</em>.','Ticketed seatings, pop-ups, theme nights and concepts that move \u2014 16 experience solutions, narrated by Iris.'],
    ['the <em>pop-up</em>.','A location that exists for six weeks still needs a P&L, a stock count and a way to close the till without internet.'],
    ['<em>every seating</em>.','When the meal is the ticket, no-shows and covers are the same problem \u2014 and both are predictable.']],
-  rail:[['Seatings / wk','42'],['Ticket yield','\u20ac86.40'],['No-show','4.1<span class="u">%</span>']]},
+  rail:[['Seatings / wk','42'],['Ticket yield','\u20ac86.40'],['No-show','4.1<span class="u">%</span>']],
+  scale:'7 formats \u00b7 16 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  cafe:{embedded:'cf',stack:'cafe',pos:'50% 46%',warm:'#C9A27C',
   eyebrow:'Sector 04 \u00b7 Caf\u00e9, Coffee & Bakery',
   h1lead:'The AI that runs',
   rot:[['the <em>bar</em>.','Label at the bar, modifiers that hold, a display case that counts itself down \u2014 17 caf\u00e9 and bakery solutions, narrated by Iris.'],
    ['the <em>bake</em>.','Yield, recipe cost and tomorrow\u2019s production plan built from what actually sold, not from what was baked last Tuesday.'],
    ['<em>the last hour</em>.','Markdown timed by remaining shelf life rather than the clock \u2014 because going earlier beats going deeper.']],
-  rail:[['Drinks / hr','168'],['Case sell-through','94.2<span class="u">%</span>'],['Waste','2.6<span class="u">%</span>']]},
+  rail:[['Drinks / hr','168'],['Case sell-through','94.2<span class="u">%</span>'],['Waste','2.6<span class="u">%</span>']],
+  scale:'9 formats \u00b7 17 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  qsr:{embedded:'qs',stack:'quick-service',pos:'50% 14%',
   eyebrow:'Sector 01 \u00b7 Quick Service & Street Food',
   h1lead:'The AI that runs',
   rot:[['the <em>rush</em>.','Kiosk, drive-through, counter and every aggregator on one order book \u2014 sequenced by promise time, not by whoever shouted loudest. 13 quick-service solutions, narrated by Iris.'],
    ['the <em>drive-through</em>.','Lane depth, order-to-window time and the second window measured to the second \u2014 because in QSR the queue <b>is</b> the P&L.'],
    ['<em>every channel</em>.','One menu across kiosk, app, web and five aggregators. An item goes 86 at the counter and disappears everywhere in the same second.']],
-  rail:[['Orders / hr','412'],['Order to window','96<span class="u">s</span>'],['Food cost','30.8<span class="u">%</span>']]},
+  rail:[['Orders / hr','412'],['Order to window','96<span class="u">s</span>'],['Food cost','30.8<span class="u">%</span>']],
+  scale:'8 formats \u00b7 13 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'},
  fine:{embedded:'fd',stack:'fine-dining',pos:'50% 26%',
   eyebrow:'Sector 03 \u00b7 Fine Dining & Premium',
   h1lead:'The AI that runs',
@@ -1449,11 +1323,12 @@ var VIDBANNER={
    ['every <em>cover</em>.','Covers paced to the kitchen\u2019s real capacity, allergens flagged before the plate leaves the pass, and each seating costed while it is <b>still seated</b>.'],
    ['the <em>cellar</em>.','Every pour depletes the bin, every vintage re-costs as the list moves, and the wine margin holds at <b>71%</b> without touching a single price.']],
 
-  rail:[['Covers','184 <span class="u">/ 210</span>'],['Pass','11<span class="u">m</span> 40<span class="u">s</span>'],['Cellar margin','71.4<span class="u">%</span>']]}
+  rail:[['Covers','184 <span class="u">/ 210</span>'],['Pass','11<span class="u">m</span> 40<span class="u">s</span>'],['Cellar margin','71.4<span class="u">%</span>']],
+  scale:'4 formats \u00b7 8 AI solutions \u00b7 <span class="t">L1 Zen Rules</span> \u2192 <span class="t">L2 Zen Models</span> \u2192 <span class="a">L3 Ask Iris</span>'}
 };
 
-function vidSrc(V){var m={'cf':'cafe','qs':'qsr','ca':'casual','fd':'fine','ds':'dessert','bv':'beverage','hl':'health','ck':'cloud','ib':'b2b','ni':'niche'};return '/food/media/'+(m[V.embedded]||V.embedded)+'.mp4';}
-function vidPoster(V){var m={'cf':'cafe','qs':'qsr','ca':'casual','fd':'fine','ds':'dessert','bv':'beverage','hl':'health','ck':'cloud','ib':'b2b','ni':'niche'};return '/food/media/'+(m[V.embedded]||V.embedded)+'.jpg';}
+function vidSrc(V){var m={'cf':'cafe','qs':'qsr','ca':'casual','fd':'fine','ds':'dessert','bv':'beverage','hl':'health','ck':'cloud','ib':'b2b','ni':'niche'};return 'media/'+(m[V.embedded]||V.embedded)+'.mp4';}
+function vidPoster(V){var m={'cf':'cafe','qs':'qsr','ca':'casual','fd':'fine','ds':'dessert','bv':'beverage','hl':'health','ck':'cloud','ib':'b2b','ni':'niche'};return 'media/'+(m[V.embedded]||V.embedded)+'.jpg';}
 function renderVidBanner(V,m){
  m.className='sb-media';m.style.backgroundImage='';
  if(V.warm)m.style.setProperty('--sec-warm',V.warm);
@@ -1463,6 +1338,7 @@ function renderVidBanner(V,m){
   +'<video autoplay muted loop playsinline preload="metadata" poster="'+vidPoster(V)+'" aria-hidden="true"><source src="'+vidSrc(V)+'" type="video/mp4"></video>'
   +'<div class="sb-vink"></div><div class="sb-vvig"></div></div>'
   +'<div class="fdc'+(V.warm?' warm':'')+'">'
+   +'<div class="eyeb">'+V.eyebrow+'</div>'
    +'<h1>'+V.h1lead+'<br><span class="fdrot">'+V.rot.map(function(r,i){return '<span class="ln'+(i===0?' on':'')+'">'+r[0]+'</span>';}).join('')+'</span></h1>'
    +'<p class="fsub fsubrot">'+V.rot.map(function(r,i){return '<span class="sl'+(i===0?' on':'')+'">'+r[1]+'</span>';}).join('')+'</p>'
    +'<div class="fdrail">'
@@ -1471,6 +1347,7 @@ function renderVidBanner(V,m){
    +'</div>'
    +'<div class="fdcta"><button class="fdbtn" onclick="bookCall()">Book a call with our consultant</button>'
     +'<a class="fdquiet" onclick="document.getElementById(\'solutions\').scrollIntoView({behavior:\'smooth\'})">See the '+(V.stack||'full')+' stack <span class="ar">\u2192</span></a></div>'
+   +'<div class="fdscale">'+V.scale+'</div>'
   +'</div>';
  if(window.__fdRot){clearInterval(window.__fdRot);window.__fdRot=null;}
  if(V.rot&&V.rot.length>1){
@@ -1627,23 +1504,11 @@ document.addEventListener('keydown',function(e){
 });
 
 function applySectorTheme(){var s=getSector();var r=document.documentElement.style;r.setProperty('--sec-hue',s.hue);r.setProperty('--sec-glow',s.glow);}
-function sxEdges(){var r=document.getElementById('sxrow');if(!r)return;
- var max=r.scrollWidth-r.clientWidth;
- r.classList.toggle('sxs',r.scrollLeft>4);
- r.classList.toggle('sxe',max>4&&r.scrollLeft<max-4);}
-function sxSync(){var r=document.getElementById('sxrow');if(!r)return;
- if(!r.__sxb){r.__sxb=1;r.addEventListener('scroll',sxEdges,{passive:true});window.addEventListener('resize',sxEdges);}
- var on=r.querySelector('.sxpill.on');
- if(on&&r.scrollWidth>r.clientWidth+4&&typeof on.scrollIntoView==='function'){
-  try{on.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}catch(e){}
- }
- sxEdges();setTimeout(sxEdges,420);}
 function renderSectorBar(){
  var sec=getSector();applySectorTheme();
  document.getElementById('sxrow').innerHTML=SECTORS.map(function(s){
-  return '<a class="sxpill'+(s.id===curSector?' on':'')+'" title="'+s.name+'" href="'+sectorHref(s.id)+'"><i>'+s.num+'</i>'+(s.short||s.name)+'</a>';
+  return '<button class="sxpill'+(s.id===curSector?' on':'')+'" title="'+s.name+'" onclick="setSector(\''+s.id+'\')"><i>'+s.num+'</i>'+(s.short||s.name)+'</button>';
  }).join('');
- sxSync();
  var fl=document.getElementById('fmlab');if(fl)fl.textContent=(sec.name+' · '+sec.formats.length+' BUSINESS TYPES').toUpperCase();
  var fr=document.getElementById('fmrow');if(fr)fr.innerHTML=sec.formats.map(function(f){return '<span class="fmchip">'+f+'</span>';}).join('');
  var cfg=document.getElementById('seccfg');
@@ -1728,7 +1593,7 @@ function blobDoc(id){
  if(_blobCache[id])return _blobCache[id];
  var map={posB64:'pos',scB64:'scorecard',numB64:'numerus',scmB64:'nexus',opsB64:'motus',wfB64:'manus'};
  var f=map[id]; if(!f)return '';
- var x=new XMLHttpRequest(); x.open('GET','/food/app/'+f+'.html',false);
+ var x=new XMLHttpRequest(); x.open('GET','app/'+f+'.html',false);
  try{x.send(null);}catch(e){return '';}
  var d=x.responseText||'';
  _blobCache[id]=d; return d;
@@ -2215,7 +2080,7 @@ var GSTYLE='<style>'
 +'.gvo-b .q{margin-bottom:14px}'
 +'.gvo-b .q b{font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.16em;color:var(--ac);display:block;margin-bottom:5px}'
 +'.gvo-b .q p{font-size:13px;line-height:1.7;color:var(--ink)}'
-+'@media(max-width:860px){.gapp{grid-template-columns:1fr;grid-template-rows:auto 1fr}}'
++'@media(max-width:860px){.gapp{grid-template-columns:1fr}.gside{display:none}}'
 +'</style>';
 
 function gdoc(s,ctx,scr){
@@ -2232,7 +2097,7 @@ function gdoc(s,ctx,scr){
   else vo='Scene '+(i+1)+' — '+sc.n+'. '+sc.e+' Iris watches this screen continuously, flags what needs you, and acts on the rest.';
   return [sc.n,sc.e,vo];}));
  var ptext=s.ai?' ai':'';
- return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zentallio · '+s.name+' — Guided Demo</title>'+DSTYLE+GSTYLE+SCRSTYLE+'<style>.ghold{padding:26px 30px 46px}'+'.pan h3{font-size:19px;font-family:Fraunces,serif;font-weight:500;letter-spacing:-.018em;color:#fff;display:flex;align-items:baseline;gap:11px;line-height:1.2}'+'.pan h3::before{content:"";width:3px;height:17px;border-radius:2px;background:var(--ac);box-shadow:0 0 12px var(--ac);flex-shrink:0;align-self:center}'+'.pan h3 .kx{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:.16em;color:var(--ac);opacity:.85;font-weight:400;margin-left:auto;white-space:nowrap}'+'.sn{font-size:12px;letter-spacing:-.005em;line-height:1.25}'+'.sn span em{font-size:7.5px;letter-spacing:.13em}'+'.sn.on{background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 20%,transparent),transparent);color:#fff;box-shadow:inset 2px 0 0 var(--ac)}'+'.sn.on i{color:var(--ac)}'+'.pan{padding:20px 22px;border-radius:16px}.pan h3{font-size:16.5px}.pan h3{font-size:19px;font-family:Fraunces,serif;font-weight:500;letter-spacing:-.018em;color:var(--ac);text-transform:none;text-align:left;display:flex;align-items:center;justify-content:flex-start;gap:11px;line-height:1.24}.pan h3::before{content:"";width:3px;height:18px;border-radius:2px;background:var(--ac);box-shadow:0 0 12px var(--ac);flex:0 0 3px;align-self:center}.pan .k{font-size:9.5px;letter-spacing:.16em}.ks{gap:12px;margin-bottom:16px}.kt{padding:14px 16px;border-radius:13px}.kt .v{font-size:19px}.kt .l{font-size:10.5px;margin-top:4px}.rowx{padding:11px 0}.rowx b{font-size:13.5px !important}.sub2{font-size:12px;line-height:1.55}.iris{padding:15px 17px;border-radius:15px}.iris p{font-size:13.5px;line-height:1.7}.gside{width:200px}.sn span em{display:block;font-style:normal;font-family:monospace;font-size:8px;letter-spacing:.12em;color:var(--subtle);margin-top:3px}.sn.on span em{color:var(--ac)}.sn{font-size:12.5px;padding:9.5px 11px;border-radius:10px}.gsb .tt2{font-size:13.5px}.top .tt{font-size:15px}.top .ts{font-size:9.5px}.chipx{font-size:10.5px;padding:5px 11px}.gfoot .fx h4{font-size:12.5px}.gfoot .fx p{font-size:11.5px;line-height:1.5}.g2{gap:18px}.ghold{font-size:13px}.ghold [style*="font-size:8px"]{font-size:9.5px!important}.ghold [style*="font-size:8.5px"]{font-size:9.5px!important}.ghold [style*="font-size:9px"]{font-size:10.5px!important}.ghold [style*="font-size:9.5px"]{font-size:10.5px!important}.ghold [style*="font-size:10px"]{font-size:11px!important}.ghold [style*="font-size:10.5px"]{font-size:11.5px!important}.ghold [style*="font-size:11px"]{font-size:12px!important}.ghold [style*="font-size:11.5px"]{font-size:12.5px!important;line-height:1.6}.ghold [style*="font-size:12px"]{font-size:13px!important}.ghold [style*="font-size:13.5px"]{font-size:14.5px!important}.ghold [style*="font-size:15px"]{font-size:16px!important}.pan h3{font-size:21px}.tb{font-size:13px}.tb td,.tb th{padding-top:9px;padding-bottom:9px}.rowx b{font-size:14.5px!important}.rowx .sub2,.sub2{font-size:12.5px;line-height:1.6}.iris p,.iris .it{font-size:14.5px;line-height:1.75}.kt .v{font-size:21px}.kt .l{font-size:11px}.leg{font-size:11.5px}.top .tt{font-size:15.5px}.top .ts{font-size:10px}.gfoot .fx h4{font-size:13px}.gfoot .fx p{font-size:12.5px}@media(max-width:860px){.gcol{height:auto;min-height:0}.gside{width:auto;flex-direction:row;align-items:center;gap:7px;border-right:none;border-bottom:.5px solid var(--line);padding:9px 12px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}.gside::-webkit-scrollbar{display:none}.gsb{display:none}.gsg{display:none}.sn{width:auto;flex:0 0 auto;white-space:nowrap;gap:8px;padding:8px 13px;border:.5px solid var(--line);border-radius:999px;font-size:12.5px;box-shadow:none}.sn span em{display:none}.sn i{width:18px;height:18px;font-size:8.5px}.sn.on{box-shadow:none;border-color:var(--ac);background:color-mix(in srgb,var(--ac) 16%,transparent)}}@media(max-width:620px){.top{flex-wrap:wrap;row-gap:7px;gap:8px;padding:9px 12px}.top>div{flex:1 1 100%;min-width:0}.top .tt{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top .ts{font-size:9.5px;white-space:normal;line-height:1.5;word-break:break-word}.top .sp{display:none}.chipx{font-size:10.5px;padding:4px 9px}.ghold{padding:16px 14px 26px}.pan{padding:16px 15px}.pan h3{font-size:17px;gap:8px}.gside{padding:8px 11px;gap:6px}.sn{padding:7px 11px;font-size:12px}.gfoot{padding:7px 10px;gap:8px}.gfoot .fx{flex:1 1 0;min-width:0}.gfoot .fx h4{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gfoot .fx p{display:none}.gbtn{font-size:10.5px;padding:6px 10px;border-radius:7px}.gcnt{display:none}}@media(max-width:430px){.gfoot #bV{display:none}.gbtn{font-size:10px;padding:5px 9px}}</style>'+'</head>'
+ return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zentallio · '+s.name+' — Guided Demo</title>'+DSTYLE+GSTYLE+SCRSTYLE+'<style>.ghold{padding:26px 30px 46px}'+'.pan h3{font-size:19px;font-family:Fraunces,serif;font-weight:500;letter-spacing:-.018em;color:#fff;display:flex;align-items:baseline;gap:11px;line-height:1.2}'+'.pan h3::before{content:"";width:3px;height:17px;border-radius:2px;background:var(--ac);box-shadow:0 0 12px var(--ac);flex-shrink:0;align-self:center}'+'.pan h3 .kx{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:.16em;color:var(--ac);opacity:.85;font-weight:400;margin-left:auto;white-space:nowrap}'+'.sn{font-size:12px;letter-spacing:-.005em;line-height:1.25}'+'.sn span em{font-size:7.5px;letter-spacing:.13em}'+'.sn.on{background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 20%,transparent),transparent);color:#fff;box-shadow:inset 2px 0 0 var(--ac)}'+'.sn.on i{color:var(--ac)}'+'.pan{padding:20px 22px;border-radius:16px}.pan h3{font-size:16.5px}.pan h3{font-size:19px;font-family:Fraunces,serif;font-weight:500;letter-spacing:-.018em;color:var(--ac);text-transform:none;text-align:left;display:flex;align-items:center;justify-content:flex-start;gap:11px;line-height:1.24}.pan h3::before{content:"";width:3px;height:18px;border-radius:2px;background:var(--ac);box-shadow:0 0 12px var(--ac);flex:0 0 3px;align-self:center}.pan .k{font-size:9.5px;letter-spacing:.16em}.ks{gap:12px;margin-bottom:16px}.kt{padding:14px 16px;border-radius:13px}.kt .v{font-size:19px}.kt .l{font-size:10.5px;margin-top:4px}.rowx{padding:11px 0}.rowx b{font-size:13.5px !important}.sub2{font-size:12px;line-height:1.55}.iris{padding:15px 17px;border-radius:15px}.iris p{font-size:13.5px;line-height:1.7}.gside{width:200px}.sn span em{display:block;font-style:normal;font-family:monospace;font-size:8px;letter-spacing:.12em;color:var(--subtle);margin-top:3px}.sn.on span em{color:var(--ac)}.sn{font-size:12.5px;padding:9.5px 11px;border-radius:10px}.gsb .tt2{font-size:13.5px}.top .tt{font-size:15px}.top .ts{font-size:9.5px}.chipx{font-size:10.5px;padding:5px 11px}.gfoot .fx h4{font-size:12.5px}.gfoot .fx p{font-size:11.5px;line-height:1.5}.g2{gap:18px}</style>'+'</head>'
  +'<body class="a-'+s.col+'"><div class="gapp">'
  +'<aside class="gside"><div class="gsb"><span class="zm">Z</span><div><div class="tt2">'+s.name.replace(' · Numerus','')+'</div><div class="ts2">Guided demo</div></div></div>'+nav+'</aside>'
  +'<div class="gcol">'
@@ -4985,7 +4850,7 @@ function solHasDemo(kind){return kind==='scorecard'||kind==='order'||kind==='cfo
 function renderGrid(){
  var sec=getSector(),list=SECSOL[sec.id]||[];
  var g=$('#solGrid');if(!g)return;
- var _sk=$('#solK');if(_sk)_sk.textContent=('Every solution · '+sec.name).toUpperCase();
+ $('#solK').textContent=('Every solution · '+sec.name).toUpperCase();
  var cards=[];
  g.innerHTML=groupedCards(list,sec,cards);
  $('#solHint').innerHTML='SHOWING '+list.length+' '+sec.name.toUpperCase()+' SOLUTIONS · EVERY CARD OPENS A <b>LIVE GUIDED DEMO</b> · THE THREE FLAGSHIPS RUN ABOVE';
@@ -5013,8 +4878,6 @@ var BUNDLE_TAG=[
   ['And the rest of the platform.','Payments, reporting and the ledger that closes as a review rather than a rebuild.'],
   ['The platform, proven.','Audit evidence, standards and the record that answers a question in seconds.']]
 ];
-/* one merged bundle instead of one per four solutions (sector pages set this) */
-var MERGE_BUNDLES=false;
 var SOLGROUPS=[['AT THE COUNTER',''],['THE GUEST',''],['KITCHEN & STOCK',''],['THE PLATFORM','']];
 /* match on the TITLE only — descriptions mention "counter" and "order" constantly */
 var G_GUEST=/loyal|reward|rfm|voucher|promo|feedback|nps|social|omni|channel|subscription|membership|crm|guest|recognit|personalis|suggestion|reservation|waitlist|no-show|community|drink pass|meal plan|retention|churn|wellness profile|selling agent/i;
@@ -5027,86 +4890,13 @@ function groupOf(sol){
  if(G_PLAT.test(t))return 3;
  return 0;
 }
-function pad2(n){return n<10?('0'+n):(''+n);}
-/* the loading skeleton has to start below the stage bar, whatever height the
-   bar wrapped to on this screen */
-function stageBarH(stg){
- var bar=stg&&stg.querySelector('.bstage-bar'); if(!bar)return;
- requestAnimationFrame(function(){stg.style.setProperty('--barh',bar.offsetHeight+'px');});
-}
-function bundleOf(bid){for(var i=0;i<BUNDLES.length;i++){if(BUNDLES[i].id===bid)return BUNDLES[i];}return null;}
-/* --- the tab rail ---------------------------------------------------------
-   On a phone the tabs scroll sideways, so the open tab has to be carried into
-   view horizontally -- and only horizontally: the page must not move under a
-   reader who only pressed 'next'. */
-function railReveal(bid,pos){
- var rail=document.getElementById('rail-'+bid); if(!rail)return;
- var g=rail.querySelector('.sgrid'); if(!g)return;
- if(g.scrollWidth<=g.clientWidth+2)return;          /* laid out as a grid, nothing to scroll */
- var t=g.children[pos]; if(!t)return;
- var pad=parseFloat(getComputedStyle(g).paddingLeft)||0;
- var left=Math.max(0,t.offsetLeft-g.offsetLeft-pad);
- var soft=!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
- try{g.scrollTo({left:left,behavior:soft?'smooth':'auto'});}catch(e){g.scrollLeft=left;}
-}
-function railSync(bid){
- var b=bundleOf(bid); if(!b)return;
- var pos=b.items.indexOf(CURB[bid]); if(pos<0)pos=0;
- var tot=b.items.length;
- var rp=document.getElementById('rpos-'+bid);   if(rp)rp.textContent=pad2(pos+1);
- var rf=document.getElementById('rfill-'+bid);  if(rf)rf.style.width=((pos+1)/tot*100).toFixed(2)+'%';
- var pv=document.getElementById('rprev-'+bid);  if(pv)pv.disabled=(pos<=0);
- var nx=document.getElementById('rnext-'+bid);  if(nx)nx.disabled=(pos>=tot-1);
- railReveal(bid,pos);
-}
-function railStep(bid,dir){
- var b=bundleOf(bid); if(!b)return;
- var pos=b.items.indexOf(CURB[bid]); if(pos<0)pos=0;
- var nx=Math.min(b.items.length-1,Math.max(0,pos+dir));
- if(nx!==pos)bundleTab(bid,b.items[nx]);
-}
-/* the fades at either end only mean something while there is more rail */
-function railWire(bid){
- var rail=document.getElementById('rail-'+bid); if(!rail||rail.__wired)return;
- var g=rail.querySelector('.sgrid'); if(!g)return;
- rail.__wired=1;
- var upd=function(){
-  var max=g.scrollWidth-g.clientWidth;
-  rail.classList.toggle('scrolled',g.scrollLeft>4);
-  rail.classList.toggle('at-end',max<=4||g.scrollLeft>=max-4);
- };
- g.addEventListener('scroll',upd,{passive:true});
- window.addEventListener('resize',upd);
- var stg=document.getElementById('stage-'+bid);
- if(stg)window.addEventListener('resize',function(){stageBarH(stg);});
- upd(); railSync(bid); if(stg)stageBarH(stg);
-}
-/* arrow keys walk the tablist, the way a tablist is expected to behave */
-document.addEventListener('keydown',function(e){
- var t=e.target; if(!t||!t.closest)return;
- t=t.closest('.stab[data-b]'); if(!t)return;
- var d=0,k=e.key;
- if(k==='ArrowRight'||k==='ArrowDown')d=1;
- else if(k==='ArrowLeft'||k==='ArrowUp')d=-1;
- else if(k==='Home')d=-1e4; else if(k==='End')d=1e4; else return;
- var bid=t.getAttribute('data-b'), b=bundleOf(bid); if(!b)return;
- e.preventDefault();
- var pos=b.items.indexOf(+t.getAttribute('data-sec')); if(pos<0)pos=0;
- var nx=Math.min(b.items.length-1,Math.max(0,pos+d));
- bundleShow(bid,b.items[nx]);
- var el=document.querySelector('.stab[data-b="'+bid+'"][data-sec="'+b.items[nx]+'"]');
- if(el)el.focus();
-});
 function groupedCards(list,sec,leadCards){
  var tagged=list.map(function(s,i){return {s:s,i:i,g:groupOf(s)};});
  tagged.sort(function(a,b){return a.g-b.g;});
  var CH=4, chunks=[];
- if(MERGE_BUNDLES){ chunks=[tagged]; }
- else {
-  for(var k=0;k<tagged.length;k+=CH) chunks.push(tagged.slice(k,k+CH));
-  if(chunks.length>1 && chunks[chunks.length-1].length<2){
-   var last=chunks.pop(); chunks[chunks.length-1]=chunks[chunks.length-1].concat(last);
-  }
+ for(var k=0;k<tagged.length;k+=CH) chunks.push(tagged.slice(k,k+CH));
+ if(chunks.length>1 && chunks[chunks.length-1].length<2){
+  var last=chunks.pop(); chunks[chunks.length-1]=chunks[chunks.length-1].concat(last);
  }
  BUNDLES=[];
  var out='', n=0, used={};
@@ -5117,40 +4907,22 @@ function groupedCards(list,sec,leadCards){
   var dom=0,best=-1; Object.keys(counts).forEach(function(k2){ if(counts[k2]>best){best=counts[k2];dom=+k2;} });
   used[dom]=(used[dom]||0)+1;
   var vs=BUNDLE_TAG[dom], v=vs[Math.min(used[dom]-1,vs.length-1)];
-  var head=v[0], sub=v[1], eyeb=SOLGROUPS[dom][0]+' \u00b7 '+ch.length+' SOLUTIONS';
-
-  if(MERGE_BUNDLES){
-   var gs=[]; ch.forEach(function(x){if(gs.indexOf(x.g)<0)gs.push(x.g);}); gs.sort();
-   var nm=gs.map(function(g){return SOLGROUPS[g][0].toLowerCase();});
-   var jn=nm.length>1?nm.slice(0,-1).join(', ')+' and '+nm[nm.length-1]:(nm[0]||'');
-   head='Every solution, one screen at a time.';
-   sub=jn.charAt(0).toUpperCase()+jn.slice(1)+' \u2014 every card opens the real screen, running on live data and narrated by Iris.';
-  }
+  var head=v[0], sub=v[1];
   var bid='b'+ci;
   BUNDLES.push({id:bid,items:ch.map(function(x){return x.i;})});
   var tabs=ch.map(function(x,ti){
    var name=(x.s.t||'').split(' \u2014 ')[0];
+   var isAI=/Recommendation|Memory|Dynamic Pricing|Anomaly|LLM|Agent/.test(x.s.a||'');
    var layer=(x.s.a||'L1 Rules').split(' \u00b7 ')[0];
-   return '<button class="stab'+(ti===0?' on':'')+'" role="tab" aria-selected="'+(ti===0?'true':'false')+'"'
-    +' aria-controls="stage-'+bid+'" tabindex="'+(ti===0?'0':'-1')+'"'
-    +' data-b="'+bid+'" data-sec="'+x.i+'" data-title="'+name.replace(/"/g,'&quot;')+'"'
-    +' onclick="bundleTab(\''+bid+'\','+x.i+')">'
-    +'<i class="stab-n">'+pad2(ti+1)+'</i><b>'+name+'</b><span>'+layer+'</span></button>';
+   return '<button class="stab'+(ti===0?' on':'')+'" data-b="'+bid+'" data-sec="'+x.i+'" data-title="'+name.replace(/"/g,'&quot;')+'" onclick="bundleShow(\''+bid+'\','+x.i+')">'
+    +(isAI?'<i class="stab-ai">AI</i>':'')+'<b>'+name+'</b><span>'+layer+'</span></button>';
   }).join('');
-  var tot=ch.length;
   out+='<div class="sgrp" id="grp-'+bid+'">'
-   +'<div class="bhead"><div>'+(MERGE_BUNDLES?'':'<div class="beye">'+eyeb+'</div>')
+   +'<div class="bhead"><div><div class="beye">'+SOLGROUPS[dom][0]+' \u00b7 '+ch.length+' SOLUTIONS</div>'
    +'<h3 class="bh2">'+head+'</h3><p class="bsub">'+sub+'</p></div>'
    +'<span class="bbadge"><i></i>LIVE</span></div>'
-   +'<div class="srail" id="rail-'+bid+'">'
-   +'<div class="sgrid" role="tablist" aria-label="Solutions">'+tabs+'</div></div>'
-   +'<div class="srailfoot">'
-   +'<button class="rnav" type="button" id="rprev-'+bid+'" aria-label="Previous solution" disabled onclick="railStep(\''+bid+'\',-1)">\u2039</button>'
-   +'<button class="rnav" type="button" id="rnext-'+bid+'" aria-label="Next solution" onclick="railStep(\''+bid+'\',1)">\u203a</button>'
-   +'<span class="rcount"><b id="rpos-'+bid+'">01</b> / '+pad2(tot)+'</span>'
-   +'<span class="rtrack"><i id="rfill-'+bid+'" style="width:'+(100/tot).toFixed(2)+'%"></i></span>'
-   +'</div>'
-   +'<div class="bstage" id="stage-'+bid+'" role="tabpanel">'
+   +'<div class="sgrid">'+tabs+'</div>'
+   +'<div class="bstage" id="stage-'+bid+'">'
    +'<div class="bstage-bar"><b id="bname-'+bid+'"></b><span id="bmeta-'+bid+'"></span>'
    +'<button class="bexp" onclick="openDemo(\'sec:\'+CURB[\''+bid+'\'])">Expand \u25b8</button></div>'
    +'<iframe class="bframe" id="bframe-'+bid+'" title="Live demo" loading="lazy" allow="autoplay"></iframe></div>'
@@ -5169,7 +4941,6 @@ function secDemoDoc(idx){
 var CURB={};
 function mountBundles(){
  BUNDLES.forEach(function(b){
-  railWire(b.id);
   var st2=document.getElementById('stage-'+b.id); if(!st2||st2.__io)return;
   st2.__io=new IntersectionObserver(function(en){en.forEach(function(e){
     if(e.isIntersecting){
@@ -5199,36 +4970,17 @@ function unmountStage(bid){
  delete st.dataset.on;
  st.classList.add('idle');
 }
-/* a tab click should carry the reader down to the stage it just changed --
-   only on a real click, never from the observer that mounts a stage on scroll */
-function bundleTab(bid,idx){
- bundleShow(bid,idx);
- var stg=document.getElementById('stage-'+bid); if(!stg)return;
- var vh=window.innerHeight||document.documentElement.clientHeight||0;
- var r=stg.getBoundingClientRect();
- var shown=Math.min(r.bottom,vh)-Math.max(r.top,0);
- if(shown>=Math.min(r.height,vh)*0.6)return;   /* already on screen, leave the page alone */
- var top=r.top+(window.pageYOffset||document.documentElement.scrollTop||0)-Math.max(12,vh*0.05);
- var soft=!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
- try{window.scrollTo({top:top,behavior:soft?'smooth':'auto'});}
- catch(e){window.scrollTo(0,top);}
-}
 function bundleShow(bid,idx){
  var sec=getSector(), sol=(SECSOL[sec.id]||[])[idx]; if(!sol)return;
  var same=(CURB[bid]===idx);
  CURB[bid]=idx;
  document.querySelectorAll('.stab[data-b="'+bid+'"]').forEach(function(t){
-  var on=(+t.getAttribute('data-sec')===idx);
-  t.classList.toggle('on',on);
-  t.setAttribute('aria-selected',on?'true':'false');
-  t.tabIndex=on?0:-1; });
- railSync(bid);
+  t.classList.toggle('on', +t.getAttribute('data-sec')===idx); });
  var nm=document.getElementById('bname-'+bid), mt=document.getElementById('bmeta-'+bid);
  if(nm)nm.textContent=(sol.t||'').split(' \u2014 ')[0];
  if(mt)mt.textContent=((sol.a||'L1 Rules')+' \u00b7 LIVE \u00b7 ILLUSTRATIVE DATA').toUpperCase();
  var f=document.getElementById('bframe-'+bid), stg=document.getElementById('stage-'+bid);
  if(!f||!stg)return;
- stageBarH(stg);
  if(same && stg.dataset.on)return;
  stg.classList.remove('idle'); stg.classList.add('loading');
  requestAnimationFrame(function(){
@@ -5241,8 +4993,10 @@ function bundleShow(bid,idx){
 
 function textCard(s,i,sec){
  var name=(s.t||'').split(' \u2014 ')[0];
+ var isAI=/Recommendation|Memory|Dynamic Pricing|Anomaly|LLM|Agent/.test(s.a||'');
  var layer=(s.a||'L1 Rules').split(' \u00b7 ')[0];
  return '<button class="stab" style="--d:'+((i+2)*0.035)+'s" data-sec="'+i+'" data-title="'+name.replace(/"/g,'&quot;')+'">'
+  +(isAI?'<i class="stab-ai">AI</i>':'')
   +'<b>'+name+'</b><span>'+layer+'</span></button>';
 }
 
@@ -5478,8 +5232,7 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 .zfoot a{text-decoration:none}
 .zfoot-top{display:flex;justify-content:space-between;gap:clamp(36px,5vw,80px);flex-wrap:wrap;max-width:1180px;margin:0 auto}
 .zfoot-brand{max-width:400px}
-.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em;display:inline-block;text-decoration:none;transition:opacity .2s}
-.zfoot-name:hover{opacity:.75}
+.zfoot-name{font-weight:600;font-size:1.45rem;color:#fff;letter-spacing:.01em}
 .zfoot-tag{margin-top:16px;color:#AEB9CB;font-size:.92rem;line-height:1.62}
 .zfoot-contact{margin-top:22px;display:flex;flex-direction:column;gap:9px;font-size:.88rem;line-height:1.55}
 .zfoot-contact a{color:#AEB9CB;width:fit-content;transition:color .2s}
@@ -5502,7 +5255,7 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 </style>
 <div class="zfoot-top">
 <div class="zfoot-brand">
-<a aria-label="Zentallio home" class="zfoot-name" href="/">Zentallio</a>
+<div class="zfoot-name">Zentallio</div>
 <p class="zfoot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail — one agent, Iris, reading every signal and deciding across every floor.</p>
 <div class="zfoot-contact">
 <a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" rel="noopener" target="_blank">142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</a>
@@ -5526,16 +5279,15 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 </div>
 <div class="zfoot-bot">© 2026 Zentallio. All rights reserved.</div>
 </footer>
-<style>/* mobile-polish: nothing on a phone drops below a 10px floor */
-@media(max-width:640px){
-.bub .mt,.gsb .ts2,.gsg,.mbar span,.mnote,.mtag,.pan h3 .kx,
-.bbadge,.beye,.bstage-bar span,.dcap .live,.dit .aib,.dm-live,.dside .dg,
-.fdcell .fk,.htab span,.irischip,.mlink .wnow,.mseclink i,.prdisc,
-.sb-lockup .lk-live,.sc-flag,.sn span em,.stab span,.rcount{font-size:10px !important}
-.herotabs{-webkit-mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%);
- mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%)}
-}</style>
+<style>/* mobile-polish: sub-9px floor + rail hint */@media(max-width:640px){'
++'.bub .mt,'
++'.gsb .ts2,'
++'.gsg,'
++'.mbar span,'
++'.mnote,'
++'.mtag,'+'.pan h3 .kx,.bbadge,.beye,.bstage-bar span,.dcap .live,.dit .aib,.dm-live,.dside .dg,.fdcell .fk,.htab span,.irischip,.mlink .wnow,.mseclink i,.prdisc,.sb-lockup .lk-live,.sc-flag,.sn span em,.stab span{font-size:10px !important}.sxrow,.herotabs{-webkit-mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%);mask-image:linear-gradient(90deg,#000 84%,rgba(0,0,0,.15) 99%)}}</style>
 <link href="/booking.css" rel="stylesheet"/><script defer="" src="/booking.js"></script>
+<script>(function(){var s=document.getElementById('topscrim');if(!s)return;var t=false;addEventListener('scroll',function(){var on=scrollY>56;if(on!==t){t=on;s.classList.toggle('on',on);}},{passive:true});})();</script>
 <style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
 .znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
 .znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
