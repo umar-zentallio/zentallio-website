@@ -1652,5 +1652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
  var hd=document.querySelector('.znav');
  if(hd){var onScroll=function(){hd.classList.toggle('is-scrolled',window.scrollY>12);};
   addEventListener('scroll',onScroll,{passive:true});onScroll();}
-})();</script></body>
+})();</script>
+<style>/* gentle readability floor for the smallest stat labels on phones */
+@media(max-width:640px){.k,.pn{font-size:9.5px!important}}</style></body>
 </html>
