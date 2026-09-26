@@ -384,12 +384,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function(){
   var body=document.body,btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOv');
   function set(open){body.classList.toggle('menu',open);btn.setAttribute('aria-expanded',open?'true':'false');}
+  if(btn&&ov){
   btn.addEventListener('click',function(){set(!body.classList.contains('menu'));});
   ov.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+  }
   var hd=document.querySelector('.top');
-  function onScroll(){var y=window.scrollY||window.pageYOffset||0;hd.classList.toggle('scrolled',y>24);}
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(hd){function onScroll(){var y=window.scrollY||window.pageYOffset||0;hd.classList.toggle('scrolled',y>24);}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();}
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
     document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});

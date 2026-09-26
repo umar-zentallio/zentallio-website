@@ -490,6 +490,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 (function(){
   var body=document.body,btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOv');
+  if(!btn||!ov)return;
   function set(open){body.classList.toggle('menu',open);btn.setAttribute('aria-expanded',open?'true':'false');}
   btn.addEventListener('click',function(){set(!body.classList.contains('menu'));});
   ov.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
