@@ -1,5 +1,5 @@
 /* Zentallio booking widget — "Book a walkthrough / call" end-to-end flow.
- * Two paths: an AI assistant (POSTs /api/chat) and a Quick form wizard.
+ * Two paths: an AI assistant (the Zentallio Knowledge Agent) and a Quick form wizard.
  * If /api/availability is unreachable the wizard falls back to local slots,
  * but a booking is only ever confirmed by /api/book. */
 (function () {
@@ -18,19 +18,6 @@
   }
   function validEmail(e) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((e || "").trim());
-  }
-  // Server-tracked lead id, persisted so Iris remembers the visitor across visits.
-  function getLeadId() {
-    try {
-      return localStorage.getItem("zentallio_lead") || null;
-    } catch (e) {
-      return null;
-    }
-  }
-  function setLeadId(id) {
-    try {
-      if (id) localStorage.setItem("zentallio_lead", id);
-    } catch (e) {}
   }
   function partsInTz(iso, tz) {
     var d = new Date(iso),
@@ -189,22 +176,72 @@
     document.body.style.overflow = "";
   }
 
-  /* ---------- assistant (AI) ---------- */
-  var CHIPS = ["What can Zentallio do for my business?", "Food & Beverage solutions", "Fashion retail solutions", "How does pricing work?", "Book a walkthrough"];
+  /* ---------- assistant (AI) ----------
+   * Iris = the Zentallio Knowledge Agent (answers from our knowledge base).
+   * Docs: https://zentallio-agent.lucrumerp.com/docs — POST /api/chat/stream
+   * {message, thread_id} → SSE events: thread, tool, token, sources, done | error.
+   * The agent keeps the conversation server-side; we only hold its thread_id. */
+  var AGENT_URL = window.ZEN_AGENT_URL || "https://zentallio-agent.lucrumerp.com";
+  var THREAD_KEY = "zentallio_iris_thread";
+  function getThread() {
+    try {
+      return localStorage.getItem(THREAD_KEY) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function setThread(id) {
+    try {
+      if (id) localStorage.setItem(THREAD_KEY, id);
+    } catch (e) {}
+  }
+  // Stream one answer; onToken(fullTextSoFar). Resolves with the final text.
+  async function askAgent(message, onToken) {
+    var r = await fetch(AGENT_URL + "/api/chat/stream", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: message, thread_id: getThread() }),
+    });
+    if (!r.ok || !r.body) throw new Error("http_" + r.status);
+    var reader = r.body.getReader(), dec = new TextDecoder(), buf = "", text = "";
+    for (;;) {
+      var chunk = await reader.read();
+      if (chunk.done) break;
+      buf += dec.decode(chunk.value, { stream: true });
+      var cut;
+      while ((cut = buf.indexOf("\n\n")) >= 0) {
+        var block = buf.slice(0, cut);
+        buf = buf.slice(cut + 2);
+        var ev = (block.match(/^event: *(.*)$/m) || [])[1];
+        var raw = block.split("\n").filter(function (l) { return l.indexOf("data:") === 0; })
+          .map(function (l) { return l.slice(5).replace(/^ /, ""); }).join("\n");
+        var data;
+        try { data = JSON.parse(raw); } catch (e) { continue; }
+        if (ev === "thread" || ev === "done") setThread(data.thread_id);
+        else if (ev === "token") { text += data.text || ""; onToken(text); }
+        else if (ev === "error") throw new Error(data.message || "agent_error");
+      }
+    }
+    if (!text) throw new Error("empty_answer");
+    return text;
+  }
+  var CHIPS = ["What can Zentallio do for my business?", "Food & Beverage solutions", "Fashion retail solutions", "Book a walkthrough"];
+  function wantsBooking(t) {
+    return /^book a (walkthrough|call)\b/i.test(t);
+  }
   function renderChat() {
     var b = body();
     b.innerHTML =
       '<div class="zbook-log"></div>' +
       '<div class="zbook-chips"></div>' +
-      '<form class="zbook-input"><input type="text" placeholder="Ask Iris anything… or say &quot;book a walkthrough&quot;" autocomplete="off"><button type="submit">Send</button></form>';
+      '<form class="zbook-input"><input type="text" maxlength="2000" placeholder="Ask Iris anything about Zentallio…" autocomplete="off"><button type="submit">Send</button></form>';
     var log = b.querySelector(".zbook-log");
     var chips = b.querySelector(".zbook-chips");
     var form = b.querySelector(".zbook-input");
     var input = form.querySelector("input");
+    var sendBtn = form.querySelector("button");
     if (!state.chat.length) {
-      var greet = "Hi, I'm Iris — Zentallio's AI guide. Ask me anything about our sectors, solutions, how it works or pricing";
-      greet += state.email ? " — I've got your email as " + state.email + ", so I can book you a " + state.type + " whenever you're ready." : ", and I can book you a walkthrough or a call whenever you like.";
-      addMsg(log, "bot", greet);
+      addMsg(log, "bot", "Hi, I'm Iris — Zentallio's AI guide. Ask me anything about our sectors, solutions and how it works. Want to see it live? I can set up a walkthrough too.");
       CHIPS.forEach(function (c) {
         var chip = el("button", "zbook-chip", escapeHtml(c));
         chip.type = "button";
@@ -219,33 +256,48 @@
         addMsg(log, m.role === "assistant" ? "bot" : "me", m.content);
       });
     }
+    var busy = false;
     async function send(t) {
       t = (t || "").trim();
-      if (!t) return;
+      if (!t || busy) return;
       input.value = "";
       if (chips) chips.remove();
+      if (wantsBooking(t)) {
+        // The knowledge agent can't book — hand straight over to the Quick form.
+        state.type = /call/i.test(t) ? "call" : "walkthrough";
+        root.querySelector('.zbook-tabs button[data-tab="form"]').click();
+        return;
+      }
       addMsg(log, "me", t);
       state.chat.push({ role: "user", content: t });
-      var typing = addMsg(log, "bot", "…");
+      var reply = addMsg(log, "bot typing", "…");
+      busy = true;
+      sendBtn.disabled = true;
       try {
-        var res = await api("/api/chat", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ messages: state.chat, state: state, leadId: getLeadId() }),
-        });
-        typing.remove();
-        addMsg(log, "bot", res.reply || "…");
-        state.chat.push({ role: "assistant", content: res.reply || "" });
-        if (res.leadId) setLeadId(res.leadId); // server-tracked lead id, kept across visits
-        if (res.state) Object.assign(state, res.state);
-        if (res.booking && res.booking.ok) success(res.booking);
+        var got = false;
+        var onToken = function (sofar) {
+          got = true;
+          reply.classList.remove("typing");
+          setMsg(reply, sofar);
+          log.scrollTop = log.scrollHeight;
+        };
+        var answer;
+        try {
+          answer = await askAgent(t, onToken);
+        } catch (e) {
+          if (got) throw e;
+          answer = await askAgent(t, onToken); // one retry if nothing arrived (flaky mobile networks)
+        }
+        setMsg(reply, answer);
+        state.chat.push({ role: "assistant", content: answer });
       } catch (err) {
-        typing.remove();
-        addMsg(log, "bot", "I can't reach the live assistant right now — you can book directly on the quick form.");
-        setTimeout(function () {
-          root.querySelector('.zbook-tabs button[data-tab="form"]').click();
-        }, 700);
+        reply.remove();
+        state.chat.pop();
+        addMsg(log, "bot", "I can't reach the live assistant right now — you can book directly on the quick form, or email info@zentallio.com.");
       }
+      busy = false;
+      sendBtn.disabled = false;
+      input.focus();
     }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -253,8 +305,25 @@
     });
     input.focus();
   }
+  // Agent answers are light Markdown: [text](url), **bold**, "- " bullets, newlines.
+  // Escape first, then re-enable only those — links limited to http(s).
+  function renderRich(text) {
+    return escapeHtml(text)
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, function (_, label, url) {
+        var same = url.indexOf("https://zentallio.com/") === 0;
+        var href = same ? url.slice("https://zentallio.com".length) : url;
+        return '<a href="' + href.replace(/"/g, "%22") + '"' + (same ? "" : ' target="_blank" rel="noopener"') + ">" + label + "</a>";
+      })
+      .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+      .replace(/^[-*] /gm, "• ")
+      .replace(/\n/g, "<br>");
+  }
+  function setMsg(m, text) {
+    m.innerHTML = m.classList.contains("bot") ? renderRich(text) : escapeHtml(text).replace(/\n/g, "<br>");
+  }
   function addMsg(log, who, text) {
-    var m = el("div", "zbook-msg " + who, escapeHtml(text).replace(/\n/g, "<br>"));
+    var m = el("div", "zbook-msg " + who, "");
+    setMsg(m, text);
     log.appendChild(m);
     log.scrollTop = log.scrollHeight;
     return m;
@@ -407,6 +476,7 @@
     function (e) {
       var node = e.target.closest("a,button,[data-book]");
       if (!node || !isBookingCta(node)) return;
+      if (node.closest(".m-form")) return; // mobile lead forms submit themselves
       e.preventDefault();
       e.stopPropagation();
       // A booking CTA → the centered booking modal (Quick form), email carried over.

@@ -731,3 +731,7 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 .m-form-done{text-align:center;padding:10px 0}
 .m-form-done h3{margin-bottom:8px}
 .m-form-done .m-btn{margin-top:16px}
+
+/* ---------- Ask Iris button (booking.js) sits above the sticky CTA bar ---- */
+.zbook-fab{transition:bottom .3s cubic-bezier(.4,0,.2,1)}
+body:has(.m-sticky-cta.is-on) .zbook-fab{bottom:calc(74px + var(--safe-b))}

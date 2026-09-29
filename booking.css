@@ -53,3 +53,6 @@
 @keyframes zbook-pulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
 @media(max-width:520px){.zbook-fab{padding:0;width:54px;height:54px;justify-content:center;gap:0}.zbook-fab-lbl{display:none}.zbook-fab-ic{font-size:1.35rem}}
 @media(max-width:480px){.zbook-card{max-width:100%}}
+.zbook-msg a{color:#15F2F2;text-decoration:underline;text-underline-offset:2px;word-break:break-word}
+.zbook-msg.typing{opacity:.6}
+.zbook-input button:disabled{opacity:.5}
