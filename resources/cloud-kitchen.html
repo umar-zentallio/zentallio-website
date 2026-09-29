@@ -273,6 +273,71 @@
 
 <link rel="canonical" href="https://zentallio.com/resources/cloud-kitchen">
 <link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/resources/cloud-kitchen">
+<style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
+.znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
+.znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.znav-brand:hover::after{transform:scaleX(1)}
+.znav-brand .dia{width:13px;height:13px;border-radius:3px;background:linear-gradient(135deg,var(--teal),var(--violet));transform:rotate(45deg);animation:znavDia 7s ease-in-out infinite}
+.znav-btn{width:44px;height:44px;border:1px solid var(--line2);border-radius:50%;background:rgba(255,255,255,.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.25s;backdrop-filter:blur(6px)}
+.znav-btn:hover{border-color:rgba(255,255,255,.4)}
+.znav-btn span{display:block;width:16px;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s}
+.znav-btn.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.znav-btn.open span:nth-child(2){opacity:0}
+.znav-btn.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.znav-ov{position:fixed;inset:0;z-index:50;background:rgba(5,8,15,.97);backdrop-filter:blur(14px);display:flex;flex-direction:column;justify-content:center;padding:0 clamp(28px,8vw,130px);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+.znav-ov.open{opacity:1;visibility:visible}
+.znav-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vw,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
+.znav-ov.open .znav-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}
+.znav-ov.open .znav-nav a:nth-child(1){transition-delay:.06s}
+.znav-ov.open .znav-nav a:nth-child(2){transition-delay:.12s}
+.znav-ov.open .znav-nav a:nth-child(3){transition-delay:.18s}
+.znav-ov.open .znav-nav a:nth-child(4){transition-delay:.24s}
+.znav-nav a i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
+.znav-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}
+.znav-nav a .znav-d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
+.znav-nav a .znav-d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+.znav-nav a .znav-d-ai{background:var(--ai);box-shadow:0 0 12px var(--ai)}
+.znav-nav a:hover{color:#fff;padding-left:14px}
+.znav-nav a:hover i{color:var(--ink)}
+.znav-foot{margin-top:clamp(28px,5vh,54px);font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--fg3);text-transform:uppercase}
+.znav{transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease}
+.znav.is-scrolled{background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.9) 52%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+
+@keyframes znavShine{0%{background-position:130% center}100%{background-position:-30% center}}
+@keyframes znavDia{0%,100%{transform:rotate(45deg)}50%{transform:rotate(135deg)}}
+/* --- unify_nav ke apne rules (home par ye classes nahi thin) --- */
+.znav-cur{color:#fff}
+.znav-cur i{color:var(--ink)}
+.znav-back{margin-right:auto;margin-left:clamp(14px,3vw,30px);font-family:var(--mono);
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);
+  text-decoration:none;transition:color .25s;white-space:nowrap}
+.znav-back:hover{color:var(--ink)}
+/* Jo pages pehle fixed header nahi rakhte the, unka content navbar ke neeche
+   na chala jaye -- spacer sirf wahan lagta hai jahan zaroorat hai. */
+.znav-spacer{height:80px;flex:none}
+@media(max-width:640px){.znav{padding:14px 18px}.znav-back{display:none}.znav-spacer{height:68px}}
+@media(prefers-reduced-motion:reduce){.znav-brand{animation:none}}
+
+/* --- page ka apna pinned chrome navbar se na takraye ---------------------
+   Kuch pages apne UI ko viewport se chipka kar rakhte hain (fixed app shell
+   ya top-right par pinned toolbar). Ye rules browser mein naap kar likhe gaye
+   hain -- har page ka shell alag tarah pinned hai, is liye alag ilaaj hai. */
+:root{--znav-h:80px}
+@media(max-width:640px){:root{--znav-h:68px}}
+.znav-spacer{height:var(--znav-h)}
+
+/* resources ke deck pages: .chrome fixed inset:0 hai, uske andar toolbar */
+.znav ~ .chrome{top:var(--znav-h)}
+
+/* food/app/scorecard: .app khud fixed hai */
+.znav ~ .app{top:var(--znav-h)}
+/* food/app/manus|motus|nexus: #app static hai + height:100vh */
+.znav ~ #app{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
+/* food/app/pos: .wrap static hai + height:100vh */
+.znav ~ .wrap{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
+/* Note: .zbook-fab aur .ibtn bottom-anchored hain -- unhe chhedna nahi,
+   warna wo apni jagah se hat jaate hain. */
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1245,71 +1310,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   .chrome .toolbar{gap:0!important;top:14px!important}
   .chrome .pdf-btn{font-size:8.5px!important;letter-spacing:.03em!important;padding:5px 9px!important}
 }</style>
-<style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
-.znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
-.znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
-.znav-brand:hover::after{transform:scaleX(1)}
-.znav-brand .dia{width:13px;height:13px;border-radius:3px;background:linear-gradient(135deg,var(--teal),var(--violet));transform:rotate(45deg);animation:znavDia 7s ease-in-out infinite}
-.znav-btn{width:44px;height:44px;border:1px solid var(--line2);border-radius:50%;background:rgba(255,255,255,.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.25s;backdrop-filter:blur(6px)}
-.znav-btn:hover{border-color:rgba(255,255,255,.4)}
-.znav-btn span{display:block;width:16px;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s}
-.znav-btn.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
-.znav-btn.open span:nth-child(2){opacity:0}
-.znav-btn.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
-.znav-ov{position:fixed;inset:0;z-index:50;background:rgba(5,8,15,.97);backdrop-filter:blur(14px);display:flex;flex-direction:column;justify-content:center;padding:0 clamp(28px,8vw,130px);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
-.znav-ov.open{opacity:1;visibility:visible}
-.znav-nav a{display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vw,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
-.znav-ov.open .znav-nav a{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s,transform .5s}
-.znav-ov.open .znav-nav a:nth-child(1){transition-delay:.06s}
-.znav-ov.open .znav-nav a:nth-child(2){transition-delay:.12s}
-.znav-ov.open .znav-nav a:nth-child(3){transition-delay:.18s}
-.znav-ov.open .znav-nav a:nth-child(4){transition-delay:.24s}
-.znav-nav a i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
-.znav-nav a b{width:10px;height:10px;border-radius:50%;margin-left:auto}
-.znav-nav a .znav-d-fb{background:var(--teal);box-shadow:0 0 12px var(--teal)}
-.znav-nav a .znav-d-fa{background:var(--violet);box-shadow:0 0 12px var(--violet)}
-.znav-nav a .znav-d-ai{background:var(--ai);box-shadow:0 0 12px var(--ai)}
-.znav-nav a:hover{color:#fff;padding-left:14px}
-.znav-nav a:hover i{color:var(--ink)}
-.znav-foot{margin-top:clamp(28px,5vh,54px);font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--fg3);text-transform:uppercase}
-.znav{transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease}
-.znav.is-scrolled{background:linear-gradient(180deg,rgba(5,8,15,.97) 0%,rgba(5,8,15,.9) 52%,rgba(5,8,15,0) 100%);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
-
-@keyframes znavShine{0%{background-position:130% center}100%{background-position:-30% center}}
-@keyframes znavDia{0%,100%{transform:rotate(45deg)}50%{transform:rotate(135deg)}}
-/* --- unify_nav ke apne rules (home par ye classes nahi thin) --- */
-.znav-cur{color:#fff}
-.znav-cur i{color:var(--ink)}
-.znav-back{margin-right:auto;margin-left:clamp(14px,3vw,30px);font-family:var(--mono);
-  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);
-  text-decoration:none;transition:color .25s;white-space:nowrap}
-.znav-back:hover{color:var(--ink)}
-/* Jo pages pehle fixed header nahi rakhte the, unka content navbar ke neeche
-   na chala jaye -- spacer sirf wahan lagta hai jahan zaroorat hai. */
-.znav-spacer{height:80px;flex:none}
-@media(max-width:640px){.znav{padding:14px 18px}.znav-back{display:none}.znav-spacer{height:68px}}
-@media(prefers-reduced-motion:reduce){.znav-brand{animation:none}}
-
-/* --- page ka apna pinned chrome navbar se na takraye ---------------------
-   Kuch pages apne UI ko viewport se chipka kar rakhte hain (fixed app shell
-   ya top-right par pinned toolbar). Ye rules browser mein naap kar likhe gaye
-   hain -- har page ka shell alag tarah pinned hai, is liye alag ilaaj hai. */
-:root{--znav-h:80px}
-@media(max-width:640px){:root{--znav-h:68px}}
-.znav-spacer{height:var(--znav-h)}
-
-/* resources ke deck pages: .chrome fixed inset:0 hai, uske andar toolbar */
-.znav ~ .chrome{top:var(--znav-h)}
-
-/* food/app/scorecard: .app khud fixed hai */
-.znav ~ .app{top:var(--znav-h)}
-/* food/app/manus|motus|nexus: #app static hai + height:100vh */
-.znav ~ #app{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
-/* food/app/pos: .wrap static hai + height:100vh */
-.znav ~ .wrap{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
-/* Note: .zbook-fab aur .ibtn bottom-anchored hain -- unhe chhedna nahi,
-   warna wo apni jagah se hat jaate hain. */
-</style><script>(function(){
+<script>(function(){
  var mb=document.getElementById('znavBtn'),mo=document.getElementById('znavOv');
  if(!mb||!mo)return;
  function tg(open){

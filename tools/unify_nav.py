@@ -249,8 +249,9 @@ def process(rel, apply_changes, force=False):
     for node in reversed(list(frag.children)):
         body.insert(0, node.extract())
 
+    # In <head>, not <body>: otherwise the nav paints unstyled while the page loads.
     style = soup.new_tag('style'); style['id'] = 'znav-css'; style.string = CSS
-    body.append(style)
+    (soup.head or body).append(style)
     script = soup.new_tag('script'); script.string = JS
     body.append(script)
 
