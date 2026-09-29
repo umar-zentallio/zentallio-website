@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID || "1am5C51B_lfQIWp1aGdhYCxXpXobhD2GAn_1IVYStHdU";
-const SHEET_TAB = process.env.GOOGLE_SHEET_NAME || "Sheet1";
+const SHEET_TAB = process.env.GOOGLE_SHEET_NAME || "leads";
 const SA_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 const SA_KEY = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || "").replace(/\\n/g, "\n");
 
@@ -55,7 +55,7 @@ async function getAccessToken() {
 }
 
 async function appendRow(token, row) {
-  const range = encodeURIComponent(`${SHEET_TAB}!A:G`);
+  const range = encodeURIComponent(`${SHEET_TAB}!A:J`);
   const r = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED`,
     {
@@ -67,16 +67,13 @@ async function appendRow(token, row) {
   if (!r.ok) throw new Error("sheet_append_failed: " + (await r.text()));
 }
 
-async function ensureHeader(token) {
-  const range = encodeURIComponent(`${SHEET_TAB}!A1:G1`);
-  const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!r.ok) return;
-  const data = await r.json();
-  if (!data.values || !data.values.length) {
-    await appendRow(token, ["Timestamp", "Name", "Email", "Company", "Message", "Page", "Phone"]);
-  }
+// Sheet "Platform" column, keyed by the form's `source` field.
+const PLATFORMS = { contact: "Contact Form", walkthrough: "Walkthrough" };
+
+// Sheet layout: Reference ID | Radar Company | Date | Platform | Name | Email | Contact | Company Name | Message | Page
+// Column A (Reference ID) is filled by a sheet formula, so it is sent as null (left untouched).
+function sheetDate() {
+  return new Date().toLocaleDateString("en-US", { timeZone: "Asia/Karachi" }); // e.g. 9/29/2026
 }
 
 module.exports = async (req, res) => {
@@ -91,16 +88,28 @@ module.exports = async (req, res) => {
   const company = String(body.company || "").trim();
   const phone = String(body.phone || "").trim();
   const message = String(body.message || "").trim();
+  const platform = Object.hasOwn(PLATFORMS, body.source) ? PLATFORMS[body.source] : PLATFORMS.contact;
 
   if (!name || !message) return res.status(400).json({ error: "missing_fields" });
   if (!SA_EMAIL || !SA_KEY) return res.status(500).json({ error: "sheet_not_configured" });
 
   try {
     const token = await getAccessToken();
-    await ensureHeader(token);
-    await appendRow(token, [new Date().toISOString(), name, email, company, message, req.headers.referer || "", phone]);
+    await appendRow(token, [
+      null,
+      "Zentallio",
+      sheetDate(),
+      platform,
+      name,
+      email,
+      phone,
+      company,
+      message,
+      req.headers.referer || "",
+    ]);
     return res.status(200).json({ ok: true });
   } catch (e) {
+    console.error("[lead]", e.message);
     return res.status(502).json({ error: "sheet_write_failed" });
   }
 };

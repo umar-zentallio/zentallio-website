@@ -79,16 +79,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>Mon–Sat · 10:00–19:00 PKT</p>
 </div>
 </div>
-<p>Name</p>
-<p>Email</p>
-<p>Company</p>
-<p>Contact / Mobile</p>
-<p>Message</p>
-<p><strong>Send message →</strong></p>
-<p>We usually reply within one business day.</p>
-<h3>Thank you!</h3>
-<p>Your message has been sent. We usually reply within one business day.</p>
-<p><strong>Send another message</strong></p>
+<div class="m-card" id="form">
+<form class="m-form" data-source="contact" novalidate>
+  <div class="m-field"><label for="mcName">Name</label><input id="mcName" name="name" type="text" autocomplete="name" required></div>
+  <div class="m-field"><label for="mcEmail">Email</label><input id="mcEmail" name="email" type="email" autocomplete="email" inputmode="email"></div>
+  <div class="m-field"><label for="mcCo">Company</label><input id="mcCo" name="company" type="text" autocomplete="organization"></div>
+  <div class="m-field"><label for="mcPhone">Contact / Mobile</label><input id="mcPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+  <div class="m-field"><label for="mcMsg">Message</label><textarea id="mcMsg" name="message" required></textarea></div>
+  <button class="m-btn m-btn-primary" type="submit">Send message →</button>
+  <p class="m-form-note">We usually reply within one business day.</p>
+</form>
+<div class="m-form-done" hidden>
+  <h3>Thank you!</h3>
+  <p>Your message has been sent. We usually reply within one business day.</p>
+  <button class="m-btn m-btn-ghost" type="button" data-again>Send another message</button>
+</div>
+</div>
 </section>
 </main>
 <div class="m-sticky-cta">

@@ -705,3 +705,29 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 .m-stat b span,.m-card h4 span,.m-rot-item h3 span.u{
   font-size:.72em;opacity:.7;font-weight:400;margin-left:1px;
 }
+
+/* ---------- Lead forms (contact + walkthrough) -> POST /api/lead -------- */
+.m-form{display:flex;flex-direction:column;gap:14px}
+.m-field{display:flex;flex-direction:column;gap:6px}
+.m-field label{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+.m-field input,.m-field textarea{
+  width:100%;min-height:var(--tap);padding:12px 14px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line2);border-radius:var(--rad-sm);
+  font-family:var(--sans);font-size:16px; /* 16px = iOS focus par zoom nahi karta */
+  -webkit-appearance:none;appearance:none;
+}
+.m-field textarea{min-height:110px;resize:vertical;line-height:1.5}
+.m-field input:focus,.m-field textarea:focus{outline:none;border-color:var(--ac)}
+.m-field input:-webkit-autofill{-webkit-text-fill-color:var(--ink);box-shadow:0 0 0 40px var(--bg2) inset}
+.m-field.err input,.m-field.err textarea{border-color:#ff5c7a}
+.m-field.err label{color:#ff5c7a}
+.m-chips{display:flex;flex-wrap:wrap;gap:8px}
+.m-chip{min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--fg2);font-family:var(--sans);font-size:.88rem}
+.m-chip[aria-pressed="true"]{border-color:var(--ac);color:var(--ink);background:rgba(var(--acr),.12)}
+.m-form .m-btn{width:100%;cursor:pointer;font-family:inherit}
+.m-form .m-btn[disabled]{opacity:.6}
+.m-form-note{font-size:.84rem;color:var(--fg3);margin:0}
+.m-form-note.err{color:#ff6b6b}
+.m-form-done{text-align:center;padding:10px 0}
+.m-form-done h3{margin-bottom:8px}
+.m-form-done .m-btn{margin-top:16px}

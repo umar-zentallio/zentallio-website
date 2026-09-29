@@ -211,6 +211,63 @@
                       root + (location.protocol === 'https:' ? ';secure' : '') + ';samesite=lax';
   });
 
+  /* ---- Lead forms -> /api/lead (contact + walkthrough) ------------------ */
+  document.querySelectorAll('form.m-form[data-source]').forEach(function (form) {
+    var btn  = form.querySelector('button[type="submit"]');
+    var note = form.querySelector('.m-form-note');
+    var done = form.parentNode.querySelector('.m-form-done');
+    var noteText = note ? note.textContent : '';
+    var when = '';
+    var emailRE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    var val = function (n) { var f = form.elements[n]; return f ? f.value.trim() : ''; };
+    var flag = function (n) {
+      var f = form.elements[n]; if (!f) return;
+      f.closest('.m-field').classList.add('err'); f.focus();
+    };
+    form.addEventListener('input', function (e) {
+      var w = e.target.closest('.m-field'); if (w) w.classList.remove('err');
+    });
+    form.querySelectorAll('.m-chip').forEach(function (c) {
+      c.addEventListener('click', function () {
+        form.querySelectorAll('.m-chip').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+        c.setAttribute('aria-pressed', 'true'); when = c.getAttribute('data-when');
+      });
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (btn.disabled) return;
+      var source = form.getAttribute('data-source');
+      var email = val('email'), name = val('name'), message = val('message');
+      if (source === 'walkthrough') {
+        if (!emailRE.test(email)) return flag('email');
+        name = name || email;
+        message = 'Walkthrough request (' + (form.getAttribute('data-topic') || 'site') +
+                  ') — preferred window: ' + (when || 'not specified');
+      } else {
+        if (!name) return flag('name');
+        if (!message) return flag('message');
+      }
+      var label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      if (note) { note.textContent = noteText; note.classList.remove('err'); }
+      fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source: source, name: name, email: email,
+          company: val('company'), phone: val('phone'), message: message })
+      }).then(function (r) {
+        if (!r.ok) throw new Error('lead_failed');
+        form.reset(); when = '';
+        form.querySelectorAll('.m-chip').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+        form.hidden = true; if (done) done.hidden = false;
+      }).catch(function () {
+        if (note) { note.textContent = 'Something went wrong — please email info@zentallio.com directly.'; note.classList.add('err'); }
+      }).then(function () { btn.disabled = false; btn.textContent = label; });
+    });
+    var again = done && done.querySelector('[data-again]');
+    if (again) again.addEventListener('click', function () { done.hidden = true; form.hidden = false; });
+  });
+
   /* ---- 6. Overflow guard (dev only) ------------------------------------- */
   if (location.hostname === 'localhost' || location.hostname.indexOf('local.') === 0) {
     requestAnimationFrame(function () {

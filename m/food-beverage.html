@@ -535,29 +535,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 <section class="m-sec m-rev">
 <div class="m-grid">
-<div class="m-card">
+<div class="m-card" id="demo">
 <h3>See it on your numbers.</h3>
 <p>Bring one branch. We'll configure the scorecard to your menu and your aggregators, and show you the first leak it catches.</p>
-<p>Book a walkthrough</p>
-<p>No hardware · No long-term contract · Cancel anytime after pilot</p>
+<form class="m-form" data-source="walkthrough" data-topic="F&amp;B" novalidate style="margin-top:16px">
+  <div class="m-field"><label for="mdEmail">Work email</label><input id="mdEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@yourbrand.com" required></div>
+  <div class="m-field"><label for="mdName">Your name</label><input id="mdName" name="name" type="text" autocomplete="name"></div>
+  <div class="m-field"><label for="mdBrand">Brand / group (optional)</label><input id="mdBrand" name="company" type="text" autocomplete="organization"></div>
+  <div class="m-field"><label>When suits your team?</label>
+    <div class="m-chips" role="group" aria-label="Preferred window">
+      <button class="m-chip" type="button" aria-pressed="false" data-when="This week">This week</button>
+      <button class="m-chip" type="button" aria-pressed="false" data-when="Next 2 weeks">Next 2 weeks</button>
+      <button class="m-chip" type="button" aria-pressed="false" data-when="Just exploring">Just exploring</button>
+    </div>
+  </div>
+  <button class="m-btn m-btn-primary" type="submit">Book a walkthrough</button>
+  <p class="m-form-note">No hardware · No long-term contract · Cancel anytime after pilot</p>
+</form>
+<div class="m-form-done" hidden>
+  <h3>You're booked.</h3>
+  <p>We'll email you within one business day to lock a time.</p>
+  <ul>
+    <li><strong>01</strong> We map your menu &amp; aggregators</li>
+    <li><strong>02</strong> We load your live scorecard</li>
+    <li><strong>03</strong> We walk the first leak it catches</li>
+  </ul>
 </div>
-<div class="m-card">
-<span class="m-card-num">Step 2 of 2 · almost there</span><h3>When suits your team?</h3>
-<p>This week 
- Next 2 weeks 
- Just exploring</p>
-<p>← Back 
- Confirm walkthrough</p>
-<p>We'll send the invite to your email.</p>
-</div>
-<div class="m-card">
-<h3>You're booked.</h3>
-<p>We'll email you within one business day to lock a time.</p>
-<ul>
-  <li><strong>01</strong> We map your menu &amp; aggregators</li>
-  <li><strong>02</strong> We load your live scorecard</li>
-  <li><strong>03</strong> We walk the first leak it catches</li>
-</ul>
 </div>
 </div>
 </section>

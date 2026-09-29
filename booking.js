@@ -1,7 +1,7 @@
 /* Zentallio booking widget — "Book a walkthrough / call" end-to-end flow.
  * Two paths: an AI assistant (POSTs /api/chat) and a Quick form wizard.
- * The wizard works even with no backend (client-side fallback), so the flow
- * is demonstrable on a static host; on Vercel the /api endpoints take over. */
+ * If /api/availability is unreachable the wizard falls back to local slots,
+ * but a booking is only ever confirmed by /api/book. */
 (function () {
   "use strict";
   var DEFAULT_TZ = "Asia/Karachi"; // PKT (no DST)
@@ -101,29 +101,7 @@
     }
     return { defaultTz: DEFAULT_TZ, slots: slots };
   }
-  function tzShort(iso, tz) {
-    try {
-      var parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(new Date(iso));
-      return (parts.find(function (p) { return p.type === "timeZoneName"; }) || {}).value || tz;
-    } catch (e) {
-      return tz;
-    }
-  }
-  function localBook(b) {
-    var tz = b.tz || DEFAULT_TZ;
-    var f = partsInTz(b.start, tz);
-    var id = "ZEN-" + b.start.replace(/[-:T]/g, "").slice(0, 12);
-    return {
-      ok: true,
-      bookingId: id,
-      type: b.type,
-      email: b.email,
-      start: b.start,
-      timezone: tz,
-      message: "Your " + b.type + " is confirmed for " + f.dayLabel + " at " + f.time + " (" + tzShort(b.start, tz) + "). A calendar invite is on its way to " + b.email + ".",
-    };
-  }
-
+  var BOOK_FAIL = "We couldn't confirm your booking just now — please try again, or email info@zentallio.com.";
   async function api(path, opts) {
     var r = await fetch(path, opts);
     if (!r.ok) throw new Error("http_" + r.status);
@@ -136,11 +114,15 @@
       return localAvailability();
     }
   }
+  // Never fake a confirmation: if the booking didn't go through, the visitor must see it.
   async function book(payload) {
     try {
-      return await api("/api/book", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      var r = await fetch("/api/book", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      var data = await r.json().catch(function () { return {}; });
+      if (r.ok && data.ok) return data;
+      return { ok: false, message: data.message || BOOK_FAIL };
     } catch (e) {
-      return localBook(payload);
+      return { ok: false, message: BOOK_FAIL };
     }
   }
 
