@@ -228,7 +228,8 @@ textarea.ff-input{resize:vertical;min-height:92px;line-height:1.55}
 <link href="https://m.zentallio.com/data-processing" media="only screen and (max-width: 640px)" rel="alternate"/>
 
 <link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zentallio.com/data-processing">
-<style id="znav-css">.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
+<style id="znav-css">/* nav owns its palette: pages define different (or no) --ink/--fg2/... tokens */.znav,.znav-ov{--ink:#EEF1F8;--fg2:#AEB9CB;--fg3:#6E798F;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--teal:#15F2F2;--violet:#9B7BFF;--ai:#ff2d95;--serif:'Fraunces',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+.znav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,46px)}
 .znav-brand{font-family:var(--serif);font-weight:500;font-size:1.3rem;letter-spacing:-.01em;position:relative;display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 42%,#15F2F2 49%,#9B7BFF 53%,#fff 60%,#fff 100%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:znavShine 7s linear infinite}
 .znav-brand::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:linear-gradient(90deg,#15F2F2,#9B7BFF);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
 .znav-brand:hover::after{transform:scaleX(1)}
