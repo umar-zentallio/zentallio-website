@@ -257,6 +257,41 @@ body.menu-open{overflow:hidden}
 .m-hero h1{margin-bottom:16px}
 .m-hero-sub{font-size:1.02rem;color:var(--fg2);line-height:1.62;margin-bottom:22px}
 
+/* Hero colour shades (F&B / Fashion): pink "AI" like desktop .zh-ai, accent-tinted "live". */
+.m-hero .m-ai{
+  background:linear-gradient(96deg,var(--pink),#ff8fc6);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+}
+.m-hero-sub .m-hl{color:var(--ac);font-weight:600}
+
+/* Scale strip (10 sectors · 80+ formats …): 2×2 tiles, gradient numbers. */
+.m-scale{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.m-scale-item{
+  padding:16px 16px 14px;border:1px solid var(--line2);border-radius:16px;
+  background:linear-gradient(160deg,rgba(var(--acr),.09),transparent 62%),var(--surface);
+}
+.m-scale-item b{
+  display:block;font-family:var(--serif);font-weight:400;font-size:2rem;line-height:1;letter-spacing:-.02em;
+  background:linear-gradient(100deg,var(--teal),var(--violet));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  padding-bottom:.06em;
+}
+.m-scale-item span{
+  display:block;margin-top:8px;font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);
+}
+.m-scale-item.is-agent{border-color:rgba(var(--acr),.5);box-shadow:0 0 26px -6px rgba(var(--acr),.35)}
+.m-scale-item.is-agent span{color:var(--ac)}
+
+.m-scroll-cue{
+  display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:24px;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--fg3);
+}
+.m-scroll-cue i{width:1px;height:28px;background:linear-gradient(to bottom,transparent,rgba(var(--acr),.8));
+  animation:m-cue 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes m-cue{0%{transform:scaleY(0)}60%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.m-scroll-cue i{animation:none}}
+
 /* Home hero -- desktop jaisa: centred title, orb, sub, dot-links. Tight spacing. */
 .m-hero-home{text-align:center;padding:clamp(26px,7vw,40px) var(--gut) clamp(26px,7vw,36px)}
 .m-hero-home::before{top:18%;width:min(120vw,460px);
@@ -401,8 +436,8 @@ body.menu-open{overflow:hidden}
   .m-marquee-track > [aria-hidden="true"]{display:none}
 }
 
-/* Section headings with the desktop teal → violet gradient on the <em> phrase. */
-.m-grad-heads > h2 em{
+/* Headings: the highlighted <em> phrase gets the desktop teal → violet gradient. */
+main h1 em,main h2 em{
   background:linear-gradient(100deg,var(--teal),var(--violet));
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;
