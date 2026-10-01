@@ -292,6 +292,29 @@ body.menu-open{overflow:hidden}
 @keyframes m-cue{0%{transform:scaleY(0)}60%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 @media (prefers-reduced-motion:reduce){.m-scroll-cue i{animation:none}}
 
+/* F&B page bits: KPI tiles, Iris note, Ask bubble, sector accordion details. */
+.m-scale--kpi{margin:18px 0 14px}
+.m-scale--kpi .m-scale-item b{font-size:1.6rem}
+.m-iris-note{
+  padding:12px 14px;border-left:2px solid var(--ac);border-radius:0 12px 12px 0;
+  background:rgba(var(--acr),.07);font-size:.9rem;
+}
+.m-iris-note strong{color:var(--ac)}
+.m-iris-note b{color:var(--ink);font-weight:600}
+.m-ask{
+  margin:16px 0 14px;padding:14px 16px;border:1px solid var(--line2);border-radius:16px 16px 16px 4px;
+  background:var(--surface);
+}
+.m-ask-who{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px}
+.m-ask p{margin:0;color:var(--ink);font-size:.98rem}
+.m-fmt{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--ac);margin-bottom:8px}
+.m-proof{margin-top:10px;font-size:.84rem;color:var(--fg3)}
+.m-proof b{
+  font-family:var(--serif);font-weight:400;font-size:1.3rem;margin-right:6px;
+  background:linear-gradient(100deg,var(--teal),var(--violet));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+}
+
 /* Home hero -- desktop jaisa: centred title, orb, sub, dot-links. Tight spacing. */
 .m-hero-home{text-align:center;padding:clamp(26px,7vw,40px) var(--gut) clamp(26px,7vw,36px)}
 .m-hero-home::before{top:18%;width:min(120vw,460px);
@@ -437,7 +460,7 @@ body.menu-open{overflow:hidden}
 }
 
 /* Headings: the highlighted <em> phrase gets the desktop teal → violet gradient. */
-main h1 em,main h2 em{
+main h1 em,main h2 em,main h3.m-grad em{
   background:linear-gradient(100deg,var(--teal),var(--violet));
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;
@@ -844,3 +867,50 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 /* ---------- Ask Iris button (booking.js) sits above the sticky CTA bar ---- */
 .zbook-fab{transition:bottom .3s cubic-bezier(.4,0,.2,1)}
 body:has(.m-sticky-cta.is-on) .zbook-fab{bottom:calc(74px + var(--safe-b))}
+
+/* In-page anchors land below the sticky header. */
+.m-sec[id]{scroll-margin-top:calc(var(--head-h) + var(--safe-t, 0px) + 12px)}
+
+/* ---------- Meet Iris page ------------------------------------------- */
+.m-iris-page .m-sec{padding-block:clamp(30px,8vw,44px)}
+.m-iris-page .m-sec > h2{margin-bottom:12px}
+.m-live{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;
+  padding:6px 12px;border:1px solid rgba(var(--acr),.35);border-radius:999px;background:rgba(var(--acr),.07);
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
+}
+.m-live i{width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 8px rgba(var(--acr),.9);animation:m-iris-pulse 2.4s ease-in-out infinite}
+.m-layers{display:grid;gap:8px;margin-top:18px}
+.m-layer{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  border:1px solid var(--line2);border-radius:14px;background:var(--surface);
+}
+.m-layer:first-child{border-color:rgba(var(--acr),.5);background:linear-gradient(120deg,rgba(var(--acr),.1),transparent 70%),var(--surface)}
+.m-layer > b{
+  flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;
+  font-family:var(--mono);font-size:.78rem;color:var(--ac);background:rgba(var(--acr),.1);border:1px solid rgba(var(--acr),.3);
+}
+.m-layer h3{font-size:1rem;margin:0 0 2px}
+.m-layer p{margin:0;font-size:.86rem;color:var(--fg3)}
+.m-ask--iris{border-color:rgba(var(--acr),.4);border-radius:16px 16px 4px 16px;background:rgba(var(--acr),.06);margin-top:0}
+.m-ask--iris .m-ask-who{color:var(--ac)}
+.m-ask--iris p{font-size:.92rem;color:var(--fg2)}
+.m-ask--iris p b{color:var(--ink)}
+.m-sig{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:18px}
+.m-sig > div{padding:13px 13px 12px;border:1px solid var(--line2);border-radius:14px;background:var(--surface)}
+.m-sig h3{font-size:.9rem;margin:0 0 4px;color:var(--ink)}
+.m-sig p{margin:0;font-size:.78rem;line-height:1.45;color:var(--fg3)}
+.m-steps{list-style:none;margin:18px 0 0;padding:0;counter-reset:st}
+.m-steps li{position:relative;padding:0 0 18px 44px;counter-increment:st}
+.m-steps li:last-child{padding-bottom:0}
+.m-steps li::before{
+  content:counter(st,decimal-leading-zero);position:absolute;left:0;top:0;
+  width:30px;height:30px;display:grid;place-items:center;border-radius:50%;
+  font-family:var(--mono);font-size:.66rem;color:var(--ac);border:1px solid rgba(var(--acr),.45);background:var(--bg);z-index:1;
+}
+.m-steps li::after{content:"";position:absolute;left:15px;top:30px;bottom:0;width:1px;background:rgba(var(--acr),.25)}
+.m-steps li:last-child::after{display:none}
+.m-steps b{display:block;color:var(--ink);font-weight:600;margin:4px 0 3px}
+.m-steps span{display:block;font-size:.88rem;color:var(--fg2)}
+.m-iris-cta{text-align:center}
+.m-iris-cta .m-btns{justify-content:center}

@@ -268,13 +268,31 @@
     if (again) again.addEventListener('click', function () { done.hidden = true; form.hidden = false; });
   });
 
+  /* ---- 5b. Pill rows auto-slide right → left (home ka marquee pattern) ---
+     Static rows only — interactive tab rows (.m-sector-tabs) are left alone. */
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.m-pills:not(.m-sector-tabs):not(.m-pills--marquee)').forEach(function (row) {
+      if (row.querySelector('a,button')) return;
+      var track = document.createElement('div');
+      track.className = 'm-marquee-track';
+      while (row.firstChild) track.appendChild(row.firstChild);
+      Array.prototype.slice.call(track.children).forEach(function (p) {
+        var c = p.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
+      });
+      row.appendChild(track);
+      row.classList.add('m-pills--marquee');
+      // same speed as home (~35px/s) whatever the row length
+      track.style.animationDuration = Math.max(12, track.scrollWidth / 2 / 35) + 's';
+    });
+  }
+
   /* ---- 6. Overflow guard (dev only) ------------------------------------- */
   if (location.hostname === 'localhost' || location.hostname.indexOf('local.') === 0) {
     requestAnimationFrame(function () {
       var w = document.documentElement.clientWidth, bad = [];
       document.querySelectorAll('body *').forEach(function (el) {
         var r = el.getBoundingClientRect();
-        if (r.width > 0 && (r.right > w + 1 || r.left < -1)) bad.push(el);
+        if (r.width > 0 && (r.right > w + 1 || r.left < -1) && !el.closest('.m-pills--marquee')) bad.push(el);
       });
       if (bad.length) console.warn('[overflow]', bad.length, 'element(s) baahar ja rahe hain:', bad);
       else console.info('[overflow] clean ✓');
