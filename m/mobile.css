@@ -401,6 +401,14 @@ body.menu-open{overflow:hidden}
   .m-marquee-track > [aria-hidden="true"]{display:none}
 }
 
+/* Section headings with the desktop teal → violet gradient on the <em> phrase. */
+.m-grad-heads > h2 em{
+  background:linear-gradient(100deg,var(--teal),var(--violet));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  padding-right:.06em; /* keeps the italic overhang from being clipped */
+}
+
 /* IRIS divider between the F&B and Fashion home cards: a vertical thread
    joins the two cards, with the IRIS badge on a hairline across the middle. */
 .m-iris-div{
