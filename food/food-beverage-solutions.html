@@ -1405,7 +1405,6 @@ function renderVidBanner(V,m){
   +'<video autoplay muted loop playsinline preload="metadata" poster="'+vidPoster(V)+'" aria-hidden="true"><source src="'+vidSrc(V)+'" type="video/mp4"></video>'
   +'<div class="sb-vink"></div><div class="sb-vvig"></div></div>'
   +'<div class="fdc'+(V.warm?' warm':'')+'">'
-   +'<div class="eyeb">'+V.eyebrow+'</div>'
    +'<h1>'+V.h1lead+'<br><span class="fdrot">'+V.rot.map(function(r,i){return '<span class="ln'+(i===0?' on':'')+'">'+r[0]+'</span>';}).join('')+'</span></h1>'
    +'<p class="fsub fsubrot">'+V.rot.map(function(r,i){return '<span class="sl'+(i===0?' on':'')+'">'+r[1]+'</span>';}).join('')+'</p>'
    +'<div class="fdrail">'

@@ -257,6 +257,28 @@ body.menu-open{overflow:hidden}
 .m-hero h1{margin-bottom:16px}
 .m-hero-sub{font-size:1.02rem;color:var(--fg2);line-height:1.62;margin-bottom:22px}
 
+/* Home hero -- desktop jaisa: centred title, orb, sub, dot-links. Tight spacing. */
+.m-hero-home{text-align:center;padding:clamp(26px,7vw,40px) var(--gut) clamp(26px,7vw,36px)}
+.m-hero-home::before{top:18%;width:min(120vw,460px);
+  background:radial-gradient(circle,rgba(255,45,149,.10),rgba(155,123,255,.05) 40%,transparent 66%)}
+.m-htitle{font-size:clamp(1.6rem,8.4vw,2.6rem);line-height:1.04;letter-spacing:-.025em;margin:0}
+.m-htitle .g{font-style:italic;white-space:nowrap;
+  background:linear-gradient(100deg,var(--teal) 0%,#7fe6ff 22%,var(--pink) 52%,#c9a3ff 78%,var(--violet) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  background-size:200% auto;animation:m-flow 9s linear infinite}
+@keyframes m-flow{to{background-position:200% center}}
+.m-horb{position:relative;height:clamp(170px,50vw,210px);margin:6px calc(-1 * var(--gut)) 4px}
+.m-horb canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.m-hero-home .m-hero-sub{max-width:36ch;margin:0 auto 18px}
+.m-hero-sub strong{color:var(--ink);font-weight:500}
+.m-hcta{display:flex;flex-direction:column;align-items:center;gap:2px}
+.m-lk{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+  display:inline-flex;align-items:center;gap:14px;min-height:var(--tap);padding:0 2px;border-bottom:1px solid var(--line2)}
+.m-lk .ac{width:7px;height:7px;border-radius:50%;background:var(--cc);box-shadow:0 0 10px var(--cc)}
+.m-lk.fb{--cc:var(--teal)}.m-lk.fa{--cc:var(--violet)}
+.m-lk:active{border-color:var(--cc)}
+@media (prefers-reduced-motion:reduce){.m-htitle .g{animation:none}}
+
 /* ---------- 7. Buttons --------------------------------------------------- */
 .m-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
