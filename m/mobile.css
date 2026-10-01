@@ -387,6 +387,50 @@ body.menu-open{overflow:hidden}
 .m-pill[aria-selected="true"],.m-pill.is-on{
   background:rgba(var(--acr),.12);border-color:rgba(var(--acr),.5);color:var(--ac);
 }
+/* Auto-sliding pill row (home cards): track holds the pills twice and
+   drifts right → left; 0 → -50% lands exactly on the duplicate, so it loops seamlessly. */
+.m-pills--marquee{overflow:hidden;scroll-snap-type:none}
+.m-marquee-track{
+  display:flex;gap:8px;width:max-content;padding-right:8px;
+  animation:m-marquee 2s linear infinite;
+}
+@keyframes m-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .m-pills--marquee{overflow-x:auto}
+  .m-marquee-track{animation:none}
+  .m-marquee-track > [aria-hidden="true"]{display:none}
+}
+
+/* IRIS divider between the F&B and Fashion home cards: a vertical thread
+   joins the two cards, with the IRIS badge on a hairline across the middle. */
+.m-iris-div{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;
+  margin:6px 0 18px;padding:14px 0;text-align:center;
+}
+.m-iris-div::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);
+  background:linear-gradient(to bottom,transparent,rgba(var(--acr),.45) 30%,rgba(var(--acr),.45) 70%,transparent);
+}
+.m-iris-tl{
+  position:relative;padding:0 10px;background:var(--bg);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg3,var(--fg2));
+}
+.m-iris-row{position:relative;display:flex;align-items:center;gap:12px;width:100%}
+.m-iris-row i{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(var(--acr),.5))}
+.m-iris-row i:last-child{background:linear-gradient(to left,transparent,rgba(var(--acr),.5))}
+.m-iris-row b{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:999px;
+  border:1px solid rgba(var(--acr),.5);background:rgba(var(--acr),.08);
+  box-shadow:0 0 24px rgba(var(--acr),.18);
+  font-family:var(--mono);font-size:.8rem;font-weight:600;letter-spacing:.32em;color:var(--ac);
+}
+.m-iris-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--ac);
+  box-shadow:0 0 10px rgba(var(--acr),.9);animation:m-iris-pulse 2.4s ease-in-out infinite;
+}
+@keyframes m-iris-pulse{50%{opacity:.35;transform:scale(.75)}}
+@media (prefers-reduced-motion:reduce){.m-iris-dot{animation:none}}
 
 /* ---------- 12. Prose block (articles / legal pages) -------------------- */
 .m-prose{padding:clamp(28px,7vw,42px) var(--gut)}
