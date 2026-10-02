@@ -71,6 +71,13 @@ const MOBILE_READY = new Set([
   '/resources/the-real-cost-of-manual-reconciliation',
   '/resources/why-cogs-drifts-before-anyone-notices',
   '/resources/why-pos-data-alone-cant-tell-you-whats-happening',
+  '/solutions',
+  '/solutions/balanced-scorecard',
+  '/solutions/manus',
+  '/solutions/motus',
+  '/solutions/nexus',
+  '/solutions/numerus',
+  '/solutions/point-of-sale',
   '/terms',
 ]);
 // MOBILE_READY:END

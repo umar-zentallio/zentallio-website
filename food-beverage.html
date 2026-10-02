@@ -963,6 +963,43 @@ body.menu .menu-ov a.mlink:nth-child(4){transition-delay:.26s}
 .znav ~ .wrap{margin-top:var(--znav-h);height:calc(100vh - var(--znav-h))}
 /* Note: .zbook-fab aur .ibtn bottom-anchored hain -- unhe chhedna nahi,
    warna wo apni jagah se hat jaate hain. */
+</style><style id="zsol-nav-css">
+/* Solutions dropdown (tools/build_solutions.py) */
+.znav-ov{overflow-y:auto;justify-content:safe center;padding-top:96px;padding-bottom:48px}
+.znav-sol{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;align-items:center;gap:clamp(16px,2vw,28px);padding:clamp(11px,1.7vw,20px) 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.6vw,4.4rem);color:var(--fg2);letter-spacing:-.02em;line-height:1.15;transition:color .3s,padding-left .3s;opacity:0;transform:translateY(22px)}
+.znav-ov.open .znav-sol{opacity:1;transform:none;transition:color .3s,padding-left .3s,opacity .5s .18s,transform .5s .18s}
+.znav-ov.open .znav-nav>a:nth-child(4){transition-delay:.24s}
+.znav-ov.open .znav-nav>a:nth-child(5){transition-delay:.3s}
+.znav-ov.open .znav-nav>a:nth-child(6){transition-delay:.36s}
+.znav-sol i{font-family:var(--mono);font-size:.78rem;color:var(--fg3);font-style:normal;letter-spacing:.1em}
+.znav-sol:hover,.znav-grp.open .znav-sol,.znav-grp.znav-cur .znav-sol{color:#fff}
+.znav-sol:hover{padding-left:14px}
+.znav-sol:focus-visible{outline:1px solid var(--teal);outline-offset:4px}
+.znav-chev{margin-left:auto;width:30px;height:30px;border:1px solid var(--line2);border-radius:50%;position:relative;flex:none;transition:transform .35s,border-color .3s}
+.znav-chev::before,.znav-chev::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.5px;background:var(--ink);transform:translate(-50%,-50%)}
+.znav-chev::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .35s}
+.znav-grp.open .znav-chev{border-color:rgba(21,242,242,.55)}
+.znav-grp.open .znav-chev::after{transform:translate(-50%,-50%) rotate(0)}
+.znav-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.3,.7,.2,1)}
+.znav-grp.open .znav-sub{grid-template-rows:1fr}
+.znav-subin{overflow:hidden;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0}
+.znav-grp.open .znav-subin{padding:18px 0 22px}
+.znav-ov .znav-nav .znav-sub a,.znav-ov.open .znav-nav .znav-sub a{opacity:1;transform:none;transition:border-color .25s,background .25s,transform .25s;transition-delay:0s}
+.znav-ov .znav-nav .znav-sub a.znav-sp{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);font-family:Inter,system-ui,sans-serif;font-size:1rem;color:var(--ink);letter-spacing:0}
+.znav-ov .znav-nav .znav-sub a.znav-sp:hover{padding-left:14px;border-color:rgba(21,242,242,.38);background:rgba(21,242,242,.05);transform:translateY(-2px)}
+.znav-st{display:flex;flex-direction:column;gap:3px;min-width:0}
+.znav-st strong{font-weight:600;font-size:.95rem;color:#fff;line-height:1.2}
+.znav-st em{font-style:normal;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--fg3);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.znav-ov .znav-nav .znav-sub a.znav-all{grid-column:1/-1;display:inline-flex;justify-content:flex-start;gap:8px;padding:8px 2px 0;border:0;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.znav-ov .znav-nav .znav-sub a.znav-all:hover{padding-left:6px;color:#fff}
+.znav-ic{--s:42px;width:var(--s);height:var(--s);flex:none;border-radius:11px;background:#2c0e26;position:relative;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.znav-ic>span{font-family:var(--serif);font-weight:600;color:#F25DB6;font-size:15px;letter-spacing:-.03em}
+.znav-ic[data-n="3"]>span{font-size:12px}
+.znav-ic:not(.is-img)::before,.znav-ic:not(.is-img)::after{content:"";position:absolute;inset:3px;border-radius:9px;border:3px solid #18EEF0;clip-path:polygon(0 0,46% 0,46% 46%,0 46%)}
+.znav-ic:not(.is-img)::after{border-color:#FF2D95;clip-path:polygon(54% 54%,100% 54%,100% 100%,54% 100%)}
+.znav-ic img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:980px){.znav-subin{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.znav-subin{grid-template-columns:1fr}.znav-chev{width:24px;height:24px}}
 </style>
 </head>
 <body>
@@ -977,8 +1014,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="znav-nav">
 <a class="znav-cur" href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="znav-d-fb"></b></a>
 <a href="/fashion"><i>02</i><span>Fashion Retail</span><b class="znav-d-fa"></b></a>
-<a href="/meet-iris"><i>03</i><span>Meet Iris</span><b class="znav-d-ai"></b></a>
-<a href="/contact"><i>04</i><span>Contact</span></a>
+<!--zsol-nav:start--><div class="znav-grp"><button type="button" class="znav-sol" aria-expanded="false" aria-controls="znavSub" onclick="var g=this.parentNode,o=!g.classList.contains('open');g.classList.toggle('open',o);this.setAttribute('aria-expanded',o)"><i>03</i><span>Solutions</span><em class="znav-chev"></em></button><div class="znav-sub" id="znavSub"><div class="znav-subin"><a class="znav-sp" href="/solutions/balanced-scorecard"><span class="znav-ic is-img"><img src="/solutions/icons/balanced-scorecard.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Balanced Scorecard</strong><em>Finance · L2 · four lenses, live</em></span></a><a class="znav-sp" href="/solutions/point-of-sale"><span class="znav-ic is-img"><img src="/solutions/icons/point-of-sale.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Point of Sale</strong><em>Live till · Iris upsell</em></span></a><a class="znav-sp" href="/solutions/numerus"><span class="znav-ic is-img"><img src="/solutions/icons/numerus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Numerus · CFO</strong><em>Balanced ledger · balanced, not estimated</em></span></a><a class="znav-sp" href="/solutions/nexus"><span class="znav-ic is-img"><img src="/solutions/icons/nexus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Nexus · Supply Chain</strong><em>Forecast, procurement, logistics</em></span></a><a class="znav-sp" href="/solutions/motus"><span class="znav-ic is-img"><img src="/solutions/icons/motus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Motus · Operations</strong><em>Standards, assets, energy</em></span></a><a class="znav-sp" href="/solutions/manus"><span class="znav-ic is-img"><img src="/solutions/icons/manus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Manus · Workforce</strong><em>Roster, payroll, compliance</em></span></a><a class="znav-all" href="/solutions">All solutions &amp; sectors <span>→</span></a></div></div></div><!--zsol-nav:end-->
+<a href="/meet-iris"><i>04</i><span>Meet Iris</span><b class="znav-d-ai"></b></a>
+<a href="/resources"><i>05</i><span>Resources</span></a>
+<a href="/contact"><i>06</i><span>Contact</span></a>
 </nav>
 <div class="znav-foot">info@zentallio.com</div>
 </div>
@@ -2497,6 +2536,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <nav class="zfoot-cols">
 <div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
+<!--zsol-foot:start--><div class="zsol-fcol"><h4>Solutions</h4><a href="/solutions">All solutions</a><a href="/solutions/balanced-scorecard">Balanced Scorecard</a><a href="/solutions/point-of-sale">Point of Sale</a><a href="/solutions/numerus">Numerus</a><a href="/solutions/nexus">Nexus</a><a href="/solutions/motus">Motus</a><a href="/solutions/manus">Manus</a></div><!--zsol-foot:end-->
 <div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
 <div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
 </nav>
