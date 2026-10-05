@@ -477,7 +477,7 @@ def layers_block(heading='One agent. <em>Three layers.</em>', sub=None):
         iris = ('<a class="zs-iris" href="/meet-iris"><span class="zs-ico is-img"><img src="/solutions/icons/iris.png" alt="" width="240" height="256" loading="lazy"></span>'
                 '<span><b>Iris</b><em>Meet the agent →</em></span></a>')
     return ('<section class="zs-sec"><div class="zs-wrap"><div class="zs-sechead zs-hasiris">%s%s<h2>%s</h2><p>%s</p></div>'
-            '<div class="zs-layers">%s</div><p class="zs-rule"><i></i>Iris recommends; a human approves. Prices, stock, staff and money never move without approval.</p></div></section>'
+            '<div class="zs-layers">%s</div></div></section>'
             % (iris, eyebrow('How it decides'), heading, E(sub), cells))
 
 
@@ -684,7 +684,7 @@ def m_layers(heading):
                                                                    'Predicts early, names the cause, costs the move.',
                                                                    'Answers in plain words with the next move.')))
     return ('<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>%s</h2></div>'
-            '<ul class="zm-layers">%s</ul><p class="zm-rule"><i></i>Iris recommends — a human approves.</p></div></section>'
+            '<ul class="zm-layers">%s</ul></div></section>'
             % (eyebrow('How it decides'), heading, rows))
 
 

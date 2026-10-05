@@ -1268,8 +1268,8 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
     # full page link (food ke alag pages hain)
     if kind == 'food' and sec.get('id') in FOOD_SLUGS and not self_page:
         out.append('<a class="m-btn m-btn-primary" href="/food/solutions/%s">'
-                   'Open the %s page &rarr;</a>'
-                   % (FOOD_SLUGS[sec['id']], jtext(name)))
+                   'Explore %s &rarr;</a>'
+                   % (FOOD_SLUGS[sec['id']], jtext(sec.get('short') or name)))
     elif sec.get('cta2'):
         out.append('<a class="m-btn m-btn-ghost" href="#sector=%s">%s</a>'
                    % (jtext(sec.get('id', '')), jtext(sec['cta2'])))
@@ -1390,6 +1390,26 @@ def content_roots(soup):
         return [mains[0]]
     return kids
 
+HERO_DEMO_SLUGS = {'scorecard': 'balanced-scorecard', 'order': 'point-of-sale', 'cfo': 'numerus',
+                   'scm': 'nexus', 'ops': 'motus', 'wf': 'manus'}
+
+def strip_js_shells(soup):
+    """F&B sector pages: JS se bharne wale khali dhaanche (sector bar, solutions intro,
+    proof, demo modal, Ask Zen/Iris widget) mobile par kachra text bante hain -- hata do."""
+    for sel in ('#secbar', '#solutions', '#proofsec', '#demoModal', '.zdock', '#zpanel',
+                '#showcase .herobadge', '#showcase .herostage'):
+        for t in soup.select(sel):
+            t.decompose()
+    # hero ke product tabs (JS buttons) -> asli product pages ke links
+    tabs = soup.select_one('#heroTabs')
+    if tabs is not None:
+        for b in tabs.find_all('button'):
+            slug = HERO_DEMO_SLUGS.get(b.get('data-demo'))
+            if not slug:
+                b.decompose(); continue
+            b.name = 'a'
+            b.attrs = {'href': '/solutions/' + slug}
+
 def build(rel, verbose=False):
     src = os.path.join(ROOT, rel)
     html = open(src, encoding='utf-8').read()
@@ -1397,6 +1417,9 @@ def build(rel, verbose=False):
     title, desc, ogimg = meta_of(soup, rel)
     strip_chrome(soup)
     hydrate_counters(soup)
+    explorer = sector_explorer(html, rel)
+    if explorer:
+        strip_js_shells(soup)
 
     roots = content_roots(soup)
     if not roots:
@@ -1458,7 +1481,6 @@ def build(rel, verbose=False):
             secs.append('<section class="m-sec m-rev">\n%s\n</section>'
                         % '\n'.join(blocks))
 
-    explorer = sector_explorer(html, rel)
     if explorer:
         secs.insert(0, explorer)
     secs.extend(js_sections(html, title, skip={'SECTORS'} if explorer else set()))

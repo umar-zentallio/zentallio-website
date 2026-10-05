@@ -666,6 +666,8 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
   background:linear-gradient(180deg,rgba(5,8,15,.45),transparent);
   pointer-events:none;
 }
+/* auto-drift ke dauran snap band -- warna har frame wapas khinchta hai */
+.m-sector-tabs.is-drifting{scroll-snap-type:none;scroll-behavior:auto}
 .m-sector-tabs .m-pill{
   appearance:none;font:inherit;cursor:pointer;
   -webkit-tap-highlight-color:transparent;
@@ -722,7 +724,7 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 .m-banner{
   position:relative;
   margin:0 calc(var(--gut) * -1) 24px;
-  min-height:clamp(480px,82svh,680px);
+  min-height:clamp(340px,56svh,480px);
   display:flex;flex-direction:column;justify-content:flex-end;
   overflow:hidden;isolation:isolate;
   background:var(--bg2);

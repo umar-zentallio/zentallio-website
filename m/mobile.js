@@ -71,6 +71,10 @@
     });
   }
 
+  // 4b ka show() hash par foran chalta hai -- ye pehle se tayyar hon
+  var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rotTimers = [];
+
   /* ---- 4b. Sector selector — desktop ke #sector= hash ke sath compatible -- */
   var tabs = document.querySelectorAll('.m-sector-tabs .m-pill');
   if (tabs.length) {
@@ -122,6 +126,35 @@
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
 
+    // Tabs ki row khud aahista aage khisakti hai (end par wapas) -- haath se
+    // swipe/tap karo to ruk jaati hai, chhorne ke kuch der baad phir chal parti hai.
+    if (bar && !noMotion) {
+      var SPEED = 18, IDLE = 3500;        // px/s, aur interaction ke baad wait
+      var pos = bar.scrollLeft, dir = 1, last = 0, hold = 0, drifting = false;
+      var pause = function () {
+        hold = Date.now() + IDLE;
+        if (drifting) { drifting = false; bar.classList.remove('is-drifting'); }
+      };
+      ['touchstart', 'pointerdown', 'wheel', 'click'].forEach(function (ev) {
+        bar.addEventListener(ev, pause, { passive: true });
+      });
+      var tick = function (now) {
+        var max = bar.scrollWidth - bar.clientWidth;
+        var dt = last ? Math.min(now - last, 64) / 1000 : 0;
+        last = now;
+        if (max > 4 && Date.now() > hold && !document.hidden) {
+          if (!drifting) { drifting = true; pos = bar.scrollLeft; bar.classList.add('is-drifting'); }
+          pos += dir * SPEED * dt;
+          if (pos >= max) { pos = max; dir = -1; hold = Date.now() + 1200; }
+          else if (pos <= 0) { pos = 0; dir = 1; hold = Date.now() + 1200; }
+          bar.scrollLeft = pos;
+        }
+        requestAnimationFrame(tick);
+      };
+      hold = Date.now() + 1500;           // page khulte hi foran nahi
+      requestAnimationFrame(tick);
+    }
+
     // Banner sirf tab chale jab wo waqai screen par ho. Observer har
     // .m-banner par lagta hai (section par nahi -- wo itna bada hai ke
     // threshold kabhi poora nahi hota).
@@ -145,7 +178,6 @@
   var slowNet = (navigator.connection &&
                  (navigator.connection.saveData ||
                   /^(slow-)?2g$/.test(navigator.connection.effectiveType || '')));
-  var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function playBanner(panel) {
     if (!panel) return;
@@ -171,7 +203,6 @@
   }
 
   /* ---- 4d. Banner ki rotating headline (desktop jaisa) ------------------ */
-  var rotTimers = [];
 
   function stopRot() {
     rotTimers.forEach(clearInterval);
