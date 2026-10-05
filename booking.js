@@ -524,7 +524,7 @@
     if (cornerOccupied()) return;
     // One launcher: Ask Iris. Booking is a capability inside (chat, the Quick
     // form tab, and a "Book a walkthrough" chip) — no separate booking icon.
-    var b = el("button", "zbook-fab", '<span class="zbook-fab-ic" aria-hidden="true">✦</span><span class="zbook-fab-lbl">Ask Iris</span>');
+    var b = el("button", "zbook-fab", '<span class="zbook-fab-orb" aria-hidden="true"><canvas></canvas></span><span class="zbook-fab-lbl">Ask Iris</span>');
     b.type = "button";
     b.setAttribute("aria-label", "Ask Iris — questions or book a walkthrough");
     b.addEventListener("click", function () {
@@ -533,6 +533,96 @@
       else open("walkthrough", { mode: "panel", tab: "chat" });
     });
     document.body.appendChild(b);
+    irisOrb(b.querySelector(".zbook-fab-orb canvas"));
+  }
+  // Home page ka Iris orb (three.js wala) -- yahan halka 2D canvas version:
+  // chamakta gola, uske gird ghoomta wireframe icosahedron aur zarre.
+  function irisOrb(cv) {
+    if (!cv || !cv.getContext) return;
+    var x = cv.getContext("2d"), S = 0, dpr = 1;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // icosahedron, ek baar subdivide (desktop ka IcosahedronGeometry(r,1))
+    var t = (1 + Math.sqrt(5)) / 2, V = [[-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],[0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],[t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]];
+    var F = [[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
+    var norm = function (v) { var l = Math.hypot(v[0], v[1], v[2]); return [v[0] / l, v[1] / l, v[2] / l]; };
+    V = V.map(norm);
+    var mid = {}, E = {}, edge = function (a, b) { var k = a < b ? a + "_" + b : b + "_" + a; E[k] = [a, b]; };
+    var half = function (a, b) {
+      var k = a < b ? a + "_" + b : b + "_" + a;
+      if (mid[k] == null) { V.push(norm([(V[a][0] + V[b][0]) / 2, (V[a][1] + V[b][1]) / 2, (V[a][2] + V[b][2]) / 2])); mid[k] = V.length - 1; }
+      return mid[k];
+    };
+    var fine = (cv.clientWidth || 36) >= 56;
+    if (!fine) F.forEach(function (f) { edge(f[0], f[1]); edge(f[1], f[2]); edge(f[2], f[0]); });
+    else F.forEach(function (f) {
+      var a = half(f[0], f[1]), b = half(f[1], f[2]), c = half(f[2], f[0]);
+      [[f[0], a, c], [f[1], b, a], [f[2], c, b], [a, b, c]].forEach(function (q) { edge(q[0], q[1]); edge(q[1], q[2]); edge(q[2], q[0]); });
+    });
+    E = Object.keys(E).map(function (k) { return E[k]; });
+    var P = [];
+    for (var i = 0; i < 26; i++) {
+      var th = Math.random() * 6.2832, ph = Math.acos(2 * Math.random() - 1), r = 0.9 + Math.random() * 0.42, c = Math.random();
+      P.push([r * Math.sin(ph) * Math.cos(th), r * Math.sin(ph) * Math.sin(th), r * Math.cos(ph), c < 0.46 ? "21,242,242" : c < 0.84 ? "155,123,255" : "255,45,149"]);
+    }
+    var rot = function (p, ay, ax) {
+      var cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
+      var X = p[0] * cy + p[2] * sy, Z = -p[0] * sy + p[2] * cy, Y = p[1] * cx - Z * sx;
+      return [X, Y, p[1] * sx + Z * cx];
+    };
+    function size() {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      S = cv.clientWidth || 34;
+      cv.width = cv.height = Math.round(S * dpr);
+      x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    size();
+    window.addEventListener("resize", size);
+    var f = 0;
+    function draw() {
+      f++;
+      var h = S / 2, R = S * 0.5 * (1 + Math.sin(f * 0.024) * 0.035);
+      x.clearRect(0, 0, S, S);
+      // gola: kinaare par teal/violet chamak (fresnel), andar gehra
+      var core = R * 0.64;
+      x.beginPath();
+      for (var a = 0; a <= 64; a++) {
+        var an = a / 64 * 6.2832;
+        var w = 1 + 0.045 * Math.sin(an * 3 + f * 0.03) + 0.03 * Math.sin(an * 5 - f * 0.021);
+        x[a ? "lineTo" : "moveTo"](h + Math.cos(an) * core * w, h + Math.sin(an) * core * w);
+      }
+      var g = x.createRadialGradient(h - core * 0.2, h - core * 0.25, core * 0.1, h, h, core * 1.05);
+      g.addColorStop(0, "rgba(14,22,48,.95)");
+      g.addColorStop(0.62, "rgba(40,60,120,.9)");
+      g.addColorStop(0.86, "rgba(80,190,230,.95)");
+      g.addColorStop(1, "rgba(155,123,255,1)");
+      x.fillStyle = g;
+      x.shadowColor = "rgba(21,242,242,.75)";
+      x.shadowBlur = S * 0.22;
+      x.fill();
+      x.shadowBlur = 0;
+      var ay = f * 0.0095, ax = 0.35 + Math.sin(f * 0.004) * 0.25, wr = R * 0.86;
+      // zarre
+      P.forEach(function (p) {
+        var q = rot(p, -ay * 0.6, ax);
+        x.fillStyle = "rgba(" + p[3] + "," + (0.35 + 0.4 * (q[2] + 1.3) / 2.6).toFixed(2) + ")";
+        x.fillRect(h + q[0] * wr - 0.5, h + q[1] * wr - 0.5, 1, 1);
+      });
+      // wireframe -- saamne wali lakeerein zyada roshan
+      var Q = V.map(function (v) { return rot(v, -ay, ax); });
+      x.lineWidth = Math.max(0.6, S / 60);
+      E.forEach(function (e) {
+        var p1 = Q[e[0]], p2 = Q[e[1]], z = (p1[2] + p2[2]) / 2;
+        x.strokeStyle = "rgba(26,220,235," + (0.12 + 0.55 * (z + 1) / 2).toFixed(2) + ")";
+        x.beginPath();
+        x.moveTo(h + p1[0] * wr, h + p1[1] * wr);
+        x.lineTo(h + p2[0] * wr, h + p2[1] * wr);
+        x.stroke();
+      });
+    }
+    (function loop() {
+      if (!document.hidden) draw();
+      if (!reduce) requestAnimationFrame(loop);
+    })();
   }
   // Lift the FAB above any bottom-anchored banner it overlaps (e.g. the cookie
   // notice, which spans nearly full width on mobile) so it never covers it.
