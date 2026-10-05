@@ -445,17 +445,13 @@ body.menu-open{overflow:hidden}
 .m-pill[aria-selected="true"],.m-pill.is-on{
   background:rgba(var(--acr),.12);border-color:rgba(var(--acr),.5);color:var(--ac);
 }
-/* Auto-sliding pill row (home cards): track holds the pills twice and
-   drifts right → left; 0 → -50% lands exactly on the duplicate, so it loops seamlessly. */
-.m-pills--marquee{overflow:hidden;scroll-snap-type:none}
-.m-marquee-track{
-  display:flex;gap:8px;width:max-content;padding-right:8px;
-  animation:m-marquee 2s linear infinite;
-}
-@keyframes m-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* Auto-sliding pill row: track mein pills do baar hain; mobile.js scrollLeft
+   aage badhata hai (transform nahi) -- is liye haath se swipe bhi hota hai. */
+.m-pills--marquee{scroll-snap-type:none}
+.m-marquee-track{display:flex;gap:8px;width:max-content;padding-right:8px}
+/* auto-slide ke dauran snap band -- warna har frame wapas khinchta hai */
+.is-drifting{scroll-snap-type:none !important;scroll-behavior:auto !important}
 @media (prefers-reduced-motion:reduce){
-  .m-pills--marquee{overflow-x:auto}
-  .m-marquee-track{animation:none}
   .m-marquee-track > [aria-hidden="true"]{display:none}
 }
 
@@ -666,8 +662,6 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
   background:linear-gradient(180deg,rgba(5,8,15,.45),transparent);
   pointer-events:none;
 }
-/* auto-drift ke dauran snap band -- warna har frame wapas khinchta hai */
-.m-sector-tabs.is-drifting{scroll-snap-type:none;scroll-behavior:auto}
 .m-sector-tabs .m-pill{
   appearance:none;font:inherit;cursor:pointer;
   -webkit-tap-highlight-color:transparent;

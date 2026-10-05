@@ -725,8 +725,7 @@ def m_body_product(p):
             '<nav class="zs-crumb" aria-label="Breadcrumb"><a href="/solutions">Solutions</a><span>/</span>0%d</nav>'
             '<div class="zs-pwrap">%s</div>'
             '<span class="zm-plabel">%s</span><h1>%s%s</h1><p class="zm-lead">%s</p>'
-            '<div class="zm-btns"><a class="zs-btn" href="/food/app/%s">Open the live demo <span>→</span></a>'
-            '<button type="button" class="zs-btn zs-btn-ghost" data-book="call">Book a call</button></div></div></section>'
+            '<div class="zm-btns"><button type="button" class="zs-btn" data-book="call">Book a call</button></div></div></section>'
             '<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>What it <em>does.</em></h2></div>'
             '<ul class="zm-pils">%s</ul>%s</div></section>'
             '%s'
@@ -736,7 +735,7 @@ def m_body_product(p):
             '%s'
             % (p['hue'], i, poster(p), E(p['label']), E(p['name']),
                ' <em>· %s</em>' % E(p['role']) if p['slug'] in ('numerus', 'nexus', 'motus', 'manus') else '',
-               E(p['line']), p['app'],
+               E(p['line']),
                eyebrow('Inside the product', p['hue']), pils, spine,
                m_explorer('product', p, '%s by <em>sector.</em>' % E(p['name']), sub),
                eyebrow('Outcomes', p['hue']), m_outs(p['outcomes'], src=True),

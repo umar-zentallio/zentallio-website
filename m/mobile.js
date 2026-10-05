@@ -74,6 +74,12 @@
   // 4b ka show() hash par foran chalta hai -- ye pehle se tayyar hon
   var noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var rotTimers = [];
+  // 5b ke sliders -- 4b (sector tabs) inhein pehle hi istemal karta hai
+  var slides = [];
+  var slideIO = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.target._slide) e.target._slide.vis = e.isIntersecting; });
+  }) : null;
+  var slideLast = 0;
 
   /* ---- 4b. Sector selector — desktop ke #sector= hash ke sath compatible -- */
   var tabs = document.querySelectorAll('.m-sector-tabs .m-pill');
@@ -126,34 +132,8 @@
     window.addEventListener('hashchange', function () { fromHash(true); });
     fromHash(false);
 
-    // Tabs ki row khud aahista aage khisakti hai (end par wapas) -- haath se
-    // swipe/tap karo to ruk jaati hai, chhorne ke kuch der baad phir chal parti hai.
-    if (bar && !noMotion) {
-      var SPEED = 18, IDLE = 3500;        // px/s, aur interaction ke baad wait
-      var pos = bar.scrollLeft, dir = 1, last = 0, hold = 0, drifting = false;
-      var pause = function () {
-        hold = Date.now() + IDLE;
-        if (drifting) { drifting = false; bar.classList.remove('is-drifting'); }
-      };
-      ['touchstart', 'pointerdown', 'wheel', 'click'].forEach(function (ev) {
-        bar.addEventListener(ev, pause, { passive: true });
-      });
-      var tick = function (now) {
-        var max = bar.scrollWidth - bar.clientWidth;
-        var dt = last ? Math.min(now - last, 64) / 1000 : 0;
-        last = now;
-        if (max > 4 && Date.now() > hold && !document.hidden) {
-          if (!drifting) { drifting = true; pos = bar.scrollLeft; bar.classList.add('is-drifting'); }
-          pos += dir * SPEED * dt;
-          if (pos >= max) { pos = max; dir = -1; hold = Date.now() + 1200; }
-          else if (pos <= 0) { pos = 0; dir = 1; hold = Date.now() + 1200; }
-          bar.scrollLeft = pos;
-        }
-        requestAnimationFrame(tick);
-      };
-      hold = Date.now() + 1500;           // page khulte hi foran nahi
-      requestAnimationFrame(tick);
-    }
+    // Tabs ki row bhi baaqi sliders ki tarah khud chalti hai (5b dekho)
+    if (bar) autoSlide(bar, { speed: 32, loop: false });
 
     // Banner sirf tab chale jab wo waqai screen par ho. Observer har
     // .m-banner par lagta hai (section par nahi -- wo itna bada hai ke
@@ -299,21 +279,84 @@
     if (again) again.addEventListener('click', function () { done.hidden = true; form.hidden = false; });
   });
 
-  /* ---- 5b. Pill rows auto-slide right → left (home ka marquee pattern) ---
-     Static rows only — interactive tab rows (.m-sector-tabs) are left alone. */
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.m-pills:not(.m-sector-tabs):not(.m-pills--marquee)').forEach(function (row) {
-      if (row.querySelector('a,button')) return;
-      var track = document.createElement('div');
-      track.className = 'm-marquee-track';
-      while (row.firstChild) track.appendChild(row.firstChild);
-      Array.prototype.slice.call(track.children).forEach(function (p) {
-        var c = p.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
-      });
-      row.appendChild(track);
-      row.classList.add('m-pills--marquee');
-      // same speed as home (~35px/s) whatever the row length
-      track.style.animationDuration = Math.max(12, track.scrollWidth / 2 / 35) + 's';
+  /* ---- 5b. Horizontal sliders: khud chalte hain + haath se bhi swipe ---
+     Har .m-pills row: scroll position JS se aage badhti hai (transform nahi),
+     is liye ungli se swipe bhi kaam karta hai. Chhoone par ruk jaati hai,
+     chhorne ke thori der baad wahin se phir chal parti hai.
+     - static chips (bina link/button): content do baar, seamless loop
+     - links / sector tabs: end tak jao, phir wapas (ping-pong) */
+  function autoSlide(row, opt) {
+    if (row._slide) return;
+    var st = row._slide = {
+      row: row, speed: opt.speed, loop: opt.loop, dir: 1, pos: row.scrollLeft,
+      hold: Date.now() + 1500, half: 0, vis: true, driving: false
+    };
+    var pause = function () { st.hold = Date.now() + 3000; st.driving = false; row.classList.remove('is-drifting'); };
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) {
+      row.addEventListener(ev, pause, { passive: true });
+    });
+    row.addEventListener('click', pause);
+    if (st.loop) {
+      // haath se swipe karte hue bhi loop toote nahi
+      var wrap = function () {
+        if (st.driving) return;
+        var tr = row.firstElementChild;
+        st.half = tr ? tr.scrollWidth / 2 : 0;
+        if (!st.half) return;
+        if (row.scrollLeft >= st.half) row.scrollLeft -= st.half;
+        else if (row.scrollLeft <= 1) row.scrollLeft += st.half;
+      };
+      row.addEventListener('scroll', wrap, { passive: true });
+      // ungli ke drag ke dauran browser jump ko nazar-andaaz karta hai --
+      // is liye swipe khatam hone par bhi ek baar
+      row.addEventListener('scrollend', wrap);
+      row.addEventListener('touchend', function () { setTimeout(wrap, 350); }, { passive: true });
+    }
+    slides.push(st);
+    if (slideIO) slideIO.observe(row);
+    if (slides.length === 1) requestAnimationFrame(slideTick);
+  }
+  function slideTick(now) {
+    var dt = slideLast ? Math.min(now - slideLast, 64) / 1000 : 0;
+    slideLast = now;
+    if (!document.hidden) slides.forEach(function (st) {
+      var row = st.row, max = row.scrollWidth - row.clientWidth;
+      if (!st.vis || max < 4 || Date.now() < st.hold) return;
+      if (!st.driving) { st.driving = true; st.pos = row.scrollLeft; row.classList.add('is-drifting'); }
+      st.pos += st.dir * st.speed * dt;
+      if (st.loop) {
+        var tr = row.firstElementChild;
+        st.half = tr ? tr.scrollWidth / 2 : max;
+        if (st.pos >= st.half) st.pos -= st.half;
+      } else if (st.pos >= max) { st.pos = max; st.dir = -1; st.hold = Date.now() + 1200; }
+      else if (st.pos <= 0) { st.pos = 0; st.dir = 1; st.hold = Date.now() + 1200; }
+      row.scrollLeft = st.pos;
+    });
+    requestAnimationFrame(slideTick);
+  }
+  if (!noMotion) {
+    // /solutions pages ki sector rows (F&B + Fashion -- chhupi wali bhi; tick
+    // khud dekh leta hai ke row abhi scroll ho sakti hai ya nahi)
+    document.querySelectorAll('.zs-sxrow').forEach(function (row) {
+      autoSlide(row, { speed: 32, loop: false });
+    });
+    document.querySelectorAll('.m-pills:not(.m-sector-tabs)').forEach(function (row) {
+      if (row.scrollWidth - row.clientWidth < 4 && !row.classList.contains('m-pills--marquee')) return;
+      if (row.querySelector('a,button')) { autoSlide(row, { speed: 34, loop: false }); return; }
+      if (!row.classList.contains('m-pills--marquee')) {
+        var track = document.createElement('div');
+        track.className = 'm-marquee-track';
+        while (row.firstChild) track.appendChild(row.firstChild);
+        row.appendChild(track);
+        row.classList.add('m-pills--marquee');
+      }
+      var tr = row.querySelector('.m-marquee-track');
+      if (!tr.querySelector('[aria-hidden="true"]')) {
+        Array.prototype.slice.call(tr.children).forEach(function (p) {
+          var c = p.cloneNode(true); c.setAttribute('aria-hidden', 'true'); tr.appendChild(c);
+        });
+      }
+      autoSlide(row, { speed: 48, loop: true });
     });
   }
 
