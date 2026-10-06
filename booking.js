@@ -127,12 +127,16 @@
     root.setAttribute("hidden", "");
     root.innerHTML =
       '<div class="zbook-card" role="dialog" aria-modal="true" aria-label="Ask Iris — Zentallio">' +
-      '<button class="zbook-x" aria-label="Close">&times;</button>' +
-      '<div class="zbook-head"><span class="zbook-dot"></span><b>Ask Iris</b></div>' +
-      '<div class="zbook-tabs"><button data-tab="chat" class="on">Chat</button><button data-tab="form">Quick form</button></div>' +
+      '<div class="zbook-head">' +
+      '<span class="zbook-av" aria-hidden="true"><canvas></canvas></span>' +
+      '<span class="zbook-id"><b>Ask Iris</b></span>' +
+      '<button class="zbook-x" aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>' +
+      "</div>" +
+      '<div class="zbook-tabs" data-on="chat"><button data-tab="chat" class="on">Chat</button><button data-tab="form">Book a demo</button></div>' +
       '<div class="zbook-body"></div>' +
       "</div>";
     document.body.appendChild(root);
+    irisOrb(root.querySelector(".zbook-av canvas"));
     root.querySelector(".zbook-x").addEventListener("click", close);
     root.addEventListener("click", function (e) {
       if (e.target === root) close();
@@ -142,6 +146,7 @@
         root.querySelectorAll(".zbook-tabs button").forEach(function (x) {
           x.classList.toggle("on", x === b);
         });
+        root.querySelector(".zbook-tabs").dataset.on = b.dataset.tab;
         b.dataset.tab === "chat" ? renderChat() : renderForm();
       });
     });
@@ -225,7 +230,7 @@
     if (!text) throw new Error("empty_answer");
     return text;
   }
-  var CHIPS = ["What can Zentallio do for my business?", "Food & Beverage solutions", "Fashion retail solutions", "Book a walkthrough"];
+  var CHIPS = ["Food & Beverage solutions", "Fashion retail solutions", "Book a walkthrough"];
   function wantsBooking(t) {
     return /^book a (walkthrough|call)\b/i.test(t);
   }
@@ -234,14 +239,15 @@
     b.innerHTML =
       '<div class="zbook-log"></div>' +
       '<div class="zbook-chips"></div>' +
-      '<form class="zbook-input"><input type="text" maxlength="2000" placeholder="Ask Iris anything about Zentallio…" autocomplete="off"><button type="submit">Send</button></form>';
+      '<form class="zbook-input"><input type="text" maxlength="2000" placeholder="Ask Iris anything…" autocomplete="off" aria-label="Message Iris">' +
+      '<button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></form>';
     var log = b.querySelector(".zbook-log");
     var chips = b.querySelector(".zbook-chips");
     var form = b.querySelector(".zbook-input");
     var input = form.querySelector("input");
     var sendBtn = form.querySelector("button");
     if (!state.chat.length) {
-      addMsg(log, "bot", "Hi, I'm Iris — Zentallio's AI guide. Ask me anything about our sectors, solutions and how it works. Want to see it live? I can set up a walkthrough too.");
+      addMsg(log, "bot", "Hey, I'm Iris 👋 How can I help?");
       CHIPS.forEach(function (c) {
         var chip = el("button", "zbook-chip", escapeHtml(c));
         chip.type = "button";
@@ -270,7 +276,8 @@
       }
       addMsg(log, "me", t);
       state.chat.push({ role: "user", content: t });
-      var reply = addMsg(log, "bot typing", "…");
+      var reply = addMsg(log, "bot typing", "");
+      reply.innerHTML = '<span class="zbook-dots" aria-label="Iris is typing"><i></i><i></i><i></i></span>';
       busy = true;
       sendBtn.disabled = true;
       try {
@@ -620,7 +627,7 @@
       });
     }
     (function loop() {
-      if (!document.hidden) draw();
+      if (!document.hidden && cv.getClientRects().length) draw();
       if (!reduce) requestAnimationFrame(loop);
     })();
   }

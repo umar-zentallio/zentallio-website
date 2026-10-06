@@ -4,46 +4,91 @@
 /* Docked chat panel (Ask Iris launcher) — non-blocking: page stays usable */
 .zbook-overlay.zbook-panel{position:fixed;inset:auto;top:0;left:0;right:0;bottom:0;background:transparent;backdrop-filter:none;padding:0;pointer-events:none;display:block}
 .zbook-overlay.zbook-panel[hidden]{display:none}
-.zbook-overlay.zbook-panel .zbook-card{pointer-events:auto;position:fixed;right:clamp(16px,3vw,30px);bottom:clamp(84px,11vh,104px);margin:0;width:390px;max-width:calc(100vw - 32px);max-height:min(72vh,600px);box-shadow:0 30px 80px -24px rgba(0,0,0,.7)}
-@media(max-width:520px){.zbook-overlay.zbook-panel .zbook-card{right:10px;left:10px;bottom:78px;width:auto;max-width:none;max-height:76vh}}
-.zbook-card{position:relative;width:100%;max-width:440px;max-height:90vh;display:flex;flex-direction:column;background:linear-gradient(180deg,#0C1424,#080d18);border:1px solid rgba(255,255,255,.1);border-radius:18px;box-shadow:0 40px 100px -30px rgba(0,0,0,.8);overflow:hidden;color:#E7ECF3}
-.zbook-x{position:absolute;top:10px;right:12px;background:none;border:none;color:#8592A6;font-size:26px;line-height:1;cursor:pointer;padding:4px 8px;border-radius:8px}
-.zbook-x:hover{color:#fff;background:rgba(255,255,255,.06)}
-.zbook-head{display:flex;align-items:center;gap:9px;padding:18px 20px 12px;font-size:1.05rem}
-.zbook-head b{font-weight:600}
-.zbook-dot{width:9px;height:9px;border-radius:50%;background:#15F2F2;box-shadow:0 0 10px #15F2F2}
-.zbook-tabs{display:flex;gap:6px;padding:0 20px}
-.zbook-tabs button{flex:1;padding:9px 10px;font-size:.85rem;font-weight:600;color:#AEB9CB;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;cursor:pointer}
-.zbook-tabs button.on{color:#0A1020;background:linear-gradient(135deg,#15F2F2,#9B7BFF);border-color:transparent}
-.zbook-body{padding:16px 20px 20px;overflow-y:auto}
-/* chat */
-.zbook-log{display:flex;flex-direction:column;gap:9px;min-height:220px;max-height:46vh;overflow-y:auto;padding:6px 2px 10px}
-.zbook-msg{max-width:82%;padding:9px 12px;border-radius:13px;font-size:.9rem;line-height:1.45}
-.zbook-msg.bot{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
-.zbook-msg.me{align-self:flex-end;background:linear-gradient(135deg,rgba(21,242,242,.18),rgba(155,123,255,.18));border:1px solid rgba(155,123,255,.3)}
-.zbook-chips{display:flex;flex-wrap:wrap;gap:7px;margin:2px 2px 8px}
-.zbook-chip{background:rgba(255,255,255,.05);border:1px solid rgba(155,123,255,.3);color:#CBD3E1;font-size:.8rem;padding:7px 12px;border-radius:999px;cursor:pointer;transition:background .15s,border-color .15s;font-family:inherit}
-.zbook-chip:hover{background:rgba(155,123,255,.16);border-color:#9B7BFF;color:#fff}
-.zbook-input{display:flex;gap:8px;margin-top:6px}
-.zbook-input input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.9rem;outline:none}
-.zbook-input input:focus{border-color:#15F2F2}
-.zbook-input button,.zbook-go{background:linear-gradient(135deg,#15F2F2,#9B7BFF);color:#0A1020;font-weight:700;border:none;border-radius:10px;padding:11px 16px;cursor:pointer;font-size:.9rem}
-.zbook-go{width:100%;margin-top:6px;padding:13px}
-.zbook-go:disabled{opacity:.6;cursor:default}
-/* form */
+.zbook-overlay.zbook-panel .zbook-card{pointer-events:auto;position:fixed;right:clamp(16px,3vw,30px);bottom:clamp(84px,11vh,104px);margin:0;width:390px;max-width:calc(100vw - 32px);height:min(72vh,600px);max-height:none;box-shadow:0 30px 80px -24px rgba(0,0,0,.7),0 0 60px -30px rgba(21,242,242,.35);transform-origin:bottom right}
+@media(max-width:520px){.zbook-overlay.zbook-panel .zbook-card{right:10px;left:10px;bottom:78px;width:auto;max-width:none;height:min(76vh,600px);max-height:none}}
+/* ---- card ---- */
+.zbook-card{--zb-t:21,242,242;--zb-v:155,123,255;position:relative;width:100%;max-width:440px;max-height:90vh;display:flex;flex-direction:column;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#E7ECF3;overflow:hidden;border-radius:22px;
+  background:
+    radial-gradient(120% 60% at 0% 0%,rgba(var(--zb-t),.14),transparent 55%) padding-box,
+    radial-gradient(100% 50% at 100% 0%,rgba(var(--zb-v),.14),transparent 60%) padding-box,
+    linear-gradient(180deg,rgba(26,36,60,.97),rgba(18,26,46,.98)) padding-box,
+    linear-gradient(160deg,rgba(var(--zb-t),.45),rgba(255,255,255,.06) 40%,rgba(var(--zb-v),.4)) border-box;
+  border:1px solid transparent;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  box-shadow:0 40px 100px -30px rgba(0,0,0,.85),0 0 60px -30px rgba(var(--zb-t),.35);
+  animation:zb-in .32s cubic-bezier(.16,.84,.44,1)}
+@keyframes zb-in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+/* ---- header ---- */
+.zbook-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
+.zbook-av{position:relative;flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle,rgba(var(--zb-t),.14),rgba(255,255,255,.02) 70%);border:1px solid rgba(var(--zb-t),.25)}
+.zbook-av canvas{width:34px;height:34px;display:block}
+.zbook-id{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.zbook-id b{font-weight:600;font-size:1.02rem;letter-spacing:-.01em}
+.zbook-x{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;cursor:pointer;color:#8592A6;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:color .15s,background .15s,transform .2s}
+.zbook-x:hover{color:#fff;background:rgba(255,255,255,.09);transform:rotate(90deg)}
+/* ---- tabs: segmented control with a sliding pill ---- */
+.zbook-tabs{position:relative;display:flex;margin:12px 16px 0;padding:4px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.zbook-tabs::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;
+  background:linear-gradient(135deg,rgba(var(--zb-t),.18),rgba(var(--zb-v),.18));border:1px solid rgba(var(--zb-t),.4);
+  box-shadow:0 4px 18px -8px rgba(var(--zb-t),.6);transition:transform .3s cubic-bezier(.16,.84,.44,1)}
+.zbook-tabs[data-on="form"]::before{transform:translateX(100%)}
+.zbook-tabs button{position:relative;flex:1;padding:8px 10px;color:#A3AEC2;font-family:inherit;font-weight:600;font-size:.82rem;line-height:1.2;background:none;border:none;border-radius:999px;cursor:pointer;transition:color .2s}
+.zbook-tabs button.on{color:#EEF1F8}
+.zbook-body{flex:1;min-height:0;display:flex;flex-direction:column;padding:12px 16px 16px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+/* ---- chat ---- */
+.zbook-log{flex:1;display:flex;flex-direction:column;gap:10px;min-height:160px;overflow-y:auto;padding:6px 2px 12px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+.zbook-msg{max-width:84%;padding:10px 14px;font-size:.9rem;line-height:1.5;animation:zb-msg .3s cubic-bezier(.16,.84,.44,1)}
+@keyframes zb-msg{from{opacity:0;transform:translateY(6px)}}
+.zbook-msg.bot{align-self:flex-start;border-radius:6px 18px 18px 18px;color:#E4E9F2;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}
+.zbook-msg.me{align-self:flex-end;border-radius:18px 18px 6px 18px;color:#F2F6FF;
+  background:linear-gradient(135deg,rgba(var(--zb-t),.22),rgba(var(--zb-v),.24));border:1px solid rgba(var(--zb-v),.35)}
+.zbook-msg b{color:#fff;font-weight:600}
+.zbook-msg a{color:#15F2F2;text-decoration:underline;text-decoration-color:rgba(21,242,242,.4);text-underline-offset:3px;word-break:break-word}
+.zbook-msg.typing{padding:12px 16px}
+.zbook-dots{display:inline-flex;gap:5px;vertical-align:middle}
+.zbook-dots i{width:6px;height:6px;border-radius:50%;background:#15F2F2;opacity:.35;animation:zb-dot 1.1s ease-in-out infinite}
+.zbook-dots i:nth-child(2){animation-delay:.15s;background:#7fd0ff}.zbook-dots i:nth-child(3){animation-delay:.3s;background:#9B7BFF}
+@keyframes zb-dot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+.zbook-chips{display:flex;flex-direction:column;align-items:flex-end;gap:7px;margin:4px 2px 12px}
+.zbook-chip{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-weight:500;font-size:.8rem;line-height:1.2;color:#D3DAE6;cursor:pointer;
+  padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);
+  transition:background .15s,border-color .15s,color .15s,transform .15s}
+.zbook-chip::after{content:"↗";font-size:.78rem;color:#15F2F2;opacity:.7}
+.zbook-chip:hover{color:#fff;background:rgba(var(--zb-t),.08);border-color:rgba(var(--zb-t),.45);transform:translateY(-1px)}
+.zbook-chip:active{transform:scale(.97)}
+/* composer: one pill with the send button inside */
+.zbook-input{display:flex;align-items:center;gap:6px;padding:5px 5px 5px 16px;border-radius:999px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);transition:border-color .2s,box-shadow .2s,background .2s}
+.zbook-input:focus-within{border-color:rgba(var(--zb-t),.6);background:rgba(var(--zb-t),.04);box-shadow:0 0 0 4px rgba(var(--zb-t),.08)}
+.zbook-input input{flex:1;min-width:0;background:none;border:none;outline:none;color:#fff;font-family:inherit;font-weight:400;font-size:.92rem;line-height:1.4;padding:8px 0}
+.zbook-input input::placeholder{color:#8B96AB}
+.zbook-input button{flex:none;display:grid;place-items:center;width:38px;height:38px;border:none;border-radius:50%;cursor:pointer;color:#05080F;
+  background:linear-gradient(135deg,#15F2F2,#9B7BFF);box-shadow:0 6px 18px -6px rgba(var(--zb-t),.7);transition:transform .15s,opacity .15s}
+.zbook-input button:hover{transform:translateY(-1px) scale(1.05)}
+.zbook-input button:active{transform:scale(.94)}
+.zbook-input button:disabled{opacity:.45;transform:none;cursor:default}
+.zbook-go{width:100%;margin-top:6px;padding:13px;border:none;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem;line-height:1.2;color:#05080F;
+  background:linear-gradient(135deg,#15F2F2,#9B7BFF);box-shadow:0 10px 26px -10px rgba(var(--zb-t),.7);transition:transform .15s,opacity .15s}
+.zbook-go:hover{transform:translateY(-1px)}
+.zbook-go:disabled{opacity:.6;cursor:default;transform:none}
+/* ---- form ---- */
 .zbook-form{display:flex;flex-direction:column;gap:12px}
-.zbook-form label{display:flex;flex-direction:column;gap:5px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#8592A6}
-.zbook-form input,.zbook-form select,.zbook-form textarea{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:10px 12px;color:#fff;font-size:.92rem;outline:none;font-family:inherit}
-.zbook-form input:focus,.zbook-form select:focus,.zbook-form textarea:focus{border-color:#15F2F2}
-.zbook-form option{background:#0C1424}
+.zbook-form label{display:flex;flex-direction:column;gap:6px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#98A3B8}
+.zbook-form input,.zbook-form select,.zbook-form textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:11px 13px;color:#fff;
+  font:400 .92rem/1.4 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;letter-spacing:0;text-transform:none;outline:none;transition:border-color .2s,box-shadow .2s}
+.zbook-form input:focus,.zbook-form select:focus,.zbook-form textarea:focus{border-color:rgba(var(--zb-t),.6);box-shadow:0 0 0 4px rgba(var(--zb-t),.08)}
+.zbook-form option{background:#1A243C}
 .zbook-err{color:#ff6b8a;font-size:.82rem}
-.zbook-loading{padding:40px 0;text-align:center;color:#8592A6;font-size:.9rem}
-/* success */
+.zbook-loading{flex:1;display:grid;place-items:center;padding:40px 0;text-align:center;color:#8592A6;font-size:.9rem}
+/* ---- success ---- */
 .zbook-done{text-align:center;padding:14px 4px}
-.zbook-check{width:56px;height:56px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:28px;color:#0A1020;background:linear-gradient(135deg,#15F2F2,#3FD9A4)}
+.zbook-check{width:56px;height:56px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:28px;color:#0A1020;background:linear-gradient(135deg,#15F2F2,#3FD9A4);box-shadow:0 0 30px -6px rgba(21,242,242,.6)}
 .zbook-done h3{margin:0 0 8px;font-weight:600}
 .zbook-done p{color:#AEB9CB;font-size:.9rem;line-height:1.5;margin:0 0 8px}
 .zbook-ref{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#8592A6}
+@media(prefers-reduced-motion:reduce){.zbook-card,.zbook-msg,.zbook-dots i{animation:none}.zbook-tabs::before{transition:none}}
 /* Retire the legacy on-page "Ask Zen" launcher — the global Ask Iris replaces it. */
 .zdock,.askzen,#askZen{display:none !important}
 /* floating CTA */
@@ -53,6 +98,3 @@
 .zbook-fab-orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media(max-width:520px){.zbook-fab{padding:0;width:56px;height:56px;justify-content:center;gap:0}.zbook-fab-lbl{display:none}.zbook-fab-orb{width:46px;height:46px}}
 @media(max-width:480px){.zbook-card{max-width:100%}}
-.zbook-msg a{color:#15F2F2;text-decoration:underline;text-underline-offset:2px;word-break:break-word}
-.zbook-msg.typing{opacity:.6}
-.zbook-input button:disabled{opacity:.5}
