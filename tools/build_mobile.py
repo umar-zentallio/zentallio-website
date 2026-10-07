@@ -128,7 +128,7 @@ def shell_footer(desktop_url):
         for s in SOCIALS)
     return f'''<footer class="m-foot">
 <a class="m-foot-name" href="/">Zentallio</a>
-<p class="m-foot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail — one agent, Iris, reading every signal and deciding across every floor.</p>
+<p class="m-foot-tag">AI-driven retail intelligence for Food &amp; Beverage and Fashion Retail.</p>
 <div class="m-foot-contact">
   <a href="https://maps.google.com/?q=142-C%20D.H.A.%20Commercial%20Broadway%20DHA%20Phase%208%20Lahore%2054940" target="_blank" rel="noopener">142-C, D.H.A. Commercial Broadway, DHA Phase 8, Lahore 54940</a>
   <a href="tel:+923270000901">{TEL_SVG}+92 327 0000901</a>

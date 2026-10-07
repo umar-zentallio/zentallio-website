@@ -360,6 +360,39 @@
     });
   }
 
+  /* ---- 5c. Footer Solutions — sirf Point of Sale dikhe, baaqi "+N more" se khulen */
+  var fsol = document.querySelector('.m-foot .zsol-fcol');
+  if (fsol) {
+    var rest = Array.prototype.slice.call(fsol.querySelectorAll('a')).filter(function (a) {
+      return a.getAttribute('href') !== '/solutions/point-of-sale';
+    });
+    if (rest.length) {
+      var box = document.createElement('div'), inner = document.createElement('div');
+      box.className = 'm-foot-more';
+      box.id = 'm-foot-sol-more';
+      rest.forEach(function (a) { inner.appendChild(a); });
+      box.appendChild(inner);
+      var tg = document.createElement('button');
+      tg.type = 'button';
+      tg.className = 'm-foot-tog';
+      tg.setAttribute('aria-expanded', 'false');
+      tg.setAttribute('aria-controls', box.id);
+      var label = function (open) {
+        tg.innerHTML = '<span>' + (open ? 'Show less' : '+' + rest.length + ' more') + '</span>' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+      };
+      label(false);
+      tg.addEventListener('click', function () {
+        var open = fsol.classList.toggle('is-open');
+        tg.setAttribute('aria-expanded', open ? 'true' : 'false');
+        label(open);
+      });
+      fsol.appendChild(box);
+      fsol.appendChild(tg);
+      fsol.classList.add('is-collapsible');
+    }
+  }
+
   /* ---- 6. Overflow guard (dev only) ------------------------------------- */
   if (location.hostname === 'localhost' || location.hostname.indexOf('local.') === 0) {
     requestAnimationFrame(function () {

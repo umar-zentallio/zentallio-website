@@ -491,40 +491,84 @@ main h1 em,main h2 em,main h3.m-grad em{
 
 /* ---------- 13. Footer --------------------------------------------------- */
 .m-foot{
+  display:flex;flex-direction:column;
   border-top:1px solid var(--line);
   background:linear-gradient(180deg,transparent,rgba(10,16,32,.6));
   padding:40px var(--gut) calc(26px + var(--safe-b));
 }
-.m-foot-name{font-weight:600;font-size:1.22rem;color:var(--ink);display:inline-block}
-.m-foot-tag{margin-top:13px;color:var(--fg2);font-size:.9rem;line-height:1.62}
-.m-foot-contact{display:flex;flex-direction:column;margin-top:18px}
+.m-foot-name{font-weight:600;font-size:1.22rem;color:var(--ink);display:inline-block;align-self:flex-start}
+.m-foot-tag{margin:10px 0 0;color:var(--fg2);font-size:.88rem;line-height:1.6}
+/* contact links ke neeche, har row ke saath teal icon */
+.m-foot-contact{
+  order:2;display:flex;flex-direction:column;gap:6px;
+  margin-top:32px;padding-top:24px;border-top:1px solid var(--line);
+}
 .m-foot-contact a{
-  color:var(--fg2);font-size:.88rem;
-  min-height:var(--tap);display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid var(--line);
+  color:var(--fg2);font-size:.88rem;line-height:1.45;
+  min-height:46px;display:flex;align-items:center;gap:14px;
 }
-.m-foot-contact a:last-child{border-bottom:0}
-.m-foot-contact svg{width:13px;height:13px;flex:0 0 auto;fill:currentColor;opacity:.7}
+/* charon icons ek jaise: outline, chhote rounded box mein (social icons jaisa) */
+.m-foot-contact svg{display:none}
+.m-foot-contact a::before{
+  content:"";flex:0 0 36px;width:36px;height:36px;border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--surface) center/18px 18px no-repeat;
+}
+.m-foot-contact a:first-child::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315F2F2' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E")}
+.m-foot-contact a[href^="tel:"]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315F2F2' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z'/%3E%3C/svg%3E")}
+.m-foot-contact .m-foot-mail::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315F2F2' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='M3 7l9 6 9-6'/%3E%3C/svg%3E")}
 .m-foot-mail{color:var(--teal) !important}
-.m-foot-social{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+/* social icons footer ke aakhir mein (links ke baad, copyright se pehle) */
+.m-foot-social{
+  order:3;display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;
+}
 .m-foot-social a{
-  width:42px;height:42px;border-radius:50%;
-  border:1px solid var(--line2);background:rgba(255,255,255,.03);
+  width:44px;height:44px;border-radius:12px;
+  border:1px solid var(--line);background:var(--surface);
   display:inline-flex;align-items:center;justify-content:center;color:var(--fg2);
+  -webkit-tap-highlight-color:transparent;transition:color .2s,border-color .2s,background .2s;
 }
-.m-foot-social svg{width:17px;height:17px;fill:currentColor}
-.m-foot-cols{margin-top:30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}
+.m-foot-social a:active{color:var(--teal);border-color:rgba(21,242,242,.45);background:rgba(21,242,242,.08)}
+.m-foot-social svg{width:18px;height:18px;fill:currentColor}
+/* Product / Company / Legal left mein ek ke neeche ek, Solutions (lambi list) right mein */
+.m-foot-cols{
+  order:1;margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px;
+  grid-template-areas:"p s" "c s" "l s";align-items:start;
+}
+.m-foot-cols > div:nth-child(1){grid-area:p}
+.m-foot-cols > div:nth-child(2){grid-area:s}
+.m-foot-cols > div:nth-child(3){grid-area:c}
+.m-foot-cols > div:nth-child(4){grid-area:l}
 .m-foot-cols h4{
-  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--fg3);margin:0 0 9px;font-weight:600;
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--fg3);margin:0 0 6px;font-weight:600;
 }
-.m-foot-cols a{display:flex;align-items:center;min-height:38px;color:var(--fg2);font-size:.87rem}
+.m-foot-cols a{display:flex;align-items:center;min-height:36px;color:var(--fg2);font-size:.88rem}
+/* Solutions band ho to 2x2 grid (Product|Solutions, Company|Legal); khule to Solutions poori right side le */
+.m-foot-cols:has(.zsol-fcol.is-collapsible:not(.is-open)){grid-template-areas:"p s" "c l"}
+.m-foot-tog{
+  display:inline-flex;align-items:center;gap:6px;min-height:34px;margin-top:2px;padding:0 12px;
+  border-radius:999px;cursor:pointer;font:inherit;font-size:.78rem;font-weight:500;
+  background:rgba(var(--acr),.08);border:1px solid rgba(var(--acr),.35);color:var(--ac);
+  -webkit-tap-highlight-color:transparent;transition:background .2s,border-color .2s;
+}
+.m-foot-tog svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.m-foot-tog:active{background:rgba(var(--acr),.16)}
+.zsol-fcol.is-open .m-foot-tog svg{transform:rotate(180deg)}
+/* height 0 -> auto animation: grid rows 0fr -> 1fr */
+.m-foot-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.8,.2,1)}
+.m-foot-more > div{overflow:hidden;min-height:0;opacity:0;transition:opacity .25s}
+.zsol-fcol.is-open .m-foot-more{grid-template-rows:1fr}
+.zsol-fcol.is-open .m-foot-more > div{opacity:1}
+@media (prefers-reduced-motion:reduce){.m-foot-more,.m-foot-more > div,.m-foot-tog svg{transition:none}}
 .m-foot-bot{
-  margin-top:32px;padding-top:20px;border-top:1px solid var(--line);
-  font-size:.7rem;letter-spacing:.05em;color:var(--fg3);
+  order:4;margin-top:18px;
+  font-size:.74rem;color:var(--fg3);
 }
 .m-foot-switch{
-  margin-top:16px;display:inline-flex;align-items:center;gap:7px;
+  order:5;align-self:flex-start;margin-top:16px;display:inline-flex;align-items:center;gap:7px;
   min-height:44px;color:var(--fg2);font-size:.82rem;
   border:1px solid var(--line2);border-radius:999px;padding:0 15px;
 }
