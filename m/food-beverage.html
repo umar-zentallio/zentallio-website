@@ -21,6 +21,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/m/mobile.css">
+<link rel="stylesheet" href="/m/journey.css">
+<link rel="stylesheet" href="/m/ask-iris.css">
 <link rel="stylesheet" href="/booking.css">
 </head>
 <body data-accent="teal">
@@ -50,56 +52,104 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h1>The <span class="m-ai">AI</span> that runs<br><em>every outlet.</em></h1>
   <p class="m-hero-sub">It watches every shift <strong class="m-hl">live</strong>, names what's quietly costing you, and hands back <strong>the exact move</strong> — before the shift turns.</p>
 </section>
-<section class="m-sec m-rev">
-<div class="m-scale">
-  <div class="m-scale-item"><b>10</b><span>sectors</span></div>
-  <div class="m-scale-item"><b>80+</b><span>formats</span></div>
-  <div class="m-scale-item"><b>6</b><span>regions</span></div>
-  <div class="m-scale-item is-agent"><b>One</b><span>agent</span></div>
-</div>
-<div class="m-scroll-cue" aria-hidden="true"><i></i>Scroll</div>
-</section>
-<section class="m-sec m-rev">
-<span class="m-kick">The AI Balanced Scorecard</span>
-<h2>One scorecard. <em>Every decision.</em></h2>
-<p>Iris watches Financial, Customer, Operational and AI-learning health across every outlet — <strong>live</strong> — and names the move the moment something drifts.</p>
-<div class="m-scale m-scale--kpi">
-  <div class="m-scale-item"><b>30.8%</b><span>Financial · food cost</span></div>
-  <div class="m-scale-item"><b>+41</b><span>Customer · NPS</span></div>
-  <div class="m-scale-item"><b>27m</b><span>Operational · delivery</span></div>
-  <div class="m-scale-item"><b>92.8%</b><span>AI learning · forecast</span></div>
-</div>
-<p class="m-iris-note"><strong>Ask Iris</strong> · <b>Austria</b> — food cost over target. The portion fix is ready to approve.</p>
-</section>
-<section class="m-sec m-rev">
+<section class="m-sec m-rev" id="product">
 <span class="m-kick">Decisions at every stage</span>
 <h2>Not screens. <em>Decisions.</em></h2>
 <p>Every screen your team runs — and at each one, the AI names the next move. One live order, end to end.</p>
-<div class="m-pills"><span class="m-pill">01 Channels</span><span class="m-pill">02 POS</span><span class="m-pill">03 Tables</span><span class="m-pill">04 Drive-Thru</span><span class="m-pill">05 Kitchen</span><span class="m-pill">06 Dispatch</span><span class="m-pill">07 Delivery</span><span class="m-pill">08 Feedback</span></div>
-<div class="m-card">
-<span class="m-card-num">Order #1284 · delivered</span>
-<h3 class="m-grad">The feedback <em>writes itself back.</em></h3>
-<p>The moment #1284 lands, Zentallio updates the customer on WhatsApp, collects the rating, and posts the points and review straight back to the CRM and the scorecard.</p>
+<div class="m-jr" id="mJourney">
+<div class="m-jr-track" aria-hidden="true">
+  <span class="m-jr-oid">Order <b>#1284</b></span>
+  <span class="m-jr-st" id="mJrSt">Received</span>
+  <span class="m-jr-bar"><i id="mJrBar"></i></span>
+</div>
+<ol class="m-jr-list">
+<li class="m-jr-step" data-st="Received" style="--sc:var(--teal)">
+  <span class="m-jr-node">01</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Channels · Order intake</span>
+    <h3>Every channel, one queue.</h3>
+    <p>App, Deliveroo, web and counter orders all land in one POS queue. No tablets to juggle, no order typed in twice — #1284 is queued and tagged for delivery the moment it arrives.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Paid" style="--sc:var(--teal)">
+  <span class="m-jr-node">02</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">POS · Cashier</span>
+    <h3>The till knows the guest.</h3>
+    <p>The till recognises Sofia as a Gold member and redeems her 2,400 points in one tap. Iris knows she usually adds a Chocolate Shake, so the cashier suggests it before charging.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Seated" style="--sc:#3FD9A4">
+  <span class="m-jr-node">03</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Tables · Host stand</span>
+    <h3>The right table, instantly.</h3>
+    <p>A walk-in party of four wants a window seat. Iris weighs party size, section load, server availability and turn time — and seats them at Table 7 with Tomas in under two minutes.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="In lane" style="--sc:#4D9DFF">
+  <span class="m-jr-node">04</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Drive-Thru · Lane</span>
+    <h3>Every car against the clock.</h3>
+    <p>Four cars in the lane, each one timed against the 3:30 target. When #1290 runs 42 seconds over, Iris pulls it forward to pickup before the queue backs up.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Cooking" style="--sc:var(--amber)">
+  <span class="m-jr-node">05</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Kitchen · KDS</span>
+    <h3>Routed across every station.</h3>
+    <p>#1284 splits to Grill, Fryer and Beverages at the same time, so every item finishes together. Iris predicts it ready in 6:40 and flags the late order on Grill to fire first.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Dispatched" style="--sc:#4D9DFF">
+  <span class="m-jr-node">06</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Dispatch · Ops desk</span>
+    <h3>The best rider, not the next one.</h3>
+    <p>Riders are scored on distance, active load, rating, vehicle and zone — not just who's next. Lukas is closest and lightly loaded, so #1284 goes to him.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="On the way" style="--sc:#4D9DFF">
+  <span class="m-jr-node">07</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Delivery · Rider app</span>
+    <h3>Live traffic, live ETA.</h3>
+    <p>The route updates with live traffic and the customer sees every minute of the ETA. When the road ahead jams, Iris reroutes Lukas and saves six minutes.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Delivered ★5" style="--sc:#3FD9A4">
+  <span class="m-jr-node">08</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Feedback · WhatsApp</span>
+    <h3>The feedback writes itself back.</h3>
+    <p>The moment #1284 lands, Sofia gets a WhatsApp update and rates it in one tap. Her ★5, points and review flow straight back to the CRM and the scorecard.</p>
+  </div>
+</li>
+</ol>
 </div>
 </section>
 <section class="m-sec m-rev">
 <span class="m-kick">Ask Iris · L3</span>
 <h2>Ask in plain language. <em>Act on the answer.</em></h2>
-<p>Type a question the way you'd say it. Iris reasons across the rule engine and models, and hands back the answer — with <strong>the next move ready to approve</strong>.</p>
-<div class="m-ask">
-  <span class="m-ask-who">You</span>
-  <p>“Which branch is trending over food cost?”</p>
-</div>
-<div class="m-pills"><span class="m-pill">L1 · Zen Rules</span><span class="m-pill">L2 · Zen Models</span><span class="m-pill">L3 · Ask Iris</span><span class="m-pill">MCP · your live data</span></div>
-</section>
-<section class="m-sec m-rev">
-<span class="m-kick">Executive · Zentallio</span>
-<h2>Command the entire network <em>from one screen.</em></h2>
-<p>Like-for-like growth, the openings pipeline, channel mix and people — with the agent surfacing what needs the call.</p>
-<div class="m-grid">
-<div class="m-card"><span class="m-card-num">For the CEO</span><h3>Growth &amp; network</h3></div>
-<div class="m-card"><span class="m-card-num">For the COO</span><h3>Operations</h3></div>
-<div class="m-card"><span class="m-card-num">For the CFO</span><h3>P&amp;L &amp; cash</h3></div>
+<p>Ask it the way you'd say it. Iris answers with the number — and <strong>the next move to approve</strong>.</p>
+<div class="m-az" id="mAsk">
+  <div class="m-az-bar"><span class="m-az-name"><i></i>Ask Iris</span><span class="m-az-mcp"><i></i>MCP · live data</span></div>
+  <div class="m-az-chips" role="tablist" aria-label="Example questions">
+    <button type="button" class="m-az-chip is-on" data-q="0">Android orders</button>
+    <button type="button" class="m-az-chip" data-q="1">Food cost</button>
+    <button type="button" class="m-az-chip" data-q="2">Delivery margin</button>
+    <button type="button" class="m-az-chip" data-q="3">⚡ Weekly report</button>
+    <button type="button" class="m-az-chip" data-q="4">Stock cover</button>
+  </div>
+  <div class="m-az-body" aria-live="polite">
+    <p class="m-az-q" id="mAzQ">Android orders in the last hour?</p>
+    <div class="m-az-think" id="mAzThink"><span class="is-on"><i>L1</i>Rules</span><span class="is-on"><i>L2</i>Models</span><span class="is-on"><i>L3</i>Iris</span></div>
+    <div class="m-az-ans" id="mAzAns">
+      <p class="m-az-text"><b>3,180</b> — <em class="up">▲ 18%</em>, your busiest channel right now.</p>
+    </div>
+  </div>
 </div>
 </section>
 <section class="m-sec m-rev" id="sectors">
@@ -234,6 +284,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="m-foot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
 </footer>
 <script src="/m/mobile.js" defer></script>
+<script src="/m/journey.js" defer></script>
+<script src="/m/ask-iris.js" defer></script>
 <script src="/booking.js" defer></script>
 </body>
 </html>
