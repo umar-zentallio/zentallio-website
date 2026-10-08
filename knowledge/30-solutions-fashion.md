@@ -34,6 +34,11 @@ Store standards, fixtures, energy and security as deterministic rules that fire 
 
 Cover modelled against the hours that actually convert, with compliance checked as it happens.
 
+### Zentallio Vision · Computer Vision
+*The cameras · footfall, queues, safety*
+
+Footfall, queues, try-ons, revisits, safety and productivity — the cameras a retailer already has, turned into decisions. In fashion it links fitting-room try-ons to purchases by style, catches till queues before customers walk out, and flags safety issues (blocked exits, after-hours stockroom entry) on the shift. Anonymised and on-prem capable — no faces stored.
+
 ## Core POS (standard across all fashion sectors)
 
 12 core POS solutions: checkout, returns & exchange, store credit, tender & reconciliation, tax, discount governance, customer capture, loyalty, and more — the same till running every sector.

@@ -123,16 +123,23 @@ li{margin-bottom:.5em;color:var(--fg2)}
 li::marker{color:var(--ac)}
 hr{border:0;border-top:1px solid var(--line);margin:30px 0}
 
-/* Eyebrow / kicker */
+/* Eyebrow / kicker -- ye section ka topic batata hai, is liye isko
+   prominent rakha hai; iske baad wali heading aur paragraph ek step chhote. */
 .m-kick{
   font-family:var(--mono);
-  font-size:.64rem;
-  letter-spacing:.2em;
+  font-size:clamp(.8rem,3.5vw,.92rem);
+  font-weight:600;
+  line-height:1.45;
+  letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--ac);
-  margin:0 0 12px;
+  margin:0 0 14px;
   display:block;
 }
+.m-kick + h2{font-size:clamp(1.28rem,5.3vw,1.68rem)}
+.m-kick + h2 + p,
+.m-kick + h2 + .m-lede,
+.m-kick + h2 + .m-muted{font-size:.92rem;line-height:1.6}
 
 /* ---------- 4. Layout primitives ---------------------------------------- */
 .m-wrap{width:100%;padding-inline:var(--gut)}
@@ -387,6 +394,15 @@ body.menu-open{overflow:hidden}
   font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
   color:var(--ac);display:block;margin-bottom:9px;
 }
+/* Solutions cards: tagline hi card ki main heading hai -- naam aur para
+   us se ek-ek step chhote */
+.m-card-num.m-card-tag{
+  font-size:clamp(.95rem,4vw,1.05rem);font-weight:600;line-height:1.4;
+  letter-spacing:.01em;margin-bottom:8px;color:#5FA8FF;
+}
+.m-card-tag + h3{font-size:.92rem;margin-bottom:6px}
+.m-card-tag ~ p{font-size:.84rem;line-height:1.55}
+.m-card-tag ~ ul li{font-size:.8rem;margin-bottom:.35em}
 .m-card-arrow{
   margin-top:13px;font-size:.82rem;color:var(--ac);font-weight:600;
   display:inline-flex;align-items:center;gap:6px;
@@ -704,6 +720,48 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 .m-sector-panel h4{font-size:.98rem;margin-bottom:6px;color:var(--ink)}
 .m-sector-panel > .m-kick{margin-top:26px}
 .m-sector-panel > .m-kick:first-child{margin-top:0}
+/* Fashion: desktop ka "Every solution" -- L1 / AI do groups */
+.m-fx-block{margin-top:30px}
+.m-fx-h{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,5.2vw,1.5rem);margin:0 0 6px}
+.m-fx-sub{font-size:.88rem;color:var(--fg2);margin-bottom:14px}
+.m-solgrp{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.m-fx-block > .m-kick + .m-solgrp{margin-top:4px;padding-top:0;border-top:0}
+.m-solgrp-eye{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--fg3);margin-bottom:8px}
+.m-solgrp h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.15rem,4.8vw,1.35rem);margin-bottom:6px}
+.m-solgrp-sub{font-size:.86rem;color:var(--fg2);margin-bottom:14px}
+
+/* Product / solution screen -- band: naam + role; khula: KPI, alert, Iris, actions */
+.m-fx-list{display:flex;flex-direction:column;gap:8px}
+.m-fx{border:1px solid var(--line2);border-radius:14px;background:var(--surface);overflow:hidden}
+.m-fx[open]{border-color:rgba(var(--acr),.35)}
+.m-fx summary{list-style:none;display:flex;align-items:center;gap:10px;
+  padding:14px 15px;min-height:var(--tap);cursor:pointer}
+.m-fx summary::-webkit-details-marker{display:none}
+.m-fx summary::after{content:'';flex:0 0 auto;width:8px;height:8px;margin-left:auto;
+  border-right:1.5px solid var(--fg3);border-bottom:1.5px solid var(--fg3);
+  transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.m-fx[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+.m-fx-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.m-fx-t b{font-size:.98rem;color:var(--ink);font-weight:600;line-height:1.3}
+.m-fx-t i{font-style:normal;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--fg3)}
+.m-fx-tag{flex:0 0 auto;font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.1em;
+  color:var(--ac);border:1px solid rgba(var(--acr),.4);border-radius:6px;padding:3px 6px}
+.m-fx-body{padding:0 15px 16px}
+.m-fx-d{font-size:.86rem;color:var(--fg2);margin:0 0 12px}
+.m-fx-body .m-stats{margin:0 0 12px}
+.m-fx-body .m-stats .m-stat b{font-size:.92rem;line-height:1.25}
+.m-fx-alert{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;line-height:1.5;
+  color:var(--amber);margin:0 0 10px}
+.m-fx-body .m-iris{margin:0 0 12px;padding:12px 13px}
+.m-fx-body .m-iris p{font-size:.86rem;line-height:1.55}
+.m-fx-acts{display:flex;flex-wrap:wrap;gap:6px}
+.m-fx-acts span{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--fg2);
+  border:1px solid var(--line2);border-radius:999px;padding:5px 9px}
+.m-fx-body > *:last-child{margin-bottom:0}
+.m-corenote{margin-top:22px;font-size:.84rem;line-height:1.6}
+.m-cta .m-btns{margin:18px 0 12px}
 .m-lede{font-size:1rem;color:var(--fg2);line-height:1.62;margin-bottom:18px}
 
 /* Iris ka quote */
@@ -907,7 +965,6 @@ body:has(.m-sticky-cta.is-on) .zbook-fab{bottom:calc(74px + var(--safe-b))}
   display:flex;align-items:center;gap:14px;padding:14px 16px;
   border:1px solid var(--line2);border-radius:14px;background:var(--surface);
 }
-.m-layer:first-child{border-color:rgba(var(--acr),.5);background:linear-gradient(120deg,rgba(var(--acr),.1),transparent 70%),var(--surface)}
 .m-layer > b{
   flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;
   font-family:var(--mono);font-size:.78rem;color:var(--ac);background:rgba(var(--acr),.1);border:1px solid rgba(var(--acr),.3);

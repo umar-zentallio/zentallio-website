@@ -6,7 +6,7 @@ mein "Solutions" dropdown lagata hai.
 
 Kya banta hai:
   solutions.html                       /solutions  (products + sector selector)
-  solutions/<product>.html             /solutions/balanced-scorecard ... (6)
+  solutions/<product>.html             /solutions/balanced-scorecard ... (har PRODUCTS entry)
   m/solutions.html, m/solutions/*.html mobile versions
   solutions/icons/<slug>.png           solutions/li_<slug>.png se crop (agar ho)
   solutions/img/<slug>.webp            product card poster se crop (agar ho)
@@ -71,8 +71,8 @@ def build_images():
         im = Image.open(src).convert('RGB')
         sc = im.size[0] / 2400.0
         box = lambda b: tuple(int(v * sc) for v in b)
-        im.crop(box(ICON_BOX)).resize((240, 256), Image.LANCZOS).save(ico, optimize=True)
-        im.crop(box(CARD_BOX)).resize((732, 1080), Image.LANCZOS).save(card, 'WEBP', quality=86, method=6)
+        im.crop(box(p.get('icon_box', ICON_BOX))).resize((240, 256), Image.LANCZOS).save(ico, optimize=True)
+        im.crop(box(p.get('card_box', CARD_BOX))).resize((732, 1080), Image.LANCZOS).save(card, 'WEBP', quality=86, method=6)
         print('  image', p['slug'])
 
 
@@ -94,6 +94,21 @@ def poster(p):
                 'width="732" height="1080" decoding="async" fetchpriority="high"></div>' % (p['slug'], E(p['name'])))
     return ('<div class="zs-poster"><div class="zs-pwm">Zen<span class="t">t</span><span class="a">a</span>llio</div>'
             '%s<div class="zs-pname">%s</div></div>' % (icon(p, 'zs-ico zs-ico-xl'), E(p['name'])))
+
+
+WORDS = {4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine'}
+N_WORD = WORDS.get(len(PRODUCTS), str(len(PRODUCTS)))          # 'seven'
+REST_WORD = WORDS.get(len(PRODUCTS) - 1, str(len(PRODUCTS) - 1))  # 'six'
+
+
+def counts(html_):
+    """Templates mein @@NW@@ jaise tokens -> products ki ginti (seven, six...)."""
+    return (html_.replace('@@NWC@@', N_WORD.capitalize()).replace('@@NW@@', N_WORD)
+            .replace('@@RW@@', REST_WORD).replace('@@N@@', str(len(PRODUCTS))))
+
+
+def demo_link(p):
+    return p.get('demo') or '/food/app/%s' % p['app']
 
 
 def plink(p):
@@ -168,7 +183,8 @@ NAV_CSS_D = """<style id="zsol-nav-css">
 .znav-ic:not(.is-img)::before,.znav-ic:not(.is-img)::after{content:"";position:absolute;inset:3px;border-radius:9px;border:3px solid #18EEF0;clip-path:polygon(0 0,46% 0,46% 46%,0 46%)}
 .znav-ic:not(.is-img)::after{border-color:#FF2D95;clip-path:polygon(54% 54%,100% 54%,100% 100%,54% 100%)}
 .znav-ic img{width:100%;height:100%;object-fit:cover;display:block}
-@media(max-width:980px){.znav-subin{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.znav-subin>.znav-sp:nth-child(3n+1):nth-last-child(2){grid-column:2}
+@media(max-width:980px){.znav-subin{grid-template-columns:repeat(2,minmax(0,1fr))}.znav-subin>.znav-sp:nth-child(3n+1):nth-last-child(2){grid-column:auto}}
 @media(max-width:600px){.znav-subin{grid-template-columns:1fr}.znav-chev{width:24px;height:24px}}
 </style>"""
 
@@ -508,17 +524,17 @@ def body_index():
     cluster = ''.join('<a class="zs-hc" href="%s" style="--i:%d;--ph:%s">%s<span>%s</span></a>'
                       % (plink(p), k, p['hue'], icon(p), E(p['name'])) for k, p in enumerate(PRODUCTS))
     return ('<section class="zs-hero zs-hero-idx"><div class="zs-glow"></div><div class="zs-wrap"><div class="zs-hgrid zs-hgrid-idx"><div>'
-            '%s<h1>Six products. <em>One data spine.</em></h1>'
+            '%s<h1>@@NWC@@ products. <em>One data spine.</em></h1>'
             '<p class="zs-lead">%s</p><p class="zs-lead2">%s</p>'
             '<div class="zs-hbtns"><a class="zs-btn" href="#sectors">Find your sector <span>↓</span></a>'
-            '<a class="zs-btn zs-btn-ghost" href="#products">See the six products</a></div></div>'
-            '<div class="zs-hcl" aria-label="The six products">%s</div></div>'
+            '<a class="zs-btn zs-btn-ghost" href="#products">See the @@NW@@ products</a></div></div>'
+            '<div class="zs-hcl" aria-label="The @@NW@@ products">%s</div></div>'
             '<div class="zs-nums">%s</div></div></section>'
             '<section class="zs-sec" id="products"><div class="zs-wrap"><div class="zs-sechead">%s'
-            '<h2>The whole business on <em>one board.</em></h2><p>Every sector runs the same six live products. They read the same data, so the scorecard, the till, the ledger, the supply chain, operations and the roster never disagree.</p></div>%s</div></section>'
+            '<h2>The whole business on <em>one board.</em></h2><p>Every sector runs the same @@NW@@ live products. They read the same data, so the scorecard, the till, the ledger, the supply chain, operations, the roster and the cameras never disagree.</p></div>%s</div></section>'
             '%s%s%s'
             % (eyebrow('Solutions'), E(PLATFORM['who']), E(PLATFORM['spine']), cluster, nums,
-               eyebrow('Six live products'), product_cards(),
+               eyebrow('@@NWC@@ live products'), product_cards(),
                explorer('full', title='Pick your sector. <em>See it configured.</em>',
                         sub='Choose a sector to see its promises, the live board, every AI solution with the layer behind it, and what an operator can expect.'),
                layers_block(), cta_band('See it configured on <em>your formats.</em>')))
@@ -539,7 +555,7 @@ def body_product(p):
     return ('<section class="zs-hero zs-hero-p" style="--ph:%s"><div class="zs-glow"></div><div class="zs-wrap zs-hgrid"><div>'
             '<nav class="zs-crumb" aria-label="Breadcrumb"><a href="/solutions">Solutions</a><span>/</span>%s</nav>'
             '%s<h1>%s%s</h1><p class="zs-tagl">%s</p><p class="zs-lead">%s</p>'
-            '<div class="zs-hbtns"><a class="zs-btn" href="/food/app/%s">Open the live demo <span>→</span></a>'
+            '<div class="zs-hbtns"><a class="zs-btn" href="%s">Open the live demo <span>→</span></a>'
             '<button type="button" class="zs-btn zs-btn-ghost" data-book="call">Book a call</button></div>'
             '<div class="zs-plabel"><span>%s</span><span>Runs on every F&amp;B and Fashion sector board</span></div></div>'
             '<div class="zs-pwrap">%s</div></div></section>'
@@ -549,16 +565,16 @@ def body_product(p):
             '%s'
             '<section class="zs-sec"><div class="zs-wrap"><div class="zs-sechead">%s<h2>What an operator <em>can expect.</em></h2>'
             '<p>Modelled outcomes from the sector playbooks %s feeds.</p></div>%s</div></section>'
-            '<section class="zs-sec"><div class="zs-wrap"><div class="zs-sechead">%s<h2>The other five, <em>same spine.</em></h2></div>%s</div></section>'
+            '<section class="zs-sec"><div class="zs-wrap"><div class="zs-sechead">%s<h2>The other @@RW@@, <em>same spine.</em></h2></div>%s</div></section>'
             '%s'
             % (p['hue'], E(p['name']), eyebrow('Product 0%d · %s' % (i, E(p['label'])), p['hue']), E(p['name']),
                ' <em>· %s</em>' % E(p['role']) if p['slug'] in ('numerus', 'nexus', 'motus', 'manus') else '',
-               E(p['line']), E(p['what']), p['app'], E(p['label']), poster(p),
+               E(p['line']), E(p['what']), demo_link(p), E(p['label']), poster(p),
                eyebrow('Inside the product', p['hue']), E(p['name']), pillars, extra,
                layers_block('How %s <em>decides.</em>' % E(p['name'])),
                explorer('product', p, ex_t, ex_s),
                eyebrow('Outcomes', p['hue']), E(p['name']), outcomes(p['outcomes'], PLATFORM['fb_caveat'], src=True),
-               eyebrow('Six live products'), product_cards(p['slug']),
+               eyebrow('@@NWC@@ live products'), product_cards(p['slug']),
                cta_band('See %s on <em>your numbers.</em>' % E(p['name']))))
 
 
@@ -700,12 +716,12 @@ def m_body_index():
     cluster = ''.join('<a class="zs-hc" href="%s" style="--i:%d;--ph:%s">%s<span>%s</span></a>'
                       % (plink(p), k, p['hue'], icon(p), E(p['name'])) for k, p in enumerate(PRODUCTS))
     return ('<section class="zs-hero zm-hero"><div class="zs-glow"></div><div class="zs-wrap">%s'
-            '<h1>Six products. <em>One data spine.</em></h1>'
+            '<h1>@@NWC@@ products. <em>One data spine.</em></h1>'
             '<p class="zm-lead">From the till to the ledger — configured for your sector, narrated by Iris.</p>'
             '<div class="zs-hcl">%s</div>'
-            '<div class="zm-stats"><p><b>19</b><span>sectors</span></p><p><b>149</b><span>F&amp;B solutions</span></p><p><b>6</b><span>live products</span></p></div>'
+            '<div class="zm-stats"><p><b>19</b><span>sectors</span></p><p><b>149</b><span>F&amp;B solutions</span></p><p><b>@@N@@</b><span>live products</span></p></div>'
             '<a class="zs-btn zm-wide" href="#sectors">Find your sector <span>↓</span></a></div></section>'
-            '<section class="zs-sec" id="products"><div class="zs-wrap"><div class="zm-sh">%s<h2>Six products, <em>one board.</em></h2>'
+            '<section class="zs-sec" id="products"><div class="zs-wrap"><div class="zm-sh">%s<h2>@@NWC@@ products, <em>one board.</em></h2>'
             '<p>Same data in every product — so they never disagree.</p></div>%s</div></section>'
             '%s%s%s'
             % (eyebrow('Solutions'), cluster, eyebrow('The products'), m_products(),
@@ -724,23 +740,23 @@ def m_body_product(p):
     return ('<section class="zs-hero zm-hero zm-hero-p" style="--ph:%s"><div class="zs-glow"></div><div class="zs-wrap">'
             '<nav class="zs-crumb" aria-label="Breadcrumb"><a href="/solutions">Solutions</a><span>/</span>0%d</nav>'
             '<div class="zs-pwrap">%s</div>'
-            '<span class="zm-plabel">%s</span><h1>%s%s</h1><p class="zm-lead">%s</p>'
+            '<h1>%s%s</h1><p class="zm-lead">%s</p>'
             '<div class="zm-btns"><button type="button" class="zs-btn" data-book="call">Book a call</button></div></div></section>'
             '<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>What it <em>does.</em></h2></div>'
             '<ul class="zm-pils">%s</ul>%s</div></section>'
             '%s'
             '<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>What to <em>expect.</em></h2></div>%s</div></section>'
             '%s'
-            '<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>The other <em>five.</em></h2></div>%s</div></section>'
+            '<section class="zs-sec"><div class="zs-wrap"><div class="zm-sh">%s<h2>The other <em>@@RW@@.</em></h2></div>%s</div></section>'
             '%s'
-            % (p['hue'], i, poster(p), E(p['label']), E(p['name']),
+            % (p['hue'], i, poster(p), E(p['name']),
                ' <em>· %s</em>' % E(p['role']) if p['slug'] in ('numerus', 'nexus', 'motus', 'manus') else '',
                E(p['line']),
                eyebrow('Inside the product', p['hue']), pils, spine,
                m_explorer('product', p, '%s by <em>sector.</em>' % E(p['name']), sub),
                eyebrow('Outcomes', p['hue']), m_outs(p['outcomes'], src=True),
                m_layers('How it <em>decides.</em>'),
-               eyebrow('Six live products'), m_products(p['slug']),
+               eyebrow('@@NWC@@ live products'), m_products(p['slug']),
                m_cta('See %s on <em>your numbers.</em>' % E(p['name']))))
 
 
@@ -847,15 +863,17 @@ def register(paths):
 def main():
     build_images()
     parts = chrome_parts()
-    pages = [('/solutions', 'Solutions — six live products, every sector · Zentallio',
-              'Balanced Scorecard, Point of Sale, Numerus, Nexus, Motus and Manus on one data spine — configured for 10 Food & Beverage and 9 Fashion Retail sectors, narrated by Iris.',
+    names = [p['name'] for p in PRODUCTS]
+    pages = [('/solutions', 'Solutions — %s live products, every sector · Zentallio' % N_WORD,
+              '%s and %s on one data spine — configured for 10 Food & Beverage and 9 Fashion Retail sectors, narrated by Iris.'
+              % (', '.join(names[:-1]), names[-1]),
               body_index(), m_body_index())]
     for p in PRODUCTS:
         pages.append(('/solutions/' + p['slug'], '%s — %s · Zentallio' % (pname(p), p['label']),
                       '%s %s' % (p['what'], 'Narrated by Iris, on every Zentallio sector board.'), body_product(p), m_body_product(p)))
     for path, title, desc, body, mbody in pages:
-        wr(path[1:] + '.html', desktop_page(path, title, desc, body, parts))
-        wr('m' + path + '.html', mobile_page(path, title, desc, mbody))
+        wr(path[1:] + '.html', desktop_page(path, title, desc, counts(body), parts))
+        wr('m' + path + '.html', mobile_page(path, title, desc, counts(mbody)))
     inject_all()
     register([x[0] for x in pages])
 

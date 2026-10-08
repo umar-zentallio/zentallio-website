@@ -78,6 +78,7 @@ const MOBILE_READY = new Set([
   '/solutions/nexus',
   '/solutions/numerus',
   '/solutions/point-of-sale',
+  '/solutions/vision',
   '/terms',
 ]);
 // MOBILE_READY:END

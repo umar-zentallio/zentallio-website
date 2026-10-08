@@ -1,0 +1,3268 @@
+[
+ {
+  "id": "apparel",
+  "name": "Apparel & Ready-to-Wear",
+  "sub": "Sell-through by style, size-curve health and weeks-of-cover — every door on one board.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "52.4%",
+      "Gross margin · season-to-date"
+     ],
+     [
+      "38%",
+      "Repeat purchase rate"
+     ],
+     [
+      "71.4%",
+      "Full-price sell-through"
+     ],
+     [
+      "92.8%",
+      "Demand forecast accuracy"
+     ]
+    ],
+    "alert": "STYLE AW-4412 · BREAKING ON M / L IN 6 STORES",
+    "iris": "“Move 84 units from the three slowest doors — holds full price 11 more days.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Size and colour matrix at the till, barcode or RFID, exchange and store credit without leaving the sale.",
+    "kpis": [
+     [
+      "251",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Last M in this store. Offer the L in Store 09 — reserve-and-collect.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "4.82M",
+      "Net revenue"
+     ],
+     [
+      "2.41M",
+      "COGS"
+     ],
+     [
+      "1.78M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Style-level gross margin after markdown, freight and returns.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "46 / 42 days",
+      "Mill → DC lead time"
+     ],
+     [
+      "3.1 / 3.0 days",
+      "DC → door"
+     ],
+     [
+      "88 / 95%",
+      "On-time intake"
+     ]
+    ],
+    "alert": "TWO POS THREATEN THE WEEK-31 FLOOR SET",
+    "iris": "Coimbatore is four weeks late on the Oxford shirt and it is the only PO feeding the week-31 floor set. Air-freighting the first 2,000 costs $4,100 and saves a nine-day hole on the wall — the balance can come by sea.",
+    "acts": [
+     "SPLIT: AIR 2,000 / SEA REST",
+     "PUSH FLOOR SET A WEEK",
+     "OPEN SUPPLIER RECORD"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "20 / 22 doors",
+      "VM compliance"
+     ],
+     [
+      "6 · target 0",
+      "Fixture faults open"
+     ],
+     [
+      "+7 / 0%",
+      "Energy vs baseline"
+     ]
+    ],
+    "alert": "ONE DETACHER OUT OF SERVICE — SHRINK EXPOSURE",
+    "iris": "Lille has run two days with the tag detacher out, and its shrink is already 0.4 points above estate. That is not a coincidence — the fix is a same-day engineer call, not a stock recount.",
+    "acts": [
+     "RAISE SAME-DAY ENGINEER",
+     "LOCK HIGH-VALUE FIXTURE",
+     "SHOW SHRINK BY DOOR"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "179 / 186 shifts",
+      "Roster coverage"
+     ],
+     [
+      "82 / 100%",
+      "Saturday peak cover"
+     ],
+     [
+      "168 / 186",
+      "Fitting-room trained"
+     ]
+    ],
+    "alert": "SATURDAY IS THE ONLY DAY THAT BREAKS",
+    "iris": "Seven shifts are open and five of them are Saturday peak — the hours that convert. Lyon is two down on the day it takes 19% of its week. Offering the shifts to trained staff in Bordeaux costs travel but holds conversion.",
+    "acts": [
+     "OFFER TO TRAINED POOL",
+     "APPROVE OVERTIME",
+     "SHOW SATURDAY CONVERSION"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "31 / 35%",
+      "Footfall → try-on"
+     ],
+     [
+      "86 / 95%",
+      "Queue under 3 min"
+     ],
+     [
+      "131 / 132",
+      "Cameras online"
+     ]
+    ],
+    "alert": "LYON IS LOSING SALES AT THE TILL, NOT ON THE FLOOR",
+    "iris": "Lyon converts browsers as well as Paris — then 7 people wait over four minutes at a single open till between 17:00 and 18:30. Opening the second till for that window recovers an estimated 14 sales a day.",
+    "acts": [
+     "OPEN TILL 2 AT 17:00",
+     "MOVE ONE STYLIST TO TILL",
+     "SHOW QUEUE BY HOUR"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "On The Floor",
+    "h": "Where stock sits, moves and sells.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Allocation & replenishment rules",
+      "z": "L1",
+      "d": "Pushes stock to the door that sells it, not the door that ordered it. Runs nightly, no planner intervention.",
+      "kpis": [
+       [
+        "142",
+        "MOVES PROPOSED"
+       ],
+       [
+        "1,880",
+        "UNITS"
+       ],
+       [
+        "86%",
+        "ACCEPTED"
+       ]
+      ],
+      "alert": "ONE MOVE HELD — IT WOULD BREAK S AT THE SENDER",
+      "iris": "The run is weighted by conversion, not depth — Lille holds the units but Paris sells M and L twice as fast. One move is held back because it would open an S gap at Rennes to close an M gap at Bordeaux; that trade is not worth making.",
+      "acts": [
+       "RELEASE 141 MOVES",
+       "OPEN THE HELD MOVE",
+       "HOLD UNTIL 06:00"
+      ]
+     },
+     {
+      "n": "Core vs fashion mix control",
+      "z": "L1",
+      "d": "Holds basics availability at target while fashion lines rotate, so the never-out-of-stock lines never go out of stock.",
+      "kpis": [
+       [
+        "98.2%",
+        "CORE AVAILABILITY"
+       ],
+       [
+        "62 / 38",
+        "CORE · FASHION"
+       ],
+       [
+        "2",
+        "LINES BELOW FLOOR"
+       ]
+      ],
+      "alert": "CORE WAS 62% TWELVE WEEKS AGO",
+      "iris": "Fashion has drifted from 38% to 49% of units in twelve weeks, and the two core lines below the floor are the ones that funded it. Grey marl has nothing on order at 2.2 weeks of cover — it will breach inside a fortnight.",
+      "acts": [
+       "RAISE A CORE PO",
+       "CAP FASHION AT 42%",
+       "SHOW THE DRIFT BY WEEK"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "Planning & Margin",
+    "h": "What is modelled before it lands.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Size-curve break detection",
+      "z": "L2",
+      "d": "Iris spots a style running out on the sizes that actually sell, weeks before the shelf looks empty, and proposes the transfer.",
+      "kpis": [
+       [
+        "6 / 22",
+        "DOORS BREAKING"
+       ],
+       [
+        "84",
+        "UNITS TO MOVE"
+       ],
+       [
+        "11 d",
+        "FULL-PRICE RUNWAY"
+       ]
+      ],
+      "alert": "M AND L BELOW REORDER POINT IN 6 DOORS",
+      "iris": "The break is not spread — it concentrates in the four doors that took the first allocation, which sold through fastest and were never topped up. That pattern says allocation, not demand. Moving 84 units from the three slowest doors holds full price 11 more days; markdown instead costs 4.2 points.",
+      "acts": [
+       "APPROVE THE 84-UNIT MOVE",
+       "SHOW THE 4 DOORS",
+       "RE-RUN ALLOCATION"
+      ]
+     },
+     {
+      "n": "Style sell-through forecast",
+      "z": "L2",
+      "d": "Predicts eight-week sell-through from the first ten days of trade, so buys and re-cuts happen while there's still time.",
+      "kpis": [
+       [
+        "71.4%",
+        "8-WEEK PROJECTION"
+       ],
+       [
+        "91.8%",
+        "MODEL ACCURACY"
+       ],
+       [
+        "10 d",
+        "TRADE OBSERVED"
+       ]
+      ],
+      "alert": "NEW COLOURWAYS CARRY THE WHOLE ERROR BAND",
+      "iris": "The shortfall is one colourway, not one style — ecru projects 52% while the identical body in navy projects 81%. That is a colour call, not a design call. Re-cutting navy against the ecru buy lands the season on plan without touching the range.",
+      "acts": [
+       "RE-CUT NAVY",
+       "CANCEL ECRU BALANCE",
+       "OPEN COLOUR HISTORY"
+      ]
+     },
+     {
+      "n": "Markdown timing engine",
+      "z": "L2",
+      "d": "Recommends the first cut date per style, per store — protecting full-price sell-through instead of blanket-discounting the season.",
+      "kpis": [
+       [
+        "11.2%",
+        "MARKDOWN RATE"
+       ],
+       [
+        "18",
+        "STYLES IN WINDOW"
+       ],
+       [
+        "4.2 pts",
+        "MARGIN PROTECTED"
+       ]
+      ],
+      "alert": "EVERY WEEK OF DELAY ADDS ~4 POINTS OF DEPTH",
+      "iris": "Ecru is the one that cannot wait. At day 22 a 15% cut clears the balance; at day 36 it needs 30% and gives back 4.2 points. The other three are still inside their window — cutting them now would spend margin you do not need to spend.",
+      "acts": [
+       "SCHEDULE 15% ON ECRU",
+       "HOLD THE OTHER THREE",
+       "SIMULATE 20%"
+      ]
+     },
+     {
+      "n": "Fitting-room conversion",
+      "z": "L2",
+      "d": "Zen AI Vision links try-on volume to purchase by style — separating a fit problem from a demand problem.",
+      "kpis": [
+       [
+        "34%",
+        "TRY-ON → BUY"
+       ],
+       [
+        "1,240",
+        "TRY-ONS"
+       ],
+       [
+        "18%",
+        "WORST CONVERTER"
+       ]
+      ],
+      "alert": "SIZING CITED 3× MORE THAN THE RANGE AVERAGE",
+      "iris": "AW-3390 pulls the second-highest traffic in the range and converts worst — 290 try-ons, 52 sales. More than half the returns cite the shoulder. That is a block problem on one body, and no amount of allocation will fix it.",
+      "acts": [
+       "FLAG BLOCK TO BUYING",
+       "PUBLISH SIZE GUIDANCE",
+       "COMPARE TO LY BODY"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "ethnic",
+  "name": "Ethnic, Bridal & Couture",
+  "sub": "Order-book value, atelier load, promise-date risk and deposit exposure in one view.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "3.9M",
+      "Open order-book value"
+     ],
+     [
+      "64%",
+      "Returning bridal clients"
+     ],
+     [
+      "96.1%",
+      "On-time handover"
+     ],
+     [
+      "91.4%",
+      "Promise-date accuracy"
+     ]
+    ],
+    "alert": "WEEK 34 · 4 BRIDAL ORDERS ON THE SAME TWO KARIGARS",
+    "iris": "“Move embellishment on two orders now — every promise date holds.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Deposit and instalment capture, measurement profile attached to the customer, alteration ticket raised at the counter.",
+    "kpis": [
+     [
+      "133",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Deposit 40% takes this to production. Fitting 2 clashes with the atelier's peak week.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "3.90M",
+      "Quoted value"
+     ],
+     [
+      "1.05M",
+      "Fabric"
+     ],
+     [
+      "1.34M",
+      "Job margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Job-level costing: fabric, karigar, embellishment and alteration against the quoted price.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "21 / 18 days",
+      "Fabric → atelier lead"
+     ],
+     [
+      "9 / 4 days",
+      "Customs clearance"
+     ],
+     [
+      "86 / 100%",
+      "Order coverage"
+     ]
+    ],
+    "alert": "TRIM HELD AT CUSTOMS BLOCKS 4 BRIDAL ORDERS",
+    "iris": "The Swarovski trim has sat nine days in customs and four week-34 bridal orders cannot finish without it. Substituting the domestic equivalent on two of them protects the promise dates; the other two are photographed pieces and cannot change.",
+    "acts": [
+     "SUBSTITUTE ON TWO ORDERS",
+     "ESCALATE CLEARANCE",
+     "CALL THE TWO CLIENTS"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "1 / 3 zones",
+      "Humidity in tolerance"
+     ],
+     [
+      "0 · target 0",
+      "Vault access exceptions"
+     ],
+     [
+      "5 / 6 rooms",
+      "Studio readiness"
+     ]
+    ],
+    "alert": "ZARI TARNISHES ABOVE 55% RELATIVE HUMIDITY",
+    "iris": "Atelier humidity has held above 55% for six days. Zari and tissue tarnish at that level, and the pieces in stage are the highest-value in the book. This is a dehumidifier call today, not a QC problem next month.",
+    "acts": [
+     "DEPLOY DEHUMIDIFIER",
+     "MOVE 4 PIECES TO VAULT",
+     "LOG TO QC"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "3 / 4 karigars",
+      "Zardozi capacity"
+     ],
+     [
+      "18 / 21",
+      "Stage coverage"
+     ],
+     [
+      "11 / 24",
+      "Cross-trained"
+     ]
+    ],
+    "alert": "ZARDOZI IS THE CONSTRAINT ON 4 OF 12 ORDERS",
+    "iris": "Capacity here is a skill, not a headcount. One zardozi karigar is on leave from Thursday and four orders in stage need that hand. Cross-training is at 46% — the same gap caused the week-29 slip.",
+    "acts": [
+     "BOOK CONTRACT KARIGAR",
+     "RE-SEQUENCE 4 ORDERS",
+     "START CROSS-TRAINING"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "78 / 90%",
+      "Walk-ins seen in 10 min"
+     ],
+     [
+      "48 / 40 min",
+      "Trial-room turn"
+     ],
+     [
+      "28 / 28",
+      "Cameras online"
+     ]
+    ],
+    "alert": "TRIAL ROOM 2 IS THE BOTTLENECK ON SATURDAYS",
+    "iris": "Bridal consultations in trial room 2 run 48 minutes against a 40-minute slot, and walk-ins wait while it is occupied. Moving fittings with three or more garments to room 3 frees the slot without adding staff.",
+    "acts": [
+     "RE-ROUTE LONG FITTINGS",
+     "CLEAR THE BLOCKED EXIT",
+     "SHOW TRIAL-ROOM LOG"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "In The Atelier",
+    "h": "Every open order, stage by stage.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Measurement & fit profile",
+      "z": "L1",
+      "d": "Every alteration writes back to the customer's file, so the second order fits better than the first.",
+      "kpis": [
+       [
+        "1,840",
+        "PROFILES ON FILE"
+       ],
+       [
+        "2.1",
+        "ALTERATIONS PER ORDER"
+       ],
+       [
+        "64%",
+        "FIT FIRST TIME"
+       ]
+      ],
+      "alert": "EACH ALTERATION ROUND COSTS ~6 ATELIER HOURS",
+      "iris": "A. Sheikh’s file is at v4 — the shoulder and fall were adjusted in 2023 and never reverted. Applying it to BR-2291 removes an expected fitting round, which is six atelier hours in the week zardozi is already over-committed.",
+      "acts": [
+       "APPLY V4 TO BR-2291",
+       "BOOK ONE FITTING ONLY",
+       "FLAG 3 STALE FILES"
+      ]
+     },
+     {
+      "n": "Appointment & consultation studio",
+      "z": "L1",
+      "d": "Booking, stylist assignment, prep list and no-show recovery, with the trial-room calendar as the constraint.",
+      "kpis": [
+       [
+        "12",
+        "APPOINTMENTS TODAY"
+       ],
+       [
+        "2",
+        "NO-SHOW RISK"
+       ],
+       [
+        "48 m",
+        "AVERAGE CONSULTATION"
+       ]
+      ],
+      "alert": "ROOM 3 HAS CAPACITY FROM 14:00 — ROOM 2 HAS NONE",
+      "iris": "N. Tariq has missed the last two appointments and holds the 15:30 slot in the fully-booked room. Moving that booking to Room 3 and releasing 15:30 to the waitlist converts a probable no-show into a real consultation — worth roughly one bridal enquiry.",
+      "acts": [
+       "MOVE TO ROOM 3",
+       "RELEASE TO WAITLIST",
+       "SEND WHATSAPP REMINDER"
+      ]
+     },
+     {
+      "n": "Deposit, instalment & cancellation control",
+      "z": "L1",
+      "d": "Exposure tracked per order, with rules on what's refundable at which stage of production.",
+      "kpis": [
+       [
+        "1.1M",
+        "DEPOSIT EXPOSURE"
+       ],
+       [
+        "214",
+        "ORDERS WITH DEPOSITS"
+       ],
+       [
+        "3",
+        "INSTALMENTS OVERDUE"
+       ]
+      ],
+      "alert": "EXPOSURE IS PER ORDER, NOT PER CUSTOMER",
+      "iris": "BR-2264 is fourteen days past its instalment and already in embellishment — refundability has dropped to 40% while the balance owed is 180k. Every day it moves forward the exposure grows. Collect before finishing starts, or pause the work.",
+      "acts": [
+       "SEND PAYMENT LINK",
+       "PAUSE PRODUCTION",
+       "OPEN THE ORDER"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "The Order Book",
+    "h": "What the book says before the fitting.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Promise-date risk scoring",
+      "z": "L2",
+      "d": "Every open order scored against real atelier capacity — slippage surfaces while it's still recoverable, not at the fitting.",
+      "kpis": [
+       [
+        "4",
+        "ORDERS AT RISK"
+       ],
+       [
+        "0.72",
+        "HIGHEST SLIP PROBABILITY"
+       ],
+       [
+        "214",
+        "OPEN ORDERS"
+       ]
+      ],
+      "alert": "ZARDOZI OVER-COMMITTED BY 38 HOURS",
+      "iris": "All four at-risk orders route through one stage and one pair of hands — zardozi, over-committed by 38 hours. This is not four problems, it is one. Moving the embellishment on BR-2291 and BR-2288 to the contract karigar clears the stage and every promise date holds.",
+      "acts": [
+       "RE-SEQUENCE THE TWO",
+       "BOOK CONTRACT KARIGAR",
+       "CALL THE FOUR CLIENTS"
+      ]
+     },
+     {
+      "n": "Atelier & karigar capacity planning",
+      "z": "L2",
+      "d": "Loads work by skill and stage, not by headcount — embellishment, cutting and finishing planned separately.",
+      "kpis": [
+       [
+        "84%",
+        "ATELIER LOAD"
+       ],
+       [
+        "38 h",
+        "OVER-COMMITTED"
+       ],
+       [
+        "24",
+        "KARIGARS"
+       ]
+      ],
+      "alert": "ONE KARIGAR ON LEAVE FROM THURSDAY",
+      "iris": "Three of four zardozi hands are available and 42% of the committed hours sit on bridal — the highest-value, least-movable orders in the book. Cross-training is at 46%; the same gap caused the week-29 slip. A contract hand for three days costs less than one late handover.",
+      "acts": [
+       "BOOK CONTRACT HAND",
+       "MOVE PRET WORK OUT",
+       "START CROSS-TRAINING"
+      ]
+     },
+     {
+      "n": "Unstitched & lawn drop planning",
+      "z": "L2",
+      "d": "Design-run sizing and per-city allocation for volume drops, modelled on last season's sell-out curve.",
+      "kpis": [
+       [
+        "3",
+        "DESIGNS IN DROP"
+       ],
+       [
+        "42,000",
+        "UNITS SIZED"
+       ],
+       [
+        "89%",
+        "LAST DROP SELL-OUT"
+       ]
+      ],
+      "alert": "ISLAMABAD CLEARED IN A THIRD OF LAHORE’S TIME",
+      "iris": "Drop 07 is sized on the national curve, but Islamabad cleared drop 06 in 36 hours and has been cut by 2,000 units. That city is not small, it is under-served — shifting 2,000 from Lahore matches where the demand actually was.",
+      "acts": [
+       "SHIFT 2,000 NORTH",
+       "RE-RUN CITY SIZING",
+       "COMPARE TO DROP 06"
+      ]
+     },
+     {
+      "n": "Ask Iris · order book",
+      "z": "L3",
+      "d": "“Which bridal orders are at risk this month and why?” — answered in a sentence, with the orders listed.",
+      "kpis": [
+       [
+        "0.9 s",
+        "ANSWER TIME"
+       ],
+       [
+        "214",
+        "ORDERS IN SCOPE"
+       ],
+       [
+        "4",
+        "FLAGGED THIS MONTH"
+       ]
+      ],
+      "alert": "NO EXPORT, NO NIGHTLY BATCH — THE SAME BOOK THE ATELIER WORKS TO",
+      "iris": "Asked plainly, the answer is four orders, all week 34, all zardozi. Asked as a what-if, adding one contract hand for three days clears every one of them — and Ask Iris priced it before anyone opened a spreadsheet.",
+      "acts": [
+       "SHOW THE FOUR",
+       "RUN THE SIMULATION",
+       "SEND TO WHATSAPP"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "kids",
+  "name": "Kidswear & Teen",
+  "sub": "Age-band sell-through, school-season readiness and repeat-family rate.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "44.8%",
+      "Gross margin · season-block"
+     ],
+     [
+      "47%",
+      "Repeat families"
+     ],
+     [
+      "92.4%",
+      "School-season readiness"
+     ],
+     [
+      "90.6%",
+      "Age-band forecast accuracy"
+     ]
+    ],
+    "alert": "3 SCHOOLS · UNIFORM PACKS 19 DAYS BEHIND LAST YEAR",
+    "iris": "“Pull the reorder forward now — clears intake week without airfreight.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Gift receipts, sibling bundles and school-list checkout that scans the whole list in one go.",
+    "kpis": [
+     [
+      "232",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "This family bought Age 7-8 last August. Age 9-10 is the right size-up.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "1.94M",
+      "Net revenue"
+     ],
+     [
+      "1.07M",
+      "COGS"
+     ],
+     [
+      "0.87M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Season-block margin — back-to-school, Eid, winter — costed separately, not averaged.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "34 / 30 days",
+      "Mill → pack lead"
+     ],
+     [
+      "89 / 95%",
+      "Pack fill rate"
+     ],
+     [
+      "76 / 100%",
+      "Intake-week cover"
+     ]
+    ],
+    "alert": "INTAKE WEEK IS FIXED — THE CALENDAR WILL NOT MOVE",
+    "iris": "Grammar Yr 7 is three weeks late against a date that cannot move. Intake is the one week of the year this category cannot recover. Pulling the reorder forward now clears it without airfreight; waiting a fortnight will not.",
+    "acts": [
+     "PULL REORDER FORWARD",
+     "SPLIT-SHIP YR 7",
+     "NOTIFY THE SCHOOL"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "18 / 18 stores",
+      "Safety checks complete"
+     ],
+     [
+      "3 · target 0",
+      "Open fixture faults"
+     ],
+     [
+      "0 / 2",
+      "Recall SKUs cleared"
+     ]
+    ],
+    "alert": "TWO RECALL SKUS STILL SELLABLE ON THE FLOOR",
+    "iris": "Two SKUs under supplier recall are still scannable at the till in Store 03. The batch traces to one lot delivered in week 24. Blocking the barcode estate-wide takes effect on the next till sync — do it before Saturday.",
+    "acts": [
+     "BLOCK BARCODES ESTATE-WIDE",
+     "TRACE THE LOT",
+     "NOTIFY THE SUPPLIER"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "78 / 100%",
+      "Intake-week cover"
+     ],
+     [
+      "120 / 142",
+      "School-list trained"
+     ],
+     [
+      "91 / 100%",
+      "Weekend cover"
+     ]
+    ],
+    "alert": "INTAKE WEEK NEEDS 40% MORE FLOOR THAN A NORMAL WEEK",
+    "iris": "Store 11 is two down going into intake week, the week it does 22% of its annual volume. Seasonal cover booked now costs less than the queue-walkouts it prevents — last year that store lost 14% of intake-week footfall to waiting.",
+    "acts": [
+     "BOOK SEASONAL COVER",
+     "MOVE TRAINED STAFF",
+     "SHOW LAST INTAKE WEEK"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "71 / 95%",
+      "Queue under 5 min"
+     ],
+     [
+      "94 / 98%",
+      "Wall facings full"
+     ],
+     [
+      "96 / 96",
+      "Cameras online"
+     ]
+    ],
+    "alert": "INTAKE-WEEK QUEUES ARE WALKING OUT OF STORE 06",
+    "iris": "Store 06 has nine families queuing over six minutes at a single till, and the camera counts 11 walkouts since 10:00. A pre-packed size-pack lane for the two biggest schools clears most of the queue without a second till.",
+    "acts": [
+     "OPEN SIZE-PACK LANE",
+     "REFILL STORE 11 WALL",
+     "SHOW WALKOUTS BY HOUR"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "At The Counter",
+    "h": "Lists, packs and families in front of you.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "School-season readiness",
+      "z": "L1",
+      "d": "Uniform size packs per school, tracked against the intake calendar weeks ahead of the rush.",
+      "kpis": [
+       [
+        "92.4%",
+        "SEASON READINESS"
+       ],
+       [
+        "19 d",
+        "BEHIND LAST YEAR"
+       ],
+       [
+        "5 wk",
+        "TO INTAKE"
+       ]
+      ],
+      "alert": "NEARLY HALF THE SEASON TRADES IN ONE WEEK",
+      "iris": "Two schools are three weeks behind on a date that cannot move, and intake week is 46% of the season. There is no recovery window after it — last year the same gap cost 14% of intake footfall to queue walkouts. Pull both reorders forward now and it clears without airfreight.",
+      "acts": [
+       "PULL BOTH REORDERS",
+       "SPLIT-SHIP GRAMMAR",
+       "NOTIFY THE SCHOOLS"
+      ]
+     },
+     {
+      "n": "Safety & compliance traceability",
+      "z": "L1",
+      "d": "Batch and lot traced back to supplier, so a recall is a query, not an investigation.",
+      "kpis": [
+       [
+        "1.2 s",
+        "TRACE TIME"
+       ],
+       [
+        "2",
+        "SKUS UNDER RECALL"
+       ],
+       [
+        "318",
+        "UNITS LIVE"
+       ]
+      ],
+      "alert": "ALL SEVEN TOOK THE SAME WEEK-24 DELIVERY",
+      "iris": "The recall traces to one supplier and one delivery week, not to a product line — 318 units across seven stores, all Tirupur, all week 24. The alternative supplier’s identical SKU is unaffected and can stay on the floor. Block the three lot barcodes before Saturday.",
+      "acts": [
+       "BLOCK 3 LOTS",
+       "NOTIFY 7 STORES",
+       "OPEN SUPPLIER RECORD"
+      ]
+     },
+     {
+      "n": "Maternity-to-newborn journey",
+      "z": "L1",
+      "d": "Links the maternity customer to the newborn customer — one household, one lifecycle, one loyalty record.",
+      "kpis": [
+       [
+        "61%",
+        "MATERNITY → NEWBORN"
+       ],
+       [
+        "3.2×",
+        "LIFETIME VALUE"
+       ],
+       [
+        "840",
+        "MATERNITY CUSTOMERS"
+       ]
+      ],
+      "alert": "THE LINK IS WORTH MORE THAN EITHER PURCHASE",
+      "iris": "Two hundred and fourteen purchases carry no household link at all, and nursing — the stage that bridges the two — links at only 44%. A linked household is worth 3.2× an unlinked one. The capture point is the nursing purchase, and it is the one the till does not ask about.",
+      "acts": [
+       "ADD TILL CAPTURE AT NURSING",
+       "MATCH 214 BY PHONE",
+       "SHOW LINKED VALUE"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "The Season Ahead",
+    "h": "What the calendar is about to do.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Age-band demand forecast",
+      "z": "L2",
+      "d": "Forecasts by age band rather than size code, because a 4-year-old and a size 4 are not the same customer.",
+      "kpis": [
+       [
+        "90.6%",
+        "MODEL ACCURACY"
+       ],
+       [
+        "− 8%",
+        "VS PLAN"
+       ],
+       [
+        "5",
+        "AGE BANDS"
+       ]
+      ],
+      "alert": "THE BAND DID NOT SHRINK — IT AGED",
+      "iris": "Age 9–10 is not losing customers, it is losing them upward — 4,600 families moved into 11–14, which is over-selling by 16% on a smaller buy. The two variances are the same children. Rebalancing the buy between the bands fixes both numbers at once.",
+      "acts": [
+       "REBALANCE 9–10 INTO 11–14",
+       "SHOW THE 4,600",
+       "RE-RUN BAND FORECAST"
+      ]
+     },
+     {
+      "n": "Growth-cycle repeat prediction",
+      "z": "L2",
+      "d": "Predicts when a family comes back a size up — and prompts the offer before they go elsewhere.",
+      "kpis": [
+       [
+        "47%",
+        "REPEAT FAMILIES"
+       ],
+       [
+        "62%",
+        "SIZE-UP CAPTURED"
+       ],
+       [
+        "7.4 mo",
+        "MEDIAN GROWTH CYCLE"
+       ]
+      ],
+      "alert": "CAPTURE COLLAPSES WHEN THE CHILD STARTS CHOOSING",
+      "iris": "Capture does not decay with time, it decays with who makes the decision — 74% while the parent buys, 38% once the child chooses. The prompt is still addressed to the parent in every band. For 9+ the offer has to reach the child, or it will keep leaking.",
+      "acts": [
+       "SPLIT THE 9+ JOURNEY",
+       "TEST CHILD-FACING OFFER",
+       "SHOW THE 1,070 LEAKING"
+      ]
+     },
+     {
+      "n": "Gifting & occasion spike planning",
+      "z": "L2",
+      "d": "Models the Eid, birthday and holiday spikes that make kidswear demand lumpy.",
+      "kpis": [
+       [
+        "3.4×",
+        "PEAK VS BASELINE"
+       ],
+       [
+        "31%",
+        "OF SEASON"
+       ],
+       [
+        "9 d",
+        "STOCK LEAD NEEDED"
+       ]
+      ],
+      "alert": "THE WEEK AFTER IS QUIETER THAN A NORMAL WEEK",
+      "iris": "Eid moves by up to two days against the lunar calendar and the peak is 3.4× baseline over nine days — a normal safety-stock rule cannot absorb that. It also borrows from the week after, which runs at 0.6×. Plan the pair as one block, not two weeks.",
+      "acts": [
+       "PLAN AS ONE BLOCK",
+       "SET LUNAR-ADJUSTED LEAD",
+       "SHOW LAST EID"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "sport",
+  "name": "Sportswear & Activewear",
+  "sub": "Drop sell-out rate, brand-partner sell-through and full-price ratio.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "46.2%",
+      "Gross margin · drop season"
+     ],
+     [
+      "61%",
+      "Member mix of sales"
+     ],
+     [
+      "89.3%",
+      "Drop sell-out rate"
+     ],
+     [
+      "93.1%",
+      "Release demand accuracy"
+     ]
+    ],
+    "alert": "FRIDAY DROP · OVER-ALLOCATED TO 2 FLAGSHIP DOORS",
+    "iris": "“Reallocate 140 pairs — clears the drop inside 48 hours.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Limited-release checkout with serialised items, member pricing and club orders taken at the counter.",
+    "kpis": [
+     [
+      "365",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Member pricing applies — and this customer's last pair is 11 months old.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "3.11M",
+      "Net revenue"
+     ],
+     [
+      "1.65M",
+      "COGS"
+     ],
+     [
+      "1.51M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Brand-partner margin after rebate, co-op marketing and returns.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "44 / 40 days",
+      "Factory → launch DC"
+     ],
+     [
+      "5 / 7 days",
+      "DC → door before drop"
+     ],
+     [
+      "1 of 8 releases",
+      "Drop-date risk"
+     ]
+    ],
+    "alert": "A DROP THAT LANDS LATE IS A DROP THAT DOES NOT HAPPEN",
+    "iris": "The Runner Pro lands five days before its own launch with no float, and it is the release carrying 1,840 registrations. A drop date cannot slip — it is marketed. Air the first 400 to protect the launch and let the balance follow by sea.",
+    "acts": [
+     "AIR THE FIRST 400",
+     "CONFIRM DROP DATE",
+     "SHOW DC FLOAT"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "2 / 4",
+      "Launch doors ready"
+     ],
+     [
+      "3 / 4",
+      "Queue plans filed"
+     ],
+     [
+      "4 / 4",
+      "Security booked"
+     ]
+    ],
+    "alert": "FOUR DOORS TAKE THE DROP — TWO ARE NOT READY",
+    "iris": "Shoreditch is the highest-converting door on this product and has no queue plan filed two days out. A launch that turns into a crowd incident costs more than the drop earns. This is a Friday-morning problem being left to Friday.",
+    "acts": [
+     "FILE QUEUE PLAN TODAY",
+     "STAGE WESTFIELD STOCK",
+     "BRIEF THE 4 DOORS"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "16 / 20 shifts",
+      "Launch-day cover"
+     ],
+     [
+      "196 / 418",
+      "Launch-trained staff"
+     ],
+     [
+      "3 / 4",
+      "Club-order team"
+     ]
+    ],
+    "alert": "THE BEST-CONVERTING DOOR IS THE LEAST STAFFED",
+    "iris": "Shoreditch is three down on launch day — the door that converts this product at 4.2% against an estate average of 1.8%. Understaffing your best door on the one day that matters is the most expensive gap on this board.",
+    "acts": [
+     "FILL SHOREDITCH FIRST",
+     "MOVE TRAINED STAFF",
+     "SHOW CONVERSION BY DOOR"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "2 / 3 doors",
+      "Drop queues managed"
+     ],
+     [
+      "27 / 30%",
+      "Try-on → buy"
+     ],
+     [
+      "410 / 412",
+      "Cameras online"
+     ]
+    ],
+    "alert": "140 PEOPLE QUEUING FOR 96 PAIRS AT SHOREDITCH",
+    "iris": "The camera counts 140 people outside Shoreditch for 96 pairs of DR-118. Switching to a raffle at the door now avoids a crowd-safety problem and 44 people queuing for a pair that is not there.",
+    "acts": [
+     "SWITCH TO DOOR RAFFLE",
+     "SEND 2 STAFF TO THE QUEUE",
+     "SHOW QUEUE COUNT"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "The Launch",
+    "h": "What is releasing, and where it clears.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Technical size & fit guidance",
+      "z": "L1",
+      "d": "Fit rules per silhouette and activity, applied at the till and online — fewer returns for the wrong reason.",
+      "kpis": [
+       [
+        "16.8%",
+        "RETURN RATE"
+       ],
+       [
+        "58%",
+        "CITE FIT"
+       ],
+       [
+        "Compression",
+        "WORST SILHOUETTE"
+       ]
+      ],
+      "alert": "GUIDANCE HALVES THE RETURN RATE WHERE IT EXISTS",
+      "iris": "The evidence is already in your own data — silhouettes with fit guidance return at 10.1%, those without at 24.6%. Compression is the worst line you sell and has no guidance at all. This is not a modelling problem; it is two silhouettes missing a rule.",
+      "acts": [
+       "PUBLISH COMPRESSION RULE",
+       "ADD SHELL GUIDANCE",
+       "SHOW RETURN DELTA"
+      ]
+     },
+     {
+      "n": "Team & club bulk orders",
+      "z": "L1",
+      "d": "Names, numbers, size sheets and staged delivery handled as one order, not thirty.",
+      "kpis": [
+       [
+        "17",
+        "CLUB ORDERS"
+       ],
+       [
+        "1,240",
+        "UNITS"
+       ],
+       [
+        "4",
+        "MISSING SIZE SHEETS"
+       ]
+      ],
+      "alert": "THE DELAY IS THE CUSTOMER, NOT THE PRINTER",
+      "iris": "Nearly half the turnaround is waiting on size sheets, not production — four clubs are blocking 1,240 units between them. A self-serve sheet the club captain fills in removes 4.1 days from every order without touching the print queue.",
+      "acts": [
+       "SEND SELF-SERVE SHEETS",
+       "CHASE THE 4 CLUBS",
+       "START PRINT ON COMPLETE"
+      ]
+     },
+     {
+      "n": "Brand-partner rebate reconciliation",
+      "z": "L1",
+      "d": "Reconciles sell-through claims and co-op spend against contract terms automatically.",
+      "kpis": [
+       [
+        "£142k",
+        "REBATE CLAIMABLE"
+       ],
+       [
+        "£31k",
+        "AT RISK"
+       ],
+       [
+        "6",
+        "BRAND PARTNERS"
+       ]
+      ],
+      "alert": "CO-OP EVIDENCE IS THE ONLY THING MISSING",
+      "iris": "Partner C’s £31k is complete except for three co-op assets — the window closes in four days and unclaimed rebate does not roll forward. The assets exist; they were run in-store and never uploaded. This is an admin miss about to become a real cost.",
+      "acts": [
+       "UPLOAD THE 3 ASSETS",
+       "FILE THE CLAIM",
+       "SHOW CONTRACT TERMS"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "The Season",
+    "h": "What the buy should have been.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Drop & launch allocation",
+      "z": "L2",
+      "d": "Allocates a limited release to the doors that will actually clear it, using conversion rather than store rank.",
+      "kpis": [
+       [
+        "89.3%",
+        "PROJECTED SELL-OUT"
+       ],
+       [
+        "140",
+        "PAIRS TO MOVE"
+       ],
+       [
+        "92",
+        "DOORS"
+       ]
+      ],
+      "alert": "THE TWO BIGGEST DOORS CONVERT WORST ON THIS PRODUCT",
+      "iris": "The drop is allocated by store size, not by who buys this product. Westfield and Trafford hold 41% of the units on 18% of the conversion, while Shoreditch and Camden will clear everything they are given in hours. Moving 140 pairs to the four streetwear doors lifts sell-out to 89% inside 48 hours.",
+      "acts": [
+       "MOVE 140 PAIRS",
+       "SHOW CONVERSION BY DOOR",
+       "RE-RUN ALLOCATION"
+      ]
+     },
+     {
+      "n": "Limited-release demand modelling",
+      "z": "L2",
+      "d": "Sizes the buy for a release from pre-registration, traffic and prior-drop behaviour.",
+      "kpis": [
+       [
+        "1,840",
+        "PRE-REGISTRATIONS"
+       ],
+       [
+        "900",
+        "UNITS BOUGHT"
+       ],
+       [
+        "2.4×",
+        "RESALE PREMIUM"
+       ]
+      ],
+      "alert": "STILL CLIMBING WITH ONE DAY LEFT — NOT YET PLATEAUED",
+      "iris": "The Runner Pro has 1,840 registrations against a 900-unit buy and the curve has not plateaued. Everything above 900 becomes resale margin for someone else. The Studio Fleece is the mirror image — 1,400 bought against 180 registrations.",
+      "acts": [
+       "SHIFT BUY DR-126 → DR-118",
+       "SET RAFFLE AT 900",
+       "SHOW CURVE TO LAUNCH"
+      ]
+     },
+     {
+      "n": "Training-cycle re-order prediction",
+      "z": "L2",
+      "d": "Predicts the replacement cycle for shoes and kit per member, and times the prompt to it.",
+      "kpis": [
+       [
+        "61%",
+        "MEMBER MIX"
+       ],
+       [
+        "34%",
+        "RE-ORDER CAPTURED"
+       ],
+       [
+        "9.2 mo",
+        "MEDIAN SHOE CYCLE"
+       ]
+      ],
+      "alert": "THE PROMPT ONLY LANDS IF THE CYCLE IS OBSERVABLE",
+      "iris": "Capture tracks observability, not loyalty — members who log mileage re-order at 63%, those who do not at 19%. Studio and court have no mileage signal at all, which is why they leak. For those two, the cycle has to come from purchase history instead.",
+      "acts": [
+       "MODEL STUDIO FROM HISTORY",
+       "PROMPT AT 9 MONTHS",
+       "SHOW LOGGING UPTAKE"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "footwear",
+  "name": "Footwear",
+  "sub": "Size-run completeness, pairs per hour and full-price sell-through by door.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "48.6%",
+      "Gross margin"
+     ],
+     [
+      "34%",
+      "Attach rate"
+     ],
+     [
+      "91.8%",
+      "Size-run completeness"
+     ],
+     [
+      "92.2%",
+      "Article forecast accuracy"
+     ]
+    ],
+    "alert": "9 ARTICLES · MISSING THEIR TWO BEST-SELLING SIZES",
+    "iris": "“Fill those runs first — worth more than the new intake.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Barcode or box-label scan, try-on capture, exchange and store credit without leaving the sale.",
+    "kpis": [
+     [
+      "276",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "UK 8 not on floor — Door 11 has it. Reserve-and-collect keeps the sale.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "2.68M",
+      "Net revenue"
+     ],
+     [
+      "1.38M",
+      "COGS"
+     ],
+     [
+      "1.30M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Category margin after markdown, freight and the returns that footwear generates more of than anything else.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "52 / 46 days",
+      "Factory → DC lead"
+     ],
+     [
+      "2.4 / 3.0 days",
+      "DC → door"
+     ],
+     [
+      "88 / 98%",
+      "Size-curve integrity on intake"
+     ]
+    ],
+    "alert": "INTAKE ARRIVES WITH THE RUN ALREADY BROKEN",
+    "iris": "The bigger problem is not lateness — 12% of intake arrives with the size curve already broken at the factory. You are receiving runs you then have to repair by transfer. Holding the factory to the curve on receipt is cheaper than 29 transfers a day.",
+    "acts": [
+     "ADD CURVE CHECK ON RECEIPT",
+     "ESCALATE GUANGDONG",
+     "OPEN LANDED COST"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "109 / 118",
+      "Stockroom maps current"
+     ],
+     [
+      "98.4 / 100%",
+      "High-value tagged"
+     ],
+     [
+      "9 · target 0",
+      "Open fixture faults"
+     ]
+    ],
+    "alert": "TWO HIGH-VALUE PAIRS ON THE FLOOR UNTAGGED",
+    "iris": "Manchester has two untagged high-value pairs on an open wall and its shrink is 0.3 points above estate. Untagged plus open display is the exact pattern that precedes a loss — tag them before close, not at next stocktake.",
+    "acts": [
+     "TAG BEFORE CLOSE",
+     "MOVE TO LOCKED WALL",
+     "SHOW SHRINK BY DOOR"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "628 / 642 shifts",
+      "Roster coverage"
+     ],
+     [
+      "498 / 642",
+      "Fit-service trained"
+     ],
+     [
+      "84 / 100%",
+      "Saturday peak cover"
+     ]
+    ],
+    "alert": "FIT SERVICE IS WHAT CUTS THE RETURN RATE",
+    "iris": "Only 78% of the floor is fit-service trained, and the doors below that average return 4 points more. Training is not a nice-to-have here — with returns at 18.4% it pays for itself faster than any allocation change.",
+    "acts": [
+     "BOOK FIT TRAINING",
+     "COVER SATURDAY GAPS",
+     "SHOW RETURNS BY DOOR"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "64 / 90%",
+      "Bench served in 5 min"
+     ],
+     [
+      "96 / 98%",
+      "Wall facings full"
+     ],
+     [
+      "590 / 594",
+      "Cameras online"
+     ]
+    ],
+    "alert": "CUSTOMERS WAIT AT THE BENCH, NOT AT THE TILL",
+    "iris": "At Oxford Street customers sit at the fitting bench for 18 minutes waiting for a size to be fetched, and a third leave before trying on. One runner on the stockroom door between 12:00 and 15:00 halves the wait.",
+    "acts": [
+     "ADD A STOCKROOM RUNNER",
+     "RE-FACE THE WALL",
+     "SHOW BENCH WAIT BY HOUR"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "On The Wall",
+    "h": "Every run, every box, every door.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Size-run integrity",
+      "z": "L1",
+      "d": "Flags the hole in a run the day it appears — the sale you never see is the one this catches.",
+      "kpis": [
+       [
+        "9",
+        "ARTICLES BROKEN"
+       ],
+       [
+        "91.8%",
+        "RUNS COMPLETE"
+       ],
+       [
+        "118",
+        "DOORS"
+       ]
+      ],
+      "alert": "THE TWO BROKEN SIZES ARE 46% OF ALL PAIRS SOLD",
+      "iris": "Nine articles are out of UK 8 and 9 — the two sizes that are 46% of everything you sell. The run looks 92% complete because the count is dominated by sizes nobody buys. Filling these runs first is worth more than this week’s entire new-arrival intake.",
+      "acts": [
+       "FILL THE 9 RUNS",
+       "SHOW THE 23 DOORS",
+       "RE-WEIGHT THE KPI"
+      ]
+     },
+     {
+      "n": "Single-pair transfer engine",
+      "z": "L1",
+      "d": "Moves one pair to the door with the customer standing in it, and keeps the run intact at both ends.",
+      "kpis": [
+       [
+        "29",
+        "TRANSFERS PENDING"
+       ],
+       [
+        "11",
+        "WOULD BREAK SENDER"
+       ],
+       [
+        "£164",
+        "AVG PAIR VALUE"
+       ]
+      ],
+      "alert": "ELEVEN MOVES WOULD CLOSE ONE GAP BY OPENING ANOTHER",
+      "iris": "Eleven of the twenty-nine requests close a gap at the receiver by opening one at the sender — a straight swap of which customer walks. Manchester is the clearest: it is the last UK 8 on that wall. Source those eleven from the DC instead, even at two days.",
+      "acts": [
+       "REROUTE 11 TO DC",
+       "RELEASE THE OTHER 18",
+       "SHOW SENDER IMPACT"
+      ]
+     },
+     {
+      "n": "Box, shelf & stockroom locator",
+      "z": "L1",
+      "d": "Where the box actually is, so the floor staff stop losing the sale to a five-minute search.",
+      "kpis": [
+       [
+        "4:10",
+        "AVG SEARCH TIME"
+       ],
+       [
+        "12%",
+        "SEARCHES FAIL"
+       ],
+       [
+        "£19k",
+        "WALKOUTS"
+       ]
+      ],
+      "alert": "BAY LOCATION IS THE DRAG, NOT THE WALK",
+      "iris": "Oxford Street takes 6:20 to find a pair and fails 19% of the time, and three of those minutes are spent locating the bay — the stockroom map has drifted from what is actually on the shelves. A re-map is half a day of work against roughly £19k of walkouts a period.",
+      "acts": [
+       "SCHEDULE A RE-MAP",
+       "PRINT BAY LABELS",
+       "SHOW FAILED SEARCHES"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "Behind The Wall",
+    "h": "What the numbers say to buy next.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Article sell-through forecast",
+      "z": "L2",
+      "d": "Predicts the eight-week curve from the first ten days, so the re-cut happens while the season still has room.",
+      "kpis": [
+       [
+        "68.2%",
+        "8-WEEK PROJECTION"
+       ],
+       [
+        "92.2%",
+        "MODEL ACCURACY"
+       ],
+       [
+        "10 d",
+        "TRADE OBSERVED"
+       ]
+      ],
+      "alert": "FORMAL IS 11% OF THE BUY AND 100% OF THE MISS",
+      "iris": "The shortfall is one category, not one article — formal projects 44% while everything else is at or ahead of plan. Office footfall has not returned to these doors. Cutting the formal balance and moving it into boot, which is running ahead, lands the season on plan.",
+      "acts": [
+       "CUT FORMAL BALANCE",
+       "MOVE BUY INTO BOOT",
+       "OPEN CATEGORY TREND"
+      ]
+     },
+     {
+      "n": "Fit & return-reason learning",
+      "z": "L2",
+      "d": "Reads why pairs come back — width, length, comfort — and feeds it into the next buy and the size guidance.",
+      "kpis": [
+       [
+        "18.4%",
+        "RETURN RATE"
+       ],
+       [
+        "62%",
+        "CITE FIT"
+       ],
+       [
+        "FW-3144",
+        "WORST ARTICLE"
+       ]
+      ],
+      "alert": "THREE ARTICLES SHARE LAST A",
+      "iris": "The fit returns are not spread across the range — 54% trace to a single last, and the three articles built on it all run narrow. That is a factory spec issue, not a customer sizing issue. Publishing “take a half size up” on those three cuts returns without touching the buy.",
+      "acts": [
+       "PUBLISH SIZE GUIDANCE",
+       "FLAG LAST A TO SOURCING",
+       "SHOW THE 3 ARTICLES"
+      ]
+     },
+     {
+      "n": "Release & resale-pressure demand",
+      "z": "L2",
+      "d": "Reads secondary-market signal on sneaker releases to size the buy and set the allocation.",
+      "kpis": [
+       [
+        "2.4×",
+        "RESALE PREMIUM"
+       ],
+       [
+        "DR-118",
+        "HOTTEST RELEASE"
+       ],
+       [
+        "1,840",
+        "PRE-REGISTRATIONS"
+       ]
+      ],
+      "alert": "CURVE STILL CLIMBING WITH ONE DAY LEFT",
+      "iris": "The court retro is carrying a 2.4× resale premium against a 900-pair buy and 1,840 registrations — it will clear in under three hours and the rest of the demand goes to resellers, not you. The kids velcro is the mirror image: 1,400 bought against 90 registrations.",
+      "acts": [
+       "RAISE COURT BUY",
+       "CUT KIDS VELCRO",
+       "SET RAFFLE ALLOCATION"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cosmetics",
+  "name": "Cosmetics & Beauty",
+  "sub": "Repeat-purchase rate, shade availability, expiry exposure and counter productivity on one board.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "57.1%",
+      "Gross margin"
+     ],
+     [
+      "58%",
+      "Repeat purchase rate"
+     ],
+     [
+      "94.2%",
+      "Shade availability"
+     ],
+     [
+      "91.8%",
+      "Replenishment accuracy"
+     ]
+    ],
+    "alert": "2 SKINCARE BATCHES · EXPIRE IN 38 DAYS, IN THE 3 SLOWEST DOORS",
+    "iris": "“Move them now — clears at full price instead of a write-off.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Batch and expiry captured at the till, counter and BA attribution, sampling logged against the sale.",
+    "kpis": [
+     [
+      "280",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Her serum was bought 47 days ago. This is the refill week.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "2.24M",
+      "Net revenue"
+     ],
+     [
+      "0.96M",
+      "COGS"
+     ],
+     [
+      "1.19M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Margin after tester consumption, expiry write-off, BA commission and concession settlement.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "28 / 24 days",
+      "Supplier → bonded"
+     ],
+     [
+      "4.1 / 3.0 days",
+      "Bonded → counter"
+     ],
+     [
+      "19 / 24 months",
+      "Shelf life on receipt"
+     ]
+    ],
+    "alert": "INTAKE IS ARRIVING WITH FIVE MONTHS ALREADY GONE",
+    "iris": "Fragrance is held on IATA dangerous-goods paperwork, but the bigger issue is quiet: stock is arriving with only 19 of 24 months of shelf life. You are buying five months of someone else’s ageing, and it lands as your write-off.",
+    "acts": [
+     "SET MINIMUM-LIFE CLAUSE",
+     "CLEAR IATA HOLD",
+     "SHOW LIFE ON RECEIPT"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "58 / 63",
+      "Tester sanitation on schedule"
+     ],
+     [
+      "61 / 63",
+      "Fridge in tolerance"
+     ],
+     [
+      "58 / 63",
+      "Planogram compliance"
+     ]
+    ],
+    "alert": "ACTIVES DEGRADE ABOVE 8 °C — VITAMIN C FASTEST",
+    "iris": "Lafayette’s actives fridge has run above 8 °C for two days, and the vitamin C ampoules in it are the shortest-dated line you carry. Degraded actives do not look degraded — they just stop working, and the complaint arrives six weeks later.",
+    "acts": [
+     "RAISE ENGINEER TODAY",
+     "QUARANTINE AMPOULES",
+     "SHOW FRIDGE LOG"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "242 / 248 shifts",
+      "Roster coverage"
+     ],
+     [
+      "181 / 248",
+      "Brand-certified BAs"
+     ],
+     [
+      "63 / 63 counters",
+      "Commission approved"
+     ]
+    ],
+    "alert": "CERTIFIED BAS SELL 1.6× THE BASKET",
+    "iris": "Only 73% of BAs hold current brand certification, and certified counters run a 1.6× basket. Lafayette is two down on Saturday and below certification — it is losing on both counts at once, on the day that carries the week.",
+    "acts": [
+     "BOOK CERTIFICATION",
+     "COVER SATURDAY",
+     "SHOW BASKET BY CERTIFICATION"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "18 / 20%",
+      "Passers who stop"
+     ],
+     [
+      "91 / 98%",
+      "Counter attended"
+     ],
+     [
+      "126 / 126",
+      "Cameras online"
+     ]
+    ],
+    "alert": "SELFRIDGES COUNTER WAS UNATTENDED AT PEAK",
+    "iris": "The Selfridges counter has been unattended for 11 minutes while 46 shoppers stopped and left. Beauty-advisor breaks are scheduled on top of the 13:00 peak — moving one break by 30 minutes covers it.",
+    "acts": [
+     "MOVE THE BA BREAK",
+     "SANITISE TWO TESTERS",
+     "SHOW STOPS VS SALES"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "At The Counter",
+    "h": "Shades, testers and the customer in front of you.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Batch, expiry & shelf-life control",
+      "z": "L1",
+      "d": "Nothing sells past its date and nothing sits past its margin — flagged in weeks, not at write-off.",
+      "kpis": [
+       [
+        "38 d",
+        "SHORTEST COVER LEFT"
+       ],
+       [
+        "0.9%",
+        "EXPIRY WRITE-OFF"
+       ],
+       [
+        "£46k",
+        "STOCK INSIDE 90 DAYS"
+       ]
+      ],
+      "alert": "THE SLOWEST COUNTERS HOLD THE SHORTEST DATES",
+      "iris": "Two batches have less than the cover they need to sell through — 38 days of life against 91 days of stock. Worse, they sit in the three slowest counters. Moved to KaDeWe and Selfridges, which turn skincare twice as fast, both clear at full price instead of becoming a write-off.",
+      "acts": [
+       "TRANSFER BOTH BATCHES",
+       "BLOCK RE-ORDER",
+       "SHOW COVER BY COUNTER"
+      ]
+     },
+     {
+      "n": "Tester & sampling consumption",
+      "z": "L1",
+      "d": "The cost of testers counted per counter and per line, rather than quietly absorbed into gross margin.",
+      "kpis": [
+       [
+        "£31k",
+        "TESTER COST"
+       ],
+       [
+        "1.4%",
+        "OF NET REVENUE"
+       ],
+       [
+        "3",
+        "COUNTERS OVER"
+       ]
+      ],
+      "alert": "MORE SAMPLES DOES NOT MEAN MORE REPEAT PURCHASE",
+      "iris": "KaDeWe hands out 9.1 testers per sale against an estate average of 4.0 — and returns the lowest repeat rate of the four. Sampling is not buying loyalty there, it is leaking £6,200 a period. Cap it at 6 and the margin comes back with no measurable cost.",
+      "acts": [
+       "CAP KADEWE AT 6",
+       "REVIEW BA GUIDANCE",
+       "SHOW REPEAT VS SAMPLES"
+      ]
+     },
+     {
+      "n": "Counter & concession settlement",
+      "z": "L1",
+      "d": "Brand splits, BA commission and consignment runs calculated per contract, every cycle.",
+      "kpis": [
+       [
+        "£1.94M",
+        "SETTLED THIS CYCLE"
+       ],
+       [
+        "36",
+        "ORDERS UNALLOCATED"
+       ],
+       [
+        "11",
+        "BRAND CONTRACTS"
+       ]
+      ],
+      "alert": "36 ORDERS AND 2 COUNTS STAND BETWEEN YOU AND FRIDAY",
+      "iris": "Thirty-six orders on Concession B have no brand allocation, and all of them came through the shared till on the same two days — a mapping gap, not a data-entry problem. Fix the till mapping and Friday’s run clears; leave it and the whole £390k line settles late.",
+      "acts": [
+       "FIX TILL MAPPING",
+       "CHASE 2 COUNTS",
+       "PREVIEW THE RUN"
+      ]
+     },
+     {
+      "n": "Ingredient & recall traceability",
+      "z": "L1",
+      "d": "Batch traced back to supplier, so a recall or a claim is a query rather than an investigation.",
+      "kpis": [
+       [
+        "1.4 s",
+        "TRACE TIME"
+       ],
+       [
+        "100%",
+        "BATCHES SCANNED"
+       ],
+       [
+        "1",
+        "OPEN ADVISORY"
+       ]
+      ],
+      "alert": "ALL FOUR TOOK THE SAME TWO WEEK-24 DELIVERIES",
+      "iris": "The advisory traces to one supplier and two delivery weeks, not to a product line — 214 units across four counters, all from Grasse. Blocking the three batch barcodes takes effect at the next till sync; the alternative supplier’s stock is unaffected and can stay on the wall.",
+      "acts": [
+       "BLOCK 3 BATCHES",
+       "NOTIFY THE 4 COUNTERS",
+       "OPEN SUPPLIER RECORD"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "Behind The Counter",
+    "h": "Batches, expiry and what it costs.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Shade-curve demand",
+      "z": "L2",
+      "d": "Which shades break first, by store and season, so the foundation wall is planned like a size curve.",
+      "kpis": [
+       [
+        "94.2%",
+        "SHADE AVAILABILITY"
+       ],
+       [
+        "6",
+        "SHADES BROKEN"
+       ],
+       [
+        "14N",
+        "FASTEST SHADE"
+       ]
+      ],
+      "alert": "DEEP SELLS TO PLAN WHERE IT IS ACTUALLY STOCKED",
+      "iris": "The deep range is not under-selling, it is under-distributed — only 31 of 63 counters carry the full set, and where they do it hits plan. 22N is out in 14 counters while 04C sits on 9.8 weeks of cover. That is an allocation decision made on the wrong data.",
+      "acts": [
+       "REBALANCE THE WALL",
+       "PUSH 22N TO 14 COUNTERS",
+       "CUT 04C RE-ORDER"
+      ]
+     },
+     {
+      "n": "Replenishment cycle prediction",
+      "z": "L2",
+      "d": "When a customer actually runs out, and the prompt timed to land before they buy elsewhere.",
+      "kpis": [
+       [
+        "58%",
+        "REPEAT PURCHASE"
+       ],
+       [
+        "44%",
+        "REFILL CAPTURED"
+       ],
+       [
+        "47 d",
+        "MEDIAN RUN-OUT"
+       ]
+      ],
+      "alert": "THE PROMPT IS ARRIVING FOUR DAYS AFTER THEY RUN OUT",
+      "iris": "The model knows the cycle — the prompt is simply late. It lands four days after run-out, when capture has already fallen from 71% to under 40%. Moving the trigger seven days earlier is a scheduling change, not a modelling one, and it is worth roughly 19 points of refill capture.",
+      "acts": [
+       "MOVE TRIGGER −7 DAYS",
+       "A/B THE TIMING",
+       "SHOW CLEANSER LEAK"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fabric",
+  "name": "Fabric & Textile",
+  "sub": "Metre-level sell-through, cut wastage and roll ageing — by branch and by cutting table.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "41.7%",
+      "Gross margin"
+     ],
+     [
+      "43%",
+      "Repeat trade buyers"
+     ],
+     [
+      "96.4%",
+      "Cut yield"
+     ],
+     [
+      "90.2%",
+      "Run-size forecast accuracy"
+     ]
+    ],
+    "alert": "PREMIUM SUITING · WASTAGE 4.1% ABOVE COUNTER AVERAGE",
+    "iris": "“Re-brief that table — recovers the yield inside a fortnight.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Cut-length pricing, roll and lot tracking, and remnant handling done at the counter, not in a notebook.",
+    "kpis": [
+     [
+      "231",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Lot D-118 has 6.2 m left. Cutting 4.5 m leaves an unsellable 1.7 m.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "1.62M",
+      "Net revenue"
+     ],
+     [
+      "0.88M",
+      "COGS"
+     ],
+     [
+      "0.68M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Yield and wastage costed per roll and per lot, so gross margin means something.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "38 / 34 days",
+      "Mill → branch lead"
+     ],
+     [
+      "94 / 100%",
+      "Lot integrity on receipt"
+     ],
+     [
+      "78 / 95%",
+      "Shade approval first pass"
+     ]
+    ],
+    "alert": "ONE IN FIVE LOTS FAILS SHADE APPROVAL FIRST TIME",
+    "iris": "The velvet was rejected on shade and the lawn is on a dye rerun — 22% of lots fail first-pass approval, and each failure adds three weeks. Approving against a physical standard at the mill rather than on receipt removes the rerun entirely.",
+    "acts": [
+     "SEND PHYSICAL STANDARDS",
+     "ESCALATE BURSA",
+     "SHOW FIRST-PASS RATE"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "5 / 6",
+      "Tables within waste target"
+     ],
+     [
+      "36 / 38",
+      "Racks within load limit"
+     ],
+     [
+      "61 / 100%",
+      "Remnants priced"
+     ]
+    ],
+    "alert": "UNPRICED REMNANTS ARE STOCK YOU CANNOT SELL",
+    "iris": "Only 61% of remnants are priced and logged — the rest sit in bins as invisible stock. At £8,400 of recoverable value that is not a housekeeping issue, it is working capital sitting on the floor.",
+    "acts": [
+     "PRICE ALL REMNANTS",
+     "RE-BRIEF TABLE 1",
+     "CHECK RACK LOADS"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "163 / 168 shifts",
+      "Counter coverage"
+     ],
+     [
+      "96 / 168",
+      "Cut-trained staff"
+     ],
+     [
+      "74 / 100%",
+      "Peak-hour cover"
+     ]
+    ],
+    "alert": "CUTTING IS A SKILL — AND THE QUEUE IS WHERE SALES ARE LOST",
+    "iris": "Branch 07 is two down at peak and only 57% of staff are cut-trained — which is exactly why its queue hits fourteen minutes and conversion falls to 54%. Training here shows up as revenue, not as cost.",
+    "acts": [
+     "COVER PEAK HOUR",
+     "BOOK CUT TRAINING",
+     "SHOW QUEUE VS CONVERSION"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "68 / 90%",
+      "Cut queue under 8 min"
+     ],
+     [
+      "37 / 38",
+      "Safety checks clear"
+     ],
+     [
+      "152 / 152",
+      "Cameras online"
+     ]
+    ],
+    "alert": "THE CUT COUNTER, NOT THE TILL, CAPS BRANCH 07",
+    "iris": "Branch 07 has a 14-minute queue at one cutting table while the second sits idle without a cutter. Moving the floor assistant to table 2 from 11:00 clears the festive peak without overtime.",
+    "acts": [
+     "OPEN TABLE 2",
+     "CLOSE THE BLADE GUARD",
+     "SHOW QUEUE BY TABLE"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "At The Cut Counter",
+    "h": "Rolls, cuts and remnants as they happen.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Roll, lot & dye-batch traceability",
+      "z": "L1",
+      "d": "Shade continuity guaranteed across a cut — the complaint that ends a customer relationship, prevented.",
+      "kpis": [
+       [
+        "0.8 s",
+        "TRACE TIME"
+       ],
+       [
+        "3",
+        "CUTS SPLIT A LOT"
+       ],
+       [
+        "1,240",
+        "ROLLS LIVE"
+       ]
+      ],
+      "alert": "ANYTHING ABOVE ΔE 1.5 SHOWS UNDER SHOWROOM LIGHT",
+      "iris": "Two cuts today span lots with measurable shade drift above tolerance — a suiting order at ΔE 3.1 will show as two different fabrics once it is made up. The customer will not see it in the shop; they will see it at the first fitting, and by then the cloth is cut.",
+      "acts": [
+       "HOLD THE TWO CUTS",
+       "SOURCE SINGLE LOT",
+       "SHOW LOT MAP"
+      ]
+     },
+     {
+      "n": "Cutting-table productivity",
+      "z": "L1",
+      "d": "Metres cut, wastage and queue time per table and per branch, so a bad table shows up as a number.",
+      "kpis": [
+       [
+        "1,840 m",
+        "CUT PER DAY"
+       ],
+       [
+        "14 m",
+        "QUEUE AT PEAK"
+       ],
+       [
+        "6",
+        "TABLES"
+       ]
+      ],
+      "alert": "CUSTOMERS WALK AT THE CUT COUNTER, NOT THE DOOR",
+      "iris": "Branch 07 Table 1 is both the slowest and the most wasteful, and its 14-minute peak queue drops conversion to 54%. The table beside it, same branch, same day, runs at 3.4% waste and six minutes. This is one table and one operator, not a branch problem.",
+      "acts": [
+       "RE-BRIEF TABLE 1",
+       "OPEN A PEAK-HOUR TABLE",
+       "SHOW QUEUE BY HOUR"
+      ]
+     },
+     {
+      "n": "Mill-to-outlet clearance routing",
+      "z": "L1",
+      "d": "Moves slow lots and end-of-run stock to the channel that clears them without damaging the main line.",
+      "kpis": [
+       [
+        "18",
+        "LOTS AGEING"
+       ],
+       [
+        "£64k",
+        "TIED UP"
+       ],
+       [
+        "5",
+        "MILL TRANSFERS PENDING"
+       ]
+      ],
+      "alert": "THE OUTLET CLEARS FOUR TIMES FASTER THAN THE MAIN LINE",
+      "iris": "Sixteen lots route cleanly to the outlet. Two do not — W-560 would split a dye lot across two channels, and L-409 is still selling at full price in branches, so clearing it would undercut your own line. Route the sixteen tonight and hold those two.",
+      "acts": [
+       "ROUTE THE 16",
+       "HOLD W-560 AND L-409",
+       "SHOW AGEING BY LOT"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "Across The Branches",
+    "h": "Runs, lots and where they should go.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Cut-length yield & remnant recovery",
+      "z": "L2",
+      "d": "Tracks wastage per cut and turns remnants into a priced, sellable line instead of a bin.",
+      "kpis": [
+       [
+        "96.4%",
+        "CUT YIELD"
+       ],
+       [
+        "3.6%",
+        "WASTAGE"
+       ],
+       [
+        "£8,400",
+        "REMNANT VALUE"
+       ]
+      ],
+      "alert": "SHORT CUTS ARE WHERE THE YIELD GOES",
+      "iris": "Branch 07 is not careless across the board — it loses 11.4% on cuts under two metres and matches the estate everywhere else. One table, one habit, one cut length. Setting a minimum-cut rule and pricing the offcut recovers most of the £2,100 without retraining anyone.",
+      "acts": [
+       "SET MINIMUM-CUT RULE",
+       "PRICE THE REMNANTS",
+       "SHOW BRANCH 07 DETAIL"
+      ]
+     },
+     {
+      "n": "Design-run & colourway planning",
+      "z": "L2",
+      "d": "Sizes each run and colourway against last season's actual sell-through, not the buyer's memory.",
+      "kpis": [
+       [
+        "89.9%",
+        "MODEL ACCURACY"
+       ],
+       [
+        "2",
+        "COLOURWAYS OVER-RUN"
+       ],
+       [
+        "42,000",
+        "METRES PLANNED"
+       ]
+      ],
+      "alert": "THE TWO WEAKEST COLOURS HAVE THE BIGGEST PLANNED RUNS",
+      "iris": "Bottle green and camel sold through at 38% and 31% last season and between them carry 14,500 metres of the new run — nineteen and twenty-two weeks of cover on colours nobody bought. The run total is right; the colour split is inverted.",
+      "acts": [
+       "RE-SPLIT THE RUN",
+       "CUT GREEN AND CAMEL",
+       "SHOW LAST SEASON"
+      ]
+     },
+     {
+      "n": "Seasonal & festive drop planning",
+      "z": "L2",
+      "d": "Plans the volume drops — lawn, festive, winter — that make or break the textile year.",
+      "kpis": [
+       [
+        "3.1×",
+        "PEAK VS BASELINE"
+       ],
+       [
+        "38%",
+        "OF YEAR"
+       ],
+       [
+        "12 d",
+        "STOCK LEAD"
+       ]
+      ],
+      "alert": "THE DROP BORROWS FROM THE WEEK BEFORE AND AFTER",
+      "iris": "Lawn peaks at 3.1× over eleven days and pulls demand from both surrounding weeks — planning it as a single week over-orders the drop and starves the fortnight around it. Eid compounds this: its date drifts by up to two days against the lunar calendar.",
+      "acts": [
+       "PLAN AS 3-WEEK BLOCK",
+       "SET LUNAR-ADJUSTED LEAD",
+       "SHOW LAST LAWN DROP"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hometex",
+  "name": "Home Textiles & Furnishing",
+  "sub": "Made-to-measure pipeline health, on-time installation, set attach rate and room-set sell-through.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "45.3%",
+      "Gross margin"
+     ],
+     [
+      "37%",
+      "Room-set attach rate"
+     ],
+     [
+      "93.8%",
+      "On-time installation"
+     ],
+     [
+      "89.7%",
+      "Made-to-measure accuracy"
+     ]
+    ],
+    "alert": "NEXT WEEK · 14 MADE-TO-MEASURE ORDERS ON 2 INSTALLERS",
+    "iris": "“Move one to Thursday — both promise dates hold.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. Per-piece and cut-length pricing, deposit capture, measurement notes and the install date booked at the counter.",
+    "kpis": [
+     [
+      "222",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "The sheet that matches this duvet is in stock. Sets convert 37% of the time here.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "1.88M",
+      "Net revenue"
+     ],
+     [
+      "0.93M",
+      "COGS"
+     ],
+     [
+      "0.85M",
+      "Gross margin"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Job-level costing for made-to-measure — fabric, making, fitting visits and remakes — against the quoted price.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "32 / 28 days",
+      "Mill → making"
+     ],
+     [
+      "19 / 18 days",
+      "Making → install"
+     ],
+     [
+      "96 / 100%",
+      "Single-lot delivery"
+     ]
+    ],
+    "alert": "MADE-TO-MEASURE CANNOT ABSORB A LATE MILL",
+    "iris": "Bedding is a week late and it feeds wedding season, which peaks at 3.4×. Unlike stock lines, a made-to-measure promise date is given to a named customer on a named day — there is no averaging your way out of it.",
+    "acts": [
+     "EXPEDITE BEDDING",
+     "RE-PROMISE 6 ORDERS",
+     "SHOW PEAK EXPOSURE"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "44 / 52",
+      "Sample books current"
+     ],
+     [
+      "5 / 6 vans",
+      "Install kits complete"
+     ],
+     [
+      "48 / 52",
+      "Display condition"
+     ]
+    ],
+    "alert": "A DISCONTINUED SAMPLE IS A SALE YOU CANNOT FULFIL",
+    "iris": "Showroom 2 is still selling from a sample book with twelve discontinued fabrics in it. Every order taken against those becomes a call-back and a re-selection — the customer’s first experience of you is being told no.",
+    "acts": [
+     "PULL 12 SAMPLES",
+     "REISSUE SAMPLE BOOKS",
+     "CHECK VAN 3"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "5 / 6 available",
+      "Fitter capacity"
+     ],
+     [
+      "37 / 40",
+      "Install hours committed"
+     ],
+     [
+      "88 / 126",
+      "Measure-trained staff"
+     ]
+    ],
+    "alert": "ONE FITTER ON LEAVE IS 20% OF INSTALL CAPACITY",
+    "iris": "With one fitter on leave you are running 37 committed hours against 40 available, and Friday alone carries sixteen. The diary books by day and cannot see hours — which is how two orders ended up promised to the same team on the same afternoon.",
+    "acts": [
+     "SWITCH DIARY TO HOURS",
+     "BOOK CONTRACT FITTER",
+     "RE-PROMISE FRIDAY"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "72 / 90%",
+      "Seen in 10 min"
+     ],
+     [
+      "19 / 22%",
+      "Room set → consultation"
+     ],
+     [
+      "212 / 212",
+      "Cameras online"
+     ]
+    ],
+    "alert": "SHOWROOM 2 LOSES WALK-INS WAITING FOR A CONSULTANT",
+    "iris": "Showroom 2 has six couples waiting over 15 minutes for a made-to-measure consultation, and three left in the last hour. A quick-measure desk for curtain-only orders takes half the queue off the consultants.",
+    "acts": [
+     "OPEN QUICK-MEASURE DESK",
+     "SECURE THE VAN LOAD",
+     "SHOW WAITS BY HOUR"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "In The Showroom",
+    "h": "Orders, sets and the promise date.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Made-to-measure pipeline",
+      "z": "L1",
+      "d": "Curtain and upholstery orders from measurement through making to installation, with the promise date held.",
+      "kpis": [
+       [
+        "68",
+        "ORDERS IN PIPELINE"
+       ],
+       [
+        "93.8%",
+        "ON-TIME INSTALL"
+       ],
+       [
+        "2",
+        "PROMISED SAME DAY"
+       ]
+      ],
+      "alert": "THURSDAY HAS THREE FREE HOURS — FRIDAY IS DOUBLE-BOOKED",
+      "iris": "Two orders are promised the same Friday to the same fitting team — the diary accepted both because it books by day, not by hours. Thursday has three free hours and one of the two is a single-room curtain. Move it and both promise dates hold.",
+      "acts": [
+       "MOVE MTM-410 TO THURSDAY",
+       "CALL BOTH CUSTOMERS",
+       "SWITCH DIARY TO HOURS"
+      ]
+     },
+     {
+      "n": "Fitting & installation scheduling",
+      "z": "L1",
+      "d": "Measure visits, making and installs planned against real fitter capacity rather than an optimistic diary.",
+      "kpis": [
+       [
+        "81%",
+        "FITTER UTILISATION"
+       ],
+       [
+        "14",
+        "INSTALLS NEXT WEEK"
+       ],
+       [
+        "2",
+        "INSTALLERS"
+       ]
+      ],
+      "alert": "TRAVEL IS A QUARTER OF EVERY INSTALL — ROUTE BY AREA",
+      "iris": "Friday carries four installs and sixteen hours of work against one fitter and eight hours — the second fitter is on leave and the diary never knew. Monday and Tuesday have twelve free hours between them. Two of Friday’s four move cleanly.",
+      "acts": [
+       "MOVE 2 TO MON/TUE",
+       "ROUTE FRIDAY BY AREA",
+       "BLOCK DIARY ON LEAVE"
+      ]
+     },
+     {
+      "n": "Dye-lot & shade continuity",
+      "z": "L1",
+      "d": "One room, one lot, across every piece — checked at picking, not discovered at delivery.",
+      "kpis": [
+       [
+        "4",
+        "MULTI-LOT PICKS"
+       ],
+       [
+        "ΔE 2.8",
+        "WORST DRIFT"
+       ],
+       [
+        "1.5",
+        "TOLERANCE"
+       ]
+      ],
+      "alert": "A REMAKE COSTS MORE THAN THE MARGIN ON THE ORIGINAL ORDER",
+      "iris": "Two picks today span lots with visible drift — a five-piece bedding set at ΔE 2.8 will read as two different whites once it is on the bed. Nobody sees it in the warehouse. A remake costs £312, which is more than the order earns.",
+      "acts": [
+       "HOLD BOTH PICKS",
+       "SOURCE SINGLE LOT",
+       "ADD PICK-TIME CHECK"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "On The Road",
+    "h": "Measure, make and install.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Room-set & collection attach",
+      "z": "L2",
+      "d": "The sheet with the duvet, the cushion with the throw — what actually completes a set, prompted at the till.",
+      "kpis": [
+       [
+        "37%",
+        "SET ATTACH"
+       ],
+       [
+        "2.4",
+        "PIECES PER BASKET"
+       ],
+       [
+        "£64",
+        "UPLIFT WHEN SET"
+       ]
+      ],
+      "alert": "AN ATTACH NOT MADE AT THE TILL IS USUALLY NEVER MADE",
+      "iris": "Rug underlay attaches at 18% against a 34% average — and underlay is not optional, it is what stops the rug moving. Customers are buying it elsewhere or going without. The prompt exists for duvets and curtains but was never written for rugs.",
+      "acts": [
+       "ADD RUG UNDERLAY PROMPT",
+       "BUNDLE AT POINT OF SALE",
+       "SHOW ATTACH BY STORE"
+      ]
+     },
+     {
+      "n": "Size, GSM & thread-count demand",
+      "z": "L2",
+      "d": "Which spec actually sells, per store and per season, so the buy stops averaging across the range.",
+      "kpis": [
+       [
+        "91.4%",
+        "MODEL ACCURACY"
+       ],
+       [
+        "400 TC",
+        "FASTEST SPEC"
+       ],
+       [
+        "2",
+        "SPECS OVER-BOUGHT"
+       ]
+      ],
+      "alert": "LUXURY SPEC ONLY MOVES IN THREE FLAGSHIP SHOWROOMS",
+      "iris": "The range is bought as if every showroom were a flagship. 800 TC is 16% of the buy and 8% of sales, and it only moves in three city sites — everywhere else it sits at nineteen weeks. Meanwhile 400 TC, which is over half of sales, is on three weeks of cover.",
+      "acts": [
+       "RE-SPLIT THE BUY",
+       "CONCENTRATE 800 TC",
+       "SHOW SPEC BY SITE"
+      ]
+     },
+     {
+      "n": "Wedding & seasonal peak planning",
+      "z": "L2",
+      "d": "The dowry, winter and festive peaks that shape the home-textile year, sized before the stock is committed.",
+      "kpis": [
+       [
+        "2.8×",
+        "PEAK VS BASELINE"
+       ],
+       [
+        "42 d",
+        "PEAK WINDOW"
+       ],
+       [
+        "44%",
+        "OF YEAR"
+       ]
+      ],
+      "alert": "THE PEAK IS BEDDING AND TABLE — NOT THE WHOLE RANGE",
+      "iris": "Wedding season is not a store-wide peak — it is bedding at 3.4× and table linen at 2.6×, while curtains and rugs barely move. Stocking the whole range up ties capital in categories that will not turn for another quarter.",
+      "acts": [
+       "STOCK BEDDING AND TABLE ONLY",
+       "SET 18-DAY LEAD",
+       "SHOW LAST SEASON"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "marketplace",
+  "name": "Marketplace & Online Selling",
+  "sub": "Channel margin after fees, order accuracy, return rate and SLA performance side by side.",
+  "products": [
+   {
+    "key": "scorecard",
+    "name": "Balanced Scorecard",
+    "role": "The board · four lenses, live",
+    "d": "Financial, Customer, Operational and AI Learning on one live board.",
+    "kpis": [
+     [
+      "31.4%",
+      "Margin after channel fees"
+     ],
+     [
+      "29%",
+      "Repeat buyer rate"
+     ],
+     [
+      "99.1%",
+      "Order accuracy"
+     ],
+     [
+      "93.4%",
+      "Channel demand accuracy"
+     ]
+    ],
+    "alert": "ONE CHANNEL · BEST ON REVENUE, WORST ON MARGIN",
+    "iris": "“Cut ad spend here and reprice — or the volume is costing you.”",
+    "acts": []
+   },
+   {
+    "key": "pos",
+    "name": "Point of Sale",
+    "role": "The counter · live till, Iris upsell",
+    "d": "Every channel, one cart, one stock pool — with Iris making the calls at the counter. In-store returns for online orders, and store-fulfilled marketplace orders raised at the same counter.",
+    "kpis": [
+     [
+      "330",
+      "Orders live"
+     ],
+     [
+      "4",
+      "Channels, one cart"
+     ],
+     [
+      "1",
+      "Stock pool"
+     ]
+    ],
+    "alert": "EVERY CHANNEL · ONE CART · ONE STOCK POOL",
+    "iris": "Third return from this buyer this month. All size-related, all the same style.",
+    "acts": []
+   },
+   {
+    "key": "numerus",
+    "name": "Numerus · CFO",
+    "role": "The ledger · balanced, not estimated",
+    "d": "GL, AR, AP, inventory and cash tied to the trading data and closed to the board's numbers.",
+    "kpis": [
+     [
+      "3.42M",
+      "Gross sales"
+     ],
+     [
+      "0.48M",
+      "Channel commission"
+     ],
+     [
+      "1.07M",
+      "Contribution"
+     ]
+    ],
+    "alert": "MARGIN BRIDGE · SEASON TO DATE",
+    "iris": "Commission, shipping, returns and ad spend charged to the order that caused them.",
+    "acts": []
+   },
+   {
+    "key": "nexus",
+    "name": "Nexus · Supply Chain",
+    "role": "The pipeline · forecast, procurement, logistics",
+    "d": "From mill to door — purchase orders, lead times and landed cost, modelled before they slip.",
+    "kpis": [
+     [
+      "26 / 24 days",
+      "Supplier → 3PL"
+     ],
+     [
+      "1.4 / 2.0 days",
+      "3PL → channel live"
+     ],
+     [
+      "78 / 100%",
+      "Listing live on arrival"
+     ]
+    ],
+    "alert": "STOCK THAT ARRIVES BEFORE ITS LISTING IS INVISIBLE STOCK",
+    "iris": "Only 78% of arrivals have a live listing waiting for them — the rest sit in the 3PL earning nothing while content is written. On a marketplace, stock without a listing is not slow stock, it is invisible stock.",
+    "acts": [
+     "PRE-BUILD LISTINGS",
+     "ESCALATE COIMBATORE",
+     "SHOW LISTING LAG"
+    ]
+   },
+   {
+    "key": "motus",
+    "name": "Motus · Operations",
+    "role": "The estate · standards, assets, energy",
+    "d": "Store standards, fixtures, energy and security as deterministic rules that fire on breach.",
+    "kpis": [
+     [
+      "207 / 214",
+      "Listings live"
+     ],
+     [
+      "207 / 214",
+      "Buy box held"
+     ],
+     [
+      "9 / 9 channels",
+      "Account health"
+     ]
+    ],
+    "alert": "SUPPRESSED LISTINGS DO NOT ANNOUNCE THEMSELVES",
+    "iris": "Seven listings are suppressed and seven have lost the buy box — fourteen SKUs effectively off sale on your largest channel, and nothing on a sales report would show it as anything but soft demand.",
+    "acts": [
+     "FIX 7 SUPPRESSIONS",
+     "OPEN RESELLER CONTRACT",
+     "AUDIT ALL LISTINGS"
+    ]
+   },
+   {
+    "key": "manus",
+    "name": "Manus · Workforce",
+    "role": "The floor · roster, payroll, compliance",
+    "d": "Cover modelled against the hours that actually convert, with compliance checked as it happens.",
+    "kpis": [
+     [
+      "61 / 64 shifts",
+      "Coverage"
+     ],
+     [
+      "3 / 5",
+      "Content team"
+     ],
+     [
+      "41 / 64",
+      "Marketplace-trained"
+     ]
+    ],
+    "alert": "THE CONTENT GAP IS WHY LISTINGS GO STALE",
+    "iris": "The content team is running three of five, and it is the same team that would refresh the fourteen-month-old images costing you the buy box. The listing problem and the staffing problem are the same problem.",
+    "acts": [
+     "FILL CONTENT ROLES",
+     "PRIORITISE 7 LISTINGS",
+     "SHOW CONTENT BACKLOG"
+    ]
+   },
+   {
+    "key": "vision",
+    "name": "Zentallio Vision",
+    "role": "The cameras · footfall, queues, safety",
+    "d": "Footfall, queues, try-ons, revisits, safety and productivity — your cameras, turned into decisions.",
+    "kpis": [
+     [
+      "98.6 / 99.5%",
+      "Packs verified on camera"
+     ],
+     [
+      "71 / 90%",
+      "Returns inspected same day"
+     ],
+     [
+      "64 / 64",
+      "Cameras online"
+     ]
+    ],
+    "alert": "PACK BENCH 4 IS SHIPPING THE WRONG ITEM",
+    "iris": "Camera checks at pack bench 4 caught three wrong-item packs today, all the same two look-alike SKUs. Splitting them onto separate pick faces stops the error at source instead of at the customer’s door.",
+    "acts": [
+     "SPLIT THE TWO SKUS",
+     "RE-CHECK BENCH 4",
+     "SHOW PACK ERRORS BY SKU"
+    ]
+   }
+  ],
+  "groups": [
+   {
+    "eye": "Across The Channels",
+    "h": "Orders, stock and SLA on every channel.",
+    "sub": "Thresholds that fire on the shift the breach happens — no model lag, no waiting for a report.",
+    "items": [
+     {
+      "n": "Single stock pool across channels",
+      "z": "L1",
+      "d": "One truth for availability across web, floor and marketplace — the oversell that costs you the account, prevented.",
+      "kpis": [
+       [
+        "0",
+        "OVERSELLS"
+       ],
+       [
+        "9",
+        "CHANNELS LIVE"
+       ],
+       [
+        "99.1%",
+        "ORDER ACCURACY"
+       ]
+      ],
+      "alert": "TWO OVERSELLS IN A QUARTER RISKS THE AMAZON ACCOUNT",
+      "iris": "Amazon shows 46 units behind the pool — a safety buffer someone set manually and never removed. It is not an oversell risk, it is 46 units you are refusing to sell on your largest channel. The pool reconciles in 1.4 seconds; the buffer is doing nothing but costing sales.",
+      "acts": [
+       "REMOVE THE BUFFER",
+       "SHOW BUFFER HISTORY",
+       "AUDIT ALL CHANNELS"
+      ]
+     },
+     {
+      "n": "Order routing & SLA control",
+      "z": "L1",
+      "d": "Dispatched from the location that hits the promise date, not the one with the most stock.",
+      "kpis": [
+       [
+        "99.1%",
+        "SLA MET"
+       ],
+       [
+        "6",
+        "AT RISK"
+       ],
+       [
+        "330",
+        "ORDERS LIVE"
+       ]
+      ],
+      "alert": "SIX ORDERS ROUTED TO THE DC COULD SHIP FROM A STORE",
+      "iris": "Six Amazon orders are routed to the DC on a two-day lead against a next-day promise — and every one of them has stock in a store closer to the customer. The router optimised for stock depth instead of promise date. Re-route and all six land on time.",
+      "acts": [
+       "RE-ROUTE THE SIX",
+       "SWITCH ROUTER TO SLA-FIRST",
+       "SHOW STORE COVERAGE"
+      ]
+     }
+    ]
+   },
+   {
+    "eye": "What It Actually Earns",
+    "h": "Fees, returns and the real margin.",
+    "sub": "Modelled early enough to act on, with the cause named and the move costed.",
+    "items": [
+     {
+      "n": "Channel margin after fees",
+      "z": "L2",
+      "d": "Commission, shipping, returns and ad spend costed per order, so the best-looking channel is judged on what it keeps.",
+      "kpis": [
+       [
+        "31.4%",
+        "MARGIN AFTER FEES"
+       ],
+       [
+        "1",
+        "CHANNEL NEGATIVE"
+       ],
+       [
+        "6.2%",
+        "AD SPEND"
+       ]
+      ],
+      "alert": "RETURNS COST MORE THAN COMMISSION ON THIS CHANNEL",
+      "iris": "Amazon is your best channel on revenue and your only negative one on contribution — and it is returns, not commission, doing the damage. At 22% returns against 11% on D2C, the same products are coming back twice as often. Fix the returns or the volume is costing you money.",
+      "acts": [
+       "INVESTIGATE RETURN REASONS",
+       "CUT AMAZON AD SPEND",
+       "REPRICE THE CHANNEL"
+      ]
+     },
+     {
+      "n": "Listing & content health",
+      "z": "L2",
+      "d": "Which listings convert and which have quietly died, before a season's stock ends up behind them.",
+      "kpis": [
+       [
+        "7",
+        "LISTINGS SUPPRESSED"
+       ],
+       [
+        "214",
+        "LISTINGS LIVE"
+       ],
+       [
+        "−38%",
+        "CONVERSION DECAY"
+       ]
+      ],
+      "alert": "THE PRODUCT IS FINE — THE LISTING IS OLD",
+      "iris": "The camel overcoat still pulls 12,400 views and converts at 0.8% — traffic is not the problem, the listing is. Images are fourteen months old against competitors at three, and there is no A+ content. Seven other listings are suppressed outright and invisible.",
+      "acts": [
+       "REFRESH OVERCOAT IMAGES",
+       "FIX 7 SUPPRESSIONS",
+       "SHOW DECAY CURVE"
+      ]
+     },
+     {
+      "n": "Return & refund abuse detection",
+      "z": "L2",
+      "d": "The buyer patterns that quietly eat channel margin, surfaced with the evidence attached.",
+      "kpis": [
+       [
+        "18%",
+        "RETURN RATE"
+       ],
+       [
+        "2.1%",
+        "FLAGGED AS ABUSE"
+       ],
+       [
+        "£64k",
+        "ABUSE COST"
+       ]
+      ],
+      "alert": "MOST RETURNS ARE HONEST — THE TAIL IS NOT",
+      "iris": "Thirty-one accounts sit outside normal behaviour, but only three are unambiguous — one returning empty parcels, two wardrobing high-value pieces. A-4471 returns half its orders and is not abuse; it is a genuine sizing problem on one style. Do not punish the honest tail.",
+      "acts": [
+       "BLOCK THE 3",
+       "FIX THE SIZING ON A-4471",
+       "SHOW EVIDENCE PACK"
+      ]
+     },
+     {
+      "n": "Price parity & buy-box monitoring",
+      "z": "L2",
+      "d": "Where you're being undercut and by whom, across every channel you sell on.",
+      "kpis": [
+       [
+        "7",
+        "BUY-BOX LOST"
+       ],
+       [
+        "4%",
+        "UNDERCUT BY"
+       ],
+       [
+        "Tue",
+        "LOST SINCE"
+       ]
+      ],
+      "alert": "FIVE OF SEVEN ARE YOUR OWN AUTHORISED RESELLER",
+      "iris": "You are not losing the buy box to the market — five of the seven are your own authorised reseller undercutting you by 4% on your own product. That is a contract conversation, not a pricing one. Repricing to match starts a race you own both sides of.",
+      "acts": [
+       "OPEN RESELLER CONTRACT",
+       "HOLD PRICE",
+       "SHOW 7-DAY HISTORY"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

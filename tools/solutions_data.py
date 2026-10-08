@@ -21,7 +21,7 @@ PLATFORM = {
         ('L3', 'Ask Iris', 'Conversational layer: you ask what moved and why, and Iris answers with the recommended action for a human to approve.'),
     ],
     'numbers': [('10', 'F&B sectors'), ('149', 'F&B AI solutions'), ('9', 'Fashion sectors'),
-                ('55+12', 'Fashion solutions + core POS'), ('6', 'Live products'), ('6', 'Regions')],
+                ('55+12', 'Fashion solutions + core POS'), ('7', 'Live products'), ('6', 'Regions')],
     'book': 'Configured demo in 3–5 working days · no hardware · no long-term contract',
     'fb_caveat': 'Modelled from pilot assumptions and comparable F&B benchmarks — not yet a deployed-client result. Zentallio will publish real numbers as founding pilots conclude.',
     'demo_caveat': 'Illustrative data from the website demo — not a client result.',
@@ -140,6 +140,27 @@ PRODUCTS = [
                'consultation', 'cutting-table', 'productivity', 'shift close', 'pacing', 'coursing', 'table turn',
                'queue', 'peak', 'speed of service', 'run sheet', 'experience design', '24-hour', 'rider handover',
                'fast bar workflow'],
+    },
+    {
+        'slug': 'vision', 'name': 'Zentallio Vision', 'role': 'Computer Vision',
+        'mono': 'ZV', 'label': 'Footfall, queues, safety, plates', 'app': 'vision', 'hue': '#9B7BFF', 'src': 'li_vision.png',
+        # is template mein card thora bada hai -- crop boxes (2400px scale)
+        'card_box': (720, 400, 1640, 1757), 'icon_box': (880, 690, 1450, 1298),
+        'demo': '/food/food-beverage-solutions#solutions',
+        'line': 'Footfall, attendance, tables, queues, revisits, safety, productivity and plates. Your cameras, turned into decisions.',
+        'what': 'Computer vision: the cameras you already have read footfall, queues, tables, plates, safety and productivity — '
+                'and Iris turns each signal into the next move.',
+        'pillars': [
+            ('Footfall & revisits', 'Who walks in, where they dwell and who comes back — counted per door, per hour, anonymised.'),
+            ('Queues & tables', 'Queue length, wait time and table state read live, so the second till opens before guests walk.'),
+            ('Plates & productivity', 'Portion and plate consistency checked at the pass; stations, benches and fitting rooms measured, not guessed.'),
+            ('Safety & attendance', 'Blocked exits, unattended counters and attendance flagged on the shift — on-prem capable, no faces stored.'),
+        ],
+        'outcomes': [('−22%', 'perceived queue wait', 'Food & Beverage'), ('96%', 'portion accuracy at the pass', 'Food & Beverage'),
+                     ('+14', 'sales a day recovered at the till', 'Apparel & RTW'), ('½', 'fitting-bench wait', 'Footwear')],
+        'kw': ['vision', 'camera', 'footfall', 'queue', 'heatmap', 'dwell', 'portion control', 'fitting-room',
+               'try-on', 'speed of service', 'drive-through', 'table management', 'tester', 'rider handover',
+               'cutting-table', 'consultation', 'shrink'],
     },
 ]
 

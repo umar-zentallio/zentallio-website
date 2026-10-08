@@ -874,16 +874,27 @@ def js_sections(html, page_title, skip=frozenset()):
                     if k.lower() in LIST_KEYS and isinstance(v, list) and len(v) >= 2)
         if prose < max(2, len(rows) * 0.4) and lists < max(2, len(rows) * 0.4):
             continue
-        cards = [c for c in (js_card(r) for r in rows) if c]
+        heading = _pretty(nm) or nm.title()
+        # Solutions grid: tagline card ki main heading, para chhota
+        sol = heading in ('Solutions', 'Flagship solutions')
+        cards = [c for c in (js_card(r, sol) for r in rows) if c]
         if len(cards) < 2:
             continue
-        heading = _pretty(nm) or nm.title()
         out.append('<section class="m-sec m-rev">\n<h2>%s</h2>\n'
                    '<div class="m-grid">\n%s\n</div>\n</section>'
                    % (esc(heading), '\n'.join(cards)))
     return out
 
-def js_card(row):
+def _short_desc(t):
+    """Pehla sentence; phir bhi lamba ho to ' — ' se pehle tak."""
+    m = re.match(r'(.+?[.!?])\s+(?=[A-Z\u201c"])', t)
+    if m and len(m.group(1)) >= 40:
+        t = m.group(1)
+    if len(t) > 120 and ' \u2014 ' in t:
+        t = t.split(' \u2014 ')[0].rstrip('.,;') + '.'
+    return t
+
+def js_card(row, sol=False):
     low = {k.lower(): (k, v) for k, v in row.items()}
     def pick(keys):
         for k in keys:
@@ -898,12 +909,13 @@ def js_card(row):
     parts = []
     num = row.get('num') or row.get('no')
     if sub or num:
-        parts.append('<span class="m-card-num">%s</span>'
-                     % jtext(' · '.join(str(x) for x in (num, sub) if x)))
+        parts.append('<span class="m-card-num%s">%s</span>'
+                     % (' m-card-tag' if sol and sub else '',
+                        jtext(' · '.join(str(x) for x in (num, sub) if x))))
     if title:
         parts.append('<h3>%s</h3>' % jtext(title))
     if desc and desc != title:
-        parts.append('<p>%s</p>' % jtext(desc))
+        parts.append('<p>%s</p>' % jtext(_short_desc(str(desc)) if sol else desc))
     for k, v in row.items():
         kl = k.lower()
         if kl in SKIP_KEYS or kl in TITLE_KEYS or kl in SUB_KEYS or kl in DESC_KEYS:
@@ -914,7 +926,9 @@ def js_card(row):
                 continue
             # number->label = stat; text->text = do-column table
             numeric = all(re.match(r'^[^a-zA-Z]*[\d]', str(q[0])) for q in pairs)
-            if numeric:
+            # KPI signals ("every module", "L3 text-to-SQL") bhi chhote hon to chips
+            short_kpi = kl in ('kpis', 'stats', 'metrics') and all(len(str(q[0])) <= 10 for q in pairs)
+            if numeric or short_kpi:
                 parts.append('<div class="m-stats">%s</div>' % ''.join(
                     '<div class="m-stat"><b>%s</b><i>%s</i></div>'
                     % (jtext(q[0]), jtext(q[1])) for q in pairs))
@@ -1029,7 +1043,9 @@ def _banner_copy(sec, kind, html):
         for r in (sec.get('rot') or []):
             if not isinstance(r, dict):
                 continue
-            head = ' '.join(x for x in (r.get('a'), r.get('b')) if x).strip()
+            # desktop: "<a> <em><b>.</em>"
+            a, b = esc(str(r.get('a') or '')), esc(str(r.get('b') or ''))
+            head = ('%s <em>%s</em>.' % (a, b) if b else a).strip()
             body = r.get('l') or r.get('p') or ''
             if head or body:
                 rot.append((head, body))
@@ -1038,8 +1054,8 @@ def _banner_copy(sec, kind, html):
                 stats.append((str(st.get('v', '')) + str(st.get('u', '') or ''),
                               st.get('l') or ''))
         if sec.get('cta2'):
-            cta = ('<a class="m-btn m-btn-primary" href="#flagship">%s</a>'
-                   % keep_inline(sec['cta2']))
+            cta = ('<a class="m-btn m-btn-primary" href="#fx-%s">%s &rarr;</a>'
+                   % (esc(str(sec.get('id'))), keep_inline(sec['cta2'])))
         if sec.get('no'):
             eyebrow = 'Sector %s \u00b7 %s' % (sec['no'], sec.get('name', ''))
     else:
@@ -1054,14 +1070,10 @@ def _banner_copy(sec, kind, html):
         for q in (b.get('rail') or []):
             if isinstance(q, list) and len(q) >= 2:
                 stats.append((str(q[1]), str(q[0])))
-        stack = b.get('stack') or 'full'
-        cta = ('<a class="m-btn m-btn-primary" href="/contact">Book a call</a>'
-               '<a class="m-btn m-btn-ghost" href="#solutions">See the %s stack &rarr;</a>'
-               % esc(str(stack)))
+        cta = '<a class="m-btn m-btn-primary" href="/contact">Book a call</a>'
 
     out = []
-    if eyebrow:
-        out.append('<span class="m-kick">%s</span>' % keep_inline(eyebrow))
+    # banner par eyebrow ("Sector 01 · ...") nahi dikhate -- panel tab mein naam pehle se hai
     if rot:
         out.append('<div class="m-rot">%s</div>' % ''.join(
             '<div class="m-rot-item%s"><h3>%s</h3>%s</div>'
@@ -1155,31 +1167,91 @@ def _ul(items, label=''):
     head = '<span class="m-kick">%s</span>' % esc(label) if label else ''
     return head + '<ul>%s</ul>' % lis
 
+# Fashion: desktop ke JS screens ka chhota text -- tools/extract_fashion_mobile.py
+FASHION_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'fashion-mobile.json')
+_FX = None
+
+NUM_WORD = {5: 'five', 6: 'six', 7: 'seven', 8: 'eight'}
+
+def _fx(sid):
+    global _FX
+    if _FX is None:
+        try:
+            _FX = {d['id']: d for d in json.load(open(FASHION_DATA, encoding='utf-8'))}
+        except (OSError, ValueError):
+            _FX = {}
+    return _FX.get(sid)
+
+def _fx_item(title, sub, tag, it, desc='', open_=False):
+    """Ek product / solution -> <details>: 3 KPI, alert, Iris, actions."""
+    chips = ''.join('<div class="m-stat"><b>%s</b><i>%s</i></div>' % (esc(v), esc(l))
+                    for v, l in it.get('kpis') or [])
+    body = []
+    if desc:
+        body.append('<p class="m-fx-d">%s</p>' % esc(desc))
+    if chips:
+        body.append('<div class="m-stats">%s</div>' % chips)
+    if it.get('alert'):
+        body.append('<p class="m-fx-alert">%s</p>' % esc(it['alert']))
+    if it.get('iris'):
+        body.append('<div class="m-iris"><span class="m-iris-who">Iris</span><p>%s</p></div>'
+                    % esc(it['iris']))
+    if it.get('acts'):
+        body.append('<div class="m-fx-acts">%s</div>'
+                    % ''.join('<span>%s</span>' % esc(a) for a in it['acts']))
+    return ('<details class="m-fx"%s><summary><span class="m-fx-t"><b>%s</b><i>%s</i></span>'
+            '%s</summary><div class="m-fx-body">%s</div></details>'
+            % (' open' if open_ else '', esc(title), esc(sub),
+               '<span class="m-fx-tag">%s</span>' % esc(tag) if tag else '', ''.join(body)))
+
+def fashion_solutions(sec, html):
+    """Har sector ka wahi content jo desktop dikhata hai -- 6 live products aur
+    har solution ka screen -- chhota kar ke, upar se neeche, sab sectors ek jaise."""
+    d = _fx(str(sec.get('id')))
+    if not d:
+        return ''
+    out = ['<div class="m-fx-block" id="fx-%s">' % esc(d['id']),
+           '<span class="m-kick">%s live products</span>' % NUM_WORD.get(len(d['products']), str(len(d['products']))).capitalize(),
+           '<h3 class="m-fx-h">Pick one. It opens the <em>real screen</em>.</h3>',
+           '<p class="m-fx-sub">%s</p>' % esc(d.get('sub') or ''),
+           '<div class="m-fx-list">%s</div></div>' % ''.join(
+               _fx_item(p['name'], p['role'], '', p, p.get('d', ''), open_=(i == 0))
+               for i, p in enumerate(d['products']))]
+    out.append('<div class="m-fx-block"><span class="m-kick">Every solution &middot; %s</span>'
+               % esc(d['name']))
+    for g in d['groups']:
+        n = len(g['items'])
+        out.append('<div class="m-solgrp"><span class="m-solgrp-eye">%s &middot; %d solution%s</span>'
+                   '<h3>%s</h3><p class="m-solgrp-sub">%s</p><div class="m-fx-list">%s</div></div>'
+                   % (esc(g['eye']), n, '' if n == 1 else 's', esc(g['h']), esc(g['sub']),
+                      ''.join(_fx_item(it['n'], 'L1 · Zen Rules' if it['z'] == 'L1' else
+                                       ('L2 · Zen Models' if it['z'] == 'L2' else 'L3 · Ask Iris'),
+                                       'AI' if it['z'] != 'L1' else '', it, it.get('d', ''))
+                              for it in g['items'])))
+    out.append('</div>')
+    return ''.join(out)
+
+
 def sector_panel(sec, kind, self_page=False, html='', active=False):
     """Ek sector ka poora content -- desktop par jo kuch us panel mein hai."""
     out = []
     banner = sector_banner(sec, kind, html, active)
     if banner:
         out.append(banner)
-    num  = sec.get('no') or sec.get('num') or ''
     name = sec.get('name') or sec.get('pill') or ''
-    # Banner apna eyebrow "Sector 01 · <name>" khud dikhata hai -- yahan
-    # dobara likhna sirf repetition hai.
-    if 'm-kick' not in banner:
-        if num:
-            out.append('<span class="m-kick">%s</span>' % jtext(num))
-        if name:
-            out.append('<h3>%s</h3>' % jtext(name))
+    # Sector number/naam mobile par nahi dikhate -- pill tab mein naam pehle se hai.
+    if not banner:
+        out.append('<h3>%s</h3>' % jtext(name))
+
+    if kind == 'fashion':
+        out.append(fashion_solutions(sec, html))
+        return '\n'.join(x for x in out if x)
 
     lede = sec.get('lede') or sec.get('sub')
     if lede:
         out.append('<p class="m-lede">%s</p>' % jtext(lede))
 
-    # brand / outlet (food)
-    bits = [sec.get('brand'), sec.get('outlet'), sec.get('noun')]
-    bits = [str(b) for b in bits if b and str(b).strip()]
-    if bits and not lede:
-        out.append('<p class="m-muted">%s</p>' % jtext(' · '.join(bits)))
+    # brand / outlet line ("Croq Glacé · Paris · ...") mobile par nahi dikhate
 
     if isinstance(sec.get('stats'), list) and kind != 'fashion':
         out.append(_sec_stats(sec['stats']))   # fashion ka rail banner par hai
@@ -1189,7 +1261,8 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
         out.append('<div class="m-iris"><span class="m-iris-who">Iris</span>'
                    '<p>%s</p></div>' % keep_inline(sec['iris']))
 
-    if isinstance(sec.get('formats'), list):
+    # 'formats' list mobile par nahi dikhate (F&B sector panels)
+    if isinstance(sec.get('formats'), list) and kind == 'fashion':
         out.append(_ul(sec['formats'], 'Formats covered'))
 
     # rot: rotating headlines -> cards
@@ -1538,11 +1611,49 @@ def build(rel, verbose=False):
     # Root page ko m/home.html likhte hain, m/index.html nahi -- taake rewrite
     # target hamesha ek asli file ho aur directory-index resolution par bharosa
     # na karna pade (cleanUrls ke saath wo ambiguous hai).
+    # "Six live products" board section F&B solutions par mobile mein nahi chahiye
+    page = re.sub(r'<section class="m-sec[^"]*">\n(?:<p>SIX LIVE PRODUCTS[^<]*</p>\n)?'
+                  r'<h2>The whole business on <em>one board</em>\.</h2>.*?</section>\n', '', page, flags=re.S)
+    if rel.replace(os.sep, '/') == 'fashion/sector-solutions.html':
+        page = fashion_page_fix(page)
     dst = os.path.join(OUTDIR, 'home.html' if upath == '/' else rel)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     with open(dst, 'w', encoding='utf-8') as fh:
         fh.write(page)
     return upath, len(page), len(txt(BeautifulSoup(page, 'lxml').body))
+
+
+def fashion_page_fix(page):
+    """Fashion sector page: desktop ke JS-shell sections (khaali headings,
+    "Ask Iris" button text, CTA ka plain text) hata kar asli CTA section
+    banao. Corenote explorer ke neeche."""
+    sec = lambda body: r'<section class="m-sec m-rev">\n' + body + r'.*?</section>\n'
+    core = re.search(r'<p><strong>Standard across all nine sectors:</strong>.*?</p>', page, re.S)
+    for rx in (sec(r'<p><a href="https://zentallio\.com">Zentallio</a>'),
+               sec(r'<p>Ask Iris</p>\n'),
+               sec(r'<p>Four live products[^<]*</p>\n'),
+               sec(r'<h2>Every solution, on the <em>real screen</em>\.</h2>\n')):
+        page = re.sub(rx, '', page, count=1, flags=re.S)
+    if core:
+        page = re.sub(r'(</div>\n)(</section>\n)(?=(?:<section class="m-sec m-rev">\n<h2>See it|<section class="m-sec m-rev">\n<h2>Flagship))',
+                      r'\1<p class="m-muted m-corenote">%s</p>\n\2' % core.group(0)[3:-4].replace('\\', r'\\'),
+                      page, count=1)
+    cta = re.search(sec(r'<h2>See it <em>configured</em> for your sector\.</h2>\n'), page, re.S)
+    if cta:
+        page = page.replace(cta.group(0), '', 1)
+    # 6 products ab har sector panel ke andar hain (sector ke data ke saath)
+    page = re.sub(r'<section class="m-sec m-rev"(?: id="flagship")?>\n'
+                  r'(?:<h2>Flagship solutions</h2>|<span class="m-kick">Six live products[^<]*</span>).*?</section>\n',
+                  '', page, count=1, flags=re.S)
+    if cta and 'class="m-sec m-cta"' not in page:
+        page = page.replace('</main>',
+            '<section class="m-sec m-cta">\n'
+            '<h2>See it <em>configured</em> for your sector.</h2>\n'
+            '<p>Tell us the sector and we\'ll come back with a walkthrough built on your formats — not a generic tour.</p>\n'
+            '<div class="m-btns"><a class="m-btn m-btn-primary" href="/contact">Book a call with our consultant</a></div>\n'
+            '<p class="m-muted">Configured demo in 3–5 working days · No hardware · No long-term contract</p>\n'
+            '</section>\n</main>', 1)
+    return page
 
 
 def all_pages():

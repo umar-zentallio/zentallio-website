@@ -1019,7 +1019,8 @@ body.dm-open{overflow:hidden}
 .znav-ic:not(.is-img)::before,.znav-ic:not(.is-img)::after{content:"";position:absolute;inset:3px;border-radius:9px;border:3px solid #18EEF0;clip-path:polygon(0 0,46% 0,46% 46%,0 46%)}
 .znav-ic:not(.is-img)::after{border-color:#FF2D95;clip-path:polygon(54% 54%,100% 54%,100% 100%,54% 100%)}
 .znav-ic img{width:100%;height:100%;object-fit:cover;display:block}
-@media(max-width:980px){.znav-subin{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.znav-subin>.znav-sp:nth-child(3n+1):nth-last-child(2){grid-column:2}
+@media(max-width:980px){.znav-subin{grid-template-columns:repeat(2,minmax(0,1fr))}.znav-subin>.znav-sp:nth-child(3n+1):nth-last-child(2){grid-column:auto}}
 @media(max-width:600px){.znav-subin{grid-template-columns:1fr}.znav-chev{width:24px;height:24px}}
 </style>
 </head>
@@ -1035,7 +1036,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="znav-nav">
 <a href="/food-beverage"><i>01</i><span>Food &amp; Beverage</span><b class="znav-d-fb"></b></a>
 <a href="/fashion"><i>02</i><span>Fashion Retail</span><b class="znav-d-fa"></b></a>
-<!--zsol-nav:start--><div class="znav-grp"><button type="button" class="znav-sol" aria-expanded="false" aria-controls="znavSub" onclick="var g=this.parentNode,o=!g.classList.contains('open');g.classList.toggle('open',o);this.setAttribute('aria-expanded',o)"><i>03</i><span>Solutions</span><em class="znav-chev"></em></button><div class="znav-sub" id="znavSub"><div class="znav-subin"><a class="znav-sp" href="/solutions/balanced-scorecard"><span class="znav-ic is-img"><img src="/solutions/icons/balanced-scorecard.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Balanced Scorecard</strong><em>Finance · L2 · four lenses, live</em></span></a><a class="znav-sp" href="/solutions/point-of-sale"><span class="znav-ic is-img"><img src="/solutions/icons/point-of-sale.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Point of Sale</strong><em>Live till · Iris upsell</em></span></a><a class="znav-sp" href="/solutions/numerus"><span class="znav-ic is-img"><img src="/solutions/icons/numerus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Numerus · CFO</strong><em>Balanced ledger · balanced, not estimated</em></span></a><a class="znav-sp" href="/solutions/nexus"><span class="znav-ic is-img"><img src="/solutions/icons/nexus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Nexus · Supply Chain</strong><em>Forecast, procurement, logistics</em></span></a><a class="znav-sp" href="/solutions/motus"><span class="znav-ic is-img"><img src="/solutions/icons/motus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Motus · Operations</strong><em>Standards, assets, energy</em></span></a><a class="znav-sp" href="/solutions/manus"><span class="znav-ic is-img"><img src="/solutions/icons/manus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Manus · Workforce</strong><em>Roster, payroll, compliance</em></span></a><a class="znav-all" href="/solutions">All solutions &amp; sectors <span>→</span></a></div></div></div><!--zsol-nav:end-->
+<!--zsol-nav:start--><div class="znav-grp"><button type="button" class="znav-sol" aria-expanded="false" aria-controls="znavSub" onclick="var g=this.parentNode,o=!g.classList.contains('open');g.classList.toggle('open',o);this.setAttribute('aria-expanded',o)"><i>03</i><span>Solutions</span><em class="znav-chev"></em></button><div class="znav-sub" id="znavSub"><div class="znav-subin"><a class="znav-sp" href="/solutions/balanced-scorecard"><span class="znav-ic is-img"><img src="/solutions/icons/balanced-scorecard.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Balanced Scorecard</strong><em>Finance · L2 · four lenses, live</em></span></a><a class="znav-sp" href="/solutions/point-of-sale"><span class="znav-ic is-img"><img src="/solutions/icons/point-of-sale.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Point of Sale</strong><em>Live till · Iris upsell</em></span></a><a class="znav-sp" href="/solutions/numerus"><span class="znav-ic is-img"><img src="/solutions/icons/numerus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Numerus · CFO</strong><em>Balanced ledger · balanced, not estimated</em></span></a><a class="znav-sp" href="/solutions/nexus"><span class="znav-ic is-img"><img src="/solutions/icons/nexus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Nexus · Supply Chain</strong><em>Forecast, procurement, logistics</em></span></a><a class="znav-sp" href="/solutions/motus"><span class="znav-ic is-img"><img src="/solutions/icons/motus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Motus · Operations</strong><em>Standards, assets, energy</em></span></a><a class="znav-sp" href="/solutions/manus"><span class="znav-ic is-img"><img src="/solutions/icons/manus.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Manus · Workforce</strong><em>Roster, payroll, compliance</em></span></a><a class="znav-sp" href="/solutions/vision"><span class="znav-ic is-img"><img src="/solutions/icons/vision.png" alt="" width="240" height="256" loading="lazy" decoding="async"></span><span class="znav-st"><strong>Zentallio Vision</strong><em>Footfall, queues, safety, plates</em></span></a><a class="znav-all" href="/solutions">All solutions &amp; sectors <span>→</span></a></div></div></div><!--zsol-nav:end-->
 <a href="/meet-iris"><i>04</i><span>Meet Iris</span><b class="znav-d-ai"></b></a>
 <a href="/resources"><i>05</i><span>Resources</span></a>
 <a href="/contact"><i>06</i><span>Contact</span></a>
@@ -1058,7 +1059,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div></div>
 <section class="sec" id="showcase"><div class="wrap wide">
 <div class="herohead">
-<div><div class="heroEye">SIX LIVE PRODUCTS · RUNNING RIGHT NOW</div>
+<div><div class="heroEye">SEVEN LIVE PRODUCTS · RUNNING RIGHT NOW</div>
 <h2 class="heroH2" id="heroH2">The whole business on <em>one board</em>.</h2>
 <p class="heroSubline" id="heroSubline">Financial, customer, operational and learning — every number live, with Iris naming the cause behind the one that moved.</p></div>
 <span class="herobadge"><i></i>LIVE · ILLUSTRATIVE DATA</span>
@@ -1070,6 +1071,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <button class="htab" data-demo="scm" onclick="heroShow('scm')"><b>Nexus</b><span>Supply chain</span></button>
 <button class="htab" data-demo="ops" onclick="heroShow('ops')"><b>Motus</b><span>Operations</span></button>
 <button class="htab" data-demo="wf" onclick="heroShow('wf')"><b>Manus</b><span>Workforce</span></button>
+<button class="htab" data-demo="vision" onclick="heroShow('vision')"><b>Vision</b><span>Computer vision</span></button>
 </div>
 <div class="herostage" id="heroStage">
 <div class="dcap"><div class="l"><span class="nm" id="heroName">Balanced Scorecard</span><span class="mono" id="heroMeta">FINANCE · L2 · <span id="heroSector">CAFÉ, COFFEE &amp; BAKERY</span></span></div><span class="live"><i></i>LIVE · ILLUSTRATIVE DATA</span></div>
@@ -4917,7 +4919,9 @@ var HEROCOPY={
  ops:['Two hundred branches, <em>one board</em>.',
   'Checklists, hygiene, health and safety, assets, energy and incidents across the estate \u2014 surfacing the exceptions and leaving the rest alone.'],
  wf:['The people plan, and what it <em>really costs</em>.',
-  'Rostering built from the forecast, attendance, payroll run, working-time compliance and the retention risk hiding behind the labour ratio.']
+  'Rostering built from the forecast, attendance, payroll run, working-time compliance and the retention risk hiding behind the labour ratio.'],
+ vision:['Your cameras, <em>turned into decisions</em>.',
+  'Footfall, queues, tables, plates, safety and productivity \u2014 read live from the cameras you already have, with Iris naming the move each signal calls for.']
 };
 function setHeroCopy(kind){
  var c=HEROCOPY[kind]; if(!c)return;
@@ -4933,6 +4937,7 @@ function heroMeta(kind){
  if(kind==='scm')return ['Nexus · Supply Chain','FORECAST · PROCUREMENT · LOGISTICS · L2 ZEN MODELS'];
  if(kind==='ops')return ['Motus · Operations','HYGIENE · SAFETY · ASSETS · ENERGY · L1 ZEN RULES'];
  if(kind==='wf')return ['Manus · Workforce','ROSTER · PAYROLL · COMPLIANCE · L2 ZEN MODELS'];
+ if(kind==='vision')return ['Zentallio Vision','FOOTFALL · QUEUES · PLATES · SAFETY · L2 ZEN MODELS'];
  return ['Balanced Scorecard','FINANCE · L2 · '+sec.name.toUpperCase()];
 }
 function heroShow(kind){
@@ -5378,7 +5383,7 @@ requestAnimationFrame(function(){setTimeout(function(){mountHero();
 </div>
 <nav class="zfoot-cols">
 <div><h4>Product</h4><a href="/food/food-beverage-solutions">Food &amp; Beverage</a><a href="/fashion/sector-solutions">Fashion Retail</a><a href="/meet-iris">Meet Iris</a></div>
-<!--zsol-foot:start--><div class="zsol-fcol"><h4>Solutions</h4><a href="/solutions">All solutions</a><a href="/solutions/balanced-scorecard">Balanced Scorecard</a><a href="/solutions/point-of-sale">Point of Sale</a><a href="/solutions/numerus">Numerus</a><a href="/solutions/nexus">Nexus</a><a href="/solutions/motus">Motus</a><a href="/solutions/manus">Manus</a></div><!--zsol-foot:end-->
+<!--zsol-foot:start--><div class="zsol-fcol"><h4>Solutions</h4><a href="/solutions">All solutions</a><a href="/solutions/balanced-scorecard">Balanced Scorecard</a><a href="/solutions/point-of-sale">Point of Sale</a><a href="/solutions/numerus">Numerus</a><a href="/solutions/nexus">Nexus</a><a href="/solutions/motus">Motus</a><a href="/solutions/manus">Manus</a><a href="/solutions/vision">Zentallio Vision</a></div><!--zsol-foot:end-->
 <div><h4>Company</h4><a href="/about">About</a><a href="/contact">Contact</a><a href="/resources">Resources</a></div>
 <div><h4>Legal</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/cookies">Cookies</a></div>
 </nav>

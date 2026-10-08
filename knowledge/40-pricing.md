@@ -10,9 +10,10 @@ as a committed/final price, and must not invent figures beyond this file.
 ## How Zentallio pricing works
 - **Per-location monthly subscription**, modular — start with one solution or run
   the whole platform.
-- The platform is **6 core solutions + Iris**: Balanced Scorecard, Point of Sale,
-  Numerus (CFO), Nexus (supply chain), Motus (operations), Manus (workforce), and
-  **Iris** as one flat AI-layer plan (not tiered by level).
+- The platform is **7 core solutions + Iris**: Balanced Scorecard, Point of Sale,
+  Numerus (CFO), Nexus (supply chain), Motus (operations), Manus (workforce),
+  Zentallio Vision (computer vision), and **Iris** as one flat AI-layer plan (not
+  tiered by level).
 - **Sector bundles** — bundling the full set is cheaper than buying à la carte.
 - **Volume discounts** grow with locations; **annual prepay** is cheaper than
   monthly; a **bundle discount** applies to the full set.
@@ -27,6 +28,9 @@ Always present these as *illustrative* and route to a call for a real quote.
 
 - **Per solution (starting points):** Balanced Scorecard ~$50 · Point of Sale ~$80 ·
   Numerus ~$70 · Nexus ~$55 · Motus ~$45 · Manus ~$40 · Iris ~$75.
+- **Zentallio Vision** has no list price yet — it depends on the camera estate; always
+  route Vision pricing to a call. (The whole-platform figures below exclude Vision.)
+  <!-- GAP (owner to fill): Vision per-location / per-camera starting price -->
 - **Whole platform:** ~$415/location/month à la carte, ~**$374/location/month
   bundled** (about a 10% bundle discount) at the home-market baseline.
 - **Discounts:** bundle ~10%; annual prepay ~8%; volume roughly 5% (10+ locations),
