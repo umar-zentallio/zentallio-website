@@ -7,9 +7,11 @@
   var layers = [].slice.call(think.children);
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // short versions of the desktop Ask Iris answers, same order as the desktop chips
+  // A page can bring its own questions (window.M_ASK_QA, loaded before this
+  // file); otherwise these F&B ones -- short versions of the desktop Ask Iris
+  // answers, same order as the desktop chips.
   var pct = function (v) { return v + '%'; };
-  var QA = [
+  var QA = window.M_ASK_QA || [
     { q: 'Android orders in the last hour?',
       a: '<b>3,180</b> — <em class="up">▲ 18%</em>, your busiest channel right now.',
       unit: 'Orders · last hour', max: 3400, fmt: function (v) { return v.toLocaleString(); },
@@ -44,10 +46,10 @@
     var h = '<p class="m-az-text">' + o.a + '</p>';
     if (o.kpis) {
       h += '<div class="m-az-kpis">';
-      o.kpis.forEach(function (k) { h += '<span><small>' + k.l + '</small><b>' + k.v + '</b><em>' + k.d + '</em></span>'; });
+      o.kpis.forEach(function (k) { h += '<span><small>' + k.l + '</small><b>' + k.v + '</b>' + (k.d ? '<em>' + k.d + '</em>' : '') + '</span>'; });
       h += '</div>';
     } else {
-      h += '<div class="m-az-bars"><span class="m-az-unit">' + o.unit + '</span>';
+      h += '<div class="m-az-bars' + (o.wide ? ' is-wide' : '') + '"><span class="m-az-unit">' + o.unit + '</span>';
       var lo = o.min || 0, w = function (v) { return (v - lo) / (o.max - lo) * 100; };  // bars can start above zero
       o.bars.forEach(function (b) {
         var plan = o.plan ? '<span class="m-az-plan" style="left:' + w(o.plan) + '%"></span>' : '';

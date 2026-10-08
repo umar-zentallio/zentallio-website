@@ -631,6 +631,12 @@
       if (!reduce) requestAnimationFrame(loop);
     })();
   }
+  // Pages can use the same animated orb inline: <span data-iris-orb></span>
+  [].forEach.call(document.querySelectorAll("[data-iris-orb]"), function (el) {
+    var cv = document.createElement("canvas");
+    el.appendChild(cv);
+    irisOrb(cv);
+  });
   // Lift the FAB above any bottom-anchored banner it overlaps (e.g. the cookie
   // notice, which spans nearly full width on mobile) so it never covers it.
   function avoidOverlap() {

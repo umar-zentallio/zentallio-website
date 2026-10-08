@@ -21,6 +21,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/m/mobile.css">
+<link rel="stylesheet" href="/m/journey.css">
+<link rel="stylesheet" href="/m/ask-iris.css">
 <link rel="stylesheet" href="/booking.css">
 </head>
 <body data-accent="violet">
@@ -50,44 +52,105 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h1>The <span class="m-ai">AI</span><br><em>that runs every store.</em></h1>
   <p class="m-hero-sub">One <strong class="m-hl">live</strong> view of the whole estate — sell-through, size curves, allocation, markdown and margin — with the agent surfacing the calls that protect <strong>full-price sales</strong>.</p>
 </section>
-<section class="m-sec m-rev">
-<span class="m-kick">The AI Decision Platform</span>
-<div class="m-scale">
-  <div class="m-scale-item"><b>8</b><span>verticals</span></div>
-  <div class="m-scale-item"><b>6</b><span>regions</span></div>
-  <div class="m-scale-item"><b>Every</b><span>store format</span></div>
-  <div class="m-scale-item is-agent"><b>One</b><span>agent</span></div>
-</div>
-<div class="m-scroll-cue" aria-hidden="true"><i></i>Scroll</div>
-</section>
-<section class="m-sec m-rev">
-<nav class="m-linklist">
-  <a href="#scorecard">Scorecard</a>
-  <a href="#tour">Omnichannel POS</a>
-  <a href="#sectors">Verticals</a>
-  <a href="#integrations">Integrations</a>
-  <a href="#intel">Intelligence</a>
-  <a href="#demo">Demo</a>
-</nav>
-</section>
-<section class="m-sec m-rev" id="scorecard">
-<span class="m-kick">The AI Balanced Scorecard</span>
-<h2>One scorecard. <em>Every decision.</em></h2>
-<p>Iris watches the four things that decide a fashion season at once — margin, the customer, the floor, and its own learning — and acts the moment one drifts.</p>
-<div class="m-scale m-scale--kpi">
-  <div class="m-scale-item"><b>58.4%</b><span>Financial · gross margin</span></div>
-  <div class="m-scale-item"><b>38%</b><span>Customer · repeat rate</span></div>
-  <div class="m-scale-item"><b>62%</b><span>Operational · sell-through</span></div>
-  <div class="m-scale-item"><b>91.5%</b><span>AI learning · forecast</span></div>
-</div>
-<p class="m-iris-note"><strong>Ask Iris</strong> · monitoring sell-through and size curves across <b>180 stores</b>.</p>
-</section>
 <section class="m-sec m-rev" id="tour">
 <span class="m-kick">Omnichannel POS</span>
 <h2>An AI-driven POS that <em>runs every channel.</em></h2>
-<p>Every channel. One cart. One stock pool. Store, web, app and the marketplaces sell from one live queue — and Iris makes the calls.</p>
-<div class="m-pills"><span class="m-pill">Store</span><span class="m-pill">Web</span><span class="m-pill">App</span><span class="m-pill">Amazon</span><span class="m-pill">eBay</span><span class="m-pill">Etsy</span></div>
-<p class="m-iris-note"><strong>Iris · L1 Zen Rules</strong> · one pool, every channel — stock and price reconcile the moment a unit sells anywhere.</p>
+<p>Every channel. One cart. One stock pool. Follow one order through every screen — and at each one, Iris makes the call.</p>
+<div class="m-jr" id="mJourney">
+<div class="m-jr-track" aria-hidden="true">
+  <span class="m-jr-oid">Order <b>#803120</b></span>
+  <span class="m-jr-st" id="mJrSt">Received</span>
+  <span class="m-jr-bar"><i id="mJrBar"></i></span>
+</div>
+<ol class="m-jr-list">
+<li class="m-jr-step" data-st="Received" style="--sc:var(--amber)">
+  <span class="m-jr-node">01</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Orders · One queue</span>
+    <h3>Every channel, one queue.</h3>
+    <p>Store, web, app, Amazon, eBay and Etsy orders all land in one queue. #803120 — an Aria Wool Coat in M, $299 on Amazon — is captured and routed to ship-from-store, one of 14 re-routed in the last hour.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Stock checked" style="--sc:#4D9DFF">
+  <span class="m-jr-node">02</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Inventory · By location</span>
+    <h3>Live stock, every door.</h3>
+    <p>On-hand, inbound and size health for every store and DC. Lyon's M is out and Marseille is under two weeks' cover — so Iris raises an 18-unit transfer from the Roissy DC before either runs dry.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Allocated" style="--sc:#3FD9A4">
+  <span class="m-jr-node">03</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Allocation · Channel pool</span>
+    <h3>One pool, no oversell.</h3>
+    <p>78 coats split across every live listing, each with a safety reserve. eBay's buffer is about to break, so Iris moves 6 units across from the Web pool — and keeps Etsy unlisted for this style.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Priced" style="--sc:var(--violet)">
+  <span class="m-jr-node">04</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Pricing · Price book</span>
+    <h3>Fees in, margin held.</h3>
+    <p>A price for every channel, with marketplace fees folded in. Amazon's 15% fee would crush the coat's margin, so Iris lifts its Amazon list to $299 to protect the net-margin floor.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="In transit" style="--sc:#4D9DFF">
+  <span class="m-jr-node">05</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Dispatch · Every carrier</span>
+    <h3>Shipped against the promise.</h3>
+    <p>#803120 leaves the Paris store with Chronopost, due today by 18:00. When Nice slips to SLA risk, Iris re-routes the next 5 outerwear orders to the Roissy DC to keep the promise date.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Returns" style="--sc:#E8795E">
+  <span class="m-jr-node">06</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Returns · RMA desk</span>
+    <h3>Every return has a reason.</h3>
+    <p>Every RMA is tracked from reason to restock. Size &amp; fit drives 46% of returns, clustered on two slim styles — Iris flags the size spec and trims the tail-size re-buy before the next order ships.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Reviewed" style="--sc:#3FD9A4">
+  <span class="m-jr-node">07</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Reviews · Feedback</span>
+    <h3>Reviews that reach the product.</h3>
+    <p>Ratings and sentiment flow back to the style. The Halden Slim Jean's 2-star reviews centre on fit and its returns are up 3pt — Iris ties it to the size spec and routes it to merchandising.</p>
+  </div>
+</li>
+<li class="m-jr-step" data-st="Margin held" style="--sc:var(--pink)">
+  <span class="m-jr-node">08</span>
+  <div class="m-jr-card">
+    <span class="m-jr-kick">Iris · The call</span>
+    <h3>Iris makes the call.</h3>
+    <p>A size break forms in Women's Outerwear — core M/L selling out, XS/XXL overstocked. Iris prices it: a size-targeted markdown holds 1.7pt of margin over a blanket cut, and full-price sales stay protected.</p>
+  </div>
+</li>
+</ol>
+</div>
+</section>
+<section class="m-sec m-rev">
+<span class="m-kick">Ask Iris · L3</span>
+<h2>Ask in plain language. <em>Act on the answer.</em></h2>
+<p>Ask it the way you'd say it. Iris answers with the number — and <strong>the next move to approve</strong>.</p>
+<div class="m-az" id="mAsk">
+  <div class="m-az-bar"><span class="m-az-name"><i></i>Ask Iris</span><span class="m-az-mcp"><i></i>MCP · live data</span></div>
+  <div class="m-az-chips" role="tablist" aria-label="Example questions">
+    <button type="button" class="m-az-chip is-on" data-q="0">M coat</button>
+    <button type="button" class="m-az-chip" data-q="1">Channel margin</button>
+    <button type="button" class="m-az-chip" data-q="2">Returns</button>
+    <button type="button" class="m-az-chip" data-q="3">⚡ Live board</button>
+    <button type="button" class="m-az-chip" data-q="4">Markdown</button>
+  </div>
+  <div class="m-az-body" aria-live="polite">
+    <p class="m-az-q" id="mAzQ">Where is the M coat selling out?</p>
+    <div class="m-az-think" id="mAzThink"><span class="is-on"><i>L1</i>Rules</span><span class="is-on"><i>L2</i>Models</span><span class="is-on"><i>L3</i>Iris</span></div>
+    <div class="m-az-ans" id="mAzAns">
+      <p class="m-az-text"><b>Core M is breaking in 14 stores</b> — out in <em class="bad">6 days</em>, while XS/XXL sit <em class="am">31%</em> overstocked.</p>
+    </div>
+  </div>
+</div>
 </section>
 <section class="m-sec m-rev" id="sectors">
 <span class="m-kick">Built for how fashion actually sells</span>
@@ -165,37 +228,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="m-pills"><span class="m-pill">Europe</span><span class="m-pill">North America</span><span class="m-pill">Asia-Pacific</span><span class="m-pill">Middle East &amp; Africa</span><span class="m-pill">Latin America</span><span class="m-pill">South Asia</span></div>
 <div class="m-pills"><span class="m-pill">Shopify</span><span class="m-pill">Zalando</span><span class="m-pill">Farfetch</span><span class="m-pill">Amazon</span><span class="m-pill">TikTok Shop</span><span class="m-pill">Tmall</span><span class="m-pill">Noon</span><span class="m-pill">Mercado Libre</span><span class="m-pill">Daraz</span><span class="m-pill">Klarna</span><span class="m-pill">Apple Pay</span><span class="m-pill">Raast</span></div>
 </section>
-<section class="m-sec m-rev" id="intel">
-<span class="m-kick">Retail Intelligence</span>
-<h2>Seven AI engines, <em>one command center.</em></h2>
-<p>Every decision modelled and made in one platform, with Iris on the calls.</p>
-<div class="m-pills"><span class="m-pill">Store Clustering</span><span class="m-pill">Demand Planning</span><span class="m-pill">Allocation</span><span class="m-pill">Replenishment</span><span class="m-pill">Inter-Store Transfers</span><span class="m-pill">Markdowns</span><span class="m-pill">Promotions</span></div>
-<img src="/m/assets/c1e0474b3031a5.jpg" alt="Zentallio Retail Intelligence — live dashboard" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:14px;border:1px solid var(--line2)">
-</section>
-<section class="m-sec m-rev" id="demo">
-<span class="m-kick">See it on your floor</span>
-<h2>Put your own season <em>in front of Iris.</em></h2>
-<p>Bring one vertical, one region, one season of data. We'll show you the calls Iris would have made — and the margin it would have held.</p>
-<div class="m-btns">
-  <a class="m-btn m-btn-primary" href="/contact">Book a walkthrough</a>
-  <a class="m-btn m-btn-ghost" href="/fashion/sector-solutions">See the platform</a>
-</div>
-<p class="m-proof">No rip-and-replace · runs alongside your POS and ERP</p>
-</section>
 <section class="m-sec m-rev">
 <span class="m-kick">Go deeper</span>
 <h2>See it configured <em>for your sector.</em></h2>
 <div class="m-grid">
-<a class="m-card m-card-link" href="/food/food-beverage-solutions">
-<span class="m-card-num">Food &amp; Beverage</span><h3>149 live solutions — from the till to the guest's phone.</h3>
-<p>Open any solution and watch it run, across quick service, casual dining, café, cloud kitchen and six more sectors.</p>
-<p>→ Explore F&amp;B solutions</p>
-<span class="m-card-arrow">Open &rarr;</span>
-</a>
 <a class="m-card m-card-link" href="/fashion/sector-solutions">
 <span class="m-card-num">Fashion Retail</span><h3>Nine sectors, 49 store formats — one AI, configured per format.</h3>
 <p>Flagship solutions and sector-specific AI, mapped to how your stores actually run.</p>
-<p>→ Explore Fashion solutions</p>
 <span class="m-card-arrow">Open &rarr;</span>
 </a>
 </div>
@@ -229,6 +268,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="m-foot-bot">&copy; 2026 Zentallio. All rights reserved.</div>
 </footer>
 <script src="/m/mobile.js" defer></script>
+<script src="/m/journey.js" defer></script>
+<script src="/m/ask-iris-fashion.js" defer></script>
+<script src="/m/ask-iris.js" defer></script>
 <script src="/booking.js" defer></script>
 </body>
 </html>

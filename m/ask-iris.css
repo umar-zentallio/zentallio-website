@@ -44,6 +44,8 @@
 .m-az-bars{display:flex;flex-direction:column;gap:9px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
 .m-az-unit{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg3)}
 .m-az-row{display:grid;grid-template-columns:64px 1fr 44px;align-items:center;gap:10px;font-size:.78rem;color:var(--fg2)}
+/* longer row labels (e.g. "Size & fit", "Size-targeted") */
+.m-az-bars.is-wide .m-az-row{grid-template-columns:96px 1fr 44px}
 .m-az-track{position:relative;height:8px;border-radius:4px;background:rgba(255,255,255,.06)}
 .m-az-track i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--mint));transition:width .9s cubic-bezier(.2,.7,.2,1)}
 .m-az-row.hot .m-az-track i{background:linear-gradient(90deg,#F0544A,var(--amber))}
