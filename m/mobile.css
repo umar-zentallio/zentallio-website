@@ -413,9 +413,9 @@ body.menu-open{overflow:hidden}
 /* 3 stats -> teeno ek qatar mein, warna aakhri akela reh jaata hai */
 /* Theek 3 stats -> ek hi qatar mein, warna aakhri akela reh jaata hai.
    2 ya 4+ ke liye default 2-column theek hai. */
-.m-stats:has(> .m-stat:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
-.m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1.1rem}
-.m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.6rem;letter-spacing:.06em}
+.m-stats:not(.m-card > *):has(> .m-stat:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
+.m-stats:not(.m-card > *):has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1.1rem}
+.m-stats:not(.m-card > *):has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.6rem;letter-spacing:.06em}
 .m-stat{
   background:var(--surface);border:1px solid var(--line);
   border-radius:var(--rad-sm);padding:13px 12px;
@@ -427,6 +427,28 @@ body.menu-open{overflow:hidden}
 .m-stat i{
   display:block;font-style:normal;margin-top:5px;
   font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);
+}
+
+/* Card ke andar stats (food solutions) -- 3 chhote tiles mein lambe labels
+   ("Iris uplift / ticket") toot kar bhadde lagte the. Yahan ek list panel:
+   label left, value right -- label kitna bhi lamba ho, row saaf rehti hai. */
+.m-card > .m-stats{
+  display:flex;flex-direction:column;gap:0;margin:18px 0 0;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--rad-sm);overflow:hidden;
+}
+.m-card > .m-stats .m-stat{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:none;border:0;border-radius:0;padding:11px 14px;
+}
+.m-card > .m-stats .m-stat + .m-stat{border-top:1px solid var(--line)}
+.m-card > .m-stats .m-stat b{
+  order:2;flex-shrink:0;white-space:nowrap;
+  font-size:14px;color:var(--ac);letter-spacing:-.01em;
+}
+.m-card > .m-stats .m-stat i{
+  order:1;margin-top:0;min-width:0;
+  font-size:.76rem;letter-spacing:.05em;line-height:1.4;color:var(--fg2);
 }
 
 /* ---------- 10. Accordion (dense desktop content ko mobile par foldable) - */
@@ -451,6 +473,21 @@ body.menu-open{overflow:hidden}
 .m-acc[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
 .m-acc-body{padding:0 17px 17px;border-top:1px solid var(--line);padding-top:15px}
 .m-acc-body > *:last-child{margin-bottom:0}
+
+/* Food selector: har sector ki apni solutions (desktop SECSOL) */
+.m-secsol{margin-top:22px}
+.m-secsol .m-kick{display:block;margin-bottom:12px}
+.m-secsol .m-acc + .m-acc{margin-top:8px}
+.m-secsol .m-acc summary{font-size:.86rem;font-weight:500;line-height:1.35;padding-top:13px;padding-bottom:13px}
+.m-secsol .m-acc-body .m-card-num{display:inline-block;margin-bottom:8px}
+.m-secsol .m-acc-body > p{color:var(--fg2);font-size:.9rem;line-height:1.55;margin:0 0 12px}
+.m-secsol-pts{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px}
+.m-secsol-pts li{
+  font-size:.84rem;line-height:1.5;color:var(--fg2);
+  padding-left:12px;border-left:2px solid rgba(var(--acr),.35);
+}
+.m-secsol-pts li b{display:block;color:var(--ink);font-weight:600;margin-bottom:2px}
+.m-secsol .m-iris{margin:0}
 
 /* ---------- 11. Pills / tag row (scroll snap, contained) ---------------- */
 .m-pills{
@@ -630,8 +667,8 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
   .m-grid-2{grid-template-columns:1fr}
   .m-stats .m-stat{padding:11px 10px}
   .m-stats .m-stat b{font-size:1.16rem}
-  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1rem}
-  .m-stats:has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.56rem}
+  .m-stats:not(.m-card > *):has(> .m-stat:nth-child(3):last-child) .m-stat b{font-size:1rem}
+  .m-stats:not(.m-card > *):has(> .m-stat:nth-child(3):last-child) .m-stat i{font-size:.56rem}
 }
 /* ---------- 18. Landscape phone ----------------------------------------- */
 @media (orientation:landscape) and (max-height:460px){
@@ -687,6 +724,10 @@ body:has(.m-sticky-cta) .m-foot{padding-bottom:calc(78px + var(--safe-b))}
 
 /* ---------- 22. Sector explorer (desktop ke selector ka mobile version) -- */
 .m-sector-explorer{padding-bottom:clamp(30px,7vw,46px)}
+/* panel sirf banner pe khatam ho (food selector) to neeche ka gap kam karo */
+.m-sector-panel > .m-banner:last-child{margin-bottom:0}
+.m-sector-explorer:has(.m-sector-panel.is-on > .m-banner:last-child){padding-bottom:10px}
+.m-sector-explorer:has(.m-sector-panel.is-on > .m-banner:last-child) + .m-sec{padding-top:28px}
 .m-sector-tabs{
   position:sticky;
   /* header ke theek neeche chipke -- safe-area ko bhi shumaar karo */

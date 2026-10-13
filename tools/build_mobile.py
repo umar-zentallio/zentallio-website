@@ -850,7 +850,12 @@ def _is_noise(v):
     return (not v or len(v) < 3 or v.startswith('#') or v.startswith('rgba')
             or v.startswith('<') or re.fullmatch(r'[\d.,%+\-]+', v) is not None)
 
-def js_sections(html, page_title, skip=frozenset()):
+# food selector page ke Solutions grid se ye cards mobile par nahi dikhane
+FOOD_SELECTOR_HIDE = {'Menu & Recipe Engineering', 'Assessment Management',
+                      'People Management', 'Ambiance Monitoring',
+                      'Energy Monitoring', 'Sustainability'}
+
+def js_sections(html, page_title, skip=frozenset(), hide_titles=frozenset()):
     names = []
     for m in re.finditer(r'\b([A-Z][A-Z_0-9]{3,})\s*=\s*\[', html):
         if m.group(1) not in names:
@@ -862,7 +867,8 @@ def js_sections(html, page_title, skip=frozenset()):
         arr = find_array(html, nm)
         if not isinstance(arr, list) or len(arr) < 2:
             continue
-        rows = [r for r in arr if isinstance(r, dict)]
+        rows = [r for r in arr if isinstance(r, dict)
+                and not any(r.get(k) in hide_titles for k in TITLE_KEYS)]
         if len(rows) < 2:
             continue
         # sirf tab render karo jab waqai prose maujood ho
@@ -1232,7 +1238,52 @@ def fashion_solutions(sec, html):
     return ''.join(out)
 
 
-def sector_panel(sec, kind, self_page=False, html='', active=False):
+def _secsol_map(html):
+    """Desktop ka SECSOL ({sector_id: [solutions]}) -- ek line ka JSON hai."""
+    m = re.search(r'\bvar SECSOL\s*=\s*(\{.*?\});?\s*$', html, re.M)
+    if not m:
+        return {}
+    try:
+        d = json.loads(m.group(1))
+    except ValueError:
+        return {}
+    return d if isinstance(d, dict) else {}
+
+def food_secsol(sec, html):
+    """Desktop 'Built for <sector>' grid -- har sector ki apni solutions.
+    Mobile par collapsed accordions: title dikhe, tap par detail."""
+    lst = _secsol_map(html).get(str(sec.get('id')))
+    if not isinstance(lst, list) or not lst:
+        return ''
+    accs = []
+    for s in lst:
+        if not isinstance(s, dict) or not s.get('t'):
+            continue
+        body = []
+        if s.get('a'):
+            body.append('<span class="m-card-num">AI · %s</span>' % jtext(s['a']))
+        if s.get('d'):
+            body.append('<p>%s</p>' % jtext(s['d']))
+        pts = [q for q in (s.get('p') or []) if isinstance(q, list) and q]
+        if pts:
+            body.append('<ul class="m-secsol-pts">%s</ul>' % ''.join(
+                '<li><b>%s</b>%s</li>' % (jtext(q[0]),
+                                          ' %s' % jtext(q[1]) if len(q) > 1 and q[1] else '')
+                for q in pts))
+        if s.get('z'):
+            body.append('<div class="m-iris"><span class="m-iris-who">Ask Iris</span>'
+                        '<p>&ldquo;%s&rdquo;</p></div>' % jtext(s['z']))
+        accs.append('<details class="m-acc">\n<summary>%s</summary>\n'
+                    '<div class="m-acc-body">\n%s\n</div>\n</details>'
+                    % (jtext(s['t']), '\n'.join(body)))
+    if not accs:
+        return ''
+    name = sec.get('short') or sec.get('name') or ''
+    return ('<div class="m-secsol">\n<span class="m-kick">Built for %s &middot; %d solutions</span>\n%s\n</div>'
+            % (jtext(name), len(accs), '\n'.join(accs)))
+
+
+def sector_panel(sec, kind, self_page=False, html='', active=False, secsol=False):
     """Ek sector ka poora content -- desktop par jo kuch us panel mein hai."""
     out = []
     banner = sector_banner(sec, kind, html, active)
@@ -1246,6 +1297,9 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
     if kind == 'fashion':
         out.append(fashion_solutions(sec, html))
         return '\n'.join(x for x in out if x)
+
+    if secsol:
+        out.append(food_secsol(sec, html))
 
     lede = sec.get('lede') or sec.get('sub')
     if lede:
@@ -1304,8 +1358,11 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
             out.append('<span class="m-kick">Solutions for this sector</span>'
                        '<div class="m-grid">%s</div>' % ''.join(cards))
 
+    # food selector page (not self_page) pe menu table aur stats nahi dikhane
+    food_selector = kind == 'food' and not self_page
+
     # map: menu mapping (food)
-    if isinstance(sec.get('map'), list) and sec['map']:
+    if not food_selector and isinstance(sec.get('map'), list) and sec['map']:
         rows = ''.join('<tr><td>%s</td><td>%s</td></tr>' % (jtext(a), jtext(b))
                        for a, b in (q[:2] for q in sec['map'] if len(q) >= 2))
         if rows:
@@ -1333,16 +1390,14 @@ def sector_panel(sec, kind, self_page=False, html='', active=False):
 
     extras = [('Average check', sec.get('check')), ('Peak hour', sec.get('time'))]
     extras = [(l, str(v)) for l, v in extras if v and str(v).strip()]
-    if extras:
+    if extras and not food_selector:
         out.append('<div class="m-stats">%s</div>' % ''.join(
             '<div class="m-stat"><b>%s</b><i>%s</i></div>' % (jtext(v), jtext(l))
             for l, v in extras))
 
     # full page link (food ke alag pages hain)
-    if kind == 'food' and sec.get('id') in FOOD_SLUGS and not self_page:
-        out.append('<a class="m-btn m-btn-primary" href="/food/solutions/%s">'
-                   'Explore %s &rarr;</a>'
-                   % (FOOD_SLUGS[sec['id']], jtext(sec.get('short') or name)))
+    if food_selector:
+        pass  # food selector page pe Explore button nahi chahiye
     elif sec.get('cta2'):
         out.append('<a class="m-btn m-btn-ghost" href="#sector=%s">%s</a>'
                    % (jtext(sec.get('id', '')), jtext(sec['cta2'])))
@@ -1385,7 +1440,8 @@ def sector_explorer(html, rel):
                          '' if on else ' hidden',
                          sector_panel(sec, kind,
                                       FOOD_SLUGS.get(str(sec.get('id'))) == slug,
-                                      html, on)))
+                                      html, on,
+                                      secsol=kind == 'food' and slug == 'food-beverage-solutions')))
 
     return ('<section class="m-sec m-sector-explorer">\n'
             '<span class="m-kick">Pick your sector</span>\n'
@@ -1556,7 +1612,9 @@ def build(rel, verbose=False):
 
     if explorer:
         secs.insert(0, explorer)
-    secs.extend(js_sections(html, title, skip={'SECTORS'} if explorer else set()))
+    secs.extend(js_sections(html, title, skip={'SECTORS'} if explorer else set(),
+                            hide_titles=FOOD_SELECTOR_HIDE
+                            if rel.endswith('food-beverage-solutions.html') else frozenset()))
 
     if not secs and not hero_sub:
         return None

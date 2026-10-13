@@ -29,7 +29,9 @@
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    // threshold 0: lambe sections (food Solutions) ka 6% bhi screen pe aane mein
+    // bohot scroll lagta tha aur tab tak section khaali dikhta tha
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0 });
     revs.forEach(function (el) { io.observe(el); });
   } else {
     revs.forEach(function (el) { el.classList.add('is-in'); });
