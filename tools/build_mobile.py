@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag, Comment
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from jsdata import find_array
+from add_theme import SNIPPET as THEME_HEAD   # light/dark theme (/theme.js)
 
 ROOT   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTDIR = os.path.join(ROOT, 'm')
@@ -1658,6 +1659,7 @@ def build(rel, verbose=False):
 <html lang="en">
 <head>
 <meta charset="utf-8">
+{THEME_HEAD}
 {GTM_HEAD}
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{esc(title)}</title>
